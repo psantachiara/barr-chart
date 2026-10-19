@@ -1,0 +1,20 @@
+# Each sheet: title, archival reference, date, notes, facsimile, set, and the pragmatic dossier.
+PREFIX dino:    <https://psantachiara.github.io/dino/ns#>
+PREFIX barr:    <https://psantachiara.github.io/barr-chart/ns#>
+PREFIX crm:     <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl:  <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+SELECT ?sheet ?title ?archival ?date ?facsimile ?set ?support ?audience ?permanence ?constraint ?function
+       (GROUP_CONCAT(?note; separator="\n") AS ?notes) WHERE {
+  GRAPH ?g { ?sheet a crm:E22_Human-Made_Object ; rdfs:label ?title .
+             OPTIONAL { ?sheet dcterms:identifier ?archival } OPTIONAL { ?sheet dcterms:created ?date }
+             OPTIONAL { ?sheet foaf:depiction ?facsimile } OPTIONAL { ?sheet skos:note ?note }
+             OPTIONAL { ?sheet dcterms:medium ?support } OPTIONAL { ?sheet dcterms:audience ?audience }
+             OPTIONAL { ?sheet dino:permanence ?permanence } OPTIONAL { ?sheet dino:constraint ?constraint }
+             OPTIONAL { ?sheet dino:function ?function } }
+  OPTIONAL { GRAPH <https://psantachiara.github.io/barr-chart/graph/interpretation> { ?sheet dcterms:type ?set } }
+}
+GROUP BY ?sheet ?title ?archival ?date ?facsimile ?set ?support ?audience ?permanence ?constraint ?function

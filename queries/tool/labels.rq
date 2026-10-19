@@ -1,0 +1,18 @@
+# Every label mark: the entity it writes (through the analyst's identity mapping), the wording,
+# its graphic values, position on the scale, legend codes, certainty, and what it signifies.
+PREFIX dino:    <https://psantachiara.github.io/dino/ns#>
+PREFIX barr:    <https://psantachiara.github.io/barr-chart/ns#>
+PREFIX crm:     <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl:  <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+SELECT ?sheet ?entity ?wording ?value ?year ?code ?certainty ?meaning WHERE {
+  GRAPH ?g { ?sheet crm:P65_shows_visual_item ?d . ?d crm:P106_is_composed_of ?mark .
+             ?mark a dino:LabelMark ; skosxl:literalForm ?wording ; dino:notates ?c .
+             OPTIONAL { ?mark dino:graphicValue ?value } OPTIONAL { ?mark dino:positionOnScale ?year }
+             OPTIONAL { ?mark dino:carriesCode ?code } OPTIONAL { ?mark dino:certainty ?certainty } }
+  GRAPH <https://psantachiara.github.io/barr-chart/graph/interpretation> { ?c skos:exactMatch ?entity }
+  OPTIONAL { GRAPH <https://psantachiara.github.io/barr-chart/graph/derived> { ?mark dino:signifies ?meaning } }
+}

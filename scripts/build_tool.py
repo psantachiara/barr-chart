@@ -1,6 +1,6 @@
 """Write index.html: tool/template.html with tool/barr-charts.json embedded.
 
-    python3 scripts/build_tool_data.py   # data/*.csv  -> tool/barr-charts.json
+    python3 scripts/build_tool_data.py   # out/barr-charts.trig (SPARQL) -> tool/barr-charts.json
     python3 scripts/build_tool.py        # template + json -> index.html
 
 Embedding the dataset lets the page work opened straight from disk (file://) as well as on

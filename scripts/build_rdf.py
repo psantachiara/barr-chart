@@ -47,7 +47,7 @@ RELATIONS = {"influenced": (BARR.influenced, DINO.Arrow), "sitedIn": (BARR.sited
 LINES = {"solid": DINO.solid, "dotted": DINO.dotted, "dashed": DINO.dashed, "other": DINO.otherLine}
 INK = {"black": DINO.black, "red": DINO.red, "blue": DINO.blue, "graphite": DINO.graphite, "other": DINO.otherInk}
 SHAPES = {"boxed": DINO.box, "semicircle": DINO.semicircle, "underlined": DINO.underline, "oval": DINO.oval,
-          "other": DINO.otherShape, "plain": None}
+          "other": DINO.otherShape, "plain": DINO.plain}
 GRAPHIC = {"box": DINO.box, "semicircle": DINO.semicircle, "underline": DINO.underline, "oval": DINO.oval,
            "solid": DINO.solid, "dotted": DINO.dotted, "dashed": DINO.dashed, "verticalPosition": DINO.verticalPosition,
            **{k: v for k, v in INK.items()}}

@@ -82,7 +82,7 @@ Chronology against each chart's own year scale. An arrow is *backward* when its 
 | 458 | 28 | 1887–1935 | 53 | 53 | 1 | 2 |
 | Cover | 28 | 1888–1934 | 51 | 51 | 1 | 3 |
 
-Backward arrows: 456: Machine Esthetic (1910) → Cubism (1908); 457: Machine Esthetic (1912) → Futurism (1910); 457: Machine Esthetic (1912) → Cubism (1910); 457: Negro Sculpture (1905) → Fauvism (1904); 458: Machine Esthetic (1912) → Futurism (1910); 458: Machine Esthetic (1912) → Cubism (1907); Cover: Japanese Prints (1890) → Synthetism (1888); Cover: Machine Esthetic (1909) → Cubism (1906); Cover: Cézanne (1890) → Synthetism (1888).
+Backward arrows: 456: Machine Esthetic (1910) → Cubism (1908); 457: Machine Esthetic (1912) → Cubism (1910); 457: Machine Esthetic (1912) → Futurism (1910); 457: Negro Sculpture (1905) → Fauvism (1904); 458: Machine Esthetic (1912) → Cubism (1907); 458: Machine Esthetic (1912) → Futurism (1910); Cover: Cézanne (1890) → Synthetism (1888); Cover: Japanese Prints (1890) → Synthetism (1888); Cover: Machine Esthetic (1909) → Cubism (1906).
 
 ## IV · Genetic
 
@@ -159,7 +159,7 @@ Relations on every chart (35):
 
 | chart | archival reference | ink key | legend | forms | arrow colours | dossier |
 | --- | --- | --- | --- | --- | --- | --- |
-| 456 | Moma archives | none | a=architect, p=painter, s=sculptor, c=constructivism [?], t=theatre, ph=photographer | {'underlined': 20, 'semicircle': 9, 'other': 1, 'boxed': 4} | {'graphite': 41} | 0/5 fields written |
+| 456 | Moma archives | none | a=architect, c=constructivism [?], p=painter, ph=photographer, s=sculptor, t=theatre | {'semicircle': 9, 'underlined': 20, 'other': 1, 'boxed': 4} | {'graphite': 41} | 0/5 fields written |
 | 457 | Moma archives | none | — | {'underlined': 18, 'semicircle': 6, 'boxed': 4} | {'graphite': 43} | 0/5 fields written |
 | 458 | AHB VI.A.38 ARCH.61 (p. 70) | blue=internal graphite=external | — | {'semicircle': 15, 'underlined': 17, 'boxed': 5} | {'blue': 34, 'graphite': 19} | 0/5 fields written |
 | Cover | Moma archives | black=internal red=external | — | {'semicircle': 19, 'boxed': 5} | {'black': 34, 'red': 17} | 0/5 fields written |

@@ -1,0 +1,16 @@
+# Every convention of every chart: graphic value or legend code, meaning, basis, kind of mark it governs.
+PREFIX dino:    <https://psantachiara.github.io/dino/ns#>
+PREFIX barr:    <https://psantachiara.github.io/barr-chart/ns#>
+PREFIX crm:     <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl:  <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+SELECT ?sheet ?value ?code ?meaning ?meaningLabel ?basis ?applies WHERE {
+  GRAPH ?g { ?sheet crm:P65_shows_visual_item ?d }
+  GRAPH ?h { ?conv a dino:Convention ; dino:holdsFor ?d ; dino:signifies ?meaning ; dino:basis ?basis .
+             OPTIONAL { ?conv dino:graphicValue ?value } OPTIONAL { ?conv dino:code ?code }
+             OPTIONAL { ?conv dino:appliesTo ?applies } }
+  OPTIONAL { GRAPH ?k { ?meaning skos:prefLabel ?meaningLabel } }
+}

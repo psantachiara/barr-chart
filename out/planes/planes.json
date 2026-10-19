@@ -448,9 +448,9 @@
     "back_edges": []
    },
    "arcs": {
-    "membership": 52,
+    "influence": 41,
     "siting": 24,
-    "influence": 41
+    "membership": 52
    },
    "influence_by_scope": {
     "ink carries no meaning": 41
@@ -590,8 +590,8 @@
     "back_edges": []
    },
    "arcs": {
-    "siting": 21,
-    "influence": 43
+    "influence": 43,
+    "siting": 21
    },
    "influence_by_scope": {
     "ink carries no meaning": 43
@@ -606,13 +606,13 @@
     "backward": [
      [
       "machine_esthetic",
-      "futurism",
+      "cubism",
       1912,
       1910
      ],
      [
       "machine_esthetic",
-      "cubism",
+      "futurism",
       1912,
       1910
      ],
@@ -747,9 +747,9 @@
     "back_edges": []
    },
    "arcs": {
-    "membership": 66,
+    "influence": 53,
     "siting": 19,
-    "influence": 53
+    "membership": 66
    },
    "influence_by_scope": {
     "internal": 34,
@@ -765,15 +765,15 @@
     "backward": [
      [
       "machine_esthetic",
-      "futurism",
-      1912,
-      1910
-     ],
-     [
-      "machine_esthetic",
       "cubism",
       1912,
       1907
+     ],
+     [
+      "machine_esthetic",
+      "futurism",
+      1912,
+      1910
      ]
     ],
     "same_year": 1,
@@ -898,9 +898,9 @@
     "back_edges": []
    },
    "arcs": {
-    "membership": 2,
+    "influence": 51,
     "siting": 25,
-    "influence": 51
+    "membership": 2
    },
    "influence_by_scope": {
     "internal": 34,
@@ -915,6 +915,12 @@
     "both_ends_on_scale": 51,
     "backward": [
      [
+      "cezanne",
+      "synthetism",
+      1890,
+      1888
+     ],
+     [
       "japanese_prints",
       "synthetism",
       1890,
@@ -925,12 +931,6 @@
       "cubism",
       1909,
       1906
-     ],
-     [
-      "cezanne",
-      "synthetism",
-      1890,
-      1888
      ]
     ],
     "same_year": 1,
@@ -1857,24 +1857,24 @@
      "meaning": "architect"
     },
     {
+     "code": "c",
+     "meaning": "constructivism [?]"
+    },
+    {
      "code": "p",
      "meaning": "painter"
+    },
+    {
+     "code": "ph",
+     "meaning": "photographer"
     },
     {
      "code": "s",
      "meaning": "sculptor"
     },
     {
-     "code": "c",
-     "meaning": "constructivism [?]"
-    },
-    {
      "code": "t",
      "meaning": "theatre"
-    },
-    {
-     "code": "ph",
-     "meaning": "photographer"
     }
    ],
    "dossier": {
@@ -1885,8 +1885,8 @@
     "fn": ""
    },
    "forms": {
-    "underlined": 20,
     "semicircle": 9,
+    "underlined": 20,
     "other": 1,
     "boxed": 4
    },

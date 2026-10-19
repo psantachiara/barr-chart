@@ -1207,6 +1207,22 @@ function netPlot(vs,J,nearest){
 /* ============================================================
    PANE VI — PRAGMATIC
    ============================================================ */
+/* Each chart's conventions as the linked data states them: graphic value (or legend code), meaning, basis. */
+const VALUE_LABEL={box:"box",semicircle:"semicircle",underline:"underline",oval:"oval",plain:"plain",otherShape:"other shape",
+  solid:"solid line",dotted:"dotted line",dashed:"dashed line",otherLine:"other line",verticalPosition:"vertical position",
+  black:"black ink",red:"red ink",blue:"blue ink",graphite:"graphite",otherInk:"other ink"};
+const VALUE_ORDER=["black","blue","red","graphite","otherInk","solid","dotted","dashed","otherLine","box","semicircle","underline","oval","plain","otherShape","verticalPosition"];
+function conventionList(v){
+  const cs=(v.conventions||[]).filter(c=>!c.code).sort((a,b)=>VALUE_ORDER.indexOf(a.value)-VALUE_ORDER.indexOf(b.value));
+  const stated=(v.conventions||[]).filter(c=>c.code);
+  if(!cs.length && !stated.length) return '<span style="color:var(--ink-3)">none recorded</span>';
+  const swatch=c=>c.value in INK_SWATCH?inkChip(c.value):c.value==="otherInk"?inkChip("other"):"";
+  return `<table style="border-collapse:collapse;width:100%">${cs.map(c=>`<tr>
+      <td style="font-family:var(--mono);font-size:11px;white-space:nowrap;padding:2px 10px 2px 0;vertical-align:top">${swatch(c)}${esc(VALUE_LABEL[c.value]||c.value)}</td>
+      <td style="padding:2px 0;vertical-align:top;${c.meaning==="no meaning"?"color:var(--ink-3)":""}">${esc(c.meaning)}</td></tr>`).join("")}</table>
+    ${cs.length?'<div class="kv" style="margin-top:6px">inferred by the analyst</div>':""}
+    ${stated.length?`<div class="kv" style="margin-top:3px">stated on the sheet: the legend above</div>`:""}`;
+}
 function panePrag(){
   const vs=sel();
   const cards=vs.map(v=>{
@@ -1223,14 +1239,16 @@ function panePrag(){
         <dt>Arrow inks</dt><dd style="font-family:var(--mono);font-size:11.5px">${Object.entries(cols).map(([c,n])=>`<span style="white-space:nowrap">${inkChip(c)}${esc(c)} ${n}</span>`).join(" &nbsp; ")||"—"}</dd>
         <dt>Forms</dt><dd style="font-family:var(--mono);font-size:11.5px">${Object.entries(forms).sort((a,b)=>b[1]-a[1]).map(([f,n])=>`${esc(f)} ${n}`).join(" · ")||"—"}</dd>
         <dt>Own legend</dt><dd style="font-family:var(--mono);font-size:11.5px">${v.legend.length?v.legend.map(t=>`<b>${esc(t.code)}</b> ${esc(t.meaning)}`).join(" · "):'<span style="color:var(--ink-3)">none</span>'}</dd>
-      </dl></div>`;
+      </dl>
+      <div class="kv" style="margin:16px 0 6px;padding-top:12px;border-top:1px solid var(--rule)">Conventions</div>
+      <div style="font-size:13.5px">${conventionList(v)}</div></div>`;
   }).join("");
   return `
   <h2 class="ph">Plane VI · Pragmatic</h2>
   <p class="lede">Occasion, medium, audience. This plane is deliberately not scored: it records what each sheet is and how it is marked, as the context the other planes are read against. <strong>The dossiers are written by hand</strong>, one per chart, in the transcriber's first step.</p>
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">${cards}</div>
   <div class="callout" style="margin-top:22px">
-    <p>Ink, line and form are recorded as seen and given meaning only by each chart's own key. The same convention can be carried by different inks on different sheets — black and red on the Cover, blue and graphite on 458 — and that equivalence is stated in the data, not inferred.</p>
+    <p>Ink, line, shape and position are recorded as seen and given meaning only by each chart's own conventions. A convention is either stated on the sheet, like the Insert's legend, or inferred by the analyst, like every ink key. The same meaning can be carried by different inks on different sheets (red on the Cover, graphite on 458), and that equivalence is stated in the data, not inferred by the tool.</p>
   </div>`;
 }
 
@@ -1241,7 +1259,7 @@ function paneMethod(){
   const steps=[
     ["Census without order","List the surviving charts and their archival references. No order is assigned: each chart is a self-contained ontology, and any sequence is recorded separately as a reading with its basis."],
     ["Typed transcription","Every entity and relation is typed in from the facsimile, chart by chart, through the Barr Chart Transcriber. Nothing is carried over from earlier datasets. Each row has a certainty and a verification date."],
-    ["Record the mark, derive the meaning","Ink, line and form are recorded as seen. Each chart's ink key turns ink into meaning (internal, external), so externality is never entered by hand; dotted lines are secondary."],
+    ["Record the mark, derive the meaning","Ink, line, shape and position are recorded as seen. Each chart's conventions, stated on the sheet or inferred by the analyst, give them meaning: internal or external, primary or secondary, a source outside modern art, membership, a title. Meaning is derived by query, never entered by hand."],
     ["Reconcile, keep the wording","The same referent gets one identifier on every chart, and each chart keeps its own wording. Merges are noted in the vocabulary, and the formal difference stays visible on Planes I and V."],
     ["Linked data","The tables become linked data described with DINO, the Diagram Notation Ontology: marks, the conventions that give them meaning on each chart, and readings. One graph per chart, one for the analyst's interpretation. The comparison runs as SPARQL over it."],
     ["Six planes","Terminological, conceptual, structural, genetic, synchronic, pragmatic. Each can be run on its own; only the genetic plane uses an order."],

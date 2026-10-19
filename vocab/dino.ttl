@@ -163,6 +163,8 @@ dino:underline  a dino:Shape ; skos:prefLabel "underline"@en ;  skos:inScheme di
     skos:definition "A line drawn under a label."@en .
 dino:oval       a dino:Shape ; skos:prefLabel "oval"@en ;       skos:inScheme dino:graphicValues .
 dino:otherShape a dino:Shape ; skos:prefLabel "other shape"@en ; skos:inScheme dino:graphicValues .
+dino:plain      a dino:Shape ; skos:prefLabel "plain"@en ;      skos:inScheme dino:graphicValues ;
+    skos:definition "Written with no shape: recorded so that the absence of a shape is an observation, not a gap."@en .
 
 dino:verticalPosition a dino:Dimension ; skos:prefLabel "vertical position"@en ; skos:inScheme dino:graphicValues .
 

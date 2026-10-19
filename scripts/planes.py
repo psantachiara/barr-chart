@@ -1,6 +1,6 @@
 """Compute the six planes of comparison on the core charts.
 
-    python3 scripts/build_tool_data.py     # first: tool/barr-charts.json from data/*.csv
+    python3 scripts/build_tool_data.py     # first: tool/barr-charts.json, by SPARQL over the linked data
     python3 scripts/planes.py              # → out/planes/planes.json + out/planes/report.md
     python3 scripts/planes.py --all        # include the secondary set
 

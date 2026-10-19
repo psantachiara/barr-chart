@@ -1,5 +1,5 @@
 {
- "generated_from": "data/*.csv (Barr Chart Transcriber export)",
+ "generated_from": "out/barr-charts.trig (by SPARQL, queries/tool/)",
  "concepts": {
   "abstract_dadaism": {
    "l": "Abstract Dadaism",
@@ -618,11 +618,52 @@
    "archival": "Moma archives",
    "note": "",
    "facsimile": "img/p15.jpg",
-   "inkKey": {
-    "black": "internal",
-    "red": "external"
-   },
+   "inkKey": {},
    "legend": [],
+   "conventions": [
+    {
+     "value": "dotted",
+     "code": "",
+     "meaning": "secondary",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "RelationMark"
+    },
+    {
+     "value": "graphite",
+     "code": "",
+     "meaning": "no meaning",
+     "basis": "inferredByAnalyst",
+     "appliesTo": ""
+    },
+    {
+     "value": "semicircle",
+     "code": "",
+     "meaning": "membership",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "solid",
+     "code": "",
+     "meaning": "primary",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "RelationMark"
+    },
+    {
+     "value": "underline",
+     "code": "",
+     "meaning": "title",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "verticalPosition",
+     "code": "",
+     "meaning": "date",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    }
+   ],
    "pragmatic": {
     "support": "",
     "audience": "",
@@ -766,21 +807,201 @@
      "underlined"
     ],
     "the_cubists": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "the_fauves": [
      "underlined"
     ],
     "the_futurists": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ]
    },
    "tags": {},
    "external": [],
    "certainty": {},
    "edges": [
+    [
+     "balla",
+     "the_futurists",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "balla",
+     "milan",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "boccioni",
+     "the_futurists",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "boccioni",
+     "milan",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "braque",
+     "the_cubists",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "braque",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "carra",
+     "the_futurists",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "carra",
+     "milan",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "decorative_tendency_toward_abstract_design_via_japanese_prints_or_primitive_art_in_degas_gauguin_van_gogh",
+     "jack_of_diamonds",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "decorative_tendency_toward_abstract_design_via_japanese_prints_or_primitive_art_in_degas_gauguin_van_gogh",
+     "the_bridge",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "decorative_tendency_toward_abstract_design_via_japanese_prints_or_primitive_art_in_degas_gauguin_van_gogh",
+     "the_cubists",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "decorative_tendency_toward_abstract_design_via_japanese_prints_or_primitive_art_in_degas_gauguin_van_gogh",
+     "the_fauves",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "delaunay",
+     "the_cubists",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "delaunay",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "derain",
+     "the_fauves",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "derain",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "duchamp",
+     "the_cubists",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "duchamp",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "gris",
+     "the_cubists",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "gris",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
     [
      "jack_of_diamonds",
      "kandinsky",
@@ -793,6 +1014,231 @@
     [
      "jack_of_diamonds",
      "russia",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "japanese_prints",
+     "decorative_tendency_toward_abstract_design_via_japanese_prints_or_primitive_art_in_degas_gauguin_van_gogh",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "kandinsky",
+     "the_blue_rider",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "kandinsky",
+     "munich",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "klee",
+     "the_blue_rider",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "klee",
+     "munich",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "leger",
+     "the_cubists",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "leger",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "marc",
+     "the_blue_rider",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "marc",
+     "munich",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "matisse",
+     "kandinsky",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "matisse",
+     "the_fauves",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "matisse",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "negro_art",
+     "picasso",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "picasso",
+     "duchamp",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "picasso",
+     "the_futurists",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "picasso",
+     "the_cubists",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "picasso",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "russolo",
+     "the_futurists",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "russolo",
+     "milan",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "severini",
+     "the_futurists",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "severini",
+     "milan",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "structural_tendency_toward_abstract_design_in_technique_and_cezanne_and_seurat",
+     "the_cubists",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "structural_tendency_toward_abstract_design_in_technique_and_cezanne_and_seurat",
+     "the_fauves",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "suprematism",
+     "russia",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "the_blue_rider",
+     "munich",
      "siting",
      "",
      "",
@@ -809,213 +1255,6 @@
      ""
     ],
     [
-     "decorative_tendency_toward_abstract_design_via_japanese_prints_or_primitive_art_in_degas_gauguin_van_gogh",
-     "jack_of_diamonds",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "decorative_tendency_toward_abstract_design_via_japanese_prints_or_primitive_art_in_degas_gauguin_van_gogh",
-     "the_bridge",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "decorative_tendency_toward_abstract_design_via_japanese_prints_or_primitive_art_in_degas_gauguin_van_gogh",
-     "the_fauves",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "decorative_tendency_toward_abstract_design_via_japanese_prints_or_primitive_art_in_degas_gauguin_van_gogh",
-     "the_cubists",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "japanese_prints",
-     "decorative_tendency_toward_abstract_design_via_japanese_prints_or_primitive_art_in_degas_gauguin_van_gogh",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "negro_art",
-     "picasso",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "structural_tendency_toward_abstract_design_in_technique_and_cezanne_and_seurat",
-     "the_fauves",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "structural_tendency_toward_abstract_design_in_technique_and_cezanne_and_seurat",
-     "the_cubists",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "suprematism",
-     "russia",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "the_fauves",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "matisse",
-     "the_fauves",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "derain",
-     "the_fauves",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "the_fauves",
-     "the_cubists",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "the_blue_rider",
-     "munich",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "kandinsky",
-     "the_blue_rider",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "klee",
-     "the_blue_rider",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "marc",
-     "the_blue_rider",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "picasso",
-     "the_cubists",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "braque",
-     "the_cubists",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "gris",
-     "the_cubists",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "delaunay",
-     "the_cubists",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "leger",
-     "the_cubists",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "duchamp",
-     "the_cubists",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
      "the_cubists",
      "marc",
      "influence",
@@ -1025,132 +1264,6 @@
      ""
     ],
     [
-     "the_futurists",
-     "milan",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "boccioni",
-     "the_futurists",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "carra",
-     "the_futurists",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "russolo",
-     "the_futurists",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "balla",
-     "the_futurists",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "severini",
-     "the_futurists",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "the_futurists",
-     "duchamp",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "balla",
-     "milan",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "boccioni",
-     "milan",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "carra",
-     "milan",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "derain",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "duchamp",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "delaunay",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "braque",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
      "the_cubists",
      "paris",
      "siting",
@@ -1160,62 +1273,8 @@
      ""
     ],
     [
-     "gris",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "kandinsky",
-     "munich",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "klee",
-     "munich",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "leger",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "marc",
-     "munich",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "matisse",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "matisse",
-     "kandinsky",
+     "the_fauves",
+     "the_cubists",
      "influence",
      "dotted",
      "graphite",
@@ -1223,7 +1282,16 @@
      ""
     ],
     [
-     "picasso",
+     "the_fauves",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "the_futurists",
      "duchamp",
      "influence",
      "dotted",
@@ -1232,34 +1300,7 @@
      ""
     ],
     [
-     "picasso",
      "the_futurists",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "picasso",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "russolo",
-     "milan",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "severini",
      "milan",
      "siting",
      "",
@@ -1286,24 +1327,117 @@
      "meaning": "architect"
     },
     {
+     "code": "c",
+     "meaning": "constructivism [?]"
+    },
+    {
      "code": "p",
      "meaning": "painter"
+    },
+    {
+     "code": "ph",
+     "meaning": "photographer"
     },
     {
      "code": "s",
      "meaning": "sculptor"
     },
     {
-     "code": "c",
-     "meaning": "constructivism [?]"
-    },
-    {
      "code": "t",
      "meaning": "theatre"
+    }
+   ],
+   "conventions": [
+    {
+     "value": "box",
+     "code": "",
+     "meaning": "source outside modern art",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
     },
     {
+     "value": "dotted",
+     "code": "",
+     "meaning": "secondary",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "RelationMark"
+    },
+    {
+     "value": "graphite",
+     "code": "",
+     "meaning": "no meaning",
+     "basis": "inferredByAnalyst",
+     "appliesTo": ""
+    },
+    {
+     "value": "semicircle",
+     "code": "",
+     "meaning": "membership",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "solid",
+     "code": "",
+     "meaning": "primary",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "RelationMark"
+    },
+    {
+     "value": "underline",
+     "code": "",
+     "meaning": "title",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "verticalPosition",
+     "code": "",
+     "meaning": "date",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "",
+     "code": "a",
+     "meaning": "architect",
+     "basis": "statedOnSheet",
+     "appliesTo": ""
+    },
+    {
+     "value": "",
+     "code": "c",
+     "meaning": "constructivism [?]",
+     "basis": "statedOnSheet",
+     "appliesTo": ""
+    },
+    {
+     "value": "",
+     "code": "p",
+     "meaning": "painter",
+     "basis": "statedOnSheet",
+     "appliesTo": ""
+    },
+    {
+     "value": "",
      "code": "ph",
-     "meaning": "photographer"
+     "meaning": "photographer",
+     "basis": "statedOnSheet",
+     "appliesTo": ""
+    },
+    {
+     "value": "",
+     "code": "s",
+     "meaning": "sculptor",
+     "basis": "statedOnSheet",
+     "appliesTo": ""
+    },
+    {
+     "value": "",
+     "code": "t",
+     "meaning": "theatre",
+     "basis": "statedOnSheet",
+     "appliesTo": ""
     }
    ],
    "pragmatic": {
@@ -1537,16 +1671,16 @@
    },
    "form": {
     "abstract_dadaism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "abstract_expressionism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "abstract_surrealism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "bauhaus": [
      "underlined"
@@ -1561,20 +1695,20 @@
      "semicircle"
     ],
     "constructivism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "cubism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "de_stijl_and_neoplasticism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "fauvism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "futurism": [
      "underlined"
@@ -1604,8 +1738,8 @@
      "boxed"
     ],
     "neoimpressionism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "orphism": [
      "underlined"
@@ -1724,8 +1858,8 @@
      "p"
     ],
     "picasso": [
-     "s",
-     "p"
+     "p",
+     "s"
     ],
     "rodchenko": [
      "c",
@@ -1735,9 +1869,9 @@
      "a"
     ],
     "schlemmer": [
-     "t",
+     "p",
      "s",
-     "p"
+     "t"
     ],
     "severini": [
      "p"
@@ -1749,8 +1883,8 @@
      "a"
     ],
     "villon": [
-     "s",
-     "p"
+     "p",
+     "s"
     ]
    },
    "external": [],
@@ -1761,6 +1895,96 @@
     "illegible_place_456_3": "uncertain"
    },
    "edges": [
+    [
+     "abstract_dadaism",
+     "abstract_surrealism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "abstract_dadaism",
+     "france",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "abstract_dadaism",
+     "germany",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "abstract_dadaism",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "abstract_surrealism",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "biomorphic_abstract_art",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "munich",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "abstract_surrealism",
+     "biomorphic_abstract_art",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "abstract_surrealism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "archipenko",
+     "cubism",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
     [
      "arp",
      "abstract_dadaism",
@@ -1774,6 +1998,51 @@
      "balla",
      "futurism",
      "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "bauhaus",
+     "germany",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "biomorphic_abstract_art",
+     "barcelona",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "biomorphic_abstract_art",
+     "illegible_place_456_1",
+     "siting",
+     "",
+     "",
+     "",
+     "uncertain"
+    ],
+    [
+     "biomorphic_abstract_art",
+     "london",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "biomorphic_abstract_art",
+     "paris",
+     "siting",
      "",
      "",
      "",
@@ -1825,9 +2094,117 @@
      ""
     ],
     [
-     "le_corbusier",
+     "cezanne",
+     "cubism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cezanne",
+     "fauvism",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "constructivism",
+     "bauhaus",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "constructivism",
+     "geometric_abstract_art",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "constructivism",
+     "russia",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "abstract_dadaism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "constructivism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "de_stijl_and_neoplasticism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "futurism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "orphism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
      "purism",
-     "membership",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "suprematism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "paris",
+     "siting",
      "",
      "",
      "",
@@ -1837,6 +2214,33 @@
      "davis",
      "synthetism",
      "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "geometric_abstract_art",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "purism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "holland",
+     "siting",
      "",
      "",
      "",
@@ -1871,7 +2275,7 @@
     ],
     [
      "duchamp",
-     "cubism",
+     "abstract_dadaism",
      "membership",
      "",
      "",
@@ -1880,7 +2284,7 @@
     ],
     [
      "duchamp",
-     "abstract_dadaism",
+     "cubism",
      "membership",
      "",
      "",
@@ -1897,6 +2301,42 @@
      ""
     ],
     [
+     "fauvism",
+     "abstract_expressionism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "fauvism",
+     "cubism",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "fauvism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "futurism",
+     "constructivism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
      "gabo",
      "constructivism",
      "membership",
@@ -1909,6 +2349,69 @@
      "gauguin",
      "synthetism",
      "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "geometric_abstract_art",
+     "barcelona",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "geometric_abstract_art",
+     "illegible_place_456_2",
+     "siting",
+     "",
+     "",
+     "",
+     "uncertain"
+    ],
+    [
+     "geometric_abstract_art",
+     "illegible_place_456_3",
+     "siting",
+     "",
+     "",
+     "",
+     "uncertain"
+    ],
+    [
+     "geometric_abstract_art",
+     "london",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "geometric_abstract_art",
+     "milan",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "geometric_abstract_art",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "geometric_abstract_art",
+     "prague",
+     "siting",
      "",
      "",
      "",
@@ -1942,6 +2445,33 @@
      ""
     ],
     [
+     "japanese_prints",
+     "fauvism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "japanese_prints",
+     "synthetism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "japanese_prints",
+     "van_gogh",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
      "kandinsky",
      "abstract_expressionism",
      "membership",
@@ -1960,11 +2490,92 @@
      ""
     ],
     [
+     "le_corbusier",
+     "purism",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "leger",
+     "cubism",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
      "leger",
      "purism",
      "membership",
      "",
      "",
+     "",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "abstract_dadaism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "brancusi",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "constructivism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "cubism",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "de_stijl_and_neoplasticism",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "futurism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "purism",
+     "influence",
+     "solid",
+     "graphite",
      "",
      ""
     ],
@@ -1979,7 +2590,7 @@
     ],
     [
      "man_ray",
-     "abstract_surrealism",
+     "abstract_dadaism",
      "membership",
      "",
      "",
@@ -1988,7 +2599,7 @@
     ],
     [
      "man_ray",
-     "abstract_dadaism",
+     "abstract_surrealism",
      "membership",
      "",
      "",
@@ -2050,6 +2661,60 @@
      ""
     ],
     [
+     "near_eastern_art",
+     "abstract_expressionism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "near_eastern_art",
+     "fauvism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "negro_sculpture",
+     "cubism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "neoimpressionism",
+     "cubism",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "neoimpressionism",
+     "fauvism",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "neoimpressionism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
      "oud",
      "de_stijl_and_neoplasticism",
      "membership",
@@ -2104,6 +2769,15 @@
      ""
     ],
     [
+     "purism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
      "rodchenko",
      "constructivism",
      "membership",
@@ -2118,6 +2792,15 @@
      "membership",
      "",
      "",
+     "",
+     ""
+    ],
+    [
+     "rousseau",
+     "cubism",
+     "influence",
+     "dotted",
+     "graphite",
      "",
      ""
     ],
@@ -2176,74 +2859,20 @@
      ""
     ],
     [
-     "tatlin",
-     "constructivism",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "villon",
-     "orphism",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "villon",
-     "cubism",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "vesnin",
-     "constructivism",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_dadaism",
-     "france",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_dadaism",
-     "germany",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
+     "suprematism",
      "bauhaus",
-     "germany",
-     "siting",
-     "",
-     "",
+     "influence",
+     "solid",
+     "graphite",
      "",
      ""
     ],
     [
-     "de_stijl_and_neoplasticism",
-     "holland",
-     "siting",
-     "",
-     "",
+     "suprematism",
+     "geometric_abstract_art",
+     "influence",
+     "solid",
+     "graphite",
      "",
      ""
     ],
@@ -2257,11 +2886,11 @@
      ""
     ],
     [
-     "abstract_expressionism",
-     "munich",
-     "siting",
-     "",
-     "",
+     "synthetism",
+     "fauvism",
+     "influence",
+     "solid",
+     "graphite",
      "",
      ""
     ],
@@ -2275,544 +2904,49 @@
      ""
     ],
     [
-     "neoimpressionism",
-     "paris",
-     "siting",
+     "tatlin",
+     "constructivism",
+     "membership",
      "",
      "",
      "",
      ""
     ],
     [
+     "van_gogh",
      "fauvism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "paris",
-     "siting",
-     "",
-     "",
+     "influence",
+     "solid",
+     "graphite",
      "",
      ""
     ],
     [
-     "purism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_surrealism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
+     "vesnin",
      "constructivism",
-     "russia",
-     "siting",
+     "membership",
      "",
      "",
      "",
      ""
     ],
     [
-     "abstract_dadaism",
-     "abstract_surrealism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "abstract_dadaism",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "abstract_surrealism",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "biomorphic_abstract_art",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "abstract_surrealism",
-     "biomorphic_abstract_art",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "constructivism",
-     "geometric_abstract_art",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "constructivism",
-     "bauhaus",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
+     "villon",
      "cubism",
-     "abstract_dadaism",
-     "influence",
-     "solid",
-     "graphite",
+     "membership",
+     "",
+     "",
      "",
      ""
     ],
     [
-     "cubism",
-     "purism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "de_stijl_and_neoplasticism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
+     "villon",
      "orphism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "suprematism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "constructivism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "futurism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "de_stijl_and_neoplasticism",
-     "geometric_abstract_art",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "fauvism",
-     "cubism",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "fauvism",
-     "abstract_expressionism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "futurism",
-     "constructivism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "japanese_prints",
-     "van_gogh",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "japanese_prints",
-     "fauvism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "japanese_prints",
-     "synthetism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "futurism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "cubism",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "constructivism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "brancusi",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "abstract_dadaism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "purism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "de_stijl_and_neoplasticism",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "de_stijl_and_neoplasticism",
-     "purism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "near_eastern_art",
-     "fauvism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "near_eastern_art",
-     "abstract_expressionism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "negro_sculpture",
-     "cubism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "neoimpressionism",
-     "fauvism",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "neoimpressionism",
-     "cubism",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "suprematism",
-     "geometric_abstract_art",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "suprematism",
-     "bauhaus",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "synthetism",
-     "fauvism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cezanne",
-     "fauvism",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cezanne",
-     "cubism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "van_gogh",
-     "fauvism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "rousseau",
-     "cubism",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "archipenko",
-     "cubism",
      "membership",
      "",
      "",
      "",
      ""
-    ],
-    [
-     "leger",
-     "cubism",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "biomorphic_abstract_art",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "biomorphic_abstract_art",
-     "illegible_place_456_1",
-     "siting",
-     "",
-     "",
-     "",
-     "uncertain"
-    ],
-    [
-     "biomorphic_abstract_art",
-     "london",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "biomorphic_abstract_art",
-     "barcelona",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "geometric_abstract_art",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "geometric_abstract_art",
-     "london",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "geometric_abstract_art",
-     "illegible_place_456_2",
-     "siting",
-     "",
-     "",
-     "",
-     "uncertain"
-    ],
-    [
-     "geometric_abstract_art",
-     "prague",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "geometric_abstract_art",
-     "barcelona",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "geometric_abstract_art",
-     "milan",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "geometric_abstract_art",
-     "illegible_place_456_3",
-     "siting",
-     "",
-     "",
-     "",
-     "uncertain"
     ]
    ]
   },
@@ -2828,6 +2962,57 @@
    "facsimile": "img/p19.jpg",
    "inkKey": {},
    "legend": [],
+   "conventions": [
+    {
+     "value": "box",
+     "code": "",
+     "meaning": "source outside modern art",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "dotted",
+     "code": "",
+     "meaning": "secondary",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "RelationMark"
+    },
+    {
+     "value": "graphite",
+     "code": "",
+     "meaning": "no meaning",
+     "basis": "inferredByAnalyst",
+     "appliesTo": ""
+    },
+    {
+     "value": "semicircle",
+     "code": "",
+     "meaning": "membership",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "solid",
+     "code": "",
+     "meaning": "primary",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "RelationMark"
+    },
+    {
+     "value": "underline",
+     "code": "",
+     "meaning": "title",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "verticalPosition",
+     "code": "",
+     "meaning": "date",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    }
+   ],
    "pragmatic": {
     "support": "",
     "audience": "",
@@ -2959,8 +3144,8 @@
      "underlined"
     ],
     "abstract_expressionism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "abstract_surrealism": [
      "underlined"
@@ -2972,20 +3157,20 @@
      "underlined"
     ],
     "constructivism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "cubism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "de_stijl_and_neoplasticism": [
      "semicircle",
      "underlined"
     ],
     "fauvism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "futurism": [
      "underlined"
@@ -3018,8 +3203,8 @@
      "underlined"
     ],
     "suprematism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "synthetism": [
      "underlined"
@@ -3034,15 +3219,15 @@
    "edges": [
     [
      "abstract_dadaism",
-     "berlin",
-     "siting",
-     "",
-     "",
+     "abstract_surrealism",
+     "influence",
+     "solid",
+     "graphite",
      "",
      ""
     ],
     [
-     "constructivism",
+     "abstract_dadaism",
      "berlin",
      "siting",
      "",
@@ -3060,11 +3245,263 @@
      ""
     ],
     [
+     "abstract_dadaism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "abstract_dadaism",
+     "zurich",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "abstract_dadaism",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "abstract_surrealism",
+     "influence",
+     "dotted",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "bauhaus",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "non_geometric_abstract_art",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "munich",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "abstract_surrealism",
+     "non_geometric_abstract_art",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "abstract_surrealism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
      "bauhaus",
      "dessau",
      "siting",
      "",
      "",
+     "",
+     ""
+    ],
+    [
+     "bauhaus",
+     "weimar",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "cezanne",
+     "cubism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cezanne",
+     "fauvism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "constructivism",
+     "bauhaus",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "constructivism",
+     "geometric_abstract_art",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "constructivism",
+     "berlin",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "constructivism",
+     "moscow",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "constructivism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "abstract_dadaism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "bauhaus",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "constructivism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "de_stijl_and_neoplasticism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "futurism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "orphism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "purism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "suprematism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "bauhaus",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "purism",
+     "influence",
+     "dotted",
+     "graphite",
      "",
      ""
     ],
@@ -3087,6 +3524,33 @@
      ""
     ],
     [
+     "fauvism",
+     "abstract_expressionism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "fauvism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "futurism",
+     "abstract_dadaism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
      "futurism",
      "milan",
      "siting",
@@ -3096,313 +3560,7 @@
      ""
     ],
     [
-     "constructivism",
-     "moscow",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "suprematism",
-     "moscow",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "munich",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "synthetism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "neoimpressionism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "fauvism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_dadaism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_surrealism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "purism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "constructivism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "orphism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "bauhaus",
-     "weimar",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_dadaism",
-     "zurich",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_dadaism",
-     "abstract_surrealism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "abstract_surrealism",
-     "non_geometric_abstract_art",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "non_geometric_abstract_art",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "abstract_surrealism",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "abstract_dadaism",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "bauhaus",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "constructivism",
-     "bauhaus",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "constructivism",
-     "geometric_abstract_art",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "futurism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "abstract_dadaism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "purism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "de_stijl_and_neoplasticism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "bauhaus",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "suprematism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "constructivism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "orphism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "de_stijl_and_neoplasticism",
-     "purism",
-     "influence",
-     "dotted",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "de_stijl_and_neoplasticism",
-     "bauhaus",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "fauvism",
-     "abstract_expressionism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "futurism",
-     "abstract_dadaism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "synthetism",
+     "japanese_prints",
      "fauvism",
      "influence",
      "solid",
@@ -3412,7 +3570,7 @@
     ],
     [
      "japanese_prints",
-     "fauvism",
+     "synthetism",
      "influence",
      "solid",
      "graphite",
@@ -3429,44 +3587,8 @@
      ""
     ],
     [
-     "japanese_prints",
-     "synthetism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "futurism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
      "machine_esthetic",
      "abstract_dadaism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "purism",
-     "influence",
-     "solid",
-     "graphite",
-     "",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "geometric_abstract_art",
      "influence",
      "solid",
      "graphite",
@@ -3501,8 +3623,26 @@
      ""
     ],
     [
-     "near_eastern_art",
-     "fauvism",
+     "machine_esthetic",
+     "futurism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "geometric_abstract_art",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "purism",
      "influence",
      "solid",
      "graphite",
@@ -3519,6 +3659,24 @@
      ""
     ],
     [
+     "near_eastern_art",
+     "fauvism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
+     "negro_sculpture",
+     "cubism",
+     "influence",
+     "solid",
+     "graphite",
+     "",
+     ""
+    ],
+    [
      "negro_sculpture",
      "fauvism",
      "influence",
@@ -3528,7 +3686,7 @@
      ""
     ],
     [
-     "negro_sculpture",
+     "neoimpressionism",
      "cubism",
      "influence",
      "solid",
@@ -3556,6 +3714,33 @@
     ],
     [
      "neoimpressionism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "orphism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "purism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "rousseau",
      "cubism",
      "influence",
      "solid",
@@ -3573,7 +3758,16 @@
      ""
     ],
     [
-     "cezanne",
+     "suprematism",
+     "moscow",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "synthetism",
      "fauvism",
      "influence",
      "solid",
@@ -3582,20 +3776,11 @@
      ""
     ],
     [
-     "cezanne",
-     "cubism",
-     "influence",
-     "solid",
-     "graphite",
+     "synthetism",
+     "paris",
+     "siting",
      "",
-     ""
-    ],
-    [
-     "rousseau",
-     "cubism",
-     "influence",
-     "solid",
-     "graphite",
+     "",
      "",
      ""
     ],
@@ -3625,6 +3810,64 @@
     "graphite": "external"
    },
    "legend": [],
+   "conventions": [
+    {
+     "value": "blue",
+     "code": "",
+     "meaning": "internal",
+     "basis": "inferredByAnalyst",
+     "appliesTo": ""
+    },
+    {
+     "value": "box",
+     "code": "",
+     "meaning": "source outside modern art",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "dotted",
+     "code": "",
+     "meaning": "secondary",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "RelationMark"
+    },
+    {
+     "value": "graphite",
+     "code": "",
+     "meaning": "external",
+     "basis": "inferredByAnalyst",
+     "appliesTo": ""
+    },
+    {
+     "value": "semicircle",
+     "code": "",
+     "meaning": "membership",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "solid",
+     "code": "",
+     "meaning": "primary",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "RelationMark"
+    },
+    {
+     "value": "underline",
+     "code": "",
+     "meaning": "title",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "verticalPosition",
+     "code": "",
+     "meaning": "date",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    }
+   ],
    "pragmatic": {
     "support": "",
     "audience": "",
@@ -3889,24 +4132,24 @@
      "underlined"
     ],
     "abstract_expressionism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "abstract_surrealism": [
      "semicircle",
      "underlined"
     ],
     "bauhaus": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "cezanne": [
      "semicircle",
      "underlined"
     ],
     "constructivism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "cubism": [
      "semicircle",
@@ -3916,8 +4159,8 @@
      "underlined"
     ],
     "de_stijl_and_neoplasticism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "fauvism": [
      "semicircle",
@@ -3943,24 +4186,24 @@
      "boxed"
     ],
     "neoimpressionism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "orphism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "purism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "suprematism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "synthetism": [
-     "underlined",
-     "semicircle"
+     "semicircle",
+     "underlined"
     ],
     "van_gogh": [
      "underlined"
@@ -3977,6 +4220,105 @@
    ],
    "certainty": {},
    "edges": [
+    [
+     "abstract_dadaism",
+     "abstract_surrealism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "abstract_dadaism",
+     "berlin",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "abstract_dadaism",
+     "cologne",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "abstract_dadaism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "abstract_dadaism",
+     "zurich",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "abstract_dadaism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "abstract_surrealism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "non_geometric_abstract_art",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "munich",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "abstract_surrealism",
+     "non_geometric_abstract_art",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "abstract_surrealism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
     [
      "albers",
      "bauhaus",
@@ -4014,12 +4356,48 @@
      ""
     ],
     [
+     "bauhaus",
+     "modern_architecture",
+     "influence",
+     "dotted",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "bauhaus",
+     "dessau",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "bauhaus",
+     "weimar",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
      "boccioni",
      "futurism",
      "membership",
      "",
      "",
      "",
+     ""
+    ],
+    [
+     "brancusi",
+     "non_geometric_abstract_art",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
      ""
     ],
     [
@@ -4050,9 +4428,171 @@
      ""
     ],
     [
-     "delaunay",
+     "cezanne",
+     "cubism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "cezanne",
+     "fauvism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "constructivism",
+     "bauhaus",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "constructivism",
+     "geometric_abstract_art",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "constructivism",
+     "moscow",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "abstract_dadaism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "cubism",
+     "constructivism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "cubism",
+     "de_stijl_and_neoplasticism",
+     "influence",
+     "dotted",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "cubism",
+     "futurism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "cubism",
      "orphism",
-     "membership",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "cubism",
+     "purism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "cubism",
+     "suprematism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "cubism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "de_chirico",
+     "abstract_dadaism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "bauhaus",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "geometric_abstract_art",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "modern_architecture",
+     "influence",
+     "dotted",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "europe",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "layden",
+     "siting",
      "",
      "",
      "",
@@ -4061,6 +4601,15 @@
     [
      "delaunay",
      "cubism",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "delaunay",
+     "orphism",
      "membership",
      "",
      "",
@@ -4105,7 +4654,7 @@
     ],
     [
      "ernst",
-     "abstract_surrealism",
+     "abstract_dadaism",
      "membership",
      "",
      "",
@@ -4114,8 +4663,44 @@
     ],
     [
      "ernst",
-     "abstract_dadaism",
+     "abstract_surrealism",
      "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "fauvism",
+     "abstract_expressionism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "fauvism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "futurism",
+     "abstract_dadaism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "futurism",
+     "milan",
+     "siting",
      "",
      "",
      "",
@@ -4168,7 +4753,7 @@
     ],
     [
      "gropius",
-     "modern_architecture",
+     "bauhaus",
      "membership",
      "",
      "",
@@ -4177,11 +4762,38 @@
     ],
     [
      "gropius",
-     "bauhaus",
+     "modern_architecture",
      "membership",
      "",
      "",
      "",
+     ""
+    ],
+    [
+     "japanese_prints",
+     "fauvism",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "japanese_prints",
+     "synthetism",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "japanese_prints",
+     "van_gogh",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
      ""
     ],
     [
@@ -4240,7 +4852,7 @@
     ],
     [
      "le_corbusier",
-     "purism",
+     "modern_architecture",
      "membership",
      "",
      "",
@@ -4249,7 +4861,7 @@
     ],
     [
      "le_corbusier",
-     "modern_architecture",
+     "purism",
      "membership",
      "",
      "",
@@ -4272,6 +4884,87 @@
      "",
      "",
      "",
+     ""
+    ],
+    [
+     "lissitzky",
+     "bauhaus",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "abstract_dadaism",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "bauhaus",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "brancusi",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "cubism",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "de_stijl_and_neoplasticism",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "futurism",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "purism",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "suprematism",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
      ""
     ],
     [
@@ -4383,9 +5076,90 @@
      ""
     ],
     [
-     "oud",
-     "modern_architecture",
-     "membership",
+     "near_eastern_art",
+     "abstract_expressionism",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "near_eastern_art",
+     "fauvism",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "negro_sculpture",
+     "brancusi",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "negro_sculpture",
+     "cubism",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "negro_sculpture",
+     "fauvism",
+     "influence",
+     "solid",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "neoimpressionism",
+     "cubism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "neoimpressionism",
+     "fauvism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "neoimpressionism",
+     "futurism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "neoimpressionism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "orphism",
+     "paris",
+     "siting",
      "",
      "",
      "",
@@ -4394,6 +5168,15 @@
     [
      "oud",
      "de_stijl_and_neoplasticism",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "oud",
+     "modern_architecture",
      "membership",
      "",
      "",
@@ -4420,15 +5203,6 @@
     ],
     [
      "picabia",
-     "orphism",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "picabia",
      "abstract_dadaism",
      "membership",
      "",
@@ -4446,12 +5220,57 @@
      ""
     ],
     [
+     "picabia",
+     "orphism",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
      "picasso",
      "abstract_surrealism",
      "membership",
      "",
      "",
      "",
+     ""
+    ],
+    [
+     "purism",
+     "modern_architecture",
+     "influence",
+     "dotted",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "purism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "redon",
+     "abstract_expressionism",
+     "influence",
+     "dotted",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "redon",
+     "fauvism",
+     "influence",
+     "dotted",
+     "graphite",
+     "external",
      ""
     ],
     [
@@ -4474,7 +5293,7 @@
     ],
     [
      "rodchenko",
-     "suprematism",
+     "cubism",
      "membership",
      "",
      "",
@@ -4483,11 +5302,20 @@
     ],
     [
      "rodchenko",
-     "cubism",
+     "suprematism",
      "membership",
      "",
      "",
      "",
+     ""
+    ],
+    [
+     "rousseau",
+     "cubism",
+     "influence",
+     "dotted",
+     "blue",
+     "internal",
      ""
     ],
     [
@@ -4536,6 +5364,69 @@
      ""
     ],
     [
+     "suprematism",
+     "bauhaus",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "suprematism",
+     "geometric_abstract_art",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "suprematism",
+     "lissitzky",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "suprematism",
+     "moscow",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "synthetism",
+     "abstract_expressionism",
+     "influence",
+     "dotted",
+     "graphite",
+     "external",
+     ""
+    ],
+    [
+     "synthetism",
+     "fauvism",
+     "influence",
+     "solid",
+     "blue",
+     "internal",
+     ""
+    ],
+    [
+     "synthetism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
      "tanguy",
      "abstract_surrealism",
      "membership",
@@ -4570,654 +5461,6 @@
      "",
      "",
      ""
-    ],
-    [
-     "abstract_dadaism",
-     "berlin",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_dadaism",
-     "cologne",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "bauhaus",
-     "dessau",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "de_stijl_and_neoplasticism",
-     "europe",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "de_stijl_and_neoplasticism",
-     "layden",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "futurism",
-     "milan",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "constructivism",
-     "moscow",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "suprematism",
-     "moscow",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "munich",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "synthetism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "neoimpressionism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "fauvism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "orphism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "purism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_dadaism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_surrealism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "bauhaus",
-     "weimar",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_dadaism",
-     "zurich",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "non_geometric_abstract_art",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "abstract_surrealism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "abstract_dadaism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "bauhaus",
-     "modern_architecture",
-     "influence",
-     "dotted",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "constructivism",
-     "bauhaus",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "constructivism",
-     "geometric_abstract_art",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "cubism",
-     "futurism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "cubism",
-     "abstract_dadaism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "cubism",
-     "purism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "cubism",
-     "de_stijl_and_neoplasticism",
-     "influence",
-     "dotted",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "cubism",
-     "suprematism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "cubism",
-     "constructivism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "cubism",
-     "orphism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "abstract_dadaism",
-     "abstract_surrealism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "de_stijl_and_neoplasticism",
-     "modern_architecture",
-     "influence",
-     "dotted",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "de_stijl_and_neoplasticism",
-     "geometric_abstract_art",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "de_stijl_and_neoplasticism",
-     "bauhaus",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "fauvism",
-     "abstract_expressionism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "futurism",
-     "abstract_dadaism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "japanese_prints",
-     "fauvism",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "japanese_prints",
-     "van_gogh",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "japanese_prints",
-     "synthetism",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "futurism",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "abstract_dadaism",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "brancusi",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "purism",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "de_stijl_and_neoplasticism",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "bauhaus",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "suprematism",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "cubism",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "near_eastern_art",
-     "fauvism",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "near_eastern_art",
-     "abstract_expressionism",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "negro_sculpture",
-     "fauvism",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "negro_sculpture",
-     "brancusi",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "negro_sculpture",
-     "cubism",
-     "influence",
-     "solid",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "neoimpressionism",
-     "fauvism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "neoimpressionism",
-     "futurism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "neoimpressionism",
-     "cubism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "purism",
-     "modern_architecture",
-     "influence",
-     "dotted",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "suprematism",
-     "geometric_abstract_art",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "suprematism",
-     "bauhaus",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "suprematism",
-     "lissitzky",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "abstract_surrealism",
-     "non_geometric_abstract_art",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "synthetism",
-     "abstract_expressionism",
-     "influence",
-     "dotted",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "synthetism",
-     "fauvism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "brancusi",
-     "non_geometric_abstract_art",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "cezanne",
-     "fauvism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "cezanne",
-     "cubism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "de_chirico",
-     "abstract_dadaism",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "lissitzky",
-     "bauhaus",
-     "influence",
-     "solid",
-     "blue",
-     "internal",
-     ""
-    ],
-    [
-     "redon",
-     "fauvism",
-     "influence",
-     "dotted",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "redon",
-     "abstract_expressionism",
-     "influence",
-     "dotted",
-     "graphite",
-     "external",
-     ""
-    ],
-    [
-     "rousseau",
-     "cubism",
-     "influence",
-     "dotted",
-     "blue",
-     "internal",
-     ""
     ]
    ]
   },
@@ -5236,6 +5479,57 @@
     "red": "external"
    },
    "legend": [],
+   "conventions": [
+    {
+     "value": "black",
+     "code": "",
+     "meaning": "internal",
+     "basis": "inferredByAnalyst",
+     "appliesTo": ""
+    },
+    {
+     "value": "box",
+     "code": "",
+     "meaning": "source outside modern art",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "dotted",
+     "code": "",
+     "meaning": "secondary",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "RelationMark"
+    },
+    {
+     "value": "red",
+     "code": "",
+     "meaning": "external",
+     "basis": "inferredByAnalyst",
+     "appliesTo": ""
+    },
+    {
+     "value": "semicircle",
+     "code": "",
+     "meaning": "membership",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    },
+    {
+     "value": "solid",
+     "code": "",
+     "meaning": "primary",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "RelationMark"
+    },
+    {
+     "value": "verticalPosition",
+     "code": "",
+     "meaning": "date",
+     "basis": "inferredByAnalyst",
+     "appliesTo": "LabelMark"
+    }
+   ],
    "pragmatic": {
     "support": "",
     "audience": "",
@@ -5471,30 +5765,12 @@
    "certainty": {},
    "edges": [
     [
-     "gauguin",
-     "synthetism",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "seurat",
-     "neoimpressionism",
-     "membership",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "de_stijl_and_neoplasticism",
-     "berlin",
-     "siting",
-     "",
-     "",
-     "",
+     "abstract_dadaism",
+     "abstract_surrealism",
+     "influence",
+     "solid",
+     "black",
+     "internal",
      ""
     ],
     [
@@ -5516,188 +5792,8 @@
      ""
     ],
     [
-     "bauhaus",
-     "dessau",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "de_stijl_and_neoplasticism",
-     "layden",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "futurism",
-     "milan",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "constructivism",
-     "moscow",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "suprematism",
-     "moscow",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "munich",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "synthetism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "neoimpressionism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "fauvism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "cubism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "orphism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "de_stijl_and_neoplasticism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "purism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
      "abstract_dadaism",
      "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "abstract_surrealism",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "rousseau",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "redon",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "brancusi",
-     "paris",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "synthetism",
-     "pont_aven",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "cezanne",
-     "provence",
-     "siting",
-     "",
-     "",
-     "",
-     ""
-    ],
-    [
-     "bauhaus",
-     "weimar",
      "siting",
      "",
      "",
@@ -5714,24 +5810,6 @@
      ""
     ],
     [
-     "abstract_dadaism",
-     "abstract_surrealism",
-     "influence",
-     "solid",
-     "black",
-     "internal",
-     ""
-    ],
-    [
-     "abstract_expressionism",
-     "non_geometric_abstract_art",
-     "influence",
-     "solid",
-     "black",
-     "internal",
-     ""
-    ],
-    [
      "abstract_expressionism",
      "bauhaus",
      "influence",
@@ -5741,12 +5819,39 @@
      ""
     ],
     [
+     "abstract_expressionism",
+     "non_geometric_abstract_art",
+     "influence",
+     "solid",
+     "black",
+     "internal",
+     ""
+    ],
+    [
+     "abstract_expressionism",
+     "munich",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
      "abstract_surrealism",
      "non_geometric_abstract_art",
      "influence",
      "solid",
      "black",
      "internal",
+     ""
+    ],
+    [
+     "abstract_surrealism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
      ""
     ],
     [
@@ -5756,6 +5861,78 @@
      "dotted",
      "black",
      "internal",
+     ""
+    ],
+    [
+     "bauhaus",
+     "dessau",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "bauhaus",
+     "weimar",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "brancusi",
+     "non_geometric_abstract_art",
+     "influence",
+     "solid",
+     "black",
+     "internal",
+     ""
+    ],
+    [
+     "brancusi",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "cezanne",
+     "cubism",
+     "influence",
+     "solid",
+     "black",
+     "internal",
+     ""
+    ],
+    [
+     "cezanne",
+     "fauvism",
+     "influence",
+     "solid",
+     "black",
+     "internal",
+     ""
+    ],
+    [
+     "cezanne",
+     "synthetism",
+     "influence",
+     "solid",
+     "black",
+     "internal",
+     ""
+    ],
+    [
+     "cezanne",
+     "provence",
+     "siting",
+     "",
+     "",
+     "",
      ""
     ],
     [
@@ -5770,6 +5947,42 @@
     [
      "constructivism",
      "geometric_abstract_art",
+     "influence",
+     "solid",
+     "black",
+     "internal",
+     ""
+    ],
+    [
+     "constructivism",
+     "moscow",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "cubism",
+     "abstract_dadaism",
+     "influence",
+     "solid",
+     "black",
+     "internal",
+     ""
+    ],
+    [
+     "cubism",
+     "constructivism",
+     "influence",
+     "solid",
+     "black",
+     "internal",
+     ""
+    ],
+    [
+     "cubism",
+     "de_stijl_and_neoplasticism",
      "influence",
      "solid",
      "black",
@@ -5796,25 +6009,7 @@
     ],
     [
      "cubism",
-     "abstract_dadaism",
-     "influence",
-     "solid",
-     "black",
-     "internal",
-     ""
-    ],
-    [
-     "cubism",
      "purism",
-     "influence",
-     "solid",
-     "black",
-     "internal",
-     ""
-    ],
-    [
-     "cubism",
-     "de_stijl_and_neoplasticism",
      "influence",
      "solid",
      "black",
@@ -5832,7 +6027,25 @@
     ],
     [
      "cubism",
-     "constructivism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "bauhaus",
+     "influence",
+     "solid",
+     "black",
+     "internal",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "geometric_abstract_art",
      "influence",
      "solid",
      "black",
@@ -5850,20 +6063,29 @@
     ],
     [
      "de_stijl_and_neoplasticism",
-     "geometric_abstract_art",
-     "influence",
-     "solid",
-     "black",
-     "internal",
+     "berlin",
+     "siting",
+     "",
+     "",
+     "",
      ""
     ],
     [
      "de_stijl_and_neoplasticism",
-     "bauhaus",
-     "influence",
-     "solid",
-     "black",
-     "internal",
+     "layden",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "de_stijl_and_neoplasticism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
      ""
     ],
     [
@@ -5876,6 +6098,15 @@
      ""
     ],
     [
+     "fauvism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
      "futurism",
      "abstract_dadaism",
      "influence",
@@ -5885,12 +6116,21 @@
      ""
     ],
     [
-     "japanese_prints",
+     "futurism",
+     "milan",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "gauguin",
      "synthetism",
-     "influence",
-     "solid",
-     "red",
-     "external",
+     "membership",
+     "",
+     "",
+     "",
      ""
     ],
     [
@@ -5903,8 +6143,8 @@
      ""
     ],
     [
-     "machine_esthetic",
-     "futurism",
+     "japanese_prints",
+     "synthetism",
      "influence",
      "solid",
      "red",
@@ -5914,6 +6154,15 @@
     [
      "machine_esthetic",
      "abstract_dadaism",
+     "influence",
+     "solid",
+     "red",
+     "external",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "bauhaus",
      "influence",
      "solid",
      "red",
@@ -5931,7 +6180,7 @@
     ],
     [
      "machine_esthetic",
-     "purism",
+     "constructivism",
      "influence",
      "solid",
      "red",
@@ -5940,16 +6189,7 @@
     ],
     [
      "machine_esthetic",
-     "modern_architecture",
-     "influence",
-     "solid",
-     "red",
-     "external",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "geometric_abstract_art",
+     "cubism",
      "influence",
      "solid",
      "red",
@@ -5967,7 +6207,7 @@
     ],
     [
      "machine_esthetic",
-     "bauhaus",
+     "futurism",
      "influence",
      "solid",
      "red",
@@ -5976,7 +6216,25 @@
     ],
     [
      "machine_esthetic",
-     "constructivism",
+     "geometric_abstract_art",
+     "influence",
+     "solid",
+     "red",
+     "external",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "modern_architecture",
+     "influence",
+     "solid",
+     "red",
+     "external",
+     ""
+    ],
+    [
+     "machine_esthetic",
+     "purism",
      "influence",
      "solid",
      "red",
@@ -5986,15 +6244,6 @@
     [
      "machine_esthetic",
      "suprematism",
-     "influence",
-     "solid",
-     "red",
-     "external",
-     ""
-    ],
-    [
-     "machine_esthetic",
-     "cubism",
      "influence",
      "solid",
      "red",
@@ -6021,7 +6270,7 @@
     ],
     [
      "negro_sculpture",
-     "fauvism",
+     "cubism",
      "influence",
      "solid",
      "red",
@@ -6030,11 +6279,20 @@
     ],
     [
      "negro_sculpture",
-     "cubism",
+     "fauvism",
      "influence",
      "solid",
      "red",
      "external",
+     ""
+    ],
+    [
+     "neoimpressionism",
+     "cubism",
+     "influence",
+     "solid",
+     "black",
+     "internal",
      ""
     ],
     [
@@ -6057,11 +6315,20 @@
     ],
     [
      "neoimpressionism",
-     "cubism",
-     "influence",
-     "solid",
-     "black",
-     "internal",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "orphism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
      ""
     ],
     [
@@ -6074,66 +6341,12 @@
      ""
     ],
     [
-     "suprematism",
-     "bauhaus",
-     "influence",
-     "solid",
-     "black",
-     "internal",
-     ""
-    ],
-    [
-     "suprematism",
-     "geometric_abstract_art",
-     "influence",
-     "solid",
-     "black",
-     "internal",
-     ""
-    ],
-    [
-     "synthetism",
-     "fauvism",
-     "influence",
-     "solid",
-     "black",
-     "internal",
-     ""
-    ],
-    [
-     "brancusi",
-     "non_geometric_abstract_art",
-     "influence",
-     "solid",
-     "black",
-     "internal",
-     ""
-    ],
-    [
-     "cezanne",
-     "synthetism",
-     "influence",
-     "solid",
-     "black",
-     "internal",
-     ""
-    ],
-    [
-     "cezanne",
-     "fauvism",
-     "influence",
-     "solid",
-     "black",
-     "internal",
-     ""
-    ],
-    [
-     "cezanne",
-     "cubism",
-     "influence",
-     "solid",
-     "black",
-     "internal",
+     "purism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
      ""
     ],
     [
@@ -6155,12 +6368,93 @@
      ""
     ],
     [
+     "redon",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
      "rousseau",
      "cubism",
      "influence",
      "solid",
      "black",
      "internal",
+     ""
+    ],
+    [
+     "rousseau",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "seurat",
+     "neoimpressionism",
+     "membership",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "suprematism",
+     "bauhaus",
+     "influence",
+     "solid",
+     "black",
+     "internal",
+     ""
+    ],
+    [
+     "suprematism",
+     "geometric_abstract_art",
+     "influence",
+     "solid",
+     "black",
+     "internal",
+     ""
+    ],
+    [
+     "suprematism",
+     "moscow",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "synthetism",
+     "fauvism",
+     "influence",
+     "solid",
+     "black",
+     "internal",
+     ""
+    ],
+    [
+     "synthetism",
+     "paris",
+     "siting",
+     "",
+     "",
+     "",
+     ""
+    ],
+    [
+     "synthetism",
+     "pont_aven",
+     "siting",
+     "",
+     "",
+     "",
      ""
     ],
     [

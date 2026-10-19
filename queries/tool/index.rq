@@ -1,0 +1,13 @@
+# The reconciled index: every entity, its kind (CIDOC CRM class) and its reconciliation note.
+PREFIX dino:    <https://psantachiara.github.io/dino/ns#>
+PREFIX barr:    <https://psantachiara.github.io/barr-chart/ns#>
+PREFIX crm:     <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl:  <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+SELECT ?entity ?label ?kind ?note WHERE {
+  GRAPH <https://psantachiara.github.io/barr-chart/graph/interpretation> { ?entity skos:inScheme <https://psantachiara.github.io/barr-chart/id/index> ; skos:prefLabel ?label ; a ?kind .
+             FILTER (?kind IN (crm:E55_Type, crm:E21_Person, crm:E53_Place)) OPTIONAL { ?entity skos:note ?note } }
+}

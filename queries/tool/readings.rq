@@ -1,0 +1,13 @@
+# Every reading: label, basis, who proposed it, note. The order is read from the rdf:List by the script.
+PREFIX dino:    <https://psantachiara.github.io/dino/ns#>
+PREFIX barr:    <https://psantachiara.github.io/barr-chart/ns#>
+PREFIX crm:     <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl:  <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+SELECT ?reading ?label ?basis ?creator ?note WHERE {
+  GRAPH <https://psantachiara.github.io/barr-chart/graph/readings> {
+    ?reading a dino:Reading ; rdfs:label ?label ; dino:basis ?basis ; dcterms:creator ?creator . OPTIONAL { ?reading skos:note ?note } }
+}
