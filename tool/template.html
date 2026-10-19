@@ -239,6 +239,7 @@ dl.dossier dd.empty{color:var(--ink-3); font-style:italic; font-size:13px}
 .kv{font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
 .chips{display:flex; flex-wrap:wrap; gap:5px}
 .chips span{font-family:var(--mono); font-size:10.5px; border:1px solid var(--rule-2); padding:2px 7px; background:var(--paper-2)}
+.chips span.dot{padding:0; border:0}
 .badge{font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; padding:3px 8px; border:1px solid var(--oxblood); color:var(--oxblood)}
 .orderlist{display:grid; gap:0; border:1px solid var(--rule); background:var(--card); max-width:420px}
 .orderlist div{display:flex; align-items:center; gap:8px; padding:6px 10px; border-bottom:1px solid var(--rule)}
@@ -794,13 +795,14 @@ function paneConc(){
   const core=ids.filter(id=>where(id)===vs.length);
   const pres = KINDS.map(t=>{ const row=[]; for(let n=1;n<=vs.length;n++) row.push(ids.filter(id=>C[id].t===t&&where(id)===n).length);
     return `<tr><td class="lbl">${dot(t)}${KIND_LABEL[t]}</td>${row.map(n=>`<td class="num">${n}</td>`).join("")}<td class="num">${row.reduce((a,b)=>a+b,0)}</td></tr>`; }).join("");
+  const decisions = ids.filter(id=>C[id].note);
   const hapax = vs.map(v=>{ const h=v.nodes.filter(id=>where(id)===1);
     return `<div class="card"><h4>Only on ${esc(v.name)} · ${h.length}</h4>
       <div class="chips">${h.map(x=>`<span>${dot(C[x].t)}${esc(surface(v,x))}</span>`).join("")||'<span style="opacity:.6">none</span>'}</div></div>`; }).join("");
 
   return `
   <h2 class="ph">Plane II · Conceptual</h2>
-  <p class="lede">Extension and composition: what each chart contains, and of what kinds. Entities are movements, persons or places; whether one is external to modern art is read from the chart's own ink key, never assigned by hand.</p>
+  <p class="lede">Extension and composition: what each chart contains, and of what kinds. The figures on this plane are computed, but only after interpretive decisions that no computation makes: what counts as an entity, and when marks on different sheets are the same thing. <strong>The counts measure the consequences of those judgments, not the judgments themselves.</strong> The decisions are listed at the foot of the plane. Whether an entity is external to modern art is read from each chart's own ink key, never assigned by hand.</p>
 
   <h3 class="sh">Entities by kind <span>${scopeNote()}</span></h3>
   <div class="tw"><table class="dt"><thead><tr><th>Chart</th><th class="num">Entities</th><th class="num">Movements</th><th class="num">Persons</th>
@@ -819,7 +821,12 @@ function paneConc(){
   <div class="chips">${core.map(x=>`<span>${dot(C[x].t)}${esc(C[x].l)}</span>`).join("")||'<span style="opacity:.6">none</span>'}</div>
 
   <h3 class="sh">On one chart only</h3>
-  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">${hapax}</div>`;
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">${hapax}</div>
+
+  <h3 class="sh">Reconciliation decisions <span>${decisions.length} entities on the selected charts</span></h3>
+  ${decisions.length?`<div class="oplist">${decisions.map(x=>`<div class="oprow"><div class="opk" style="color:var(--ink-2)">${dot(C[x].t)}${esc(C[x].l)}</div>
+    <div class="opb">${esc(C[x].note.replace(/ \([a-z0-9_]+\)/g,""))}<span class="opn" style="font-style:normal">${vs.filter(v=>v.set.has(x)).map(v=>`${esc(v.name)}: “${esc(surface(v,x))}”`).join(" · ")}</span></div></div>`).join("")}</div>`:'<p class="note">No recorded decisions for the selected charts.</p>'}
+  <p class="note">Each decision changes every figure above: merge two entities and the counts, the overlap and the consensus all move. Keeping biomorphic apart from non-geometric abstract art is a decision of the same kind, recorded by not merging them. The wording on each chart is kept in every case; see Plane I.</p>`;
 }
 
 /* ============================================================
@@ -1138,7 +1145,7 @@ function paneSyn(){
 
   return `
   <h2 class="ph">Plane V · Synchronic</h2>
-  <p class="lede">All the charts at once, with no order among them. Every pair is compared in both directions, and what the charts agree on is read as consensus rather than as a final state. <strong>Nothing here depends on which chart came first.</strong></p>
+  <p class="lede">All the charts at once, with no order among them. The measures are computed — overlap, consensus, nearest neighbours — but the stance is not: each chart is treated as valid in its own right, every pair is compared without a direction, and what the charts share is read as consensus rather than as convergence on a final version. <strong>The plane is a theoretical commitment carried out as computation.</strong> Nothing here depends on which chart came first.</p>
 
   <h3 class="sh">Pairwise similarity <span>Jaccard · click a cell to see the sets</span></h3>
   <div class="ctl"><label>Compare</label><div class="seg" id="mxmeas">
@@ -1263,6 +1270,14 @@ function paneMethod(){
   <div class="oplist">${steps.map(([t,d],i)=>`<div class="oprow" style="grid-template-columns:44px 1fr">
     <div class="opk" style="font-size:15px">${i+1}</div>
     <div class="opb"><b style="background:none;padding:0;font-family:var(--disp);font-size:13px;letter-spacing:.06em;text-transform:uppercase">${esc(t)}</b><span class="opn" style="font-style:normal">${esc(d)}</span></div></div>`).join("")}</div>
+
+  <h3 class="sh">Where interpretation enters</h3>
+  <div class="tw"><table class="dt"><thead><tr><th>Plane</th><th>Status</th><th>What remains interpretive</th></tr></thead><tbody>
+    <tr><td style="color:var(--oxblood)">I · III · IV</td><td class="lbl">Computed from the transcription</td><td class="lbl">Plane IV needs a reading to supply an order; the computation runs along it.</td></tr>
+    <tr><td style="color:var(--oxblood)">II · V</td><td class="lbl">Computed, after interpretive decisions</td><td class="lbl">Plane II: what counts as an entity, and which marks are the same thing. Plane V: the refusal of order, and reading agreement as consensus.</td></tr>
+    <tr><td style="color:var(--oxblood)">VI</td><td class="lbl">Not computable</td><td class="lbl">Support, audience, permanence, constraint, function.</td></tr>
+  </tbody></table></div>
+  <p class="note">Beneath all six lies the transcription, which is already a reading: graphite as meaningless on 456 and 457, semicircles as membership, positions on each sheet's own year scale. Computation runs on these interpretations and makes their consequences countable; it does not make them.</p>
 
   <h3 class="sh">Edit grammar</h3>
   <div class="tw"><table class="dt"><thead><tr><th>Operation</th><th>Definition</th></tr></thead><tbody>
