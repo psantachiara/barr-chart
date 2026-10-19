@@ -70,14 +70,16 @@ h1,h2,h3,h4{margin:0; font-family:var(--disp); font-weight:600; letter-spacing:.
 #theme{position:absolute; top:22px; right:30px}
 
 /* ---------- chart chips ---------- */
-#stickybar{position:sticky; top:0; z-index:38; background:var(--paper); border-top:1px solid var(--rule)}
-#versionbar, #planenav, #masthead{max-width:1500px}
+#stickybar{position:sticky; top:0; z-index:38; background:var(--paper)}
+#masthead{max-width:1500px}
+/* Both bars end where the theme button ends: 30px in from the masthead's right edge. */
+#versionbar, #planenav{max-width:calc(1500px - 60px); margin:0 30px}
 #stickybar.stuck{box-shadow:var(--stuck-shadow)}
 #stickybar.stuck .vchip{padding:6px 16px 7px}
 #stickybar.stuck .vchip .vs{display:none}
 #stickybar.stuck .vchip .vc{margin-top:1px}
 #stickybar.stuck .pnav{padding:9px 16px 8px}
-#versionbar{display:flex; gap:0; flex-wrap:wrap; align-items:stretch; padding:0 30px; background:var(--paper-2)}
+#versionbar{display:flex; gap:0; flex-wrap:wrap; align-items:stretch; padding:0; background:var(--paper); border-top:1px solid var(--rule)}
 .vchip{
   appearance:none; border:0; border-right:1px solid var(--rule);
   background:transparent; cursor:pointer; text-align:left;
@@ -94,12 +96,12 @@ h1,h2,h3,h4{margin:0; font-family:var(--disp); font-weight:600; letter-spacing:.
 .vchip.on::before{content:""; position:absolute; left:0; right:0; top:0; height:3px; background:var(--oxblood)}
 .vchip:focus-visible{outline:2px solid var(--indigo); outline-offset:-2px}
 #versionbar .vhint, #planenav .phint{
-  align-self:center; margin-left:auto; padding:0 4px; white-space:nowrap;
+  align-self:center; margin-left:auto; padding:0 0 0 12px; white-space:nowrap;
   font-family:var(--mono); font-size:10px; color:var(--ink-3); letter-spacing:.04em;
 }
 
 /* ---------- plane nav ---------- */
-#planenav{display:flex; gap:0; overflow-x:auto; background:var(--paper); border-bottom:1px solid var(--rule); padding:0 30px}
+#planenav{display:flex; gap:0; overflow-x:auto; background:var(--paper); border-bottom:1px solid var(--rule); padding:0}
 .pnav{
   appearance:none; background:transparent; border:0; cursor:pointer;
   padding:13px 16px 12px; white-space:nowrap; font-family:var(--disp);
@@ -270,7 +272,8 @@ body.lb-open{overflow:hidden}
 
 @media (max-width:1400px){ #versionbar .vhint, #planenav .phint{display:none} }
 @media (max-width:860px){
-  #versionbar{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; padding:0 16px}
+  #versionbar{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch}
+  #versionbar, #planenav{margin:0 16px}
   .vchip{flex:0 0 auto; min-width:118px; padding:9px 13px 10px}
   .vchip .vn{font-size:15px}
   h3.sh span{float:none; display:block; margin-top:5px}
@@ -281,7 +284,6 @@ body.lb-open{overflow:hidden}
   .lb-bar{padding:9px 12px}
   .lb-scroll{padding:10px}
   .lb-id span{display:none}
-  #planenav{padding:0 16px}
   main{padding:20px 16px 70px}
   .oprow{grid-template-columns:1fr; gap:4px}
   .barrow{grid-template-columns:52px 1fr 92px}
