@@ -127,4 +127,7 @@ Settled (2026-10-18):
 
 Implemented in `vocab/dino.ttl`, `vocab/barr.ttl`, `data/conventions.csv`, `data/alignments.csv` and `scripts/build_rdf.py`. The comparison computed by SPARQL over the new model is identical to the one before it.
 
-To revisit: the box convention makes Modern Architecture, boxed on 458 and the Cover, a source outside modern art.
+To revisit:
+
+- The box convention makes Modern Architecture, boxed on 458 and the Cover, a source outside modern art.
+- Nine influence arrows run backward on their chart's year scale. Eight start from a boxed label (Machine Esthetic, Negro Sculpture, Japanese Prints); the ninth, Cézanne → Synthetism on the Cover, is a two-year gap. Hypothesis to check on the facsimiles: the scale does not date boxed sources, so the vertical-position convention would apply to movements and persons only (expressible as a restriction of that convention's scope).

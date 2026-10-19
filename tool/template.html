@@ -634,7 +634,7 @@ function renderVersionBar(){
   bar.innerHTML = MODEL.versions.map(v=>`
     <button class="vchip ${state.sel.has(v.id)?"on":""}" data-v="${v.id}" aria-pressed="${state.sel.has(v.id)}">
       <span class="vn">${esc(v.name)}</span>
-      <span class="vs">${esc(v.group)} set · ${esc(v.date)}</span>
+      <span class="vs">${v.group==="core"?"":"preview · "}${esc(v.date)}</span>
       <span class="vc">${v.nodes.length} entities · ${v.edges.length} relations</span>
     </button>`).join("") + `<span class="vhint">include or exclude charts</span>`;
   bar.querySelectorAll(".vchip").forEach(b=>b.onclick=()=>{
@@ -993,7 +993,7 @@ function svgGraph(L, key){
    ============================================================ */
 function readings(){
   const out=MODEL.sequences.map(s=>({id:s.id, label:s.label, basis:s.basis, by:s.proposedBy, note:s.note,
-    order:s.charts.filter(c=>state.sel.has(c)), dropped:s.charts.filter(c=>!state.sel.has(c))}));
+    order:s.charts.filter(c=>state.sel.has(c)), dropped:s.charts.filter(c=>MODEL.versions.some(v=>v.id===c)&&!state.sel.has(c))}));
   const custom=state.custom.filter(c=>state.sel.has(c));
   sel().forEach(v=>{ if(!custom.includes(v.id)) custom.push(v.id); });
   state.custom=custom;
@@ -1026,7 +1026,7 @@ function paneGenetic(){
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
       <span class="badge">basis: ${esc(cur.basis)}</span><span class="kv">proposed by ${esc(cur.by)}</span></div>
     <p style="margin:0 0 6px;font-size:14px">${order.map(v=>`<b style="font-family:var(--disp);letter-spacing:.05em">${esc(v.name)}</b>`).join(' <span style="color:var(--ink-3)">→</span> ')||"—"}</p>
-    <p class="note" style="margin:0">${esc(cur.note||"")}${cur.dropped.length?` Not in scope, so dropped from this reading: ${cur.dropped.map(c=>esc((DATA.versions.find(v=>v.id===c)||{}).name||c)).join(", ")}.`:""}${outside.length?` Selected but not in this reading: ${outside.map(v=>esc(v.name)).join(", ")}.`:""}</p>
+    <p class="note" style="margin:0">${esc(cur.note||"")}${cur.dropped.length?` Excluded in the chart bar, so left out of this reading: ${cur.dropped.map(c=>esc((DATA.versions.find(v=>v.id===c)||{}).name||c)).join(", ")}.`:""}${outside.length?` Selected but not in this reading: ${outside.map(v=>esc(v.name)).join(", ")}.`:""}</p>
   </div>
   ${cur.id==="custom"?`<h3 class="sh">Set the order</h3><div class="orderlist" id="orderlist">
     ${order.map((v,i)=>`<div><span class="kv">${i+1}</span><b>${esc(v.name)}</b>
@@ -1291,6 +1291,17 @@ function paneMethod(){
     <div class="opk" style="font-size:15px">${i+1}</div>
     <div class="opb"><b style="background:none;padding:0;font-family:var(--disp);font-size:13px;letter-spacing:.06em;text-transform:uppercase">${esc(t)}</b><span class="opn" style="font-style:normal">${esc(d)}</span></div></div>`).join("")}</div>
 
+  <h3 class="sh">How this page is built</h3>
+  <div class="oplist">${[
+    ["Transcription","Each chart is typed in from its facsimile as tables (CSV): one row per entity written on the sheet and per relation drawn on it, with its wording, ink, line, shape, position on the year scale, certainty and the date it was checked."],
+    ["Linked data","A Python script (rdflib) turns the tables into RDF, serialized as TriG and described with DINO, the Diagram Notation Ontology, reusing SKOS, SKOS-XL, CIDOC CRM and Dublin Core. A SPARQL query then derives what each mark signifies from its chart's conventions. The tables are read only at this step."],
+    ["Queries","SPARQL queries over the linked data return everything this page shows: wording, positions, inks and shapes, identity across charts, meanings, conventions and readings. The results are flattened into JSON and embedded in the page, so it also works opened from disk."],
+    ["This page","Plain JavaScript computes every measure in the browser (overlap, consensus, PageRank, clusters, the edit grammar) and draws every graph as inline SVG, with no charting library. The same algorithms run in Python to produce the written report, and the two agree."]
+  ].map(([t,d],i)=>`<div class="oprow" style="grid-template-columns:44px 1fr">
+    <div class="opk" style="font-size:15px">${i+1}</div>
+    <div class="opb"><b style="background:none;padding:0;font-family:var(--disp);font-size:13px;letter-spacing:.06em;text-transform:uppercase">${t}</b><span class="opn" style="font-style:normal">${d}</span></div></div>`).join("")}</div>
+  <p class="note">CSV → linked data (RDF) → SPARQL → JSON → this page. A change to the transcription reaches the page only when the chain is rebuilt.</p>
+
   <h3 class="sh">Where interpretation enters</h3>
   <div class="tw"><table class="dt"><thead><tr><th>Plane</th><th>Status</th><th>What remains interpretive</th></tr></thead><tbody>
     <tr><td style="color:var(--oxblood)">I · III · IV</td><td class="lbl">Computed from the transcription</td><td class="lbl">Plane IV needs a reading to supply an order; the computation runs along it.</td></tr>
@@ -1318,10 +1329,10 @@ function paneMethod(){
     <th class="num">Cycles, all</th><th class="num">Read on scale</th><th class="num">Off scale</th><th class="num">Uncertain rows</th></tr></thead><tbody>${integ}</tbody></table></div>
   <p class="note">A cycle would mean a chart asserts that A precedes B and B precedes A. Zero is the expected value. “Off scale” counts entities with no reading of their own and no dated neighbour.</p>
 
-  <h3 class="sh">Scope</h3>
-  ${hasSecondary?`<div class="ctl"><button class="mini" id="secondary">${state.secondary?"Show the core set only":"Include the secondary set ("+DATA.versions.filter(v=>v.set!=="core").map(v=>esc(v.name)).join(", ")+")"}</button>
-    <span class="kv">${state.secondary?"secondary charts included":"core set: charts that write places as labels"}</span></div>`:""}
-  <p class="note">The secondary set holds versions that express location through areas of the page rather than written place names. It is transcribed and left out of the comparison by default.</p>
+  ${hasSecondary?`<h3 class="sh">Preview <span>experimental</span></h3>
+  <div class="ctl"><button class="mini" id="secondary">${state.secondary?"Hide the preview":"Show the preview"}</button>
+    <span class="kv">${state.secondary?"preview shown alongside the four charts":"off"}</span></div>
+  <p class="note">A preview of work in progress for a separate study. It is not part of this comparison: every figure on this page, and in the paper it accompanies, is computed on the four charts alone.</p>`:""}
 
   <h3 class="sh">Facsimiles and rights</h3>
   <p class="lede" style="font-size:14.5px">Facsimiles are reproduced from the Museum of Modern Art Archives for study. Each chart's archival reference is shown with it; check the Archives' terms before any further reproduction. The transcription and the data derived from it are not licensed for reuse.</p>
