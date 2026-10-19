@@ -242,6 +242,7 @@ dl.dossier dd.empty{color:var(--ink-3); font-style:italic; font-size:13px}
 .chips{display:flex; flex-wrap:wrap; gap:5px}
 .chips span{font-family:var(--mono); font-size:10.5px; border:1px solid var(--rule-2); padding:2px 7px; background:var(--paper-2)}
 .chips span.dot{padding:0; border:0}
+.cap{color:var(--oxblood)}
 .badge{font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; padding:3px 8px; border:1px solid var(--oxblood); color:var(--oxblood)}
 .orderlist{display:grid; gap:0; border:1px solid var(--rule); background:var(--card); max-width:420px}
 .orderlist div{display:flex; align-items:center; gap:8px; padding:6px 10px; border-bottom:1px solid var(--rule)}
@@ -1294,7 +1295,7 @@ function paneMethod(){
   <h3 class="sh">How this page is built</h3>
   <div class="oplist">${[
     ["Transcription","Each chart is typed in from its facsimile as tables (CSV): one row per entity written on the sheet and per relation drawn on it, with its wording, ink, line, shape, position on the year scale, certainty and the date it was checked."],
-    ["Linked data","A Python script (rdflib) turns the tables into RDF, serialized as TriG and described with DINO, the Diagram Notation Ontology, reusing SKOS, SKOS-XL, CIDOC CRM and Dublin Core. A SPARQL query then derives what each mark signifies from its chart's conventions. The tables are read only at this step."],
+    ["Linked data","A Python script (rdflib) turns the tables into RDF, serialized as TriG and described with the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology (<span class='cap'>DINO</span> 🦖), reusing SKOS, SKOS-XL, CIDOC CRM and Dublin Core. A SPARQL query then derives what each mark signifies from its chart's conventions. The tables are read only at this step."],
     ["Queries","SPARQL queries over the linked data return everything this page shows: wording, positions, inks and shapes, identity across charts, meanings, conventions and readings. The results are flattened into JSON and embedded in the page, so it also works opened from disk."],
     ["This page","Plain JavaScript computes every measure in the browser (overlap, consensus, PageRank, clusters, the edit grammar) and draws every graph as inline SVG, with no charting library. The same algorithms run in Python to produce the written report, and the two agree."]
   ].map(([t,d],i)=>`<div class="oprow" style="grid-template-columns:44px 1fr">
