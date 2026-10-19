@@ -621,7 +621,7 @@ function relText(k){ const [s,r,t]=k.split("|"); return `${esc(cname(s))} <span 
 function inkKeyText(v){ const e=Object.entries(v.inkKey||{}); return e.length ? e.map(([i,m])=>`<span style="white-space:nowrap">${inkChip(i)}${esc(i)} = ${esc(m)}</span>`).join(" &nbsp; ")
   : `<span style="color:var(--ink-3)">no ink carries a meaning</span>`; }
 /* arrow inks the chart's key does not read, e.g. graphite on 456 and 457 */
-function unkeyed(v){ const inks=[...new Set(v.edges.filter(e=>e.rel==="influence"&&e.colour&&!(v.inkKey||{})[e.colour]).map(e=>e.colour))];
+function unkeyed(v){ if(!Object.values(v.inkKey||{}).some(Boolean)) return ""; const inks=[...new Set(v.edges.filter(e=>e.rel==="influence"&&e.colour&&!(v.inkKey||{})[e.colour]).map(e=>e.colour))];
   return inks.length ? `<div style="margin-top:4px;color:var(--ink-3)">${inks.map(i=>esc(i)).join(", ")} arrows: no meaning in this key</div>` : ""; }
 function relCount(v,r){ return v.edges.filter(e=>e.rel===r).length; }
 function kindCount(v,t){ return v.nodes.filter(x=>MODEL.concepts[x].t===t).length; }

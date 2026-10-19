@@ -1850,10 +1850,7 @@
  },
  "pragmatic": {
   "insert": {
-   "ink_key": {
-    "black": "internal",
-    "red": "external"
-   },
+   "ink_key": {},
    "legend": [
     {
      "code": "a",
@@ -1904,10 +1901,7 @@
    "date": "1936"
   },
   "p19": {
-   "ink_key": {
-    "black": "internal",
-    "red": "external"
-   },
+   "ink_key": {},
    "legend": [],
    "dossier": {
     "support": "",

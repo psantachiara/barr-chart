@@ -1279,10 +1279,7 @@
    "archival": "Moma archives",
    "note": "",
    "facsimile": "img/insert.jpg",
-   "inkKey": {
-    "black": "internal",
-    "red": "external"
-   },
+   "inkKey": {},
    "legend": [
     {
      "code": "a",
@@ -2829,10 +2826,7 @@
    "archival": "Moma archives",
    "note": "",
    "facsimile": "img/p19.jpg",
-   "inkKey": {
-    "black": "internal",
-    "red": "external"
-   },
+   "inkKey": {},
    "legend": [],
    "pragmatic": {
     "support": "",
