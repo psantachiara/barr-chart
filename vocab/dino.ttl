@@ -258,12 +258,3 @@ dino:checkedOn a owl:DatatypeProperty ;
     rdfs:range xsd:date ;
     rdfs:comment "The date the transcription of the mark was checked against the facsimile."@en .
 
-# --- Pragmatic description of a sheet ----------------------------------------
-# Support and audience use dcterms:medium and dcterms:audience.
-
-dino:permanence a owl:DatatypeProperty ; rdfs:label "permanence"@en ;
-    rdfs:comment "How lasting the sheet was meant to be (working sheet, printed state)."@en .
-dino:constraint a owl:DatatypeProperty ; rdfs:label "constraint"@en ;
-    rdfs:comment "What the occasion or medium imposed on the diagram (format, scale, deadline)."@en .
-dino:function a owl:DatatypeProperty ; rdfs:label "function"@en ;
-    rdfs:comment "What the diagram was for, in its occasion."@en .

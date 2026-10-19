@@ -349,12 +349,6 @@ function viewRecord(){
       <label class="field"><span>Set</span><select id="rec-set" data-rec="set">${optsL(["core","secondary"], c.set || "core", {core:"core (this paper)", secondary:"secondary (held for later)"})}</select></label>
     </div>
     <label class="field"><span>Notes on the object</span><textarea id="rec-note" data-rec="note">${esc(c.note)}</textarea></label>
-    <div class="field"><span>Pragmatic dossier</span>
-      <p class="note" style="margin:0">What the sheet is as an object and an occasion, written from the facsimile and the archival record. These feed the Pragmatic plane. Leave a field blank rather than guess.</p>
-      <div class="grid2">${[["support","Support","medium, sheet, inks"],["audience","Audience","who it was made for"],["permanence","Permanence","working paper, proof, printed…"],["constraint","Constraint","what limited it: space, inks, format"]].map(([k,l,ph]) =>
-        `<label class="field"><span>${l}</span><input type="text" id="prag-${k}" data-prag="${k}" value="${esc((c.pragmatic||{})[k]||"")}" placeholder="${ph}"></label>`).join("")}</div>
-      <label class="field"><span>Function</span><textarea id="prag-fn" data-prag="fn" placeholder="what the chart does">${esc((c.pragmatic||{}).fn||"")}</textarea></label>
-    </div>
     <div class="field"><span>Ink key</span>
       <p class="note" style="margin:0">What each ink means on this chart. ${c.inkKey && Object.keys(c.inkKey).length ? "" : "Not set, so the Cover's key applies: black = internal, red = external. "}On a sheet drawn in a single ink, set every ink to "no meaning".</p>
       <div class="inkkey">${INKS.filter(Boolean).map(i => `<label class="field"><span><i class="${swatchCls({colour:i, line:"solid"})}"></i> ${i}</span>
@@ -658,8 +652,6 @@ function tables(){
       Object.keys(S.concepts).filter(id => chartsWith(id).length).map(id => [id, S.concepts[id].type, S.concepts[id].pref_label, S.concepts[id].note])),
     "nodes.csv": csv(["chart_id","concept_id","label_as_written","year_on_scale","form","ink","tags","certainty","verified","origin","note"],
       ids.flatMap(id => Object.entries(S.charts[id].nodes).map(([k,n]) => [id,k,n.label,n.date,n.form,n.ink,(n.tags||[]).filter(Boolean).join(" "),n.certainty,n.verified,n.origin,n.note]))),
-    "pragmatic.csv": csv(["chart_id","support","audience","permanence","constraint","function"],
-      ids.map(id => { const p = S.charts[id].pragmatic || {}; return [id, p.support, p.audience, p.permanence, p.constraint, p.fn]; })),
     "legend.csv": csv(["chart_id","code","meaning"],
       ids.flatMap(id => (S.charts[id].legend||[]).filter(t => t.code).map(t => [id, t.code, t.meaning]))),
     "edges.csv": csv(["chart_id","source","target","relation","line","colour","certainty","verified","origin","note"],
@@ -691,7 +683,6 @@ async function importFiles(files){
     charts[r.chart_id] = {pos: old.pos || i+1, title:r.title, archival_reference:r.archival_reference, date:r.date, date_basis:r.date_basis, note:r.note, facsimile: old.facsimile || null, nodes:{}, edges:[], checked: old.checked || {}, legend:[],
       set: r.set || "core",
       inkKey: r.ink_key === "none" ? Object.fromEntries(INKS.filter(Boolean).map(i => [i, ""])) : r.ink_key ? Object.fromEntries(INKS.filter(Boolean).map(i => [i, ((r.ink_key.split(/\s+/).find(x => x.startsWith(i + "=")) || "").split("=")[1]) || ""])) : undefined}; });
-  (got["pragmatic.csv"] || []).forEach(r => { if (charts[r.chart_id]) charts[r.chart_id].pragmatic = {support:r.support, audience:r.audience, permanence:r.permanence, constraint:r.constraint, fn:r.function}; });
   (got["legend.csv"] || []).forEach(r => { if (charts[r.chart_id]) charts[r.chart_id].legend.push({code:r.code, meaning:r.meaning}); });
   got["nodes.csv"].forEach(r => { if (charts[r.chart_id]) charts[r.chart_id].nodes[r.concept_id] = {label:r.label_as_written, date:(r.year_on_scale ?? r.date_as_written ?? ""), form:r.form, ink:r.ink||"", tags:(r.tags||"").split(/\s+/).filter(Boolean), certainty:r.certainty, verified:r.verified, origin:r.origin, note:r.note}; });
   got["edges.csv"].forEach(r => { if (charts[r.chart_id]) charts[r.chart_id].edges.push({k:rid(), source:r.source, target:r.target, relation:r.relation, line:r.line, colour:r.colour, certainty:r.certainty, verified:r.verified, origin:r.origin, note:r.note}); });
@@ -785,7 +776,6 @@ document.addEventListener("input", ev => {
   if (t.id === "ne-label") { S.draft = t.value; S.addMsg = ""; $("#ne-sugg").innerHTML = suggHTML(t.value); msg("ne-msg", ""); return; }
   if (t.id === "ne-type") return;
   if (t.dataset.rec) { c[t.dataset.rec] = t.value; touch(); if (t.dataset.rec === "title" || t.dataset.rec === "set") renderTabs(); return; }
-  if (t.dataset.prag) { c.pragmatic = c.pragmatic || {}; c.pragmatic[t.dataset.prag] = t.value; touch(); return; }
   if (t.dataset.lg) { const i = +t.closest(".lg-row").dataset.i, old = c.legend[i][t.dataset.lg], v = t.value.trim();
     if (t.dataset.lg === "code") Object.values(c.nodes).forEach(n => { if (n.tags) n.tags = n.tags.map(x => x === old ? v : x); });
     c.legend[i][t.dataset.lg] = t.dataset.lg === "code" ? v : t.value; touch(); return; }

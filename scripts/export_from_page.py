@@ -48,8 +48,6 @@ write("edges.csv", ["chart_id", "source", "target", "relation", "line", "colour"
       [[k, e["source"], e["target"], e["relation"], e.get("line", ""), e.get("colour", ""), e.get("certainty", ""),
         e.get("verified", ""), e.get("origin", ""), e.get("note", "")]
        for k in order for e in charts[k].get("edges", []) if e.get("target")])
-write("pragmatic.csv", ["chart_id", "support", "audience", "permanence", "constraint", "function"],
-      [[k] + [(charts[k].get("pragmatic") or {}).get(f, "") for f in ("support", "audience", "permanence", "constraint", "fn")] for k in order])
 write("legend.csv", ["chart_id", "code", "meaning"],
       [[k, t["code"], t.get("meaning", "")] for k in order for t in charts[k].get("legend", []) if t.get("code")])
 print("wrote tables for", ", ".join(charts[k].get("title", k) for k in order))

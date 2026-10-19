@@ -38,8 +38,6 @@ Reuse comes first. A term is minted only where no established vocabulary has it,
 | date | (CSV only) | `dcterms:created` | with the basis in a note |
 | facsimile | (CSV only) | `foaf:depiction` | |
 | core / secondary set | `bc:set` | `dcterms:type` with two project concepts | an analytical grouping, not a property of the sheet |
-| dossier: support, audience | (CSV only) | `dcterms:medium`, `dcterms:audience` | |
-| dossier: permanence, constraint, function | (CSV only) | **mint** | no established terms; kept as plain text properties |
 
 ## 2. Concepts and wording
 
@@ -101,7 +99,7 @@ Attribution is carried by the graph, so no provenance vocabulary is needed. The 
 ## What gets minted
 
 - **Classes (4):** Mark, Convention, Reading, NotationalMeaning.
-- **Properties (about 12):** notates, onChart, graphicValue, appliesTo, signifies, basis, positionOnScale, certainty, checkedOn, influenced, sitedIn, listedUnder, plus three plain-text dossier fields.
+- **Properties (about 12):** notates, onChart, graphicValue, appliesTo, signifies, basis, positionOnScale, certainty, checkedOn, influenced, sitedIn, listedUnder.
 - **Controlled values, as SKOS concepts:**
   - mark kinds;
   - graphic values;
@@ -123,6 +121,7 @@ Settled (2026-10-18):
 
 - **Name**: DINO, the Diagram Notation Ontology, prefix `dino:`, namespace `https://psantachiara.github.io/dino/ns#`. Terms specific to the Barr charts (their relations, the meanings of their conventions) are in a separate project vocabulary, `barr:`, so DINO stays reusable for other diagrams.
 - **Influence** is minted (`barr:influenced`), not `crm:P15i_influenced`. P15i has `crm:E7_Activity` as its range; asserting that one movement influenced another would make the second an activity, and in CIDOC CRM an activity (a temporal entity) cannot also be a type (a conceptual object). The clash is documented on the property.
+- **No per-sheet dossier.** The Pragmatic plane was dropped (2026-10-19), and with it the dossier fields (support, audience, permanence, constraint, function) and the three DINO properties minted for them.
 - **Not open data.** The linked data reuses open ontologies and points to open vocabularies, but is not published for dereferencing or reuse. No persistent identifiers are minted for now.
 
 Implemented in `vocab/dino.ttl`, `vocab/barr.ttl`, `data/conventions.csv`, `data/alignments.csv` and `scripts/build_rdf.py`. The comparison computed by SPARQL over the new model is identical to the one before it.

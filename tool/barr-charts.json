@@ -664,13 +664,6 @@
      "appliesTo": "LabelMark"
     }
    ],
-   "pragmatic": {
-    "support": "",
-    "audience": "",
-    "permanence": "",
-    "constraint": "",
-    "fn": ""
-   },
    "nodes": [
     "balla",
     "boccioni",
@@ -1549,13 +1542,6 @@
      "appliesTo": ""
     }
    ],
-   "pragmatic": {
-    "support": "",
-    "audience": "",
-    "permanence": "",
-    "constraint": "",
-    "fn": ""
-   },
    "nodes": [
     "abstract_dadaism",
     "abstract_expressionism",
@@ -3362,13 +3348,6 @@
      "appliesTo": "LabelMark"
     }
    ],
-   "pragmatic": {
-    "support": "",
-    "audience": "",
-    "permanence": "",
-    "constraint": "",
-    "fn": ""
-   },
    "nodes": [
     "abstract_dadaism",
     "abstract_expressionism",
@@ -4346,13 +4325,6 @@
      "appliesTo": "LabelMark"
     }
    ],
-   "pragmatic": {
-    "support": "",
-    "audience": "",
-    "permanence": "",
-    "constraint": "",
-    "fn": ""
-   },
    "nodes": [
     "abstract_dadaism",
     "abstract_expressionism",
@@ -6285,13 +6257,6 @@
      "appliesTo": "LabelMark"
     }
    ],
-   "pragmatic": {
-    "support": "",
-    "audience": "",
-    "permanence": "",
-    "constraint": "",
-    "fn": ""
-   },
    "nodes": [
     "abstract_dadaism",
     "abstract_expressionism",

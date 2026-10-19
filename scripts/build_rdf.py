@@ -126,7 +126,6 @@ def main(strict=False):
 
     concept = {c["concept_id"]: c for c in concepts}
     C_LABEL = {k: v["pref_label"] for k, v in concept.items()}
-    prag = {r["chart_id"]: r for r in read("pragmatic.csv")} if (DATA / "pragmatic.csv").exists() else {}
 
     # ---- checks -------------------------------------------------------------
     for c in concepts:
@@ -300,10 +299,6 @@ def main(strict=False):
             g.add((sheet, FOAF.depiction, URIRef(BASE + c["facsimile"])))
         if c["note"]:
             g.add((sheet, SKOS.note, Literal(c["note"])))
-        for col, prop in (("support", DCTERMS.medium), ("audience", DCTERMS.audience), ("permanence", DINO.permanence),
-                          ("constraint", DINO.constraint), ("function", DINO.function)):
-            if prag.get(cid, {}).get(col):
-                g.add((sheet, prop, Literal(prag[cid][col])))
         g.add((sheet, CRM.P65_shows_visual_item, diagram))
         g.add((diagram, RDF.type, CRM.E36_Visual_Item)); g.add((diagram, DINO.expresses, scheme))
         g.add((scheme, RDF.type, SKOS.ConceptScheme)); g.add((scheme, RDFS.label, Literal(f"{c['title']}: concepts")))

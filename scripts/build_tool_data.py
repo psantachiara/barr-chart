@@ -65,9 +65,7 @@ for r in run("sheets.rq"):
         "name": str(r.title), "set": "core" if str(r.set) == BARR + "coreSet" else "secondary",
         "date": str(r.date or ""), "dateBasis": basis[0] if basis else "",
         "archival": str(r.archival or ""), "note": "\n".join(n for n in notes if not n.startswith("Date basis: ")),
-        "facsimile": str(r.facsimile).replace(BASE, "") if r.facsimile else "",
-        "pragmatic": {"support": str(r.support or ""), "audience": str(r.audience or ""), "permanence": str(r.permanence or ""),
-                      "constraint": str(r.constraint or ""), "fn": str(r["function"] or "")}}
+        "facsimile": str(r.facsimile).replace(BASE, "") if r.facsimile else ""}
 
 # ---- labels: one entity per label mark, with all its values
 lab = defaultdict(lambda: defaultdict(lambda: {"values": set(), "codes": set(), "meanings": set()}))
@@ -130,7 +128,6 @@ for pos, sid in enumerate(sorted(sheets, key=lambda s: sheets[s]["name"]), start
         "legend": sorted(({"code": c["code"], "meaning": c["meaning"]} for c in cs if c["code"]), key=lambda t: t["code"]),
         "conventions": sorted(({k: c[k] for k in ("value", "code", "meaning", "basis", "appliesTo")} for c in cs),
                               key=lambda c: (c["basis"], c["value"], c["code"])),
-        "pragmatic": sh["pragmatic"],
         "nodes": ids,
         "labels": {k: labels[k]["wording"] for k in ids},
         # a concept written more than once is placed at its first position; all positions are kept

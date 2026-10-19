@@ -482,6 +482,128 @@
      1888,
      1932
     ]
+   },
+   "conventions": {
+    "ink_key": {},
+    "legend": [
+     {
+      "code": "a",
+      "meaning": "architect"
+     },
+     {
+      "code": "c",
+      "meaning": "constructivism [?]"
+     },
+     {
+      "code": "p",
+      "meaning": "painter"
+     },
+     {
+      "code": "ph",
+      "meaning": "photographer"
+     },
+     {
+      "code": "s",
+      "meaning": "sculptor"
+     },
+     {
+      "code": "t",
+      "meaning": "theatre"
+     }
+    ],
+    "rules": [
+     {
+      "value": "box",
+      "code": "",
+      "meaning": "source outside modern art",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     },
+     {
+      "value": "dotted",
+      "code": "",
+      "meaning": "secondary",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "RelationMark"
+     },
+     {
+      "value": "graphite",
+      "code": "",
+      "meaning": "no meaning",
+      "basis": "inferredByAnalyst",
+      "appliesTo": ""
+     },
+     {
+      "value": "semicircle",
+      "code": "",
+      "meaning": "membership",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     },
+     {
+      "value": "solid",
+      "code": "",
+      "meaning": "primary",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "RelationMark"
+     },
+     {
+      "value": "underline",
+      "code": "",
+      "meaning": "title",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     },
+     {
+      "value": "verticalPosition",
+      "code": "",
+      "meaning": "date",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     },
+     {
+      "value": "",
+      "code": "a",
+      "meaning": "architect",
+      "basis": "statedOnSheet",
+      "appliesTo": ""
+     },
+     {
+      "value": "",
+      "code": "c",
+      "meaning": "constructivism [?]",
+      "basis": "statedOnSheet",
+      "appliesTo": ""
+     },
+     {
+      "value": "",
+      "code": "p",
+      "meaning": "painter",
+      "basis": "statedOnSheet",
+      "appliesTo": ""
+     },
+     {
+      "value": "",
+      "code": "ph",
+      "meaning": "photographer",
+      "basis": "statedOnSheet",
+      "appliesTo": ""
+     },
+     {
+      "value": "",
+      "code": "s",
+      "meaning": "sculptor",
+      "basis": "statedOnSheet",
+      "appliesTo": ""
+     },
+     {
+      "value": "",
+      "code": "t",
+      "meaning": "theatre",
+      "basis": "statedOnSheet",
+      "appliesTo": ""
+     }
+    ]
    }
   },
   "p19": {
@@ -634,6 +756,61 @@
     "span": [
      1886,
      1930
+    ]
+   },
+   "conventions": {
+    "ink_key": {},
+    "legend": [],
+    "rules": [
+     {
+      "value": "box",
+      "code": "",
+      "meaning": "source outside modern art",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     },
+     {
+      "value": "dotted",
+      "code": "",
+      "meaning": "secondary",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "RelationMark"
+     },
+     {
+      "value": "graphite",
+      "code": "",
+      "meaning": "no meaning",
+      "basis": "inferredByAnalyst",
+      "appliesTo": ""
+     },
+     {
+      "value": "semicircle",
+      "code": "",
+      "meaning": "membership",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     },
+     {
+      "value": "solid",
+      "code": "",
+      "meaning": "primary",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "RelationMark"
+     },
+     {
+      "value": "underline",
+      "code": "",
+      "meaning": "title",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     },
+     {
+      "value": "verticalPosition",
+      "code": "",
+      "meaning": "date",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     }
     ]
    }
   },
@@ -788,6 +965,71 @@
      1887,
      1935
     ]
+   },
+   "conventions": {
+    "ink_key": {
+     "blue": "internal",
+     "graphite": "external"
+    },
+    "legend": [],
+    "rules": [
+     {
+      "value": "blue",
+      "code": "",
+      "meaning": "internal",
+      "basis": "inferredByAnalyst",
+      "appliesTo": ""
+     },
+     {
+      "value": "box",
+      "code": "",
+      "meaning": "source outside modern art",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     },
+     {
+      "value": "dotted",
+      "code": "",
+      "meaning": "secondary",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "RelationMark"
+     },
+     {
+      "value": "graphite",
+      "code": "",
+      "meaning": "external",
+      "basis": "inferredByAnalyst",
+      "appliesTo": ""
+     },
+     {
+      "value": "semicircle",
+      "code": "",
+      "meaning": "membership",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     },
+     {
+      "value": "solid",
+      "code": "",
+      "meaning": "primary",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "RelationMark"
+     },
+     {
+      "value": "underline",
+      "code": "",
+      "meaning": "title",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     },
+     {
+      "value": "verticalPosition",
+      "code": "",
+      "meaning": "date",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     }
+    ]
    }
   },
   "cover": {
@@ -932,6 +1174,64 @@
     "span": [
      1889,
      1934
+    ]
+   },
+   "conventions": {
+    "ink_key": {
+     "black": "internal",
+     "red": "external"
+    },
+    "legend": [],
+    "rules": [
+     {
+      "value": "black",
+      "code": "",
+      "meaning": "internal",
+      "basis": "inferredByAnalyst",
+      "appliesTo": ""
+     },
+     {
+      "value": "box",
+      "code": "",
+      "meaning": "source outside modern art",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     },
+     {
+      "value": "dotted",
+      "code": "",
+      "meaning": "secondary",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "RelationMark"
+     },
+     {
+      "value": "red",
+      "code": "",
+      "meaning": "external",
+      "basis": "inferredByAnalyst",
+      "appliesTo": ""
+     },
+     {
+      "value": "semicircle",
+      "code": "",
+      "meaning": "membership",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     },
+     {
+      "value": "solid",
+      "code": "",
+      "meaning": "primary",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "RelationMark"
+     },
+     {
+      "value": "verticalPosition",
+      "code": "",
+      "meaning": "date",
+      "basis": "inferredByAnalyst",
+      "appliesTo": "LabelMark"
+     }
     ]
    }
   }
@@ -1841,142 +2141,5 @@
     "p21"
    ]
   ]
- },
- "pragmatic": {
-  "insert": {
-   "ink_key": {},
-   "legend": [
-    {
-     "code": "a",
-     "meaning": "architect"
-    },
-    {
-     "code": "c",
-     "meaning": "constructivism [?]"
-    },
-    {
-     "code": "p",
-     "meaning": "painter"
-    },
-    {
-     "code": "ph",
-     "meaning": "photographer"
-    },
-    {
-     "code": "s",
-     "meaning": "sculptor"
-    },
-    {
-     "code": "t",
-     "meaning": "theatre"
-    }
-   ],
-   "dossier": {
-    "support": "",
-    "audience": "",
-    "permanence": "",
-    "constraint": "",
-    "fn": ""
-   },
-   "forms": {
-    "semicircle": 9,
-    "underlined": 20,
-    "other": 1,
-    "boxed": 4
-   },
-   "inks_on_entities": {
-    "graphite": 21
-   },
-   "arrow_colours": {
-    "graphite": 41
-   },
-   "tagged": 40,
-   "archival": "MoMA Archives, AHB VI.A.38 ARCH.57 (p. 69)",
-   "date": "1936"
-  },
-  "p19": {
-   "ink_key": {},
-   "legend": [],
-   "dossier": {
-    "support": "",
-    "audience": "",
-    "permanence": "",
-    "constraint": "",
-    "fn": ""
-   },
-   "forms": {
-    "underlined": 18,
-    "semicircle": 6,
-    "boxed": 4
-   },
-   "inks_on_entities": {
-    "graphite": 20
-   },
-   "arrow_colours": {
-    "graphite": 43
-   },
-   "tagged": 0,
-   "archival": "MoMA Archives, AHB (p. 19)",
-   "date": "1936"
-  },
-  "p21": {
-   "ink_key": {
-    "blue": "internal",
-    "graphite": "external"
-   },
-   "legend": [],
-   "dossier": {
-    "support": "",
-    "audience": "",
-    "permanence": "",
-    "constraint": "",
-    "fn": ""
-   },
-   "forms": {
-    "semicircle": 15,
-    "underlined": 17,
-    "boxed": 5
-   },
-   "inks_on_entities": {
-    "blue": 21,
-    "graphite": 6
-   },
-   "arrow_colours": {
-    "blue": 34,
-    "graphite": 19
-   },
-   "tagged": 0,
-   "archival": "MoMA Archives, AHB VI.A.38 ARCH.61 (p. 70)",
-   "date": "1936"
-  },
-  "cover": {
-   "ink_key": {
-    "black": "internal",
-    "red": "external"
-   },
-   "legend": [],
-   "dossier": {
-    "support": "",
-    "audience": "",
-    "permanence": "",
-    "constraint": "",
-    "fn": ""
-   },
-   "forms": {
-    "semicircle": 19,
-    "boxed": 5
-   },
-   "inks_on_entities": {
-    "black": 24,
-    "red": 4
-   },
-   "arrow_colours": {
-    "black": 34,
-    "red": 17
-   },
-   "tagged": 0,
-   "archival": "Cover of the catalogue for Cubism and Abstract Art, an exhibition at the Museum of Modern Art, March 2–April 19, 1936. Published by MoMA.",
-   "date": "1936"
-  }
  }
 }

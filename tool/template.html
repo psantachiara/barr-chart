@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Four Versions of a Chart</title>
-<meta name="description" content="A six-plane comparison of four hand-drawn versions of Alfred H. Barr, Jr.'s chart for Cubism and Abstract Art (MoMA, 1936), each read as a complete ontology.">
+<meta name="description" content="A five-plane comparison of four hand-drawn versions of Alfred H. Barr, Jr.'s chart for Cubism and Abstract Art (MoMA, 1936), each read as a complete ontology.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -229,10 +229,6 @@ table.mx td.sel{outline:2px solid var(--oxblood); outline-offset:-2px}
 .oprow .opb b{font-family:var(--mono); font-size:11.5px; font-weight:500; background:var(--paper-2); padding:1px 4px}
 .oprow .opn{color:var(--ink-2); font-style:italic; display:block; margin-top:3px; font-size:13px}
 
-dl.dossier{margin:0; display:grid; grid-template-columns:118px 1fr; gap:7px 14px}
-dl.dossier dt{font-family:var(--disp); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); padding-top:3px}
-dl.dossier dd{margin:0; font-size:14px; min-width:0}
-dl.dossier dd.empty{color:var(--ink-3); font-style:italic; font-size:13px}
 
 .callout{border-left:3px solid var(--oxblood); padding:2px 0 2px 15px; margin:18px 0; max-width:var(--measure)}
 .callout p{margin:0 0 8px} .callout p:last-child{margin:0}
@@ -288,8 +284,6 @@ body.lb-open{overflow:hidden}
   main{padding:20px 16px 70px}
   .oprow{grid-template-columns:1fr; gap:4px}
   .barrow{grid-template-columns:52px 1fr 92px}
-  dl.dossier{grid-template-columns:1fr; gap:2px 0}
-  dl.dossier dd{margin-bottom:8px}
   input[type=search]{min-width:0; width:100%}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
@@ -299,7 +293,7 @@ body.lb-open{overflow:hidden}
 
 <div id="shell">
   <header id="masthead">
-    <div class="kicker">A six-plane comparison tool</div>
+    <div class="kicker">A five-plane comparison tool</div>
     <h1>Four Versions of a Chart</h1>
     <p class="sub">Alfred H. Barr, Jr.'s chart for <em>Cubism and Abstract Art</em> (MoMA, 1936) survives in several hand-drawn versions. This tool compares four of them without treating any of them as the draft of another unless a reading on Plane IV says so. Each chart is transcribed and transformed to Linked Data, and therefore queried to support the analysis offered within each plane. Each chart is read as a self-contained, valid ontology.</p>
     <button class="mini" id="theme" type="button" aria-label="Switch colour theme">Dark</button>
@@ -314,7 +308,6 @@ body.lb-open{overflow:hidden}
     <button class="pnav" data-p="struct"><b>III</b>Structural</button>
     <button class="pnav" data-p="genetic"><b>IV</b>Genetic</button>
     <button class="pnav" data-p="syn"><b>V</b>Synchronic</button>
-    <button class="pnav" data-p="prag"><b>VI</b>Pragmatic</button>
     <button class="pnav" data-p="method"><b>§</b>Method &amp; edition</button>
     <span class="phint">planes of comparison</span>
   </nav>
@@ -327,7 +320,6 @@ body.lb-open{overflow:hidden}
     <section class="pane" id="pane-struct"></section>
     <section class="pane" id="pane-genetic"></section>
     <section class="pane" id="pane-syn"></section>
-    <section class="pane" id="pane-prag"></section>
     <section class="pane" id="pane-method"></section>
   </main>
 </div>
@@ -359,7 +351,6 @@ const KIND_LABEL = {movement:"Movement", person:"Person", place:"Place"};
 const KIND_VAR = {movement:"var(--t-movement)", person:"var(--t-person)", place:"var(--t-place)"};
 const INK_SWATCH = {black:"#1C1C1A", red:"#B0352A", blue:"#2F5E9E", graphite:"#8A8D90", other:"#A88A3A"};
 const QUAL = /[()\[\]]/, ILLEGIBLE = "[?]";
-const PRAG_FIELDS = [["support","Support"],["audience","Audience"],["permanence","Permanence"],["constraint","Constraint"],["fn","Function"]];
 
 let DATA = null, MODEL = null;
 
@@ -713,7 +704,7 @@ function paneCharts(){
   <h3 class="sh">How to read this tool</h3>
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(232px,1fr))">
     <div class="card"><h4>The strip</h4><p style="margin:0;font-size:13.5px">${strip(MODEL.all.find(x=>MODEL.versions.every(v=>v.set.has(x)))||MODEL.all[0])} — one cell per chart, in the same order as the chips. Filled means the entity is written on that chart. The strip appears wherever an entity or relation does.</p></div>
-    <div class="card"><h4>The chips</h4><p style="margin:0;font-size:13.5px">Excluding a chart removes it from every plane at once. Planes I–III, V and VI never use an order; only Plane IV does, and only for a reading you choose there.</p></div>
+    <div class="card"><h4>The chips</h4><p style="margin:0;font-size:13.5px">Excluding a chart removes it from every plane at once. Planes I–III and V never use an order; only Plane IV does, and only for a reading you choose there.</p></div>
     <div class="card"><h4>Ink</h4><p style="margin:0;font-size:13.5px">Each chart has its own ink key. On the Cover black is internal and red external; on 458 blue and graphite carry the same two meanings. ${(()=>{ const n=MODEL.versions.filter(v=>v.edges.some(e=>e.rel==="influence")&&!v.edges.some(e=>e.scope)).map(v=>esc(v.name)); return n.length?`Where no arrow's ink carries a meaning (${n.join(", ")}), no arrow is classed either way.`:""; })()}</p></div>
     <div class="card"><h4>Wording</h4><p style="margin:0;font-size:13.5px">An entity reconciled across charts keeps the wording each chart gives it. Planes I and V show those differences; the reconciled label is only an index.</p></div>
   </div>`;
@@ -929,6 +920,16 @@ function paneStruct(){
     <p><b>The vertical axis is the chart's own year scale.</b> Each entity sits at the year read off the scale Barr draws on that chart, so the four drawings are not forced onto one calendar. Horizontal position carries no meaning; it only reduces crossings.</p>
     <p>Entities with no reading of their own — artists inside a current, most places — sit at the median year of what they are attached to, in faint italic. Anything that cannot be placed that way goes on a row below the scale.</p>
     <p><b>An arrow in violet runs backward on the scale</b>: its tail is read later than its head. Nothing is moved to hide it, so it is either Barr's drawing or a reading to check against the facsimile.</p>
+  </div>
+
+  <h3 class="sh">Conventions <span>how each chart's marks are given meaning</span></h3>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">${vs.map(v=>`<div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px">
+        <b style="font-family:var(--disp);font-size:15px;letter-spacing:.06em;text-transform:uppercase">${esc(v.name)}</b>${unkeyed(v)}</div>
+      ${v.legend.length?`<div style="font-family:var(--mono);font-size:11.5px;margin-bottom:8px">${v.legend.map(t=>`<b>${esc(t.code)}</b> ${esc(t.meaning)}`).join(" · ")}</div>`:""}
+      <div style="font-size:13.5px">${conventionList(v)}</div></div>`).join("")}</div>
+  <div class="callout" style="margin-top:16px">
+    <p>Ink, line, shape and position are recorded as seen and given meaning only by each chart's own conventions. A convention is either stated on the sheet, like the Insert's legend, or inferred by the analyst, like every ink key. The same meaning can be carried by different inks on different sheets (red on the Cover, graphite on 458), and that equivalence is stated in the data, not inferred by the tool.</p>
   </div>
 
   <h3 class="sh">Graph statistics <span>measured on</span></h3>
@@ -1221,7 +1222,7 @@ function netPlot(vs,J,nearest){
 }
 
 /* ============================================================
-   PANE VI — PRAGMATIC
+   CONVENTIONS (shown on Plane III)
    ============================================================ */
 /* Each chart's conventions as the linked data states them: graphic value (or legend code), meaning, basis. */
 const VALUE_LABEL={box:"box",semicircle:"semicircle",underline:"underline",oval:"oval",plain:"plain",otherShape:"other shape",
@@ -1239,35 +1240,6 @@ function conventionList(v){
     ${cs.length?'<div class="kv" style="margin-top:6px">inferred by the analyst</div>':""}
     ${stated.length?`<div class="kv" style="margin-top:3px">stated on the sheet: the legend above</div>`:""}`;
 }
-function panePrag(){
-  const vs=sel();
-  const cards=vs.map(v=>{
-    const p=v.pragmatic||{};
-    const forms={}; Object.values(v.form).forEach(fs=>fs.forEach(f=>forms[f]=(forms[f]||0)+1));
-    const cols={}; v.edges.filter(e=>e.rel==="influence").forEach(e=>{const c=e.colour||"unrecorded"; cols[c]=(cols[c]||0)+1;});
-    return `<div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;gap:10px;flex-wrap:wrap">
-        <h3 style="font-family:var(--disp);font-size:20px;text-transform:uppercase;letter-spacing:.04em">${esc(v.name)}</h3>
-        <span class="kv">${esc(v.archival)} · ${esc(v.date)}</span></div>
-      <dl class="dossier">
-        ${PRAG_FIELDS.map(([k,l])=>`<dt>${l}</dt>${p[k]?`<dd>${esc(p[k])}</dd>`:`<dd class="empty">Not yet written</dd>`}`).join("")}
-        <dt>Ink key</dt><dd style="font-family:var(--mono);font-size:11.5px">${inkKeyText(v)}${unkeyed(v)}</dd>
-        <dt>Arrow inks</dt><dd style="font-family:var(--mono);font-size:11.5px">${Object.entries(cols).map(([c,n])=>`<span style="white-space:nowrap">${inkChip(c)}${esc(c)} ${n}</span>`).join(" &nbsp; ")||"—"}</dd>
-        <dt>Forms</dt><dd style="font-family:var(--mono);font-size:11.5px">${Object.entries(forms).sort((a,b)=>b[1]-a[1]).map(([f,n])=>`${esc(f)} ${n}`).join(" · ")||"—"}</dd>
-        <dt>Own legend</dt><dd style="font-family:var(--mono);font-size:11.5px">${v.legend.length?v.legend.map(t=>`<b>${esc(t.code)}</b> ${esc(t.meaning)}`).join(" · "):'<span style="color:var(--ink-3)">none</span>'}</dd>
-      </dl>
-      <div class="kv" style="margin:16px 0 6px;padding-top:12px;border-top:1px solid var(--rule)">Conventions</div>
-      <div style="font-size:13.5px">${conventionList(v)}</div></div>`;
-  }).join("");
-  return `
-  <h2 class="ph">Plane VI · Pragmatic</h2>
-  <p class="lede">Occasion, medium, audience. This plane is deliberately not scored: it records what each sheet is and how it is marked, as the context the other planes are read against. <strong>The dossiers are written by hand</strong>, one per chart, in the transcriber's first step.</p>
-  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">${cards}</div>
-  <div class="callout" style="margin-top:22px">
-    <p>Ink, line, shape and position are recorded as seen and given meaning only by each chart's own conventions. A convention is either stated on the sheet, like the Insert's legend, or inferred by the analyst, like every ink key. The same meaning can be carried by different inks on different sheets (red on the Cover, graphite on 458), and that equivalence is stated in the data, not inferred by the tool.</p>
-  </div>`;
-}
-
 /* ============================================================
    PANE — METHOD & EDITION
    ============================================================ */
@@ -1278,7 +1250,7 @@ function paneMethod(){
     ["Record the mark, derive the meaning","Ink, line, shape and position are recorded as seen. Each chart's conventions, stated on the sheet or inferred by the analyst, give them meaning: internal or external, primary or secondary, a source outside modern art, membership, a title. Meaning is derived by query, never entered by hand."],
     ["Reconcile, keep the wording","The same referent gets one identifier on every chart, and each chart keeps its own wording. Merges are noted in the vocabulary, and the formal difference stays visible on Planes I and V."],
     ["Linked data","The tables become linked data described with DINO, the Diagram Notation Ontology: marks, the conventions that give them meaning on each chart, and readings. One graph per chart, one for the analyst's interpretation. The comparison runs as SPARQL over it."],
-    ["Six planes","Terminological, conceptual, structural, genetic, synchronic, pragmatic. Each can be run on its own; only the genetic plane uses an order."],
+    ["Five planes","Terminological, conceptual, structural, genetic, synchronic. Each can be run on its own; only the genetic plane uses an order."],
     ["Readings","A reading orders some of the charts and states its basis: documented (from the archive) or analytical (proposed by an analyst). The edit grammar is computed along it."]
   ];
   const grammar=[
@@ -1322,9 +1294,8 @@ function paneMethod(){
   <div class="tw"><table class="dt"><thead><tr><th>Plane</th><th>Status</th><th>What remains interpretive</th></tr></thead><tbody>
     <tr><td style="color:var(--oxblood)">I · III · IV</td><td class="lbl">Computed from the transcription</td><td class="lbl">Plane IV needs a reading to supply an order; the computation runs along it.</td></tr>
     <tr><td style="color:var(--oxblood)">II · V</td><td class="lbl">Computed, after interpretive decisions</td><td class="lbl">Plane II: what counts as an entity, and which marks are the same thing. Plane V: the refusal of order, and reading agreement as consensus.</td></tr>
-    <tr><td style="color:var(--oxblood)">VI</td><td class="lbl">Not computable</td><td class="lbl">Support, audience, permanence, constraint, function.</td></tr>
   </tbody></table></div>
-  <p class="note">Beneath all six lies the transcription, which is already a reading: graphite as meaningless on 456 and 457, semicircles as membership, positions on each sheet's own year scale. Computation runs on these interpretations and makes their consequences countable; it does not make them.</p>
+  <p class="note">Beneath all five lies the transcription, which is already a reading: graphite as meaningless on 456 and 457, semicircles as membership, positions on each sheet's own year scale. Computation runs on these interpretations and makes their consequences countable; it does not make them.</p>
 
   <h3 class="sh">Edit grammar</h3>
   <div class="tw"><table class="dt"><thead><tr><th>Operation</th><th>Definition</th></tr></thead><tbody>
@@ -1337,7 +1308,7 @@ function paneMethod(){
     <div class="oprow"><div class="opk">notation</div><div class="opb">DINO, the Diagram Notation Ontology<span class="opn" style="font-style:normal">Marks (what is on the sheet), conventions (chart-specific rules that give a graphic value a meaning, stated on the sheet or inferred by the analyst) and readings (orderings with a basis). Meaning is derived from marks and conventions by query, never entered by hand.</span></div></div>
     <div class="oprow"><div class="opk">reused</div><div class="opb">SKOS, SKOS-XL, CIDOC CRM, Dublin Core<span class="opn" style="font-style:normal">Each chart is a SKOS concept scheme; its wording is kept as SKOS-XL labels, which are also marks; the sheet is a CIDOC CRM human-made object that shows the diagram. Movements are typed as CRM types, persons and places with the CRM classes.</span></div></div>
     <div class="oprow"><div class="opk">graphs</div><div class="opb">One per chart, plus interpretation, readings, derived<span class="opn" style="font-style:normal">A chart's graph holds only what that sheet shows. The interpretation graph holds what the analyst says: identity across charts as SKOS mappings, and the conventions inferred from the drawing. What follows from both is computed into a separate graph.</span></div></div>
-    <div class="oprow"><div class="opk">report</div><div class="opb">The six planes as tables<span class="opn" style="font-style:normal">Computed by the same algorithms as this page.</span></div></div>
+    <div class="oprow"><div class="opk">report</div><div class="opb">The five planes as tables<span class="opn" style="font-style:normal">Computed by the same algorithms as this page.</span></div></div>
   </div>
 
   <h3 class="sh">Integrity check <span>run on load</span></h3>
@@ -1361,7 +1332,7 @@ function paneMethod(){
    CONTROLLER
    ============================================================ */
 const RENDERERS = {charts:paneCharts, term:paneTerm, conc:paneConc, struct:paneStruct,
-  genetic:paneGenetic, syn:paneSyn, prag:panePrag, method:paneMethod};
+  genetic:paneGenetic, syn:paneSyn, method:paneMethod};
 
 function render(){
   const host=$("#pane-"+state.plane); if(!host) return;
