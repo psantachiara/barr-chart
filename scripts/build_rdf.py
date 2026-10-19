@@ -60,6 +60,17 @@ DEFAULT_KEY = {"black": "internal", "red": "external"}   # the Cover's key; appl
 SLUG = re.compile(r"^[a-z0-9_]+$")
 
 
+def positions_of(raw):
+    """The positions a label is written at on the scale: '1910, 1917' -> ['1910', '1917']."""
+    return [p.strip() for p in (raw or "").split(",") if p.strip()]
+
+
+def label_u(cid, concept, position=None):
+    """A written label. A concept written once has one label mark; written more than once, one per position."""
+    base = f"{BASE}chart/{cid}/label/{concept}"
+    return URIRef(f"{base}/{position}" if position else base)
+
+
 def ink_key(chart_row):
     """Parse charts.csv ink_key, e.g. 'blue=internal graphite=external'. Empty -> the Cover's key; 'none' -> {}."""
     raw = chart_row.get("ink_key", "").split()
@@ -209,6 +220,21 @@ def main(strict=False):
         if a["relation"] not in ("exactMatch", "closeMatch", "broadMatch", "narrowMatch", "relatedMatch"):
             errors.append(f"alignments.csv line {i}: relation '{a['relation']}' (a SKOS mapping property)")
 
+    occurrences = read("occurrences.csv") if (DATA / "occurrences.csv").exists() else []
+    edge_keys = {(e["chart_id"], e["source"], e["relation"], e["target"]) for e in edges}
+    node_pos = {(n["chart_id"], n["concept_id"]): positions_of(n["year_on_scale"]) for n in nodes}
+    occurrence = {}
+    for i, o in enumerate(occurrences, start=2):
+        key = (o["chart_id"], o["source"], o["relation"], o["target"])
+        if key not in edge_keys:
+            errors.append(f"occurrences.csv line {i}: no such relation {key} in edges.csv")
+        for end, col in (("source", "from_position"), ("target", "to_position")):
+            pos = node_pos.get((o["chart_id"], o[end]), [])
+            if o[col] and (len(pos) < 2 or o[col] not in pos):
+                errors.append(f"occurrences.csv line {i}: {o[end]} is not written at {o[col]} on {o['chart_id']} "
+                              f"(positions in nodes.csv: {', '.join(pos) or 'none'})")
+        occurrence[key] = o
+
     unverified_n = sum(1 for n in nodes if not n["verified"])
     unverified_e = sum(1 for e in edges if not e["verified"])
     legacy = sum(1 for r in nodes + edges if r["origin"] == "legacy" and not r["verified"])
@@ -286,27 +312,30 @@ def main(strict=False):
         # concepts and their labels as written (each label is a SKOS-XL label and a mark)
         used_inks = set()
         for n in (n for n in nodes if n["chart_id"] == cid):
-            k = n["concept_id"]; cu = concept_u(k); lab = URIRef(f"{CH[cid]}/label/{k}")
+            k = n["concept_id"]; cu = concept_u(k)
             g.add((cu, RDF.type, SKOS.Concept)); g.add((cu, SKOS.inScheme, scheme))
-            g.add((lab, RDF.type, DINO.LabelMark)); g.add((lab, SKOSXL.literalForm, Literal(n["label_as_written"] or C_LABEL[k])))
-            g.add((cu, SKOSXL.prefLabel, lab)); g.add((lab, DINO.notates, cu)); g.add((diagram, CRM.P106_is_composed_of, lab))
-            if n["ink"]:
-                g.add((lab, DINO.graphicValue, INK[n["ink"]])); used_inks.add(n["ink"])
-            for f in n["form"].split():
-                if SHAPES[f] is not None:
-                    g.add((lab, DINO.graphicValue, SHAPES[f]))
-            if n["year_on_scale"]:
-                y = n["year_on_scale"]
-                g.add((lab, DINO.positionOnScale, Literal(y, datatype=XSD.gYear) if re.fullmatch(r"\d{4}", y) else Literal(y)))
-                g.add((lab, DINO.graphicValue, DINO.verticalPosition))
-            for code in n.get("tags", "").split():
-                g.add((lab, DINO.carriesCode, Literal(code)))
-            if n["certainty"]:
-                g.add((lab, DINO.certainty, Literal(n["certainty"])))
-            if n["verified"]:
-                g.add((lab, DINO.checkedOn, Literal(n["verified"], datatype=XSD.date)))
-            if n["note"]:
-                g.add((lab, SKOS.note, Literal(n["note"])))
+            # one label mark per written occurrence: "1910, 1917" means the label is written twice
+            positions = positions_of(n["year_on_scale"])
+            for y in positions or [None]:
+                lab = label_u(cid, k, y if len(positions) > 1 else None)
+                g.add((lab, RDF.type, DINO.LabelMark)); g.add((lab, SKOSXL.literalForm, Literal(n["label_as_written"] or C_LABEL[k])))
+                g.add((cu, SKOSXL.prefLabel, lab)); g.add((lab, DINO.notates, cu)); g.add((diagram, CRM.P106_is_composed_of, lab))
+                if n["ink"]:
+                    g.add((lab, DINO.graphicValue, INK[n["ink"]])); used_inks.add(n["ink"])
+                for f in n["form"].split():
+                    if SHAPES[f] is not None:
+                        g.add((lab, DINO.graphicValue, SHAPES[f]))
+                if y:
+                    g.add((lab, DINO.positionOnScale, Literal(y, datatype=XSD.gYear) if re.fullmatch(r"\d{4}", y) else Literal(y)))
+                    g.add((lab, DINO.graphicValue, DINO.verticalPosition))
+                for code in n.get("tags", "").split():
+                    g.add((lab, DINO.carriesCode, Literal(code)))
+                if n["certainty"]:
+                    g.add((lab, DINO.certainty, Literal(n["certainty"])))
+                if n["verified"]:
+                    g.add((lab, DINO.checkedOn, Literal(n["verified"], datatype=XSD.date)))
+                if n["note"]:
+                    g.add((lab, SKOS.note, Literal(n["note"])))
             ig.add((cu, SKOS.exactMatch, ID[k]))        # identity across charts is the analyst's statement
 
         # relation marks, and the plain triple each records
@@ -317,6 +346,11 @@ def main(strict=False):
             g.add((s_, rel, o_))
             g.add((m, RDF.type, kind)); g.add((diagram, CRM.P106_is_composed_of, m))
             g.add((m, DINO["from"], s_)); g.add((m, DINO.to, o_)); g.add((m, DINO.records, rel))
+            occ = occurrence.get((cid, e["source"], e["relation"], e["target"]))
+            if occ and occ["from_position"]:
+                g.add((m, DINO.fromMark, label_u(cid, e["source"], occ["from_position"])))
+            if occ and occ["to_position"]:
+                g.add((m, DINO.toMark, label_u(cid, e["target"], occ["to_position"])))
             if e["line"]:
                 g.add((m, DINO.graphicValue, LINES[e["line"]]))
             if e["colour"]:

@@ -31,6 +31,11 @@ LINES = {"solid", "dotted", "dashed", "otherLine"}
 FORM = {"box": "boxed", "underline": "underlined", "semicircle": "semicircle", "oval": "oval", "otherShape": "other", "plain": "plain"}
 
 
+def year(s):
+    m = re.search(r"\d{4}", s or "")
+    return int(m.group()) if m else None
+
+
 def local(u):
     s = str(u)
     for p in (BASE + "chart/", BASE + "id/", BASE + "reading/", BARR, DINO):
@@ -72,17 +77,20 @@ for r in run("labels.rq"):
     if r.value is not None: e["values"].add(local(r.value))
     if r.code is not None: e["codes"].add(str(r.code))
     if r.meaning is not None: e["meanings"].add(local(r.meaning))
-    if r.year is not None: e["year"] = str(r.year)
+    if r.year is not None: e.setdefault("positions", set()).add(str(r.year))
     if r.certainty is not None: e["certainty"] = str(r.certainty)
 
 # ---- relation marks
 rel = defaultdict(dict)
 for r in run("relations.rq"):
     m = rel[local(r.sheet)].setdefault(str(r.mark), {"from": local(r["from"]), "to": local(r.to), "rel": REL[str(r.relation)],
-                                                      "values": set(), "meanings": set(), "certainty": ""})
+                                                      "values": set(), "meanings": set(), "certainty": "",
+                                                      "fromPos": None, "toPos": None})
     if r.value is not None: m["values"].add(local(r.value))
     if r.meaning is not None: m["meanings"].add(local(r.meaning))
     if r.certainty is not None: m["certainty"] = str(r.certainty)
+    if r.fromPos is not None: m["fromPos"] = year(str(r.fromPos))
+    if r.toPos is not None: m["toPos"] = year(str(r.toPos))
 
 # ---- conventions
 conv = defaultdict(list)
@@ -91,11 +99,6 @@ for r in run("conventions.rq"):
                                  "meaning": str(r.meaningLabel) if r.meaningLabel else local(r.meaning),
                                  "meaningId": local(r.meaning), "basis": local(r.basis),
                                  "appliesTo": local(r.applies) if r.applies is not None else ""})
-
-
-def year(s):
-    m = re.search(r"\d{4}", s or "")
-    return int(m.group()) if m else None
 
 
 def one(values, allowed):
@@ -113,7 +116,10 @@ for pos, sid in enumerate(sorted(sheets, key=lambda s: sheets[s]["name"]), start
         line = one(m["values"], LINES).replace("otherLine", "other")
         colour = ink_name(one(m["values"], INKS))
         scope = one(m["meanings"], {"internal", "external"}) if m["rel"] == "influence" else ""
-        edges.append([m["from"], m["to"], m["rel"], line, colour, scope, m["certainty"] if m["certainty"] != "certain" else ""])
+        # [7], [8]: positions of the written occurrences the mark leaves from / arrives at, where a
+        # concept is written more than once on the chart (otherwise null: the concept's one position)
+        edges.append([m["from"], m["to"], m["rel"], line, colour, scope, m["certainty"] if m["certainty"] != "certain" else "",
+                      m["fromPos"], m["toPos"]])
     ink_key = {ink_name(c["value"]): c["meaningId"] for c in cs
                if c["value"] in INKS and c["meaningId"] in ("internal", "external")}
     versions.append({
@@ -127,7 +133,9 @@ for pos, sid in enumerate(sorted(sheets, key=lambda s: sheets[s]["name"]), start
         "pragmatic": sh["pragmatic"],
         "nodes": ids,
         "labels": {k: labels[k]["wording"] for k in ids},
-        "years": {k: year(labels[k].get("year")) for k in ids if year(labels[k].get("year"))},
+        # a concept written more than once is placed at its first position; all positions are kept
+        "years": {k: min(year(p) for p in labels[k]["positions"]) for k in ids if labels[k].get("positions")},
+        "positions": {k: sorted(year(p) for p in labels[k]["positions"]) for k in ids if len(labels[k].get("positions", ())) > 1},
         "ink": {k: ink_name(one(labels[k]["values"], INKS)) for k in ids if one(labels[k]["values"], INKS)},
         "form": {k: sorted(FORM[v] for v in labels[k]["values"] if v in FORM) for k in ids
                  if any(v in FORM for v in labels[k]["values"])},

@@ -164,12 +164,16 @@ def metrics(v, mode="influence"):
 
 
 def chronology(v):
+    """Arrows against the chart's own year scale. Where a concept is written more than once,
+    the arrow's own end (the written occurrence it leaves from or reaches) gives the position."""
     y = v["years"]
+    ys = lambda e: e[7] if len(e) > 7 and e[7] else y.get(e[0])
+    yt = lambda e: e[8] if len(e) > 8 and e[8] else y.get(e[1])
     infl = [e for e in v["edges"] if e[2] == "influence"]
-    dated = [e for e in infl if e[0] in y and e[1] in y]
+    dated = [e for e in infl if ys(e) and yt(e)]
     return {"influence_arrows": len(infl), "both_ends_on_scale": len(dated),
-            "backward": [[e[0], e[1], y[e[0]], y[e[1]]] for e in dated if y[e[0]] > y[e[1]]],
-            "same_year": sum(1 for e in dated if y[e[0]] == y[e[1]]),
+            "backward": [[e[0], e[1], ys(e), yt(e)] for e in dated if ys(e) > yt(e)],
+            "same_year": sum(1 for e in dated if ys(e) == yt(e)),
             "entities_on_scale": len(y), "span": [min(y.values()), max(y.values())] if y else None}
 
 

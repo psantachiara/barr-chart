@@ -1,0 +1,8 @@
+chart_id,source,relation,target,from_position,to_position,note
+insert,machine_esthetic,influenced,futurism,1910,,
+insert,machine_esthetic,influenced,cubism,1910,,
+insert,machine_esthetic,influenced,constructivism,1910,,
+insert,machine_esthetic,influenced,abstract_dadaism,1917,,
+insert,machine_esthetic,influenced,purism,1917,,
+insert,machine_esthetic,influenced,brancusi,1917,,
+insert,machine_esthetic,influenced,de_stijl_and_neoplasticism,1917,,

@@ -77,12 +77,12 @@ Chronology against each chart's own year scale. An arrow is *backward* when its 
 
 | chart | entities on scale | span | arrows | both ends on scale | same year | backward |
 | --- | --- | --- | --- | --- | --- | --- |
-| 456 | 25 | 1888–1932 | 41 | 41 | 0 | 1 |
+| 456 | 25 | 1888–1932 | 41 | 41 | 0 | 2 |
 | 457 | 23 | 1886–1930 | 43 | 43 | 1 | 3 |
 | 458 | 28 | 1887–1935 | 53 | 53 | 1 | 2 |
-| Cover | 28 | 1888–1934 | 51 | 51 | 1 | 3 |
+| Cover | 28 | 1889–1934 | 51 | 51 | 1 | 1 |
 
-Backward arrows: 456: Machine Esthetic (1910) → Cubism (1908); 457: Machine Esthetic (1912) → Cubism (1910); 457: Machine Esthetic (1912) → Futurism (1910); 457: Negro Sculpture (1905) → Fauvism (1904); 458: Machine Esthetic (1912) → Cubism (1907); 458: Machine Esthetic (1912) → Futurism (1910); Cover: Cézanne (1890) → Synthetism (1888); Cover: Japanese Prints (1890) → Synthetism (1888); Cover: Machine Esthetic (1909) → Cubism (1906).
+Backward arrows: 456: Machine Esthetic (1917) → Brancusi (1912); 456: Machine Esthetic (1910) → Cubism (1908); 457: Machine Esthetic (1912) → Cubism (1910); 457: Machine Esthetic (1912) → Futurism (1910); 457: Negro Sculpture (1905) → Fauvism (1904); 458: Machine Esthetic (1912) → Cubism (1907); 458: Machine Esthetic (1912) → Futurism (1910); Cover: Machine Esthetic (1909) → Cubism (1906).
 
 ## IV · Genetic
 

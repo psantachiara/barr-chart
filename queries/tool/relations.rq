@@ -1,5 +1,6 @@
 # Every relation mark: from and to (through the identity mapping), the relation it records,
-# its graphic values, certainty, and what it signifies.
+# its graphic values, certainty, what it signifies, and, where a concept is written more than
+# once, the position of the written occurrence it leaves from or arrives at.
 PREFIX dino:    <https://psantachiara.github.io/dino/ns#>
 PREFIX barr:    <https://psantachiara.github.io/barr-chart/ns#>
 PREFIX crm:     <http://www.cidoc-crm.org/cidoc-crm/>
@@ -8,10 +9,11 @@ PREFIX skosxl:  <http://www.w3.org/2008/05/skos-xl#>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
-SELECT ?sheet ?mark ?from ?to ?relation ?value ?certainty ?meaning WHERE {
+SELECT ?sheet ?mark ?from ?to ?relation ?value ?certainty ?meaning ?fromPos ?toPos WHERE {
   GRAPH ?g { ?sheet crm:P65_shows_visual_item ?d . ?d crm:P106_is_composed_of ?mark .
              ?mark dino:from ?cf ; dino:to ?ct ; dino:records ?relation .
-             OPTIONAL { ?mark dino:graphicValue ?value } OPTIONAL { ?mark dino:certainty ?certainty } }
+             OPTIONAL { ?mark dino:graphicValue ?value } OPTIONAL { ?mark dino:certainty ?certainty }
+             OPTIONAL { ?mark dino:fromMark/dino:positionOnScale ?fromPos } OPTIONAL { ?mark dino:toMark/dino:positionOnScale ?toPos } }
   GRAPH <https://psantachiara.github.io/barr-chart/graph/interpretation> { ?cf skos:exactMatch ?from . ?ct skos:exactMatch ?to }
   OPTIONAL { GRAPH <https://psantachiara.github.io/barr-chart/graph/derived> { ?mark dino:signifies ?meaning } }
 }

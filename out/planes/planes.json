@@ -465,6 +465,12 @@
     "backward": [
      [
       "machine_esthetic",
+      "brancusi",
+      1917,
+      1912
+     ],
+     [
+      "machine_esthetic",
       "cubism",
       1910,
       1908
@@ -915,18 +921,6 @@
     "both_ends_on_scale": 51,
     "backward": [
      [
-      "cezanne",
-      "synthetism",
-      1890,
-      1888
-     ],
-     [
-      "japanese_prints",
-      "synthetism",
-      1890,
-      1888
-     ],
-     [
       "machine_esthetic",
       "cubism",
       1909,
@@ -936,7 +930,7 @@
     "same_year": 1,
     "entities_on_scale": 28,
     "span": [
-     1888,
+     1889,
      1934
     ]
    }

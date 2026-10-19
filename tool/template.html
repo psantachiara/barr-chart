@@ -101,7 +101,7 @@ h1,h2,h3,h4{margin:0; font-family:var(--disp); font-weight:600; letter-spacing:.
 }
 
 /* ---------- plane nav ---------- */
-#planenav{display:flex; gap:0; overflow-x:auto; background:var(--paper); border-bottom:1px solid var(--rule); padding:0}
+#planenav{display:flex; gap:0; overflow-x:auto; background:var(--paper); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:0}
 .pnav{
   appearance:none; background:transparent; border:0; cursor:pointer;
   padding:13px 16px 12px; white-space:nowrap; font-family:var(--disp);
@@ -368,10 +368,11 @@ function buildModel(d, includeSecondary){
   const vs = d.versions.filter(v=>includeSecondary || v.set==="core").map(v=>{
     const edges = (v.edges||[]).filter(e=>C[e[0]]&&C[e[1]]).map(e=>({
       s:e[0], t:e[1], rel:e[2]||"related", line:e[3]||"", colour:e[4]||"", scope:e[5]||"", cert:e[6]||"",
+      sy:e[7]||null, ty:e[8]||null,
       k:e[0]+"|"+(e[2]||"related")+"|"+e[1]}));
     const o = Object.assign({}, v, {group:v.set, nodes:v.nodes.filter(x=>C[x]), edges,
       set:new Set(v.nodes), ext:new Set(v.external||[]), certainty:v.certainty||{},
-      labels:v.labels||{}, years:v.years||{}, form:v.form||{}, tags:v.tags||{}, ink:v.ink||{}});
+      labels:v.labels||{}, years:v.years||{}, positions:v.positions||{}, form:v.form||{}, tags:v.tags||{}, ink:v.ink||{}});
     o.rel = new Set(edges.map(e=>e.k));
     o.style = {}; edges.forEach(e=>{ if(!(e.k in o.style)) o.style[e.k]=[e.line, e.scope]; });
     o.metrics = {influence:graphMetrics(o,"influence"), all:graphMetrics(o,"all")};
@@ -523,6 +524,7 @@ function stepEdits(a, b, mode){
    reading (persons inside a current, places) sit at the median year of their dated neighbours and
    are set in faint italic; anything still unplaced goes on a row below the scale. Horizontal
    position is ordering only, by barycentre sweeps to reduce crossings. */
+const base=id=>String(id).split("@")[0];
 function layout(v, opts){
   opts=opts||{};
   const C=MODEL.concepts, PX=opts.pxPerYear||20, nodeH=17, gap=14, GUT=62;
@@ -534,10 +536,19 @@ function layout(v, opts){
   if(opts.onlyLinked){ const t=new Set(edges.flatMap(e=>[e.s,e.t])); nodes=nodes.filter(x=>t.has(x)); ns=new Set(nodes); }
   if(!nodes.length) return {nodes:[],edges:[],width:320,height:120,ticks:[],backward:0,undated:0,offscale:0,span:["–","–"],gutter:GUT};
 
+  /* A concept written more than once on the sheet is drawn once per written position ("id@year");
+     an arrow leaves from (or reaches) the occurrence the transcription names, else the first. */
+  const fixed={}, P=v.positions||{};
+  nodes.slice().forEach(x=>{ const ps=P[x]; if(!ps||ps.length<2) return;
+    fixed[x]=ps[0]; ps.slice(1).forEach(p=>{ const id=x+"@"+p; nodes.push(id); fixed[id]=p; }); });
+  const inst=(x,p)=>p&&P[x]&&P[x].length>1&&p!==P[x][0]?x+"@"+p:x;
+  edges=edges.map(e=>Object.assign({}, e, {s:inst(e.s,e.sy), t:inst(e.t,e.ty), base:[e.s,e.t]}));
+  ns=new Set(nodes);
+
   const nb={}; nodes.forEach(x=>nb[x]=[]);
   edges.forEach(e=>{ nb[e.s].push(e.t); nb[e.t].push(e.s); });
   const yr={}, onScale=new Set();
-  nodes.forEach(x=>{ if(v.years[x]){ yr[x]=v.years[x]; onScale.add(x); } });
+  nodes.forEach(x=>{ const y=fixed[x]||v.years[x]; if(y){ yr[x]=y; onScale.add(x); } });
   for(let pass=0; pass<4; pass++){
     const add={};
     nodes.forEach(x=>{ if(yr[x]!==undefined) return;
@@ -557,9 +568,9 @@ function layout(v, opts){
   const groups=new Map(years.map(y=>[y,[]]));
   nodes.forEach(x=>groups.get(yr[x]).push(x));
   const W={}, pos={};
-  nodes.forEach(x=>{ W[x]=Math.max(30, surface(v,x).length*5.5+16); });
+  nodes.forEach(x=>{ W[x]=Math.max(30, surface(v,base(x)).length*5.5+16); });
   years.forEach(y=>{ const g=groups.get(y);
-    g.sort((a,b)=>KINDS.indexOf(C[a].t)-KINDS.indexOf(C[b].t)||(a<b?-1:1)); g.forEach((x,i)=>pos[x]=i); });
+    g.sort((a,b)=>KINDS.indexOf(C[base(a)].t)-KINDS.indexOf(C[base(b)].t)||(a<b?-1:1)); g.forEach((x,i)=>pos[x]=i); });
   for(let sweep=0; sweep<26; sweep++){
     const seq=sweep%2===0?years:years.slice().reverse();
     seq.forEach(y=>{
@@ -585,12 +596,13 @@ function layout(v, opts){
   if(off.length) ticks.push({year:"off scale", y:yOf(OFF), major:false, off:true});
 
   const laid=edges.map(e=>{
-    const back = e.rel==="influence" && onScale.has(e.s) && onScale.has(e.t) && v.years[e.s]>v.years[e.t];
+    const back = e.rel==="influence" && onScale.has(e.s) && onScale.has(e.t) && yr[e.s]>yr[e.t];
     return Object.assign({}, e, {back, a:place[e.s], b:place[e.t]});
   });
   return {
-    nodes: nodes.map(id=>Object.assign({id, label:surface(v,id), type:C[id].t, year:yr[id],
-      onScale:onScale.has(id), off:yr[id]===OFF&&off.includes(id), form:(v.form[id]||[]), ext:v.ext.has(id)}, place[id])),
+    nodes: nodes.map(id=>Object.assign({id, base:base(id), label:surface(v,base(id)), type:C[base(id)].t, year:yr[id],
+      onScale:onScale.has(id), off:yr[id]===OFF&&off.includes(id), form:(v.form[base(id)]||[]), ext:v.ext.has(base(id)),
+      repeated:!!(P[base(id)]&&P[base(id)].length>1)}, place[id])),
     edges: laid, backward: laid.filter(e=>e.back).length,
     undated: nodes.length-onScale.size-off.length, offscale: off.length,
     span:[minY,maxY], width:Math.max(320,maxW)+44, height, ticks, gutter:GUT};
@@ -864,9 +876,10 @@ function paneStruct(){
       <td class="num">${c(e=>e.scope==="external")}</td><td class="num">${c(e=>!e.scope)}</td><td class="num">${c(e=>e.line==="solid")}</td>
       <td class="num">${c(e=>e.line==="dotted")}</td><td class="num">${Object.keys(v.years).length}</td><td class="num" style="${ch.backward?"color:var(--warn)":""}">${ch.backward}</td></tr>`; }).join("");
 
-  const backList = vs.flatMap(v=>v.edges.filter(e=>e.rel==="influence"&&v.years[e.s]&&v.years[e.t]&&v.years[e.s]>v.years[e.t])
+  const ys=(v,e)=>e.sy||v.years[e.s], yt=(v,e)=>e.ty||v.years[e.t];
+  const backList = vs.flatMap(v=>v.edges.filter(e=>e.rel==="influence"&&ys(v,e)&&yt(v,e)&&ys(v,e)>yt(v,e))
     .map(e=>`<div class="oprow"><div class="opk" style="color:var(--warn)">${esc(v.name)}</div>
-      <div class="opb"><b>${esc(surface(v,e.s))}</b> ${v.years[e.s]} → <b>${esc(surface(v,e.t))}</b> ${v.years[e.t]}</div></div>`)).join("");
+      <div class="opb"><b>${esc(surface(v,e.s))}</b> ${ys(v,e)} → <b>${esc(surface(v,e.t))}</b> ${yt(v,e)}</div></div>`)).join("");
 
   const universe=[...new Set(vs.flatMap(v=>v.metrics[mode].ranked.slice(0,10)))]
     .map(id=>({id, best:Math.min(...vs.filter(v=>v.metrics[mode].rank[id]).map(v=>v.metrics[mode].rank[id]))}))
@@ -976,7 +989,7 @@ function svgGraph(L, key){
         fill="var(--card)" stroke="${c}" stroke-width=".9" opacity=".9"/>`
       : `<rect x="${f2(x0)}" y="${f2(y0)}" width="${f2(n.w)}" height="${n.h}" fill="var(--card)" opacity=".85"/>`;
     const tw=n.label.length*5.5;
-    return `<g class="nd" data-id="${esc(n.id)}"><title>${esc(n.label)}${n.onScale?" · "+n.year:" · not read on the scale"}</title>${frame}
+    return `<g class="nd" data-id="${esc(n.id)}"><title>${esc(n.label)}${n.onScale?" · "+n.year:" · not read on the scale"}${n.repeated?" · written more than once on this chart":""}</title>${frame}
       ${under?`<line x1="${f2(n.x-tw/2)}" x2="${f2(n.x+tw/2)}" y1="${f2(n.y+6)}" y2="${f2(n.y+6)}" stroke="${c}" stroke-width=".8"/>`:""}
       ${n.ext?`<circle cx="${f2(x0-4)}" cy="${f2(n.y)}" r="2.6" fill="var(--oxblood)"/>`:""}
       <text class="nlabel" x="${f2(n.x)}" y="${f2(n.y+3.3)}" text-anchor="middle" fill="${c}"

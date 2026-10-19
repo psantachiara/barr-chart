@@ -107,6 +107,18 @@ dino:to a owl:ObjectProperty ;
     rdfs:range skos:Concept ;
     rdfs:comment "The concept a relation mark leads to (the head of an arrow; the enclosing or anchoring label)."@en .
 
+dino:fromMark a owl:ObjectProperty ;
+    rdfs:label "from mark"@en ;
+    rdfs:domain dino:RelationMark ;
+    rdfs:range dino:LabelMark ;
+    rdfs:comment "Where a concept is written more than once on a diagram, the written label a relation mark leaves from. Each occurrence is its own label mark, with its own position; the concept stays one."@en .
+
+dino:toMark a owl:ObjectProperty ;
+    rdfs:label "to mark"@en ;
+    rdfs:domain dino:RelationMark ;
+    rdfs:range dino:LabelMark ;
+    rdfs:comment "Where a concept is written more than once on a diagram, the written label a relation mark arrives at."@en .
+
 dino:records a owl:ObjectProperty ;
     rdfs:label "records"@en ;
     rdfs:domain dino:RelationMark ;
