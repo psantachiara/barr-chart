@@ -1,7 +1,12 @@
-# Influence arrows asserted on every chart in the corpus (the consensus core).
-PREFIX bc: <https://psantachiara.github.io/barr-chart/ns#>
-SELECT ?from ?to (COUNT(DISTINCT ?chart) AS ?charts) WHERE {
-  GRAPH ?chart { ?from bc:influenced ?to }
+# Influence relations by the number of charts asserting them, joined through the reconciled index.
+PREFIX dino:   <https://psantachiara.github.io/dino/ns#>
+PREFIX barr:   <https://psantachiara.github.io/barr-chart/ns#>
+PREFIX crm:    <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?from ?to (COUNT(DISTINCT ?g) AS ?charts) WHERE {
+  GRAPH ?g { ?cf barr:influenced ?ct }
+  GRAPH <https://psantachiara.github.io/barr-chart/graph/interpretation> { ?cf skos:exactMatch ?from . ?ct skos:exactMatch ?to }
 }
-GROUP BY ?from ?to
-HAVING (COUNT(DISTINCT ?chart) = 5)
+GROUP BY ?from ?to ORDER BY DESC(?charts) ?from ?to

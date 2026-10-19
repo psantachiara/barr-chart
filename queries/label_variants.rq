@@ -1,7 +1,15 @@
-# Entities Barr labels differently on different charts (Terminological plane).
-PREFIX bc: <https://psantachiara.github.io/barr-chart/ns#>
+# Entities worded differently on different charts: the formal difference kept under one referent.
+PREFIX dino:   <https://psantachiara.github.io/dino/ns#>
+PREFIX barr:   <https://psantachiara.github.io/barr-chart/ns#>
+PREFIX crm:    <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?entity (COUNT(DISTINCT ?label) AS ?variants)
-       (GROUP_CONCAT(DISTINCT CONCAT(STRAFTER(STR(?chart), "/chart/"), ": ", ?label); separator=" | ") AS ?labels)
-WHERE { GRAPH ?chart { ?entity bc:labelAsWritten ?label } }
-GROUP BY ?entity HAVING (COUNT(DISTINCT ?label) > 1)
-ORDER BY DESC(?variants)
+       (GROUP_CONCAT(DISTINCT CONCAT(STR(?title), ": ", ?label); separator=" | ") AS ?labels)
+WHERE {
+  GRAPH ?g { ?chart rdfs:label ?title ; crm:P65_shows_visual_item ?d . ?d dino:expresses ?s .
+             ?c skos:inScheme ?s ; skosxl:prefLabel/skosxl:literalForm ?label }
+  GRAPH <https://psantachiara.github.io/barr-chart/graph/interpretation> { ?c skos:exactMatch ?entity }
+}
+GROUP BY ?entity HAVING (COUNT(DISTINCT ?label) > 1) ORDER BY DESC(?variants) ?entity

@@ -1,8 +1,15 @@
-# Every relation each chart asserts, with how it is drawn.
-PREFIX bc: <https://psantachiara.github.io/barr-chart/ns#>
+# Every relation each chart asserts, with how it is drawn (line, ink) and what its ink means on that chart.
+PREFIX dino:   <https://psantachiara.github.io/dino/ns#>
+PREFIX barr:   <https://psantachiara.github.io/barr-chart/ns#>
+PREFIX crm:    <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?chart ?from ?relation ?to ?line ?colour ?scope WHERE {
-  GRAPH ?chart {
-    ?m a bc:Mark ; bc:from ?from ; bc:relation ?relation ; bc:to ?to .
-    OPTIONAL { ?m bc:line ?line } OPTIONAL { ?m bc:colour ?colour } OPTIONAL { ?m bc:scope ?scope }
-  }
+  GRAPH ?g { ?chart crm:P65_shows_visual_item ?d . ?d crm:P106_is_composed_of ?m .
+             ?m dino:from ?cf ; dino:to ?ct ; dino:records ?relation .
+             OPTIONAL { ?m dino:graphicValue ?line . FILTER (?line IN (dino:solid, dino:dotted, dino:dashed, dino:otherLine)) }
+             OPTIONAL { ?m dino:graphicValue ?colour . FILTER (?colour IN (dino:black, dino:red, dino:blue, dino:graphite, dino:otherInk)) } }
+  GRAPH <https://psantachiara.github.io/barr-chart/graph/interpretation> { ?cf skos:exactMatch ?from . ?ct skos:exactMatch ?to }
+  OPTIONAL { GRAPH <https://psantachiara.github.io/barr-chart/graph/derived> { ?m dino:signifies ?scope . FILTER (?scope IN (barr:internal, barr:external)) } }
 }

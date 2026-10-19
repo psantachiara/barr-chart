@@ -1,0 +1,255 @@
+@prefix dino:    <https://psantachiara.github.io/dino/ns#> .
+@prefix crm:     <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosxl:  <http://www.w3.org/2008/05/skos-xl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# DINO — Diagram Notation Ontology
+#
+# Describes how a hand-drawn diagram means: the marks on the sheet, the
+# conventions that give those marks a meaning on that diagram, and the
+# readings that order several diagrams.
+#
+# Three layers are kept apart:
+#   Mark         what is on the sheet (ink, line, shape, position); no meaning
+#   Convention   a rule, valid for one diagram, giving a graphic value a meaning;
+#                either stated on the sheet (a legend) or inferred by an analyst
+#   Proposition  what the diagram asserts once its conventions are applied;
+#                derived by query, never entered by hand
+#
+# The diagram's concepts are a skos:ConceptScheme; its written labels are
+# SKOS-XL labels that are also marks. The sheet and the diagram are modelled
+# with CIDOC CRM. Domain relations (what the diagram asserts about its subject)
+# belong to the vocabulary of each project, not to DINO.
+#
+# Related work, not imported:
+#   VISO (http://purl.org/viso/) models graphic attributes for producing
+#   visualizations, and RVL maps data to graphics. DINO runs the other way:
+#   from graphics, through a diagram's own conventions, to meaning.
+#   A dino:Convention behaves like a Description in the DOLCE Descriptions and
+#   Situations pattern, which a diagram's marks satisfy.
+# =============================================================================
+
+<https://psantachiara.github.io/dino/ns>
+    a owl:Ontology ;
+    rdfs:label "DINO: Diagram Notation Ontology"@en ;
+    dcterms:description "Marks, conventions and readings for describing how hand-drawn diagrams mean."@en ;
+    dcterms:creator "Pietro Santachiara" ;
+    owl:versionInfo "0.1" .
+
+# --- The diagram -------------------------------------------------------------
+# The physical sheet is a crm:E22_Human-Made_Object, which crm:P65_shows_visual_item
+# the diagram, a crm:E36_Visual_Item. The diagram is crm:P106_is_composed_of its marks.
+
+dino:expresses a owl:ObjectProperty ;
+    rdfs:label "expresses"@en ;
+    rdfs:domain crm:E36_Visual_Item ;
+    rdfs:range skos:ConceptScheme ;
+    rdfs:comment "Links a diagram to the concept scheme it expresses: the knowledge organization system the diagram is read as."@en .
+
+# --- Marks -------------------------------------------------------------------
+
+dino:Mark a owl:Class ;
+    rdfs:subClassOf crm:E36_Visual_Item ;
+    rdfs:label "Mark"@en ;
+    rdfs:comment "A graphical element of a diagram, as drawn: a written label, an arrow, an enclosure. A mark records what is on the sheet and carries no meaning of its own; meaning comes from the diagram's conventions. Not crm:E37_Mark, which covers signatures and similar identifying marks."@en .
+
+dino:LabelMark a owl:Class ;
+    rdfs:subClassOf dino:Mark , skosxl:Label ;
+    rdfs:label "Label mark"@en ;
+    rdfs:comment "A written label: at once a lexical label (its skosxl:literalForm is the wording as written) and a visual item (with ink, shape and position). Comparable to crm:E34_Inscription, which is both a linguistic object and a mark."@en .
+
+dino:RelationMark a owl:Class ;
+    rdfs:subClassOf dino:Mark ;
+    rdfs:label "Relation mark"@en ;
+    rdfs:comment "A mark that connects two concepts of the diagram."@en .
+
+dino:Arrow a owl:Class ;
+    rdfs:subClassOf dino:RelationMark ;
+    rdfs:label "Arrow"@en ;
+    rdfs:comment "A directed line from one label to another."@en .
+
+dino:Enclosure a owl:Class ;
+    rdfs:subClassOf dino:RelationMark ;
+    rdfs:label "Enclosure"@en ;
+    rdfs:comment "A label written inside a shape drawn around or under another label, such as a name inside a semicircle."@en .
+
+dino:Juxtaposition a owl:Class ;
+    rdfs:subClassOf dino:RelationMark ;
+    rdfs:label "Juxtaposition"@en ;
+    rdfs:comment "A label written with another, connected by placement rather than by a drawn line."@en .
+
+dino:Connector a owl:Class ;
+    rdfs:subClassOf dino:RelationMark ;
+    rdfs:label "Connector"@en ;
+    rdfs:comment "An undirected line, or a drawn connection whose kind cannot be assigned."@en .
+
+dino:notates a owl:ObjectProperty ;
+    rdfs:label "notates"@en ;
+    rdfs:domain dino:LabelMark ;
+    rdfs:range skos:Concept ;
+    rdfs:comment "Links a label mark to the concept of the diagram it writes. Not crm:P138_represents, which is for depiction."@en .
+
+dino:from a owl:ObjectProperty ;
+    rdfs:label "from"@en ;
+    rdfs:domain dino:RelationMark ;
+    rdfs:range skos:Concept ;
+    rdfs:comment "The concept a relation mark starts from (the tail of an arrow; the enclosed or juxtaposed label)."@en .
+
+dino:to a owl:ObjectProperty ;
+    rdfs:label "to"@en ;
+    rdfs:domain dino:RelationMark ;
+    rdfs:range skos:Concept ;
+    rdfs:comment "The concept a relation mark leads to (the head of an arrow; the enclosing or anchoring label)."@en .
+
+dino:records a owl:ObjectProperty ;
+    rdfs:label "records"@en ;
+    rdfs:domain dino:RelationMark ;
+    rdfs:range rdf:Property ;
+    rdfs:comment "The domain relation the transcriber reads a relation mark as recording, e.g. an influence. The corresponding plain triple between the two concepts is asserted alongside."@en .
+
+dino:graphicValue a owl:ObjectProperty ;
+    rdfs:label "graphic value"@en ;
+    rdfs:range dino:GraphicValue ;
+    rdfs:comment "A graphical property of a mark (its ink, line style, shape, or a positional dimension), or the graphical property a convention gives meaning to."@en .
+
+dino:positionOnScale a owl:DatatypeProperty ;
+    rdfs:label "position on scale"@en ;
+    rdfs:domain dino:LabelMark ;
+    rdfs:comment "The value read off the scale the diagram itself draws, at the label's position (e.g. a year on a ruled time scale). A reading of position, given meaning by the diagram's scale convention."@en .
+
+dino:carriesCode a owl:DatatypeProperty ;
+    rdfs:label "carries code"@en ;
+    rdfs:domain dino:LabelMark ;
+    rdfs:comment "A code from the diagram's own legend written against the label (e.g. 'p')."@en .
+
+# --- Graphic values ----------------------------------------------------------
+
+dino:GraphicValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "Graphic value"@en ;
+    rdfs:comment "A value a mark can take on one graphical dimension."@en .
+
+dino:Ink a owl:Class ; rdfs:subClassOf dino:GraphicValue ; rdfs:label "Ink"@en .
+dino:LineStyle a owl:Class ; rdfs:subClassOf dino:GraphicValue ; rdfs:label "Line style"@en .
+dino:Shape a owl:Class ; rdfs:subClassOf dino:GraphicValue ; rdfs:label "Shape"@en ;
+    rdfs:comment "A shape drawn with or around a label."@en .
+dino:Dimension a owl:Class ; rdfs:subClassOf dino:GraphicValue ; rdfs:label "Dimension"@en ;
+    rdfs:comment "A positional dimension of the sheet that can carry meaning, such as vertical position against a scale."@en .
+
+dino:graphicValues a skos:ConceptScheme ; rdfs:label "DINO graphic values"@en .
+
+dino:black    a dino:Ink ; skos:prefLabel "black"@en ;    skos:inScheme dino:graphicValues .
+dino:red      a dino:Ink ; skos:prefLabel "red"@en ;      skos:inScheme dino:graphicValues .
+dino:blue     a dino:Ink ; skos:prefLabel "blue"@en ;     skos:inScheme dino:graphicValues .
+dino:graphite a dino:Ink ; skos:prefLabel "graphite"@en ; skos:inScheme dino:graphicValues .
+dino:otherInk a dino:Ink ; skos:prefLabel "other ink"@en ; skos:inScheme dino:graphicValues .
+
+dino:solid     a dino:LineStyle ; skos:prefLabel "solid"@en ;  skos:inScheme dino:graphicValues .
+dino:dotted    a dino:LineStyle ; skos:prefLabel "dotted"@en ; skos:inScheme dino:graphicValues .
+dino:dashed    a dino:LineStyle ; skos:prefLabel "dashed"@en ; skos:inScheme dino:graphicValues .
+dino:otherLine a dino:LineStyle ; skos:prefLabel "other line"@en ; skos:inScheme dino:graphicValues .
+
+dino:box        a dino:Shape ; skos:prefLabel "box"@en ;        skos:inScheme dino:graphicValues ;
+    skos:definition "A ruled frame drawn around a label."@en .
+dino:semicircle a dino:Shape ; skos:prefLabel "semicircle"@en ; skos:inScheme dino:graphicValues ;
+    skos:definition "An arc drawn under or around a label, with other labels written inside it."@en .
+dino:underline  a dino:Shape ; skos:prefLabel "underline"@en ;  skos:inScheme dino:graphicValues ;
+    skos:definition "A line drawn under a label."@en .
+dino:oval       a dino:Shape ; skos:prefLabel "oval"@en ;       skos:inScheme dino:graphicValues .
+dino:otherShape a dino:Shape ; skos:prefLabel "other shape"@en ; skos:inScheme dino:graphicValues .
+
+dino:verticalPosition a dino:Dimension ; skos:prefLabel "vertical position"@en ; skos:inScheme dino:graphicValues .
+
+# --- Conventions -------------------------------------------------------------
+
+dino:Convention a owl:Class ;
+    rdfs:label "Convention"@en ;
+    rdfs:comment "A rule, valid for one diagram, that gives a graphic value (or a legend code) a meaning: 'on this diagram, graphite signifies external influence'. The same graphic value can mean different things on different diagrams, and different values can mean the same thing; conventions make both statements explicit. Every convention has a basis: stated on the sheet, or inferred by an analyst."@en .
+
+dino:holdsFor a owl:ObjectProperty ;
+    rdfs:label "holds for"@en ;
+    rdfs:domain dino:Convention ;
+    rdfs:range crm:E36_Visual_Item ;
+    rdfs:comment "The diagram on which the convention is valid."@en .
+
+dino:appliesTo a owl:ObjectProperty ;
+    rdfs:label "applies to"@en ;
+    rdfs:domain dino:Convention ;
+    rdfs:range owl:Class ;
+    rdfs:comment "The kind of mark the convention governs (e.g. dino:LabelMark, dino:RelationMark). Absent: it governs every mark with the graphic value."@en .
+
+dino:code a owl:DatatypeProperty ;
+    rdfs:label "code"@en ;
+    rdfs:domain dino:Convention ;
+    rdfs:comment "For a legend: the code the convention gives a meaning to (e.g. 'a')."@en .
+
+dino:signifies a owl:ObjectProperty ;
+    rdfs:label "signifies"@en ;
+    rdfs:range skos:Concept ;
+    rdfs:comment "On a convention: the meaning it gives to its graphic value or code. On a mark: the meaning that follows from the conventions of its diagram (derived by query)."@en .
+
+dino:basis a owl:ObjectProperty ;
+    rdfs:label "basis"@en ;
+    rdfs:range dino:Basis ;
+    rdfs:comment "Where a convention, or a reading, comes from."@en .
+
+dino:Basis a owl:Class ; rdfs:subClassOf skos:Concept ; rdfs:label "Basis"@en .
+dino:bases a skos:ConceptScheme ; rdfs:label "DINO bases"@en .
+
+dino:statedOnSheet a dino:Basis ; skos:inScheme dino:bases ;
+    skos:prefLabel "stated on the sheet"@en ;
+    skos:definition "The diagram states the convention itself, e.g. in a legend."@en .
+dino:inferredByAnalyst a dino:Basis ; skos:inScheme dino:bases ;
+    skos:prefLabel "inferred by the analyst"@en ;
+    skos:definition "The analyst infers the convention from how the diagram is drawn."@en .
+dino:documented a dino:Basis ; skos:inScheme dino:bases ;
+    skos:prefLabel "documented"@en ;
+    skos:definition "For a reading: the order is attested in the archive."@en .
+dino:analytical a dino:Basis ; skos:inScheme dino:bases ;
+    skos:prefLabel "analytical"@en ;
+    skos:definition "For a reading: the order is proposed by an analyst."@en .
+
+dino:noMeaning a skos:Concept ;
+    skos:prefLabel "no meaning"@en ;
+    skos:definition "Signified by a graphic value that carries no meaning on a diagram, e.g. an ink used throughout. Stating it makes the absence of a convention an explicit judgment."@en .
+
+# --- Readings ----------------------------------------------------------------
+
+dino:Reading a owl:Class ;
+    rdfs:label "Reading"@en ;
+    rdfs:comment "An ordering of several diagrams proposed by someone, with a basis. Order belongs to the reading, not to the diagrams: the diagrams carry no sequence of their own."@en .
+
+dino:orders a owl:ObjectProperty ;
+    rdfs:label "orders"@en ;
+    rdfs:domain dino:Reading ;
+    rdfs:range rdf:List ;
+    rdfs:comment "The sheets in the order the reading proposes, as an rdf:List."@en .
+
+# --- Transcription -----------------------------------------------------------
+
+dino:certainty a owl:DatatypeProperty ;
+    rdfs:label "certainty"@en ;
+    rdfs:domain dino:Mark ;
+    rdfs:comment "How securely the transcriber reads the mark: certain, probable, uncertain."@en .
+
+dino:checkedOn a owl:DatatypeProperty ;
+    rdfs:label "checked on"@en ;
+    rdfs:domain dino:Mark ;
+    rdfs:range xsd:date ;
+    rdfs:comment "The date the transcription of the mark was checked against the facsimile."@en .
+
+# --- Pragmatic description of a sheet ----------------------------------------
+# Support and audience use dcterms:medium and dcterms:audience.
+
+dino:permanence a owl:DatatypeProperty ; rdfs:label "permanence"@en ;
+    rdfs:comment "How lasting the sheet was meant to be (working sheet, printed state)."@en .
+dino:constraint a owl:DatatypeProperty ; rdfs:label "constraint"@en ;
+    rdfs:comment "What the occasion or medium imposed on the diagram (format, scale, deadline)."@en .
+dino:function a owl:DatatypeProperty ; rdfs:label "function"@en ;
+    rdfs:comment "What the diagram was for, in its occasion."@en .

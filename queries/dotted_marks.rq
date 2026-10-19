@@ -1,6 +1,13 @@
-# Relations drawn as dotted lines, chart by chart.
-PREFIX bc: <https://psantachiara.github.io/barr-chart/ns#>
-SELECT ?chart ?from ?relation ?to WHERE {
-  GRAPH ?chart { ?m a bc:Mark ; bc:line "dotted" ; bc:from ?from ; bc:relation ?relation ; bc:to ?to }
+# Relations drawn as dotted lines, and what dotted means on that chart.
+PREFIX dino:   <https://psantachiara.github.io/dino/ns#>
+PREFIX barr:   <https://psantachiara.github.io/barr-chart/ns#>
+PREFIX crm:    <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?chart ?from ?relation ?to ?meaning WHERE {
+  GRAPH ?g { ?chart crm:P65_shows_visual_item ?d . ?d crm:P106_is_composed_of ?m .
+             ?m dino:graphicValue dino:dotted ; dino:from ?from ; dino:records ?relation ; dino:to ?to }
+  OPTIONAL { GRAPH <https://psantachiara.github.io/barr-chart/graph/derived> { ?m dino:signifies ?meaning . FILTER (?meaning IN (barr:primary, barr:secondary)) } }
 }
 ORDER BY ?chart

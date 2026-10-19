@@ -1,0 +1,85 @@
+@prefix barr:    <https://psantachiara.github.io/barr-chart/ns#> .
+@prefix dino:    <https://psantachiara.github.io/dino/ns#> .
+@prefix crm:     <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# Barr chart project vocabulary
+#
+# Terms specific to Alfred H. Barr, Jr.'s charts for Cubism and Abstract Art
+# (MoMA, 1936): the relations the charts assert, the meanings their
+# conventions point to, and the grouping of the corpus. Everything about
+# notation is in DINO; everything here is about the subject.
+# =============================================================================
+
+<https://psantachiara.github.io/barr-chart/ns>
+    a owl:Ontology ;
+    rdfs:label "Barr chart project vocabulary"@en ;
+    owl:imports <https://psantachiara.github.io/dino/ns> ;
+    dcterms:creator "Pietro Santachiara" ;
+    owl:versionInfo "0.2" .
+
+# --- Relations the charts assert ----------------------------------------------
+
+barr:influenced a owl:ObjectProperty ;
+    rdfs:label "influenced"@en ;
+    rdfs:domain skos:Concept ; rdfs:range skos:Concept ;
+    rdfs:comment "One concept of a chart influenced another, as an arrow on the chart asserts."@en ;
+    rdfs:seeAlso crm:P15i_influenced ;
+    skos:scopeNote "Corresponds to crm:P15i_influenced (the inverse of crm:P15_was_influenced_by) without its range constraint. In CIDOC CRM, P15 runs from an activity (crm:E7_Activity) to any entity, so P15i has an activity as its range. Barr's charts assert influence between movements, typed here as crm:E55_Type; using P15i would make every influenced movement an activity, and in CIDOC CRM an activity (a temporal entity) cannot also be a type (a conceptual object). The relation is therefore minted, and the clash documented: CIDOC CRM models influence as bearing on activities, the charts as passing between movements."@en .
+
+barr:sitedIn a owl:ObjectProperty ;
+    rdfs:label "sited in"@en ;
+    rdfs:domain skos:Concept ; rdfs:range skos:Concept ;
+    rdfs:comment "A place written with a movement or a person on a chart."@en ;
+    skos:scopeNote "Not crm:P7_took_place_at, which is for events; not dcterms:spatial, which describes a resource's coverage."@en .
+
+barr:memberOf a owl:ObjectProperty ;
+    rdfs:label "member of"@en ;
+    rdfs:domain skos:Concept ; rdfs:range skos:Concept ;
+    rdfs:comment "A person written inside a movement's semicircle: by the semicircle convention, a member of that movement."@en ;
+    skos:scopeNote "Not crm:P107i_is_current_or_former_member_of, whose object is a group (crm:E74_Group); movements are typed here as crm:E55_Type."@en .
+
+# Unassignable connections use skos:related.
+
+# --- Meanings the charts' conventions point to --------------------------------
+
+barr:meanings a skos:ConceptScheme ;
+    rdfs:label "Meanings in Barr's chart notation"@en .
+
+barr:internal a skos:Concept ; skos:inScheme barr:meanings ;
+    skos:prefLabel "internal"@en ;
+    skos:definition "Internal to modern art: an influence within modern art, or an entity belonging to it."@en .
+barr:external a skos:Concept ; skos:inScheme barr:meanings ;
+    skos:prefLabel "external"@en ;
+    skos:definition "External to modern art: an influence from outside it, or an entity outside it."@en .
+barr:primary a skos:Concept ; skos:inScheme barr:meanings ;
+    skos:prefLabel "primary"@en ;
+    skos:definition "A primary relation."@en .
+barr:secondary a skos:Concept ; skos:inScheme barr:meanings ;
+    skos:prefLabel "secondary"@en ;
+    skos:definition "A secondary relation."@en .
+barr:sourceOutsideModernArt a skos:Concept ; skos:inScheme barr:meanings ;
+    skos:prefLabel "source outside modern art"@en ;
+    skos:definition "A source that feeds the chart without being a movement of modern art."@en .
+barr:membership a skos:Concept ; skos:inScheme barr:meanings ;
+    skos:prefLabel "membership"@en ;
+    skos:definition "The names enclosed are members of the movement whose label the shape belongs to."@en .
+barr:title a skos:Concept ; skos:inScheme barr:meanings ;
+    skos:prefLabel "title"@en ;
+    skos:definition "The label is a title: the conceptual anchor of what is written with it."@en .
+barr:date a skos:Concept ; skos:inScheme barr:meanings ;
+    skos:prefLabel "date"@en ;
+    skos:definition "Vertical position read as a date against the year scale drawn on the chart."@en .
+
+# --- The corpus ---------------------------------------------------------------
+
+barr:coreSet a skos:Concept ;
+    skos:prefLabel "core set"@en ;
+    skos:definition "Charts that write places as labels: compared by default."@en .
+barr:secondarySet a skos:Concept ;
+    skos:prefLabel "secondary set"@en ;
+    skos:definition "Charts that express location through areas of the page: transcribed, compared on request."@en .

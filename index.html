@@ -1241,7 +1241,7 @@ function paneMethod(){
     ["Typed transcription","Every entity and relation is typed in from the facsimile, chart by chart, through the Barr Chart Transcriber. Nothing is carried over from earlier datasets. Each row has a certainty and a verification date."],
     ["Record the mark, derive the meaning","Ink, line and form are recorded as seen. Each chart's ink key turns ink into meaning (internal, external), so externality is never entered by hand; dotted lines are secondary."],
     ["Reconcile, keep the wording","The same referent gets one identifier on every chart, and each chart keeps its own wording. Merges are noted in the vocabulary, and the formal difference stays visible on Planes I and V."],
-    ["Linked-data edition","The tables become a TriG dataset: one named graph per chart, one catalogue graph, one shared vocabulary. The comparison runs as SPARQL over it."],
+    ["Linked data","The tables become linked data described with DINO, the Diagram Notation Ontology: marks, the conventions that give them meaning on each chart, and readings. One graph per chart, one for the analyst's interpretation. The comparison runs as SPARQL over it."],
     ["Six planes","Terminological, conceptual, structural, genetic, synchronic, pragmatic. Each can be run on its own; only the genetic plane uses an order."],
     ["Readings","A reading orders some of the charts and states its basis: documented (from the archive) or analytical (proposed by an analyst). The edit grammar is computed along it."]
   ];
@@ -1285,12 +1285,12 @@ function paneMethod(){
   </tbody></table></div>
   <p class="note">On Plane V the same tests run without a direction: “only on A”, “only on B”, worded differently, rewired, restyled.</p>
 
-  <h3 class="sh">The edition</h3>
+  <h3 class="sh">The linked data</h3>
   <div class="oplist">
-    <div class="oprow"><div class="opk">dataset</div><div class="opb"><a href="out/barr-charts.trig">out/barr-charts.trig</a><span class="opn">TriG, one named graph per chart plus a catalogue graph.</span></div></div>
-    <div class="oprow"><div class="opk">vocabulary</div><div class="opb"><a href="vocab/barrcharts.ttl">vocab/barrcharts.ttl</a><span class="opn">Namespace <code>https://psantachiara.github.io/barr-chart/ns#</code></span></div></div>
-    <div class="oprow"><div class="opk">tables</div><div class="opb"><a href="data/nodes.csv">nodes</a> · <a href="data/edges.csv">edges</a> · <a href="data/concepts.csv">concepts</a> · <a href="data/charts.csv">charts</a> · <a href="data/legend.csv">legend</a> · <a href="data/pragmatic.csv">pragmatic</a> · <a href="data/sequences.csv">sequences</a><span class="opn">The transcription as exported from the transcriber.</span></div></div>
-    <div class="oprow"><div class="opk">report</div><div class="opb"><a href="out/planes/report.md">out/planes/report.md</a><span class="opn">The six planes as tables, from <code>scripts/planes.py</code>. Same algorithms as this page.</span></div></div>
+    <div class="oprow"><div class="opk">notation</div><div class="opb">DINO, the Diagram Notation Ontology<span class="opn" style="font-style:normal">Marks (what is on the sheet), conventions (chart-specific rules that give a graphic value a meaning, stated on the sheet or inferred by the analyst) and readings (orderings with a basis). Meaning is derived from marks and conventions by query, never entered by hand.</span></div></div>
+    <div class="oprow"><div class="opk">reused</div><div class="opb">SKOS, SKOS-XL, CIDOC CRM, Dublin Core<span class="opn" style="font-style:normal">Each chart is a SKOS concept scheme; its wording is kept as SKOS-XL labels, which are also marks; the sheet is a CIDOC CRM human-made object that shows the diagram. Movements are typed as CRM types, persons and places with the CRM classes.</span></div></div>
+    <div class="oprow"><div class="opk">graphs</div><div class="opb">One per chart, plus interpretation, readings, derived<span class="opn" style="font-style:normal">A chart's graph holds only what that sheet shows. The interpretation graph holds what the analyst says: identity across charts as SKOS mappings, and the conventions inferred from the drawing. What follows from both is computed into a separate graph.</span></div></div>
+    <div class="oprow"><div class="opk">report</div><div class="opb">The six planes as tables<span class="opn" style="font-style:normal">Computed by the same algorithms as this page.</span></div></div>
   </div>
 
   <h3 class="sh">Integrity check <span>run on load</span></h3>

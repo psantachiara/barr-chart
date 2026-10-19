@@ -1,0 +1,15 @@
+# Where different inks carry the same meaning on different charts (e.g. graphite on 458, red on the Cover).
+PREFIX dino:   <https://psantachiara.github.io/dino/ns#>
+PREFIX barr:   <https://psantachiara.github.io/barr-chart/ns#>
+PREFIX crm:    <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?meaning ?chartA ?inkA ?chartB ?inkB WHERE {
+  GRAPH ?g1 { ?chartA crm:P65_shows_visual_item ?dA } GRAPH ?g2 { ?chartB crm:P65_shows_visual_item ?dB }
+  GRAPH ?h1 { ?c1 a dino:Convention ; dino:holdsFor ?dA ; dino:graphicValue ?inkA ; dino:signifies ?meaning }
+  GRAPH ?h2 { ?c2 a dino:Convention ; dino:holdsFor ?dB ; dino:graphicValue ?inkB ; dino:signifies ?meaning }
+  FILTER (?inkA IN (dino:black, dino:red, dino:blue, dino:graphite) && ?inkB IN (dino:black, dino:red, dino:blue, dino:graphite))
+  FILTER (?inkA != ?inkB && STR(?chartA) < STR(?chartB) && ?meaning != dino:noMeaning)
+}
+ORDER BY ?meaning ?chartA ?chartB

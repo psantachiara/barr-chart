@@ -1,7 +1,14 @@
-# Entities per legend tag, chart by chart (only charts with a legend, e.g. the Insert).
-PREFIX bc: <https://psantachiara.github.io/barr-chart/ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?chart ?code ?meaning (COUNT(DISTINCT ?entity) AS ?entities) WHERE {
-  GRAPH ?chart { ?tag a bc:Tag ; bc:code ?code ; rdfs:label ?meaning . OPTIONAL { ?entity bc:taggedWith ?tag } }
+# The conventions a chart states itself (its legend), with the number of labels carrying each code.
+PREFIX dino:   <https://psantachiara.github.io/dino/ns#>
+PREFIX barr:   <https://psantachiara.github.io/barr-chart/ns#>
+PREFIX crm:    <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?chart ?code ?meaning (COUNT(DISTINCT ?mark) AS ?entities) WHERE {
+  GRAPH ?g { ?chart crm:P65_shows_visual_item ?d .
+             ?conv a dino:Convention ; dino:holdsFor ?d ; dino:basis dino:statedOnSheet ; dino:code ?code ; dino:signifies ?lc .
+             ?lc skos:prefLabel ?meaning .
+             OPTIONAL { ?d crm:P106_is_composed_of ?mark . ?mark dino:carriesCode ?code } }
 }
 GROUP BY ?chart ?code ?meaning ORDER BY ?chart ?code

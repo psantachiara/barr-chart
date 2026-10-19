@@ -22,14 +22,24 @@ from rdflib.collection import Collection
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 Q, OUT = ROOT / "queries", ROOT / "out" / "comparison"
 BASE = "https://psantachiara.github.io/barr-chart/"
-BC = BASE + "ns#"
+BARR = BASE + "ns#"
+DINO = "https://psantachiara.github.io/dino/ns#"
+CRM = "http://www.cidoc-crm.org/cidoc-crm/"
+SKOS = "http://www.w3.org/2004/02/skos/core#"
+RDF_TYPE = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
 RDFS_LABEL = URIRef("http://www.w3.org/2000/01/rdf-schema#label")
-CAT = URIRef(BASE + "graph/catalogue")
+INTERP, READINGS = URIRef(BASE + "graph/interpretation"), URIRef(BASE + "graph/readings")
+KIND = {CRM + "E55_Type": "Movement", CRM + "E21_Person": "Person", CRM + "E53_Place": "Place"}
+REL = {SKOS + "related": "relatedTo"}
 
 
 def short(u):
     s = str(u)
-    for p in (BASE + "chart/", BASE + "id/", BC):
+    if s in KIND:
+        return KIND[s]
+    if s in REL:
+        return REL[s]
+    for p in (BASE + "chart/", BASE + "id/", BASE + "reading/", BARR, DINO):
         if s.startswith(p):
             return s[len(p):]
     return s
@@ -76,16 +86,16 @@ def main(include_all=False):
         rel[c].add(t)
         # style compares what a mark means (line, and scope by the chart's ink key), not raw ink colour,
         # so graphite on one chart and black on another are not counted as a restyling
-        style[c][t] = (str(r.line) if r.line else "", str(r.scope) if r.scope else "")
+        style[c][t] = (short(r.line) if r.line else "", short(r.scope) if r.scope else "")
         if r.scope is not None:
-            scope[c][t] = str(r.scope)
+            scope[c][t] = short(r.scope)
 
-    RDF_TYPE = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
-    catg = ds.graph(CAT)
-    all_charts = list(catg.subjects(RDF_TYPE, URIRef(BC + "Chart")))
-    TITLE = {short(c): str(catg.value(c, RDFS_LABEL) or short(c)) for c in all_charts}
-    charts = sorted((short(c) for c in all_charts if include_all or str(catg.value(c, URIRef(BC + "set")) or "core") == "core"),
-                    key=lambda c: TITLE[c])
+    # charts are the sheets (crm:E22) in the chart graphs; the core / secondary grouping is the analyst's
+    sheets = {s: ctx for s, _, _, ctx in ds.quads((None, RDF_TYPE, URIRef(CRM + "E22_Human-Made_Object"), None))}
+    TITLE = {short(s): str(ds.graph(g).value(s, RDFS_LABEL) or short(s)) for s, g in sheets.items()}
+    ig = ds.graph(INTERP)
+    in_set = lambda s: ig.value(s, URIRef("http://purl.org/dc/terms/type")) == URIRef(BARR + "coreSet")
+    charts = sorted((short(s) for s in sheets if include_all or in_set(s)), key=lambda c: TITLE[c])
     T = lambda c: TITLE.get(c, c)
     if not charts:
         print("No charts in the edition yet."); return
@@ -171,9 +181,9 @@ def main(include_all=False):
 
     # ---- sequences (genetic readings) --------------------------------------
     seqs = {}
-    for s in ds.graph(CAT).subjects(URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), URIRef(BC + "Sequence")):
-        g = ds.graph(CAT)
-        order = [short(c) for c in Collection(g, g.value(s, URIRef(BC + "charts"))) if short(c) in charts]
+    g = ds.graph(READINGS)
+    for s in g.subjects(RDF_TYPE, URIRef(DINO + "Reading")):
+        order = [short(c) for c in Collection(g, g.value(s, URIRef(DINO + "orders"))) if short(c) in charts]
         steps = []
         for a, b in zip(order, order[1:]):
             d = diff(a, b)
@@ -181,8 +191,8 @@ def main(include_all=False):
                           "relabelled": len(d["relabelled"]), "relations_added": len(rel[b] - rel[a]),
                           "relations_removed": len(rel[a] - rel[b]), "restyled": len(d["restyled"]),
                           "entity_jaccard": jaccard(ent[a], ent[b])})
-        seqs[short(s).replace(BASE + "sequence/", "")] = {"basis": str(g.value(s, URIRef(BC + "basis"))),
-                                                          "proposed_by": str(g.value(s, URIRef(BC + "proposedBy"))),
+        seqs[short(s)] = {"basis": short(g.value(s, URIRef(DINO + "basis"))),
+                                                          "proposed_by": str(g.value(s, URIRef("http://purl.org/dc/terms/creator"))),
                                                           "order": order, "steps": steps}
     (OUT / "sequences.json").write_text(json.dumps(seqs, indent=1, ensure_ascii=False))
 

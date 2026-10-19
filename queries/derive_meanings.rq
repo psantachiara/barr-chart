@@ -1,0 +1,23 @@
+# What each mark signifies, by the conventions of its own diagram.
+# A graphic value on a mark takes the meaning a convention for that diagram gives it,
+# if the convention applies to that kind of mark (or to every kind).
+# A legend code written against a label takes the meaning the legend gives it.
+PREFIX dino: <https://psantachiara.github.io/dino/ns#>
+PREFIX crm:  <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+CONSTRUCT { ?mark dino:signifies ?meaning }
+WHERE {
+  {
+    GRAPH ?g { ?diagram crm:P106_is_composed_of ?mark . ?mark dino:graphicValue ?value ; a ?kind }
+    GRAPH ?h { ?conv a dino:Convention ; dino:holdsFor ?diagram ; dino:graphicValue ?value ; dino:signifies ?meaning .
+               OPTIONAL { ?conv dino:appliesTo ?applies } }
+    FILTER (!BOUND(?applies) || ?kind = ?applies ||
+            (?applies = dino:RelationMark && ?kind IN (dino:Arrow, dino:Enclosure, dino:Juxtaposition, dino:Connector)))
+  }
+  UNION
+  {
+    GRAPH ?g { ?diagram crm:P106_is_composed_of ?mark . ?mark dino:carriesCode ?code }
+    GRAPH ?h { ?conv a dino:Convention ; dino:holdsFor ?diagram ; dino:code ?code ; dino:signifies ?meaning }
+  }
+}
