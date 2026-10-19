@@ -159,7 +159,7 @@ Relations on every chart (35):
 
 | chart | archival reference | ink key | legend | forms | arrow colours | dossier |
 | --- | --- | --- | --- | --- | --- | --- |
-| 456 | Moma archives | none | a=architect, c=constructivism [?], p=painter, ph=photographer, s=sculptor, t=theatre | {'semicircle': 9, 'underlined': 20, 'other': 1, 'boxed': 4} | {'graphite': 41} | 0/5 fields written |
-| 457 | Moma archives | none | — | {'underlined': 18, 'semicircle': 6, 'boxed': 4} | {'graphite': 43} | 0/5 fields written |
-| 458 | AHB VI.A.38 ARCH.61 (p. 70) | blue=internal graphite=external | — | {'semicircle': 15, 'underlined': 17, 'boxed': 5} | {'blue': 34, 'graphite': 19} | 0/5 fields written |
-| Cover | Moma archives | black=internal red=external | — | {'semicircle': 19, 'boxed': 5} | {'black': 34, 'red': 17} | 0/5 fields written |
+| 456 | MoMA Archives, AHB VI.A.38 ARCH.57 (p. 69) | none | a=architect, c=constructivism [?], p=painter, ph=photographer, s=sculptor, t=theatre | {'semicircle': 9, 'underlined': 20, 'other': 1, 'boxed': 4} | {'graphite': 41} | 0/5 fields written |
+| 457 | MoMA Archives, AHB (p. 19) | none | — | {'underlined': 18, 'semicircle': 6, 'boxed': 4} | {'graphite': 43} | 0/5 fields written |
+| 458 | MoMA Archives, AHB VI.A.38 ARCH.61 (p. 70) | blue=internal graphite=external | — | {'semicircle': 15, 'underlined': 17, 'boxed': 5} | {'blue': 34, 'graphite': 19} | 0/5 fields written |
+| Cover | Cover of the catalogue for Cubism and Abstract Art, an exhibition at the Museum of Modern Art, March 2–April 19, 1936. Published by MoMA. | black=internal red=external | — | {'semicircle': 19, 'boxed': 5} | {'black': 34, 'red': 17} | 0/5 fields written |
