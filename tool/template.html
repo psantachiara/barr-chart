@@ -1301,23 +1301,13 @@ function paneMethod(){
   <h3 class="sh">Scope</h3>
   ${hasSecondary?`<div class="ctl"><button class="mini" id="secondary">${state.secondary?"Show the core set only":"Include the secondary set ("+DATA.versions.filter(v=>v.set!=="core").map(v=>esc(v.name)).join(", ")+")"}</button>
     <span class="kv">${state.secondary?"secondary charts included":"core set: charts that write places as labels"}</span></div>`:""}
-  <p class="note">The secondary set holds versions that express location through areas of the page rather than written place names. It is transcribed in the edition and left out of the comparison by default.</p>
-
-  <h3 class="sh">Data in and out</h3>
-  <div class="ctl">
-    <button class="mini" id="expJSON">Download dataset (JSON)</button>
-    <button class="mini" id="expCSV">Download incidence table (CSV)</button>
-    <label for="impJSON" class="mini">Load a dataset…</label>
-    <input type="file" id="impJSON" accept=".json,application/json" style="position:absolute;width:1px;height:1px;opacity:0">
-    <span class="kv" id="impMsg"></span>
-  </div>
-  <p class="note">The JSON is <code>tool/barr-charts.json</code>, written by <code>scripts/build_tool_data.py</code> from the CSV tables. Load an edited copy and every plane recomputes.</p>
+  <p class="note">The secondary set holds versions that express location through areas of the page rather than written place names. It is transcribed and left out of the comparison by default.</p>
 
   <h3 class="sh">Facsimiles and rights</h3>
-  <p class="lede" style="font-size:14.5px">Facsimiles are reproduced from the Museum of Modern Art Archives for study. Each chart's archival reference is shown with it; check the Archives' terms before any further reproduction.</p>
+  <p class="lede" style="font-size:14.5px">Facsimiles are reproduced from the Museum of Modern Art Archives for study. Each chart's archival reference is shown with it; check the Archives' terms before any further reproduction. The transcription and the data derived from it are not licensed for reuse.</p>
 
   <h3 class="sh">What this tool cannot do</h3>
-  <p class="lede">It does not recover motivation, and it does not connect the charts to the institution and culture that produced them. It cannot see hesitation, erasure, or the weight of a boxed category. Turning hand-drawn sheets into entities and relations is itself a classification performed by the transcriber; publishing the tables, the wording and the uncertainty is the available check on it.</p>`;
+  <p class="lede">It does not recover motivation, and it does not connect the charts to the institution and culture that produced them. It cannot see hesitation, erasure, or the weight of a boxed category. Turning hand-drawn sheets into entities and relations is itself a classification performed by the transcriber; making the wording, the conventions and the uncertainty visible is the available check on it.</p>`;
 }
 
 /* ============================================================
@@ -1349,9 +1339,6 @@ function bindPane(){
   $$("[data-mx]").forEach(td=>td.onclick=()=>{ state.mxSel = state.mxSel===td.dataset.mx ? null : td.dataset.mx; render(); });
   $$("svg[data-g]").forEach(initCamera);
   $$(".facs a").forEach(el=>el.onclick=e=>{ e.preventDefault(); lbOpen(el.dataset.v); });
-  const ej=$("#expJSON"); if(ej) ej.onclick=()=>dl("barr-charts.json", JSON.stringify(DATA,null,1), "application/json");
-  const ec=$("#expCSV"); if(ec) ec.onclick=exportCSV;
-  const ij=$("#impJSON"); if(ij) ij.onchange=importJSON;
   const sc=$("#secondary"); if(sc) sc.onclick=()=>{ state.secondary=!state.secondary; reload(DATA); };
 }
 
@@ -1423,27 +1410,6 @@ function initLightbox(){
   });
 }
 
-/* ---------- data in / out ---------- */
-function dl(name, text, type){
-  const b=new Blob([text],{type}), u=URL.createObjectURL(b), a=document.createElement("a");
-  a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),400);
-}
-function exportCSV(){
-  const q=s=>'"'+String(s).replace(/"/g,'""')+'"';
-  const head=["entity","kind",...MODEL.versions.map(v=>v.name)].map(q).join(",");
-  const rows=MODEL.all.map(id=>[q(MODEL.concepts[id].l), MODEL.concepts[id].t, ...MODEL.versions.map(v=>v.set.has(id)?q(surface(v,id)):"")].join(","));
-  dl("barr-incidence.csv",[head,...rows].join("\n"),"text/csv");
-}
-function importJSON(e){
-  const f=e.target.files[0]; if(!f) return;
-  const r=new FileReader();
-  r.onload=()=>{
-    try{ const d=JSON.parse(r.result); if(!d.concepts||!d.versions) throw new Error("needs concepts and versions");
-      reload(d); const m=$("#impMsg"); if(m){ m.textContent=`Loaded ${MODEL.versions.length} charts, ${MODEL.all.length} entities.`; m.style.color="var(--moss)"; } }
-    catch(err){ const m=$("#impMsg"); if(m){ m.textContent="Could not read that file: "+err.message; m.style.color="var(--oxblood)"; } }
-  };
-  r.readAsText(f);
-}
 function reload(d){
   DATA=d; MODEL=buildModel(d, state.secondary);
   state.sel=new Set(MODEL.order); state.mxSel=null; state.step=0; state.custom=[]; state.clusterOf=null;
