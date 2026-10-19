@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barr Chart Transcriber</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an archive reading-room desk. Facsimile on the left, questionnaire on the right; stacked on phones. */
+:root{
+  --bg:#F2F4F1; --surface:#FFFFFF; --sunk:#E8ECE8; --ink:#1C2321; --muted:#59645F; --line:#CFD6D1;
+  --accent:#2B5870; --accent-ink:#FFFFFF; --accent-soft:#DCE8EE;
+  --red:#9A2C2C; --ok:#2C6A45; --ok-soft:#DDEDE2; --warn:#8C620F; --warn-soft:#F4E8CC;
+  --f-display:"Jost","Futura","Avenir Next",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --r:6px; --hdr:0px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121615; --surface:#1A201E; --sunk:#232A28; --ink:#E4E9E6; --muted:#9AA5A0; --line:#323B38;
+  --accent:#86B6D0; --accent-ink:#0F1A20; --accent-soft:#1F3440;
+  --red:#E3837B; --ok:#77C496; --ok-soft:#1C3326; --warn:#DDB056; --warn-soft:#3A2F17; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121615; --surface:#1A201E; --sunk:#232A28; --ink:#E4E9E6; --muted:#9AA5A0; --line:#323B38;
+  --accent:#86B6D0; --accent-ink:#0F1A20; --accent-soft:#1F3440;
+  --red:#E3837B; --ok:#77C496; --ok-soft:#1C3326; --warn:#DDB056; --warn-soft:#3A2F17; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+code,.mono{font-family:var(--f-mono);font-size:.82em}
+h1,h2,h3{font-family:var(--f-display);font-weight:500;letter-spacing:.01em;text-wrap:balance;margin:0}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px}
+.top-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto}
+.brand h1{font-size:19px;text-transform:uppercase;letter-spacing:.08em}
+.brand span{color:var(--muted);font-size:13px}
+@media (max-width:520px){.brand span{display:none}}
+.status{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.status::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.status[data-s="saving"]::before{background:var(--warn)}
+.status[data-s="local"]::before,.status[data-s="error"]::before{background:var(--red)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-top:10px;scrollbar-width:thin}
+.tab{flex:none;border:1px solid var(--line);background:var(--bg);border-radius:var(--r);padding:6px 12px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:92px}
+.tab b{font-family:var(--f-display);font-weight:500;font-size:15px}
+.tab small{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.tab .bar{width:100%;height:3px;background:var(--sunk);border-radius:2px;overflow:hidden}
+.tab .bar i{display:block;height:100%;background:var(--ok)}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.tab[aria-selected="true"] small{color:inherit;opacity:.85}
+.tab[aria-selected="true"] .bar{background:color-mix(in srgb,var(--accent-ink) 25%,transparent)}
+.tab[aria-selected="true"] .bar i{background:var(--accent-ink)}
+
+/* desk */
+.desk{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 48px}
+@media (min-width:1000px){
+  .desk{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}
+  .desk.nofacs{grid-template-columns:minmax(0,1fr)}
+  .facs{position:sticky;top:calc(var(--hdr) + 16px);height:calc(100dvh - var(--hdr) - 32px)}
+}
+.desk.nofacs .facs{display:none}
+
+.facs{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;min-height:320px;min-width:0}
+.facs-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line)}
+.facs-bar .lbl{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:auto}
+.scan{flex:1;overflow:auto;background:var(--sunk);min-height:280px}
+@media (max-width:999px){.scan{max-height:55vh}}
+.scan img{display:block;max-width:none}
+.facs-empty{flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;padding:24px;color:var(--muted);max-width:42ch}
+
+.form{min-width:0;display:flex;flex-direction:column;gap:14px}
+.steps{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface);align-self:flex-start}
+.steps button{border:0;background:none;padding:8px 14px;cursor:pointer;font-size:14px;border-right:1px solid var(--line)}
+.steps button:last-child{border-right:0}
+.steps button[aria-selected="true"]{background:var(--accent-soft);color:var(--ink);font-weight:600}
+.steps button span{color:var(--muted);font-family:var(--f-mono);font-size:12px;margin-right:6px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.panel > h2{font-size:20px}
+.lead{color:var(--muted);margin:0;max-width:62ch}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field > span{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+input[type=text],input[type=search],select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:6px 8px;min-width:0;width:100%}
+textarea{min-height:64px;resize:vertical}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:4px;padding:6px 12px;cursor:pointer;font-size:14px;white-space:nowrap}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.small{padding:3px 9px;font-size:13px}
+.btn.ghost{border-color:transparent;background:none;color:var(--muted)}
+.btn.danger{color:var(--red)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.seg button{border:0;background:var(--surface);padding:5px 10px;font-size:13px;cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);font-weight:600}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.toolbar input[type=search]{flex:1 1 220px}
+.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* entities */
+.group h3{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:6px 0;border-bottom:1px solid var(--line);font-family:var(--f-body);font-weight:600}
+.ent{border-bottom:1px solid var(--line);padding:8px 0;display:flex;flex-direction:column;gap:8px}
+.ent-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.ent-head label{display:flex;align-items:center;gap:8px;cursor:pointer;margin-right:auto;min-width:0}
+.ent-head input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}
+.ent.off .name{color:var(--muted)}
+.ent-fields{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding-left:26px}
+.ink-red{color:var(--red)}
+.legend-ed{display:flex;flex-direction:column;gap:6px}
+.lg-row{display:flex;gap:6px;align-items:center}
+.lg-row input[data-lg=meaning]{flex:1}
+.entry{display:grid;grid-template-columns:minmax(0,1fr) 170px auto;gap:10px;align-items:end;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:12px}
+.entry .sugg,.entry #ne-msg{grid-column:1 / -1;margin:0}
+.entry .sugg{display:flex;flex-direction:column;gap:6px}
+.entry .sugg:empty{display:none}
+.entry #ne-label{font-size:16px;padding:8px 10px}
+@media (max-width:560px){.entry{grid-template-columns:1fr auto}.entry .grow{grid-column:1 / -1}}
+.ent-head .name{font-weight:500;margin-right:4px}
+.also{font-size:12.5px;color:var(--muted);margin-right:auto;min-width:0}
+.chip:disabled{opacity:.55;cursor:default}
+.key{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted);align-items:center;background:var(--bg);border-radius:4px;padding:8px 12px}
+.key span{display:inline-flex;gap:8px;align-items:center}
+.ent-fields .wide{grid-column:1 / -1}
+@media (max-width:640px){.ent-fields{grid-template-columns:1fr 1fr;padding-left:0}.ent-fields .lab{grid-column:1 / -1}}
+.pill{font-size:11.5px;border-radius:999px;padding:1px 8px;border:1px solid transparent;white-space:nowrap}
+.pill.legacy{background:var(--warn-soft);color:var(--warn)}
+.pill.ext{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.chk{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:2px 10px;font-size:12.5px;cursor:pointer;white-space:nowrap}
+.chk[aria-pressed="true"]{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+.inline-confirm{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--warn-soft);color:var(--ink);border-radius:4px;padding:8px 10px;font-size:14px}
+
+/* relations */
+.card{border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:10px}
+.card.done{border-color:color-mix(in srgb,var(--ok) 55%,var(--line))}
+.card-head{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+.card-head h3{font-size:17px;margin-right:auto}
+.card-head .t{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.sub{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0}
+.arrow{display:grid;grid-template-columns:28px minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.9fr) minmax(0,1fr) auto;gap:6px;align-items:center}
+@media (max-width:720px){.arrow{grid-template-columns:28px 1fr 1fr auto}.arrow .to{grid-column:2 / 4}}
+.swatch{display:inline-block;height:0;border-top:2px solid var(--ink);width:24px;position:relative}
+.swatch::after{content:"";position:absolute;right:-1px;top:-6px;border:5px solid transparent;border-left:7px solid var(--ink);border-right:0}
+.swatch.dotted{border-top-style:dotted}.swatch.dashed{border-top-style:dashed}
+.swatch.red{border-top-color:var(--red)}.swatch.red::after{border-left-color:var(--red)}
+.swatch.blue{border-top-color:var(--accent)}.swatch.blue::after{border-left-color:var(--accent)}
+.swatch.graphite{border-top-color:var(--muted)}.swatch.graphite::after{border-left-color:var(--muted)}
+.inkkey{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:2px 10px;font-size:13px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);font-weight:500}
+.chip.legacy[aria-pressed="true"]{box-shadow:inset 0 -2px 0 var(--warn)}
+.incoming{font-size:13px;color:var(--muted)}
+
+/* review */
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+.issues{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.issues li{font-size:14px}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer}
+.note{font-size:13.5px;color:var(--muted);max-width:68ch;margin:0}
+.banner{border-radius:var(--r);padding:10px 14px;background:var(--warn-soft);color:var(--ink);font-size:14px}
+.empty{padding:32px 16px;color:var(--muted);max-width:56ch}
+@media (prefers-reduced-motion:no-preference){.tab,.chip,.chk,.btn{transition:background-color .12s,border-color .12s}}
+</style>
+</head>
+<body>
+<header class="top" id="top">
+  <div class="top-row">
+    <div class="brand"><h1>Barr Chart Transcriber</h1><span>Cubism and Abstract Art, 1936</span></div>
+    <button class="btn small ghost" id="toggleFacs" type="button">Hide facsimile</button>
+    <div class="status" id="status" data-s="saving">Opening…</div>
+  </div>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Charts"></nav>
+</header>
+
+<main class="desk" id="desk">
+  <aside class="facs" id="facs" aria-label="Facsimile"></aside>
+  <section class="form" id="form">
+    <div class="steps" role="tablist" aria-label="Questionnaire" id="steps">
+      <button type="button" data-step="record"><span>1</span>The record</button>
+      <button type="button" data-step="written"><span>2</span>What is written</button>
+      <button type="button" data-step="drawn"><span>3</span>What is drawn</button>
+      <button type="button" data-step="review"><span>4</span>Review and export</button>
+    </div>
+    <div id="body"><div class="panel empty">Opening the transcription…</div></div>
+  </section>
+</main>
+
+<input type="file" id="facsFile" accept="image/*" hidden>
+<input type="file" id="csvFiles" accept=".csv,text/csv" multiple hidden>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+(() => {
+"use strict";
+const TYPES = ["Movement","Person","Place"];
+const TYPE_NAME = {Movement:"Movements",Person:"People",Place:"Places"};
+const FORMS = ["semicircle","underlined","boxed","oval","plain","other"];
+const CERT = ["","certain","probable","uncertain"];
+const LINES = ["solid","dotted","dashed","other"];
+const INKS = ["","black","red","blue","graphite","other"];
+/* Barr's key: black = internal influence, red = external influence; solid = primary, dotted = secondary. */
+const LINE_L = {solid:"solid · primary", dotted:"dotted · secondary", dashed:"dashed", other:"other"};
+/* Each chart has its own ink key. Without one, the Cover's key applies: black = internal, red = external; other inks carry no meaning. */
+const DEFAULT_KEY = {black:"internal", red:"external"};
+const inkKey = c => (c && c.inkKey && Object.keys(c.inkKey).length) ? c.inkKey : DEFAULT_KEY;
+const meaningOf = (c, ink) => (ink && inkKey(c)[ink]) || "";
+const isExt = (c, n) => !!n && meaningOf(c, n.ink) === "external";
+const inkLabels = c => Object.fromEntries(INKS.map(i => [i, i ? i + (meaningOf(c, i) ? " · " + meaningOf(c, i) : "") : "—"]));
+const swatchCls = e => ["swatch", e.line, ["red","blue","graphite"].includes((e.colour||"").toLowerCase()) ? e.colour.toLowerCase() : ""].join(" ");
+const EXT = '<span class="pill ext" title="External influence, by this chart\'s ink key">external</span>';
+
+const S = {concepts:{}, charts:{}, cur:null, step:"record", q:"", show:"all", drawnShow:"all", zoom:0, loaded:false, canWrite:true, localImg:{}, confirm:null, draft:"", lastKind:"Movement", addMsg:""};
+let db = null, assets = null, downloads = null;
+const dirty = new Set(), timers = {}, writing = {}, lastWritten = {};
+let conceptsLast = "";
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const today = () => { const d = new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
+const rid = () => Math.random().toString(36).slice(2,9);
+const slug = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"");
+const optsL = (list, v, L) => list.map(o => `<option value="${esc(o)}"${o===v?" selected":""}>${esc(L[o] ?? o)}</option>`).join("");
+const opts = (list, v) => list.map(o => `<option value="${esc(o)}"${o===v?" selected":""}>${o?esc(o):"—"}</option>`).join("");
+const store = { get(k){ try{return localStorage.getItem(k);}catch{return null;} }, set(k,v){ try{localStorage.setItem(k,v);}catch{} } };
+
+const chart = () => S.charts[S.cur];
+const label = (c, id) => (c && c.nodes[id] && c.nodes[id].label) || (S.concepts[id] && S.concepts[id].pref_label) || id;
+const ctype = id => (S.concepts[id] && S.concepts[id].type) || "Movement";
+const chartIds = () => Object.keys(S.charts).sort((a,b) => (S.charts[a].pos||99)-(S.charts[b].pos||99) || a.localeCompare(b));
+
+function normalise(c){
+  c.nodes = c.nodes || {}; c.edges = c.edges || []; c.checked = c.checked || {}; c.legend = c.legend || [];
+  c.edges.forEach(e => { if (!e.k) e.k = rid(); });
+  return c;
+}
+
+/* ---------------- status + saving ---------------- */
+function setStatus(s, text){ const el = $("#status"); el.dataset.s = s; el.textContent = text; }
+function refreshStatus(){
+  if (!db) return setStatus("local", "Not saving in this browser. Export before you close.");
+  if (!S.canWrite) return setStatus("local", "Read-only");
+  if (dirty.size || Object.values(writing).some(Boolean)) return setStatus("saving", "Saving…");
+  setStatus("ok", "Saved in this browser");
+}
+function touch(cid = S.cur){
+  if (!S.canWrite) return;
+  dirty.add(cid); refreshStatus(); renderTabs();
+  clearTimeout(timers[cid]); timers[cid] = setTimeout(() => flush(cid), 800);
+}
+async function flush(cid, retried){
+  if (!db) { dirty.delete(cid); return refreshStatus(); }
+  if (writing[cid]) { timers[cid] = setTimeout(() => flush(cid), 400); return; }
+  dirty.delete(cid); writing[cid] = true; refreshStatus();
+  S.charts[cid].updatedAt = new Date().toISOString();
+  const body = JSON.parse(JSON.stringify(S.charts[cid]));
+  lastWritten[cid] = JSON.stringify(body);
+  try { await db.doc("charts/"+cid).set(body); }
+  catch (e) {
+    writing[cid] = false;
+    if (e && e.code === "unavailable" && !retried) { setTimeout(() => flush(cid, true), 600 + Math.random()*800); return; }
+    if (e && e.code === "invalid_argument") { S.canWrite = false; renderAll(); return setStatus("error", "Couldn't save: this view can't write to the transcription."); }
+    if (e && e.code === "quota_exceeded") return setStatus("error", "Couldn't save: this browser's storage is full. Export the tables, then clear old data.");
+    dirty.add(cid); return setStatus("error", "Couldn't save just now. Your next change will try again.");
+  }
+  writing[cid] = false; refreshStatus();
+}
+async function saveConcepts(){
+  if (!db || !S.canWrite) return;
+  const body = {items: S.concepts}; conceptsLast = JSON.stringify(body);
+  try { await db.doc("vocab/concepts").set(body); } catch { setStatus("error", "Couldn't save the new entity."); }
+}
+
+/* ---------------- render: shell ---------------- */
+function renderAll(){ renderTabs(); renderSteps(); renderFacs(); renderBody(); }
+
+function progress(c){
+  const ids = Object.keys(c.nodes), n = ids.length;
+  const cards = ids.filter(i => ctype(i) !== "Place"), done = cards.filter(i => c.checked[i]).length;
+  return {n, e: c.edges.filter(e => e.target).length, cards: cards.length, done, pct: cards.length ? done / cards.length : 0};
+}
+function renderTabs(){
+  const ids = chartIds();
+  $("#tabs").innerHTML = ids.map(id => {
+    const c = S.charts[id], p = progress(c);
+    return `<button class="tab" role="tab" type="button" data-chart="${esc(id)}" aria-selected="${id===S.cur}">
+      <b>${esc(c.title || id)}${c.set === "secondary" ? ' <span class="count">· secondary</span>' : ""}</b><small>${p.n} entities · ${p.e} relations</small><span class="bar"><i style="width:${Math.round(p.pct*100)}%"></i></span></button>`;
+  }).join("");
+}
+function renderSteps(){ document.querySelectorAll("#steps button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.step === S.step))); }
+
+function renderFacs(){
+  const c = chart(), el = $("#facs");
+  if (!c) { el.innerHTML = `<div class="facs-empty">The facsimile of the chart you're transcribing appears here.</div>`; return; }
+  const url = (c.facsimile && c.facsimile.url) || S.localImg[S.cur];
+  if (!url) {
+    el.innerHTML = `<div class="facs-bar"><span class="lbl">Facsimile · ${esc(c.title)}</span></div>
+      <div class="facs-empty"><p style="margin:0">Add the scan of <b>${esc(c.title)}</b> to read it beside the questionnaire.</p>
+      <button class="btn primary" type="button" data-act="facs-pick">Choose image</button>
+      <p class="note">The image is shown in this tab only and is not stored. The facsimiles are in the repository's <code>img/</code> folder.</p></div>`;
+    return;
+  }
+  const w = S.zoom ? `width:${Math.round(S.zoom*100)}%` : "width:100%";
+  el.innerHTML = `<div class="facs-bar"><span class="lbl">Facsimile · ${esc(c.title)}</span>
+      <button class="btn small" type="button" data-act="zoom" data-z="-1" aria-label="Zoom out">−</button>
+      <button class="btn small" type="button" data-act="zoom" data-z="0">Fit width</button>
+      <button class="btn small" type="button" data-act="zoom" data-z="1" aria-label="Zoom in">+</button>
+      <button class="btn small ghost" type="button" data-act="facs-pick">Replace</button></div>
+    <div class="scan"><img src="${esc(url)}" alt="Facsimile of chart ${esc(c.title)}" style="${w}"></div>`;
+}
+
+function renderBody(){
+  const body = $("#body");
+  if (!S.loaded) { body.innerHTML = `<div class="panel empty">Opening the transcription…</div>`; return; }
+  if (!chart()) {
+    body.innerHTML = `<div class="panel"><h2>No charts loaded yet</h2>
+      <p class="lead">This page keeps the transcription in this browser's local storage. It's empty: import the CSV tables from the project's <code>data/</code> folder, or add a chart.</p>
+      <div class="toolbar"><button class="btn primary" type="button" data-act="import">Import CSV tables</button></div></div>`;
+    return;
+  }
+  const banner = !db ? `<div class="banner">This browser won't let the page save. Your changes stay in this tab until you export the tables in step 4.</div>`
+    : !S.canWrite ? `<div class="banner">You can read this transcription but not change it.</div>` : "";
+  body.innerHTML = banner + ({record: viewRecord, written: viewWritten, drawn: viewDrawn, review: viewReview})[S.step]();
+  if (!S.canWrite) body.querySelectorAll("input,select,textarea,button[data-act]:not([data-act=goto]):not([data-act=export]):not([data-act=copy])").forEach(x => x.disabled = true);
+}
+
+/* ---------------- step 1: record ---------------- */
+function viewRecord(){
+  const c = chart();
+  const f = (k, l, ph="") => `<label class="field"><span>${l}</span><input type="text" id="rec-${k}" data-rec="${k}" value="${esc(c[k])}" placeholder="${esc(ph)}"></label>`;
+  return `<div class="panel"><h2>The record</h2>
+    <p class="lead">Where this chart is held and what can be said about it as an object. Leave a field blank rather than guess.</p>
+    <div class="grid2">
+      ${f("title","Name in this project")}
+      ${f("archival_reference","Archival reference","MoMA Archives, AHB …")}
+      ${f("date","Date","as established, e.g. 1936")}
+      ${f("date_basis","Basis for the date","e.g. printed on jacket; folder date")}
+      <label class="field"><span>Set</span><select id="rec-set" data-rec="set">${optsL(["core","secondary"], c.set || "core", {core:"core (this paper)", secondary:"secondary (held for later)"})}</select></label>
+    </div>
+    <label class="field"><span>Notes on the object</span><textarea id="rec-note" data-rec="note">${esc(c.note)}</textarea></label>
+    <div class="field"><span>Pragmatic dossier</span>
+      <p class="note" style="margin:0">What the sheet is as an object and an occasion, written from the facsimile and the archival record. These feed the Pragmatic plane. Leave a field blank rather than guess.</p>
+      <div class="grid2">${[["support","Support","medium, sheet, inks"],["audience","Audience","who it was made for"],["permanence","Permanence","working paper, proof, printed…"],["constraint","Constraint","what limited it: space, inks, format"]].map(([k,l,ph]) =>
+        `<label class="field"><span>${l}</span><input type="text" id="prag-${k}" data-prag="${k}" value="${esc((c.pragmatic||{})[k]||"")}" placeholder="${ph}"></label>`).join("")}</div>
+      <label class="field"><span>Function</span><textarea id="prag-fn" data-prag="fn" placeholder="what the chart does">${esc((c.pragmatic||{}).fn||"")}</textarea></label>
+    </div>
+    <div class="field"><span>Ink key</span>
+      <p class="note" style="margin:0">What each ink means on this chart. ${c.inkKey && Object.keys(c.inkKey).length ? "" : "Not set, so the Cover's key applies: black = internal, red = external. "}On a sheet drawn in a single ink, set every ink to "no meaning".</p>
+      <div class="inkkey">${INKS.filter(Boolean).map(i => `<label class="field"><span><i class="${swatchCls({colour:i, line:"solid"})}"></i> ${i}</span>
+        <select id="ik-${i}" data-ik="${i}">${optsL(["","internal","external"], meaningOf(c, i), {"":"no meaning", internal:"internal influence", external:"external influence"})}</select></label>`).join("")}</div>
+    </div>
+    <div class="field"><span>Legend of tags</span>
+      <p class="note" style="margin:0">Only if this chart carries a key of letters or marks against names (for example a = architect, p = painter). Each tag you define here can then be set on entities in step 2. Copy the code and its meaning as Barr writes them.</p>
+      <div class="legend-ed">${c.legend.map((t,i) => `<div class="lg-row" data-i="${i}">
+        <input type="text" id="lgc-${i}" data-lg="code" value="${esc(t.code)}" placeholder="code" aria-label="Tag code" style="width:80px">
+        <input type="text" id="lgm-${i}" data-lg="meaning" value="${esc(t.meaning)}" placeholder="meaning, as written" aria-label="Tag meaning">
+        <button class="btn small ghost danger" type="button" data-act="del-tag" aria-label="Delete tag">✕</button></div>`).join("")}
+      </div>
+      <div><button class="btn small" type="button" data-act="add-tag">Add a tag</button></div>
+    </div>
+    <p class="note">Chart id <code>${esc(S.cur)}</code>. The id is used in the linked-data edition and doesn't change.</p></div>`;
+}
+
+/* ---------------- step 2: written ---------------- */
+const STOP = new Set(["the","of","and","a","de","la","le","les","des"]);
+const norm = s => (s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g," ").trim();
+const toks = s => norm(s).split(" ").filter(w => w && !STOP.has(w));
+function namesOf(cid){
+  const out = new Set([S.concepts[cid] && S.concepts[cid].pref_label]);
+  chartIds().forEach(ch => { const n = S.charts[ch].nodes[cid]; if (n && n.label) out.add(n.label); });
+  return [...out].filter(Boolean);
+}
+function chartsWith(cid){ return chartIds().filter(ch => S.charts[ch].nodes[cid]); }
+function matchScore(typed, cid){
+  const a = norm(typed); if (!a) return 0;
+  let best = 0;
+  for (const name of namesOf(cid)) {
+    const b = norm(name);
+    if (a === b) return 3;
+    if (b.includes(a) || a.includes(b)) best = Math.max(best, 2);
+    const ta = toks(typed), tb = toks(name);
+    if (ta.some(x => x.length >= 4 && tb.some(y => y.length >= 4 && x.slice(0,4) === y.slice(0,4)))) best = Math.max(best, 1);
+  }
+  return best;
+}
+function suggestions(typed){
+  return Object.keys(S.concepts).map(cid => [cid, matchScore(typed, cid)]).filter(([,s]) => s > 0)
+    .sort((x,y) => y[1]-x[1] || (S.concepts[x[0]].pref_label||"").localeCompare(S.concepts[y[0]].pref_label||"")).slice(0, 8);
+}
+function suggHTML(typed){
+  if (!norm(typed)) return "";
+  const c = chart(), list = suggestions(typed);
+  if (!list.length) return `<p class="note">No entity with a similar name is recorded yet. <b>Add as new</b> creates one.</p>`;
+  return `<p class="note">Is it the same as one already recorded? Pick it so all charts share one entity; otherwise <b>Add as new</b> creates a new one.</p>
+    <div class="chips">${list.map(([cid]) => {
+      const on = !!c.nodes[cid], where = chartsWith(cid).map(ch => S.charts[ch].title).join(", ");
+      return `<button type="button" class="chip" data-act="add-existing" data-cid="${esc(cid)}" ${on ? "disabled" : ""} title="${esc(where ? "On: "+where : "Not on any chart yet")}">
+        ${esc(S.concepts[cid].pref_label)} <span class="count">· ${esc(S.concepts[cid].type.toLowerCase())}${on ? " · already here" : where ? " · "+esc(where) : ""}</span></button>`;
+    }).join("")}</div>`;
+}
+function viewWritten(){
+  const c = chart();
+  const n = Object.keys(c.nodes).length;
+  return `<div class="panel"><h2>What is written on ${esc(c.title)}</h2>
+    <p class="lead">Type each movement, person and place exactly as Barr wrote it, choose its kind, and add it. If the same thing is already recorded on another chart, pick it from the suggestions so the charts share one entity.</p>
+    <div class="entry">
+      <label class="field grow"><span>As written on the chart</span><input type="text" id="ne-label" autocomplete="off" placeholder="e.g. [ABSTRACT] DADAISM" value="${esc(S.draft||"")}"></label>
+      <label class="field"><span>Kind</span><select id="ne-type">${opts(TYPES, S.lastKind || "Movement")}</select></label>
+      <button class="btn primary" type="button" data-act="add-new">Add as new</button>
+      <div class="sugg" id="ne-sugg">${suggHTML(S.draft||"")}</div>
+      <p class="count" id="ne-msg" role="status">${esc(S.addMsg||"")}</p>
+    </div>
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="Filter this chart's entities" value="${esc(S.q)}" aria-label="Filter this chart's entities">
+      <span class="count">${n} ${n===1?"entity":"entities"} on this chart</span>
+    </div>
+    <div id="ents">${entList()}</div></div>`;
+}
+function entList(){
+  const c = chart(), q = norm(S.q);
+  const ids = Object.keys(c.nodes).filter(id => !q || norm(c.nodes[id].label + " " + (S.concepts[id]||{}).pref_label + " " + id).includes(q));
+  if (!Object.keys(c.nodes).length) return `<p class="note">Nothing recorded on this chart yet. Start with the first name you read on the sheet.</p>`;
+  const html = TYPES.map(t => {
+    const rows = ids.filter(id => ctype(id) === t).sort((a,b) => label(c,a).localeCompare(label(c,b)));
+    return rows.length ? `<div class="group"><h3>${TYPE_NAME[t]} <span class="count">· ${rows.length}</span></h3>${rows.map(entRow).join("")}</div>` : "";
+  }).join("");
+  return html || `<p class="note">Nothing matches the filter.</p>`;
+}
+function entRow(id){
+  const c = chart(), n = c.nodes[id], con = S.concepts[id] || {pref_label:id, type:"Movement"};
+  if (!n) return "";
+  const rels = c.edges.filter(e => e.source===id || e.target===id).length;
+  const others = chartsWith(id).filter(ch => ch !== S.cur).map(ch => S.charts[ch].title);
+  let html = `<div class="ent on" id="ent-${esc(id)}" data-id="${esc(id)}">
+    <div class="ent-head"><span class="name${n.ink==="red" ? " ink-red":""}">${esc(n.label || con.pref_label)}</span>${isExt(c, n) ? EXT : ""}
+      <span class="also">${con.pref_label !== n.label ? "entity: "+esc(con.pref_label)+" · " : ""}<code>${esc(id)}</code>${others.length ? " · also on "+esc(others.join(", ")) : ""}</span>
+      <button class="btn small ghost danger" type="button" data-act="remove">Remove</button></div>`;
+  if (S.confirm === id) {
+    html += `<div class="inline-confirm">${rels} relation${rels===1?"":"s"} on this chart involve this entity. Remove it and delete them too?
+      <button class="btn small danger" type="button" data-act="remove-confirm">Remove and delete</button>
+      <button class="btn small" type="button" data-act="remove-cancel">Keep it</button></div>`;
+  }
+  html += `<div class="ent-fields">
+      <label class="field lab"><span>As written</span><input type="text" id="lab-${esc(id)}" data-nf="label" value="${esc(n.label)}"></label>
+      <label class="field"><span>Year on the chart's scale</span><input type="text" id="dat-${esc(id)}" data-nf="date" value="${esc(n.date)}" placeholder="e.g. 1906"></label>
+      <label class="field"><span>Ink</span><select id="ink-${esc(id)}" data-nf="ink">${optsL(INKS,n.ink||"",inkLabels(c))}</select></label>
+      <label class="field"><span>Reading</span><select id="cer-${esc(id)}" data-nf="certainty">${opts(CERT,n.certainty||"")}</select></label>
+      ${ctype(id) === "Person" ? (() => {
+        const mvs = Object.keys(c.nodes).filter(x => ctype(x) === "Movement").sort((a,b) => label(c,a).localeCompare(label(c,b)));
+        return `<div class="field wide"><span>Listed under (choose all that apply)</span>${mvs.length ? `<div class="chips">${mvs.map(m =>
+          `<button type="button" class="chip" data-act="member" data-mv="${esc(m)}" aria-pressed="${c.edges.some(e => e.source===id && e.relation==="memberOf" && e.target===m)}">${esc(label(c,m))}</button>`).join("")}</div>`
+          : `<p class="note" style="margin:0">Add the currents on this chart first; they appear here to choose from.</p>`}</div>`; })() : ""}
+      ${ctype(id) === "Place" ? (() => {
+        const byLabel = (a,b) => label(c,a).localeCompare(label(c,b));
+        const mvs = Object.keys(c.nodes).filter(x => ctype(x) === "Movement").sort(byLabel);
+        const ppl = Object.keys(c.nodes).filter(x => ctype(x) === "Person").sort(byLabel);
+        const chip = x => `<button type="button" class="chip" data-act="site" data-of="${esc(x)}" aria-pressed="${c.edges.some(e => e.source===x && e.relation==="sitedIn" && e.target===id)}">${esc(label(c,x))}</button>`;
+        return `<div class="field wide"><span>Attached to (choose all that apply)</span>${mvs.length || ppl.length ?
+          `${mvs.length ? `<div class="chips">${mvs.map(chip).join("")}</div>` : ""}${ppl.length ? `<details${ppl.some(x => c.edges.some(e => e.source===x && e.relation==="sitedIn" && e.target===id)) ? " open" : ""}><summary class="count">People (${ppl.length})</summary><div class="chips" style="margin-top:6px">${ppl.map(chip).join("")}</div></details>` : ""}`
+          : `<p class="note" style="margin:0">Add the currents on this chart first; they appear here to choose from.</p>`}</div>`; })() : ""}
+      <div class="field wide"><span>Drawn as (choose all that apply)</span><div class="chips">${FORMS.map(f =>
+        `<button type="button" class="chip" data-act="form" data-v="${f}" aria-pressed="${(n.form||"").split(" ").includes(f)}">${f}</button>`).join("")}</div></div>
+      ${c.legend.filter(t => t.code).length ? `<div class="field wide"><span>Tags (this chart's legend)</span><div class="chips">${c.legend.filter(t => t.code).map(t =>
+        `<button type="button" class="chip" data-act="tag" data-code="${esc(t.code)}" aria-pressed="${(n.tags||[]).includes(t.code)}"><b>${esc(t.code)}</b> ${esc(t.meaning)}</button>`).join("")}</div></div>` : ""}
+      <label class="field wide"><span>Note</span><input type="text" id="not-${esc(id)}" data-nf="note" value="${esc(n.note)}"></label>
+    </div></div>`;
+  return html;
+}
+function rerenderEnt(id){ const el = document.getElementById("ent-"+id); if (el) el.outerHTML = entRow(id); }
+function rerenderList(){ const el = $("#ents"); if (el) el.innerHTML = entList(); }
+function newNode(lbl){ return {label:lbl, date:"", form:"", ink:"", certainty:"", verified:today(), origin:"transcribed", note:""}; }
+async function addEntity(existing){
+  const c = chart(), inp = $("#ne-label"), typed = inp.value.trim();
+  let cid = existing;
+  if (!cid) {
+    if (!typed) { S.addMsg = "Type the name as it is written first."; msg("ne-msg", S.addMsg); return; }
+    const exact = Object.keys(S.concepts).find(k => matchScore(typed, k) === 3 && S.concepts[k].type === $("#ne-type").value);
+    if (exact) cid = exact;
+  }
+  if (cid && c.nodes[cid]) { S.addMsg = `${S.concepts[cid].pref_label} is already on this chart.`; msg("ne-msg", S.addMsg); return; }
+  let isNew = false;
+  if (!cid) {
+    const type = $("#ne-type").value, base = slug(typed) || "entity";
+    cid = base; let i = 2; while (S.concepts[cid]) cid = base + "_" + i++;
+    S.concepts[cid] = {type, pref_label: typed, note: ""}; isNew = true;
+  }
+  c.nodes[cid] = newNode(typed || S.concepts[cid].pref_label);
+  S.lastKind = S.concepts[cid].type; S.draft = "";
+  S.addMsg = isNew ? `Added “${typed}” as a new ${S.concepts[cid].type.toLowerCase()}.` : `Added “${c.nodes[cid].label}”, linked to ${S.concepts[cid].pref_label}.`;
+  touch(); if (isNew) saveConcepts();
+  renderBody(); const el = $("#ne-label"); if (el) el.focus();
+}
+
+/* ---------------- step 3: drawn ---------------- */
+function viewDrawn(){
+  const c = chart();
+  const ids = Object.keys(c.nodes).filter(id => ctype(id) !== "Place")
+    .sort((a,b) => TYPES.indexOf(ctype(a)) - TYPES.indexOf(ctype(b)) || label(c,a).localeCompare(label(c,b)));
+  const shown = ids.filter(id => S.drawnShow === "all" || !c.checked[id]);
+  const done = ids.filter(id => c.checked[id]).length;
+  return `<div class="panel"><h2>What is drawn on ${esc(c.title)}</h2>
+    <p class="lead">Go through the entities one at a time. For each, record the arrows that leave it, the places written with it, and, for movements, the names listed under it. Press <i>Done</i> when the card matches the facsimile.</p>
+    <div class="key" aria-label="Ink key for this chart"><b style="color:var(--ink)">Key on this chart</b>
+      ${INKS.filter(i => meaningOf(c, i)).map(i => `<span><i class="${swatchCls({colour:i, line:"solid"})}"></i>${i}: ${meaningOf(c, i)} influence</span>`).join("") || "<span>No ink carries a meaning on this chart.</span>"}
+      <span><i class="swatch dotted"></i>dotted: secondary influence</span>
+      <span>Set the ink key in step 1.</span></div>
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="Show">${[["all","All"],["open","Not done yet"]].map(([k,l]) => `<button type="button" data-dshow="${k}" aria-pressed="${S.drawnShow===k}">${l}</button>`).join("")}</div>
+      <span class="count">${done} of ${ids.length} done</span>
+    </div>
+    ${ids.length ? "" : `<p class="note">Add the entities in step 2 first.</p>`}
+    ${shown.map(card).join("")}</div>`;
+}
+function card(id){
+  const c = chart(), t = ctype(id);
+  const onChart = Object.keys(c.nodes);
+  const others = onChart.filter(x => x !== id && ctype(x) !== "Place")
+    .sort((a,b) => label(c,a).localeCompare(label(c,b)));
+  const arrows = c.edges.filter(e => e.source === id && (e.relation === "influenced" || e.relation === "relatedTo"));
+  const places = onChart.filter(x => ctype(x) === "Place").sort((a,b) => label(c,a).localeCompare(label(c,b)));
+  const persons = onChart.filter(x => ctype(x) === "Person").sort((a,b) => label(c,a).localeCompare(label(c,b)));
+  const has = (s,r,o) => c.edges.find(e => e.source===s && e.relation===r && e.target===o);
+  const incoming = c.edges.filter(e => e.target === id && e.relation === "influenced").map(e => esc(label(c,e.source)));
+  const listedUnder = t === "Person" ? c.edges.filter(e => e.source === id && e.relation === "memberOf").map(e => esc(label(c,e.target))) : [];
+  const arrowRow = e => {
+    const cls = swatchCls(e);
+    return `<div class="arrow" data-k="${esc(e.k)}">
+      <span class="${cls}" aria-hidden="true"></span>
+      <select class="to" id="to-${esc(e.k)}" data-ef="target" aria-label="Arrow to"><option value="">To…</option>${others.map(o => `<option value="${esc(o)}"${o===e.target?" selected":""}>${esc(label(c,o))}</option>`).join("")}</select>
+      <select id="rel-${esc(e.k)}" data-ef="relation" aria-label="Kind"><option value="influenced"${e.relation==="influenced"?" selected":""}>influence</option><option value="relatedTo"${e.relation==="relatedTo"?" selected":""}>unclear</option></select>
+      <select id="lin-${esc(e.k)}" data-ef="line" aria-label="Line">${optsL(LINES,e.line||"solid",LINE_L)}</select>
+      <select id="col-${esc(e.k)}" data-ef="colour" aria-label="Ink">${optsL(INKS,e.colour||"",inkLabels(c))}</select>
+      <select id="ecr-${esc(e.k)}" data-ef="certainty" aria-label="Reading">${opts(CERT,e.certainty||"")}</select>
+      <button class="btn small ghost danger" type="button" data-act="del-arrow" aria-label="Delete arrow">✕</button>
+    </div>`;
+  };
+  const chip = (rel, other, s, o) => {
+    const e = has(s, rel, o);
+    return `<button type="button" class="chip${e && e.origin==="legacy" && !e.verified ? " legacy":""}" data-act="chip" data-rel="${rel}" data-other="${esc(other)}" aria-pressed="${!!e}">${esc(label(c,other))}</button>`;
+  };
+  return `<div class="card${c.checked[id] ? " done":""}" id="card-${esc(id)}" data-id="${esc(id)}">
+    <div class="card-head"><h3${c.nodes[id] && c.nodes[id].ink==="red" ? ' class="ink-red"':""}>${esc(label(c,id))}</h3>${isExt(c, c.nodes[id]) ? EXT : ""}<span class="t">${t}</span>
+      <button type="button" class="chk" data-act="card-check" aria-pressed="${!!c.checked[id]}">${c.checked[id] ? "Done "+esc(c.checked[id]) : "Done?"}</button></div>
+    <p class="sub">Arrows leaving it</p>
+    ${arrows.map(arrowRow).join("") || `<p class="note">No arrows recorded.</p>`}
+    <div><button class="btn small" type="button" data-act="add-arrow">Add an arrow</button></div>
+    ${places.length ? `<p class="sub">Places written with it</p><div class="chips">${places.map(p => chip("sitedIn", p, id, p)).join("")}</div>` : ""}
+    ${t === "Movement" && persons.length ? `<p class="sub">Names listed under it</p><div class="chips">${persons.map(p => chip("memberOf", p, p, id)).join("")}</div>` : ""}
+    ${incoming.length || listedUnder.length ? `<p class="incoming">${incoming.length ? "Arrows arriving from: "+incoming.join(", ")+". " : ""}${listedUnder.length ? "Listed under: "+listedUnder.join(", ")+"." : ""}</p>` : ""}
+  </div>`;
+}
+function rerenderCard(id){ const el = document.getElementById("card-"+id); if (el) el.outerHTML = card(id); }
+
+/* ---------------- step 4: review ---------------- */
+function issues(cid){
+  const c = S.charts[cid], out = [], seen = new Set();
+  c.edges.forEach(e => {
+    if (!e.target) out.push({id:e.source, text:`An arrow from ${label(c,e.source)} has no destination.`});
+    else if (!c.nodes[e.source] || !c.nodes[e.target]) out.push({id:e.source, text:`${label(c,e.source)} → ${label(c,e.target)} refers to an entity that isn't recorded on this chart.`});
+    const key = e.source+"|"+e.relation+"|"+e.target;
+    if (e.target && seen.has(key)) out.push({id:e.source, text:`${label(c,e.source)} → ${label(c,e.target)} is recorded twice.`});
+    seen.add(key);
+  });
+  if (!c.archival_reference) out.push({id:null, text:"No archival reference yet (step 1)."});
+  return out;
+}
+function viewReview(){
+  const rows = chartIds().map(id => {
+    const c = S.charts[id], p = progress(c), n = issues(id).length;
+    const arrows = c.edges.filter(e => e.relation==="influenced").length;
+    return `<tr><td><button class="linkbtn" type="button" data-act="goto" data-chart="${esc(id)}" data-step="written">${esc(c.title)}</button></td>
+      <td>${p.n}</td><td>${arrows}</td><td>${p.e}</td><td>${p.done} / ${p.cards}</td><td>${n || "—"}</td></tr>`;
+  }).join("");
+  const iss = issues(S.cur);
+  return `<div class="panel"><h2>Review</h2>
+    <div class="tbl-wrap"><table><thead><tr><th>Chart</th><th>Entities</th><th>Arrows</th><th>All relations</th><th>Cards done</th><th>Problems</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <h3 style="font-size:16px">Problems on ${esc(chart().title)}</h3>
+    ${iss.length ? `<ul class="issues">${iss.map(i => `<li>${esc(i.text)} ${i.id ? `<button class="linkbtn" type="button" data-act="goto" data-chart="${esc(S.cur)}" data-step="drawn" data-focus="${esc(i.id)}">Go to it</button>` : ""}</li>`).join("")}</ul>` : `<p class="note">None found.</p>`}
+  </div>
+  <div class="panel"><h2>Shared entities</h2>
+    <p class="lead">One entry per referent, shared by every chart it appears on. Edit the reference name or kind here. If the same thing was entered twice, merge one into the other: its wording on each chart is kept.</p>
+    ${sharedTable()}
+  </div>
+  <div class="panel"><h2>Export</h2>
+    <p class="lead">The tables match the project's <code>data/</code> folder, so <code>build_rdf.py</code> and <code>compare.py</code> run on them unchanged. The page saves only in this browser: export the tables to keep or share the transcription.</p>
+    <div class="toolbar">
+      <button class="btn primary" type="button" data-act="export">Download the tables (.zip)</button>
+      <button class="btn" type="button" data-act="import">Import CSV tables</button>
+      <span class="count" id="export-msg"></span>
+    </div>
+    <div id="export-fallback"></div>
+    <p class="note">Rows with an empty destination are left out of the export. Sequences stay in <code>sequences.csv</code> in the repository; this page doesn't edit them.</p>
+  </div>
+  <div class="panel"><h2>Add another chart</h2>
+    <p class="lead">For a further state, for example one of the versions in folder VII.B.15.</p>
+    <div class="grid2">
+      <label class="field"><span>Name</span><input type="text" id="nc-title" placeholder="e.g. VII.B.15 sheet 4"></label>
+      <label class="field"><span>Id</span><input type="text" id="nc-id" placeholder="letters, digits, underscores"></label>
+    </div>
+    <div class="toolbar"><button class="btn" type="button" data-act="add-chart">Add chart</button><span class="count" id="nc-msg"></span></div>
+  </div>`;
+}
+
+function sharedTable(){
+  const ids = Object.keys(S.concepts).sort((a,b) => TYPES.indexOf(S.concepts[a].type) - TYPES.indexOf(S.concepts[b].type) || (S.concepts[a].pref_label||"").localeCompare(S.concepts[b].pref_label||""));
+  if (!ids.length) return `<p class="note">No entities yet. They appear here as you add them in step 2.</p>`;
+  return `<div class="tbl-wrap"><table><thead><tr><th>Reference name</th><th>Kind</th><th>Id</th><th>On charts</th><th>Merge into</th></tr></thead><tbody>${ids.map(cid => {
+    const con = S.concepts[cid], on = chartsWith(cid);
+    const same = ids.filter(o => o !== cid && S.concepts[o].type === con.type);
+    return `<tr data-cid="${esc(cid)}">
+      <td><input type="text" id="pl-${esc(cid)}" data-cf="pref_label" value="${esc(con.pref_label)}" aria-label="Reference name" style="min-width:180px"></td>
+      <td><select id="ty-${esc(cid)}" data-cf="type" aria-label="Kind" style="min-width:115px">${opts(TYPES, con.type)}</select></td>
+      <td><code>${esc(cid)}</code></td>
+      <td>${on.length ? esc(on.map(ch => S.charts[ch].title).join(", ")) : `<button class="btn small ghost danger" type="button" data-act="del-concept">Delete (unused)</button>`}</td>
+      <td><div style="display:flex;gap:6px"><select id="mg-${esc(cid)}" aria-label="Merge into" style="min-width:150px"><option value="">—</option>${same.map(o => `<option value="${esc(o)}">${esc(S.concepts[o].pref_label)}</option>`).join("")}</select>
+        <button class="btn small" type="button" data-act="merge">Merge</button></div></td></tr>`;
+  }).join("")}</tbody></table></div><p class="count" id="mg-msg" role="status"></p>`;
+}
+function mergeConcept(from, into){
+  chartIds().forEach(ch => {
+    const c = S.charts[ch]; let changed = false;
+    if (c.nodes[from]) { if (!c.nodes[into]) c.nodes[into] = c.nodes[from]; else c.nodes[into].note = [c.nodes[into].note, "also written as: " + c.nodes[from].label].filter(Boolean).join("; ");
+      delete c.nodes[from]; if (c.checked[from]) { c.checked[into] = c.checked[into] || c.checked[from]; delete c.checked[from]; } changed = true; }
+    const seen = new Set();
+    c.edges = c.edges.filter(e => {
+      if (e.source === from) { e.source = into; changed = true; }
+      if (e.target === from) { e.target = into; changed = true; }
+      if (e.source === e.target) return false;
+      const key = e.source + "|" + e.relation + "|" + e.target;
+      if (e.target && seen.has(key)) return false; seen.add(key); return true;
+    });
+    if (changed) touch(ch);
+  });
+  delete S.concepts[from]; saveConcepts();
+}
+
+/* ---------------- CSV in/out ---------------- */
+const csvCell = v => { v = v == null ? "" : String(v); return /[",\n\r]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; };
+const csv = (header, rows) => [header, ...rows].map(r => r.map(csvCell).join(",")).join("\n") + "\n";
+function tables(){
+  const ids = chartIds();
+  return {
+    "charts.csv": csv(["chart_id","title","set","archival_reference","date","date_basis","facsimile","ink_key","note"],
+      ids.map(id => { const c = S.charts[id]; return [id, c.title, c.set || "core", c.archival_reference, c.date, c.date_basis, "img/"+id+".jpg",
+        (INKS.filter(i => meaningOf(c, i)).map(i => i + "=" + meaningOf(c, i)).join(" ") || "none"), c.note]; })),
+    "concepts.csv": csv(["concept_id","type","pref_label","note"],
+      Object.keys(S.concepts).filter(id => chartsWith(id).length).map(id => [id, S.concepts[id].type, S.concepts[id].pref_label, S.concepts[id].note])),
+    "nodes.csv": csv(["chart_id","concept_id","label_as_written","year_on_scale","form","ink","tags","certainty","verified","origin","note"],
+      ids.flatMap(id => Object.entries(S.charts[id].nodes).map(([k,n]) => [id,k,n.label,n.date,n.form,n.ink,(n.tags||[]).filter(Boolean).join(" "),n.certainty,n.verified,n.origin,n.note]))),
+    "pragmatic.csv": csv(["chart_id","support","audience","permanence","constraint","function"],
+      ids.map(id => { const p = S.charts[id].pragmatic || {}; return [id, p.support, p.audience, p.permanence, p.constraint, p.fn]; })),
+    "legend.csv": csv(["chart_id","code","meaning"],
+      ids.flatMap(id => (S.charts[id].legend||[]).filter(t => t.code).map(t => [id, t.code, t.meaning]))),
+    "edges.csv": csv(["chart_id","source","target","relation","line","colour","certainty","verified","origin","note"],
+      ids.flatMap(id => S.charts[id].edges.filter(e => e.target).map(e => [id,e.source,e.target,e.relation,e.line,e.colour,e.certainty,e.verified,e.origin,e.note])))
+  };
+}
+function parseCSV(text){
+  const rows = []; let row = [], cell = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (q) { if (ch === '"') { if (text[i+1] === '"') { cell += '"'; i++; } else q = false; } else cell += ch; }
+    else if (ch === '"') q = true;
+    else if (ch === ",") { row.push(cell); cell = ""; }
+    else if (ch === "\n" || ch === "\r") { if (ch === "\r" && text[i+1] === "\n") i++; row.push(cell); rows.push(row); row = []; cell = ""; }
+    else cell += ch;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  const [h, ...rest] = rows.filter(r => r.length > 1 || r[0]);
+  return rest.map(r => Object.fromEntries(h.map((k,i) => [k.trim(), (r[i]||"").trim()])));
+}
+async function importFiles(files){
+  const got = {};
+  for (const f of files) got[f.name.replace(/^.*[\\/]/,"")] = parseCSV(await f.text());
+  const need = ["charts.csv","concepts.csv","nodes.csv","edges.csv"].filter(n => !got[n]);  // legend.csv is optional
+  if (need.length) { msg("export-msg", "Choose all four tables together. Missing: " + need.join(", ")); return; }
+  const concepts = {}; got["concepts.csv"].forEach(r => concepts[r.concept_id] = {type:r.type, pref_label:r.pref_label, note:r.note||""});
+  const charts = {};
+  got["charts.csv"].forEach((r,i) => { const old = S.charts[r.chart_id] || {};
+    charts[r.chart_id] = {pos: old.pos || i+1, title:r.title, archival_reference:r.archival_reference, date:r.date, date_basis:r.date_basis, note:r.note, facsimile: old.facsimile || null, nodes:{}, edges:[], checked: old.checked || {}, legend:[],
+      set: r.set || "core",
+      inkKey: r.ink_key === "none" ? Object.fromEntries(INKS.filter(Boolean).map(i => [i, ""])) : r.ink_key ? Object.fromEntries(INKS.filter(Boolean).map(i => [i, ((r.ink_key.split(/\s+/).find(x => x.startsWith(i + "=")) || "").split("=")[1]) || ""])) : undefined}; });
+  (got["pragmatic.csv"] || []).forEach(r => { if (charts[r.chart_id]) charts[r.chart_id].pragmatic = {support:r.support, audience:r.audience, permanence:r.permanence, constraint:r.constraint, fn:r.function}; });
+  (got["legend.csv"] || []).forEach(r => { if (charts[r.chart_id]) charts[r.chart_id].legend.push({code:r.code, meaning:r.meaning}); });
+  got["nodes.csv"].forEach(r => { if (charts[r.chart_id]) charts[r.chart_id].nodes[r.concept_id] = {label:r.label_as_written, date:(r.year_on_scale ?? r.date_as_written ?? ""), form:r.form, ink:r.ink||"", tags:(r.tags||"").split(/\s+/).filter(Boolean), certainty:r.certainty, verified:r.verified, origin:r.origin, note:r.note}; });
+  got["edges.csv"].forEach(r => { if (charts[r.chart_id]) charts[r.chart_id].edges.push({k:rid(), source:r.source, target:r.target, relation:r.relation, line:r.line, colour:r.colour, certainty:r.certainty, verified:r.verified, origin:r.origin, note:r.note}); });
+  S.concepts = concepts; S.charts = charts;
+  if (!S.charts[S.cur]) S.cur = chartIds()[0];
+  S.loaded = true; await saveConcepts();
+  Object.keys(charts).forEach(id => touch(id));
+  renderAll(); msg("export-msg", "Imported " + Object.keys(charts).length + " charts.");
+}
+function msg(id, t){ const el = document.getElementById(id); if (el) el.textContent = t; }
+
+async function exportZip(){
+  const t = tables(), stamp = today();
+  if (downloads && window.JSZip) {
+    const zip = new JSZip(); Object.entries(t).forEach(([n,v]) => zip.file("data/"+n, v));
+    const blob = await zip.generateAsync({type:"blob"});
+    try { await downloads.save({filename:`barr-transcription-${stamp}.zip`, data: blob}); msg("export-msg", "Saved."); return; }
+    catch (e) { if (e && e.code === "declined") { msg("export-msg", "Download cancelled."); return; } }
+  }
+  $("#export-fallback").innerHTML = `<p class="note">Downloads aren't available here. Copy each table into a file of the same name:</p>` +
+    Object.entries(t).map(([n,v],i) => `<label class="field"><span>${n}</span><textarea id="fb-${i}" readonly style="min-height:120px;font-family:var(--f-mono);font-size:12px">${esc(v)}</textarea></label>
+      <div><button class="btn small" type="button" data-act="copy" data-target="fb-${i}">Copy ${n}</button></div>`).join("");
+}
+
+/* ---------------- events ---------------- */
+document.addEventListener("click", async ev => {
+  const t = ev.target.closest("[data-chart],[data-step],[data-act],[data-show],[data-dshow]"); if (!t) return;
+  if (t.matches(".tab")) { S.cur = t.dataset.chart; S.confirm = null; S.zoom = 0; renderAll(); return; }
+  if (t.dataset.step && !t.dataset.act) { S.step = t.dataset.step; renderSteps(); renderBody(); window.scrollTo({top:0}); return; }
+  if (t.dataset.show) { S.show = t.dataset.show; renderBody(); return; }
+  if (t.dataset.dshow) { S.drawnShow = t.dataset.dshow === "open" ? "open" : "all"; renderBody(); return; }
+  const act = t.dataset.act, c = chart();
+  const entId = t.closest("[data-id]") && t.closest("[data-id]").dataset.id;
+  switch (act) {
+    case "goto": S.cur = t.dataset.chart; S.step = t.dataset.step; renderAll();
+      if (t.dataset.focus) { const el = document.getElementById("card-"+t.dataset.focus); if (el) el.scrollIntoView({block:"start"}); } break;
+    case "add-new": addEntity(null); break;
+    case "add-existing": addEntity(t.dataset.cid); break;
+    case "remove": { const rels = c.edges.filter(e => e.source===entId || e.target===entId).length;
+      if (rels) { S.confirm = entId; rerenderEnt(entId); } else { removeNode(entId); rerenderList(); } break; }
+    case "remove-confirm": removeNode(entId); S.confirm = null; rerenderList(); break;
+    case "remove-cancel": S.confirm = null; rerenderEnt(entId); break;
+    case "merge": { const from = t.closest("tr").dataset.cid, into = document.getElementById("mg-"+from).value;
+      if (!into) { msg("mg-msg", "Choose the entity to merge it into."); break; }
+      const name = S.concepts[from].pref_label; mergeConcept(from, into); renderBody(); msg("mg-msg", `Merged ${name} into ${S.concepts[into].pref_label}.`); break; }
+    case "del-concept": { const cid = t.closest("tr").dataset.cid; if (!chartsWith(cid).length) { delete S.concepts[cid]; saveConcepts(); renderBody(); } break; }
+    case "add-arrow": c.edges.push({k:rid(), source:entId, target:"", relation:"influenced", line:"solid", colour:defaultInk(c), certainty:"", verified:today(), origin:"transcribed", note:""});
+      touch(); rerenderCard(entId); { const el = document.querySelector(`#card-${CSS.escape(entId)} .arrow:last-of-type select.to`); if (el) el.focus(); } break;
+    case "del-arrow": { const k = t.closest(".arrow").dataset.k; c.edges = c.edges.filter(e => e.k !== k); touch(); rerenderCard(entId); break; }
+    case "chip": { const rel = t.dataset.rel, o = t.dataset.other;
+      const [s, tg] = rel === "memberOf" ? [o, entId] : [entId, o];
+      const i = c.edges.findIndex(e => e.source===s && e.relation===rel && e.target===tg);
+      if (i >= 0) c.edges.splice(i,1); else c.edges.push({k:rid(), source:s, target:tg, relation:rel, line:"", colour:"", certainty:"", verified:today(), origin:"transcribed", note:""});
+      touch(); rerenderCard(entId); break; }
+    case "card-check": { const on = !c.checked[entId];
+      if (on) c.checked[entId] = today(); else delete c.checked[entId];
+      touch(); rerenderCard(entId); break; }
+    case "zoom": { const z = +t.dataset.z; S.zoom = z === 0 ? 0 : Math.max(.5, Math.min(6, (S.zoom||1) + z*.5)); renderFacs(); break; }
+    case "facs-pick": $("#facsFile").click(); break;
+    case "import": $("#csvFiles").click(); break;
+    case "export": exportZip(); break;
+    case "copy": { const ta = document.getElementById(t.dataset.target);
+      try { await navigator.clipboard.writeText(ta.value); t.textContent = "Copied"; } catch { ta.select(); } break; }
+    case "add-chart": addChart(); break;
+    case "add-tag": c.legend.push({code:"", meaning:""}); touch(); renderBody(); { const el = document.getElementById("lgc-"+(c.legend.length-1)); if (el) el.focus(); } break;
+    case "del-tag": { const i = +t.closest(".lg-row").dataset.i, code = c.legend[i].code;
+      c.legend.splice(i,1); Object.values(c.nodes).forEach(n => { if (n.tags) n.tags = n.tags.filter(x => x !== code); }); touch(); renderBody(); break; }
+    case "member": { const m = t.dataset.mv, i = c.edges.findIndex(e => e.source===entId && e.relation==="memberOf" && e.target===m);
+      if (i >= 0) c.edges.splice(i,1); else c.edges.push({k:rid(), source:entId, target:m, relation:"memberOf", line:"", colour:"", certainty:"", verified:today(), origin:"transcribed", note:""});
+      touch(); rerenderEnt(entId); break; }
+    case "site": { const of = t.dataset.of, i = c.edges.findIndex(e => e.source===of && e.relation==="sitedIn" && e.target===entId);
+      if (i >= 0) c.edges.splice(i,1); else c.edges.push({k:rid(), source:of, target:entId, relation:"sitedIn", line:"", colour:"", certainty:"", verified:today(), origin:"transcribed", note:""});
+      touch(); rerenderEnt(entId); break; }
+    case "form": { const n = c.nodes[entId], v = t.dataset.v, cur = (n.form||"").split(" ").filter(Boolean);
+      n.form = (cur.includes(v) ? cur.filter(x => x !== v) : [...cur, v]).join(" "); n.verified = today(); touch(); rerenderEnt(entId); break; }
+    case "tag": { const n = c.nodes[entId], code = t.dataset.code; n.tags = n.tags || [];
+      n.tags = n.tags.includes(code) ? n.tags.filter(x => x !== code) : [...n.tags, code]; n.verified = today(); touch(); rerenderEnt(entId); break; }
+  }
+});
+document.addEventListener("change", ev => {
+  const t = ev.target, c = chart();
+  if (t.dataset.cf) { const cid = t.closest("tr").dataset.cid; S.concepts[cid][t.dataset.cf] = t.value.trim() || S.concepts[cid][t.dataset.cf]; saveConcepts(); if (t.dataset.cf === "type") renderBody(); return; }
+  if (t.id === "ne-type") { S.lastKind = t.value; return; }
+  if (t.dataset.ik) { const c = chart(); c.inkKey = {...Object.fromEntries(INKS.filter(Boolean).map(i => [i, meaningOf(c, i)])), [t.dataset.ik]: t.value}; touch(); renderBody(); return; }
+  if (t.dataset.ef && (t.tagName === "SELECT")) editEdge(t);
+  if (t.dataset.nf && t.tagName === "SELECT") editNode(t);
+});
+document.addEventListener("input", ev => {
+  const t = ev.target, c = chart();
+  if (t.id === "q") { S.q = t.value; rerenderList(); return; }
+  if (t.id === "ne-label") { S.draft = t.value; S.addMsg = ""; $("#ne-sugg").innerHTML = suggHTML(t.value); msg("ne-msg", ""); return; }
+  if (t.id === "ne-type") return;
+  if (t.dataset.rec) { c[t.dataset.rec] = t.value; touch(); if (t.dataset.rec === "title" || t.dataset.rec === "set") renderTabs(); return; }
+  if (t.dataset.prag) { c.pragmatic = c.pragmatic || {}; c.pragmatic[t.dataset.prag] = t.value; touch(); return; }
+  if (t.dataset.lg) { const i = +t.closest(".lg-row").dataset.i, old = c.legend[i][t.dataset.lg], v = t.value.trim();
+    if (t.dataset.lg === "code") Object.values(c.nodes).forEach(n => { if (n.tags) n.tags = n.tags.map(x => x === old ? v : x); });
+    c.legend[i][t.dataset.lg] = t.dataset.lg === "code" ? v : t.value; touch(); return; }
+  if (t.dataset.nf && t.tagName !== "SELECT") editNode(t);
+  if (t.dataset.ef && t.tagName !== "SELECT") editEdge(t);
+});
+document.addEventListener("keydown", ev => {
+  if (ev.target.id === "ne-label" && ev.key === "Enter") {
+    ev.preventDefault();
+    const typed = ev.target.value, kind = $("#ne-type").value, c = chart();
+    const exact = Object.keys(S.concepts).some(k => matchScore(typed, k) === 3 && S.concepts[k].type === kind);
+    const similar = suggestions(typed).filter(([k]) => !c.nodes[k]);
+    if (!exact && similar.length) {
+      S.addMsg = "Similar entities are already recorded. Pick one of them, or press Add as new.";
+      msg("ne-msg", S.addMsg); const chip = document.querySelector("#ne-sugg .chip:not([disabled])"); if (chip) chip.focus(); return;
+    }
+    addEntity(null);
+  }
+});
+function editNode(t){
+  const id = t.closest("[data-id]").dataset.id, n = chart().nodes[id];
+  n[t.dataset.nf] = t.value; n.verified = today(); touch();
+  if (t.dataset.nf === "ink") { const nm = t.closest(".ent").querySelector(".name"); if (nm) { nm.classList.toggle("ink-red", t.value === "red"); const pl = nm.nextElementSibling; if (pl && pl.classList.contains("ext")) pl.remove(); if (meaningOf(chart(), t.value) === "external") nm.insertAdjacentHTML("afterend", EXT); } }
+  if (t.dataset.nf === "label") { const nm = t.closest(".ent").querySelector(".name"); if (nm) nm.textContent = t.value || (S.concepts[id]||{}).pref_label || id; }
+}
+function editEdge(t){
+  const row = t.closest(".arrow"), k = row.dataset.k, e = chart().edges.find(x => x.k === k);
+  e[t.dataset.ef] = t.value; e.verified = today(); touch();
+  const sw = row.querySelector(".swatch");
+  sw.className = swatchCls(e);
+}
+function defaultInk(c){
+  const n = {}; c.edges.forEach(e => { if (e.relation === "influenced" && e.colour) n[e.colour] = (n[e.colour]||0) + 1; });
+  return Object.keys(n).sort((a,b) => n[b]-n[a])[0] || "";
+}
+function removeNode(id){
+  const c = chart(); delete c.nodes[id]; delete c.checked[id];
+  c.edges = c.edges.filter(e => e.source !== id && e.target !== id); touch();
+}
+function addChart(){
+  const title = $("#nc-title").value.trim(); const id = slug($("#nc-id").value.trim() || title);
+  if (!title || !id) return msg("nc-msg", "Give the chart a name.");
+  if (S.charts[id]) return msg("nc-msg", "That id is taken.");
+  S.charts[id] = normalise({pos: chartIds().length + 1, title, archival_reference:"", date:"", date_basis:"", note:"", facsimile:null});
+  S.cur = id; S.step = "record"; touch(id); renderAll();
+}
+$("#facsFile").addEventListener("change", async ev => {
+  const f = ev.target.files[0]; ev.target.value = ""; if (!f) return;
+  const cid = S.cur;
+  S.localImg[cid] = URL.createObjectURL(f); renderFacs();
+  if (assets && S.canWrite) {
+    try { const a = await assets.upload(f); S.charts[cid].facsimile = {id:a.id, url:a.url}; touch(cid); }
+    catch { setStatus("error", "Couldn't store the image; it's shown in this tab only."); }
+  }
+});
+$("#csvFiles").addEventListener("change", ev => { const fs = [...ev.target.files]; ev.target.value = ""; if (fs.length) importFiles(fs); });
+$("#toggleFacs").addEventListener("click", () => {
+  const off = $("#desk").classList.toggle("nofacs"); store.set("barr-facs-off", off ? "1" : "");
+  $("#toggleFacs").textContent = off ? "Show facsimile" : "Hide facsimile";
+});
+if (store.get("barr-facs-off")) { $("#desk").classList.add("nofacs"); $("#toggleFacs").textContent = "Show facsimile"; }
+const syncHdr = () => document.documentElement.style.setProperty("--hdr", $("#top").offsetHeight + "px");
+window.addEventListener("resize", syncHdr); syncHdr();
+
+/* ---------------- boot ---------------- */
+/* Storage: the transcription is kept in this browser's localStorage, one key per document
+   ("barr-store:charts/<id>", "barr-store:vocab/concepts"). Export the tables to move it elsewhere. */
+const PREFIX = "barr-store:";
+const localDb = (() => {
+  try { const k = PREFIX + "probe"; localStorage.setItem(k, "1"); localStorage.removeItem(k); } catch { return null; }
+  const snapDoc = path => { const raw = localStorage.getItem(PREFIX + path);
+    return {id: path.split("/").pop(), exists: raw != null, data: () => JSON.parse(raw)}; };
+  return {
+    doc: path => ({
+      set: async body => { try { localStorage.setItem(PREFIX + path, JSON.stringify(body)); }
+        catch (e) { const err = new Error("quota"); err.code = "quota_exceeded"; throw err; } },
+      onSnapshot: cb => { cb(snapDoc(path)); return () => {}; }
+    }),
+    collection: name => ({
+      onSnapshot: cb => { const docs = [];
+        for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i);
+          if (k && k.startsWith(PREFIX + name + "/")) docs.push(snapDoc(k.slice(PREFIX.length))); }
+        cb({docs}); return () => {}; }
+    })
+  };
+})();
+const localDownloads = {save: async ({filename, data}) => {
+  const u = URL.createObjectURL(data), a = document.createElement("a");
+  a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 1000); }};
+const use = n => Promise.resolve(n === "db" ? localDb : n === "downloads" ? localDownloads : null);
+renderAll(); setStatus("saving", "Opening…");
+(async () => {
+  [db, assets, downloads] = await Promise.all([use("db"), use("assets"), use("downloads")]);
+  const user = await use("user");
+  if (user && user.can) { try { const w = await user.can("data.write"); if (w === false) S.canWrite = false; } catch {} }
+  if (!db) { S.loaded = true; refreshStatus(); renderAll(); return; }
+  let gotCharts = false, gotConcepts = false;
+  const ready = () => { if (gotCharts && gotConcepts && !S.loaded) { S.loaded = true; if (!S.cur) S.cur = chartIds()[0] || null; refreshStatus(); renderAll(); } };
+  db.collection("charts").onSnapshot(snap => {
+    let changed = false;
+    for (const d of snap.docs) {
+      if (dirty.has(d.id) || writing[d.id]) continue;
+      const data = d.data(); const js = JSON.stringify(data);
+      if (lastWritten[d.id] === js) continue;
+      S.charts[d.id] = normalise(JSON.parse(js)); lastWritten[d.id] = js; changed = true;
+    }
+    gotCharts = true;
+    if (S.loaded && changed) { if (!S.charts[S.cur]) S.cur = chartIds()[0] || null; renderTabs(); if (!document.activeElement || !$("#body").contains(document.activeElement)) { renderFacs(); renderBody(); } }
+    ready();
+  }, () => setStatus("error", "Lost the connection to the transcription. Reload the page."));
+  db.doc("vocab/concepts").onSnapshot(snap => {
+    if (snap.exists) { const js = JSON.stringify(snap.data()); if (js !== conceptsLast) { conceptsLast = js; S.concepts = JSON.parse(js).items || {}; if (S.loaded) renderBody(); } }
+    gotConcepts = true; ready();
+  }, () => {});
+})();
+})();
+</script>
+</body>
+</html>

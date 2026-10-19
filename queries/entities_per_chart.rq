@@ -1,0 +1,6 @@
+# Every entity written on each chart, with its label as written there.
+PREFIX bc: <https://psantachiara.github.io/barr-chart/ns#>
+SELECT ?chart ?entity ?type ?label ?external WHERE {
+  GRAPH ?chart { ?entity bc:appearsOn ?chart . OPTIONAL { ?entity bc:labelAsWritten ?label } OPTIONAL { ?entity bc:external ?external } }
+  GRAPH <https://psantachiara.github.io/barr-chart/graph/catalogue> { ?entity a ?type }
+}

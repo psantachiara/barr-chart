@@ -1,0 +1,47 @@
+{
+ "nasko2025": {
+  "basis": "analytical",
+  "proposed_by": "Leazer (NASKO 2025)",
+  "order": [
+   "insert",
+   "p19",
+   "p21",
+   "cover"
+  ],
+  "steps": [
+   {
+    "from": "insert",
+    "to": "p19",
+    "entities_added": 6,
+    "entities_removed": 56,
+    "relabelled": 6,
+    "relations_added": 22,
+    "relations_removed": 75,
+    "restyled": 6,
+    "entity_jaccard": 0.311
+   },
+   {
+    "from": "p19",
+    "to": "p21",
+    "entities_added": 62,
+    "entities_removed": 2,
+    "relabelled": 8,
+    "relations_added": 84,
+    "relations_removed": 10,
+    "restyled": 5,
+    "entity_jaccard": 0.333
+   },
+   {
+    "from": "p21",
+    "to": "cover",
+    "entities_added": 2,
+    "entities_removed": 56,
+    "relabelled": 6,
+    "relations_added": 14,
+    "relations_removed": 74,
+    "restyled": 4,
+    "entity_jaccard": 0.396
+   }
+  ]
+ }
+}

@@ -1,0 +1,1994 @@
+{
+ "scope": "core",
+ "charts": [
+  "insert",
+  "p19",
+  "p21",
+  "cover"
+ ],
+ "terminological": {
+  "per_chart": {
+   "insert": {
+    "labels": 84,
+    "bracketed": [],
+    "illegible": [
+     "illegible_place_456_1",
+     "illegible_place_456_2",
+     "illegible_place_456_3"
+    ],
+    "uncertain": [
+     "breuer",
+     "illegible_place_456_1",
+     "illegible_place_456_2",
+     "illegible_place_456_3"
+    ],
+    "differs_from_pref": 6
+   },
+   "p19": {
+    "labels": 34,
+    "bracketed": [
+     "abstract_dadaism",
+     "abstract_surrealism"
+    ],
+    "illegible": [],
+    "uncertain": [],
+    "differs_from_pref": 6
+   },
+   "p21": {
+    "labels": 94,
+    "bracketed": [
+     "abstract_dadaism",
+     "abstract_surrealism"
+    ],
+    "illegible": [],
+    "uncertain": [],
+    "differs_from_pref": 6
+   },
+   "cover": {
+    "labels": 40,
+    "bracketed": [
+     "abstract_dadaism",
+     "abstract_expressionism",
+     "abstract_surrealism"
+    ],
+    "illegible": [],
+    "uncertain": [],
+    "differs_from_pref": 8
+   }
+  },
+  "variants": [
+   {
+    "id": "abstract_dadaism",
+    "pref": "Abstract Dadaism",
+    "labels": {
+     "insert": "Abstract Dadaism",
+     "p19": "(Abstract) Dadaism",
+     "p21": "Dadaism (Abstract)",
+     "cover": "(Abstract) Dadaism"
+    },
+    "kinds": [
+     "bracketing",
+     "word order"
+    ]
+   },
+   {
+    "id": "abstract_expressionism",
+    "pref": "Abstract Expressionism",
+    "labels": {
+     "insert": "Abstract Expressionism",
+     "p19": "Abstract Expressionism",
+     "p21": "Abstract Expressionism",
+     "cover": "(Abstract) Expressionism"
+    },
+    "kinds": [
+     "bracketing"
+    ]
+   },
+   {
+    "id": "abstract_surrealism",
+    "pref": "Abstract Surrealism",
+    "labels": {
+     "insert": "Abstract Surrealism",
+     "p19": "(Abstract) Surrealism",
+     "p21": "Surrealism (Abstract)",
+     "cover": "(Abstract) Surrealism"
+    },
+    "kinds": [
+     "bracketing",
+     "word order"
+    ]
+   },
+   {
+    "id": "geometric_abstract_art",
+    "pref": "Geometric Abstract Art",
+    "labels": {
+     "insert": "Geometric Abstract Art",
+     "p19": "Contemporary Geometric Abstract Art",
+     "p21": "Geometric Abstract Art",
+     "cover": "Geometrical Abstract Art"
+    },
+    "kinds": [
+     "wording"
+    ]
+   },
+   {
+    "id": "japanese_prints",
+    "pref": "Japanese Prints",
+    "labels": {
+     "insert": "Japanese prints",
+     "p19": "Japanese Prints",
+     "p21": "Japanese Prints",
+     "cover": "Japanese Prints"
+    },
+    "kinds": [
+     "case"
+    ]
+   },
+   {
+    "id": "le_corbusier",
+    "pref": "Le Corbusier",
+    "labels": {
+     "insert": "Corbusier",
+     "p21": "Le Corbusier"
+    },
+    "kinds": [
+     "wording"
+    ]
+   },
+   {
+    "id": "near_eastern_art",
+    "pref": "Near Eastern Art",
+    "labels": {
+     "insert": "Near Eastern Art",
+     "p19": "Near Eastern Art",
+     "p21": "Near-Eastern Art",
+     "cover": "Near-Eastern Art"
+    },
+    "kinds": [
+     "punctuation"
+    ]
+   },
+   {
+    "id": "neoimpressionism",
+    "pref": "Neo-Impressionism",
+    "labels": {
+     "insert": "Neoimpressionism",
+     "p19": "Seurat and Neo-Impressionism",
+     "p21": "Neoimpressionism",
+     "cover": "Neo-Impressionism"
+    },
+    "kinds": [
+     "punctuation",
+     "wording"
+    ]
+   },
+   {
+    "id": "non_geometric_abstract_art",
+    "pref": "Non-Geometric Abstract Art",
+    "labels": {
+     "p19": "Contemporary Non-Geometric Abstract Art",
+     "p21": "Non-Geometric Abstract Art",
+     "cover": "Non-Geometrical Abstract Art"
+    },
+    "kinds": [
+     "wording"
+    ]
+   },
+   {
+    "id": "synthetism",
+    "pref": "Synthetism",
+    "labels": {
+     "insert": "Synthetism",
+     "p19": "Gauguin and Synthetism",
+     "p21": "Synthetism",
+     "cover": "Synthetism"
+    },
+    "kinds": [
+     "wording"
+    ]
+   },
+   {
+    "id": "van_gogh",
+    "pref": "van Gogh",
+    "labels": {
+     "insert": "van Gogh",
+     "p19": "van Gogh",
+     "p21": "Van Gogh",
+     "cover": "Van Gogh"
+    },
+    "kinds": [
+     "case"
+    ]
+   }
+  ],
+  "variant_kinds": {
+   "bracketing": 3,
+   "word order": 2,
+   "wording": 5,
+   "case": 2,
+   "punctuation": 2
+  }
+ },
+ "conceptual": {
+  "per_chart": {
+   "insert": {
+    "entities": 84,
+    "movement": 20,
+    "person": 50,
+    "place": 14,
+    "external": 0
+   },
+   "p19": {
+    "entities": 34,
+    "movement": 20,
+    "person": 3,
+    "place": 11,
+    "external": 0
+   },
+   "p21": {
+    "entities": 94,
+    "movement": 21,
+    "person": 62,
+    "place": 11,
+    "external": 6
+   },
+   "cover": {
+    "entities": 40,
+    "movement": 21,
+    "person": 7,
+    "place": 12,
+    "external": 4
+   }
+  },
+  "core": [
+   "abstract_dadaism",
+   "abstract_expressionism",
+   "abstract_surrealism",
+   "bauhaus",
+   "cezanne",
+   "constructivism",
+   "cubism",
+   "de_stijl_and_neoplasticism",
+   "fauvism",
+   "futurism",
+   "geometric_abstract_art",
+   "japanese_prints",
+   "machine_esthetic",
+   "milan",
+   "moscow",
+   "munich",
+   "near_eastern_art",
+   "negro_sculpture",
+   "neoimpressionism",
+   "orphism",
+   "paris",
+   "purism",
+   "rousseau",
+   "suprematism",
+   "synthetism",
+   "van_gogh"
+  ],
+  "hapax": {
+   "insert": [
+    "barcelona",
+    "biomorphic_abstract_art",
+    "davis",
+    "france",
+    "illegible_place_456_1",
+    "illegible_place_456_2",
+    "illegible_place_456_3",
+    "london",
+    "prague",
+    "russia",
+    "sant_elia",
+    "serusier",
+    "vesnin"
+   ],
+   "p19": [],
+   "p21": [
+    "albers",
+    "de_chirico",
+    "europe",
+    "giacometti",
+    "jeanneret",
+    "kiesler",
+    "kupka",
+    "laurens",
+    "lipchitz",
+    "marcoussis",
+    "metzinger",
+    "mies_van_der_rohe",
+    "rietveld",
+    "russolo",
+    "tanguy",
+    "vantongerloo"
+   ],
+   "cover": [
+    "pont_aven",
+    "provence"
+   ]
+  },
+  "by_kind_presence": {
+   "movement": {
+    "4": 19,
+    "1": 1,
+    "2": 1,
+    "3": 1
+   },
+   "person": {
+    "1": 19,
+    "2": 41,
+    "3": 3,
+    "4": 3
+   },
+   "place": {
+    "1": 11,
+    "3": 5,
+    "2": 3,
+    "4": 4
+   }
+  },
+  "union": 111
+ },
+ "structural": {
+  "insert": {
+   "influence": {
+    "order": 24,
+    "size": 41,
+    "isolated": 60,
+    "density": 0.0743,
+    "depth": 6,
+    "roots": 7,
+    "sinks": 6,
+    "clusters": [
+     19,
+     5
+    ],
+    "top_pagerank": [
+     [
+      "cubism",
+      0.0992
+     ],
+     [
+      "biomorphic_abstract_art",
+      0.0988
+     ],
+     [
+      "fauvism",
+      0.0827
+     ],
+     [
+      "abstract_surrealism",
+      0.0757
+     ],
+     [
+      "geometric_abstract_art",
+      0.0682
+     ],
+     [
+      "abstract_expressionism",
+      0.06
+     ],
+     [
+      "constructivism",
+      0.0585
+     ],
+     [
+      "bauhaus",
+      0.0548
+     ],
+     [
+      "abstract_dadaism",
+      0.0486
+     ],
+     [
+      "purism",
+      0.045
+     ]
+    ],
+    "back_edges": []
+   },
+   "all_relations": {
+    "order": 83,
+    "size": 117,
+    "isolated": 1,
+    "density": 0.0172,
+    "depth": 7,
+    "roots": 51,
+    "sinks": 15,
+    "clusters": [
+     35,
+     22,
+     14,
+     6,
+     6
+    ],
+    "top_pagerank": [
+     [
+      "paris",
+      0.0765
+     ],
+     [
+      "constructivism",
+      0.0583
+     ],
+     [
+      "germany",
+      0.0494
+     ],
+     [
+      "cubism",
+      0.0487
+     ],
+     [
+      "bauhaus",
+      0.0418
+     ],
+     [
+      "futurism",
+      0.035
+     ],
+     [
+      "fauvism",
+      0.0345
+     ],
+     [
+      "abstract_dadaism",
+      0.0326
+     ],
+     [
+      "geometric_abstract_art",
+      0.0321
+     ],
+     [
+      "abstract_surrealism",
+      0.032
+     ]
+    ],
+    "back_edges": []
+   },
+   "arcs": {
+    "membership": 52,
+    "siting": 24,
+    "influence": 41
+   },
+   "influence_by_scope": {
+    "ink carries no meaning": 41
+   },
+   "influence_by_line": {
+    "solid": 31,
+    "dotted": 10
+   },
+   "chronology": {
+    "influence_arrows": 41,
+    "both_ends_on_scale": 41,
+    "backward": [
+     [
+      "machine_esthetic",
+      "cubism",
+      1910,
+      1908
+     ]
+    ],
+    "same_year": 0,
+    "entities_on_scale": 25,
+    "span": [
+     1888,
+     1932
+    ]
+   }
+  },
+  "p19": {
+   "influence": {
+    "order": 23,
+    "size": 43,
+    "isolated": 11,
+    "density": 0.085,
+    "depth": 6,
+    "roots": 7,
+    "sinks": 5,
+    "clusters": [
+     23
+    ],
+    "top_pagerank": [
+     [
+      "non_geometric_abstract_art",
+      0.1259
+     ],
+     [
+      "abstract_surrealism",
+      0.1018
+     ],
+     [
+      "abstract_expressionism",
+      0.1013
+     ],
+     [
+      "fauvism",
+      0.0893
+     ],
+     [
+      "bauhaus",
+      0.0885
+     ],
+     [
+      "abstract_dadaism",
+      0.0736
+     ],
+     [
+      "cubism",
+      0.0552
+     ],
+     [
+      "purism",
+      0.0359
+     ],
+     [
+      "geometric_abstract_art",
+      0.0309
+     ],
+     [
+      "futurism",
+      0.0308
+     ]
+    ],
+    "back_edges": []
+   },
+   "all_relations": {
+    "order": 34,
+    "size": 64,
+    "isolated": 0,
+    "density": 0.057,
+    "depth": 6,
+    "roots": 7,
+    "sinks": 13,
+    "clusters": [
+     34
+    ],
+    "top_pagerank": [
+     [
+      "paris",
+      0.1227
+     ],
+     [
+      "fauvism",
+      0.0677
+     ],
+     [
+      "abstract_expressionism",
+      0.0507
+     ],
+     [
+      "cubism",
+      0.0466
+     ],
+     [
+      "bauhaus",
+      0.0465
+     ],
+     [
+      "abstract_dadaism",
+      0.0408
+     ],
+     [
+      "non_geometric_abstract_art",
+      0.0371
+     ],
+     [
+      "dessau",
+      0.0351
+     ],
+     [
+      "weimar",
+      0.0351
+     ],
+     [
+      "abstract_surrealism",
+      0.0309
+     ]
+    ],
+    "back_edges": []
+   },
+   "arcs": {
+    "siting": 21,
+    "influence": 43
+   },
+   "influence_by_scope": {
+    "ink carries no meaning": 43
+   },
+   "influence_by_line": {
+    "solid": 39,
+    "dotted": 4
+   },
+   "chronology": {
+    "influence_arrows": 43,
+    "both_ends_on_scale": 43,
+    "backward": [
+     [
+      "machine_esthetic",
+      "futurism",
+      1912,
+      1910
+     ],
+     [
+      "machine_esthetic",
+      "cubism",
+      1912,
+      1910
+     ],
+     [
+      "negro_sculpture",
+      "fauvism",
+      1905,
+      1904
+     ]
+    ],
+    "same_year": 1,
+    "entities_on_scale": 23,
+    "span": [
+     1886,
+     1930
+    ]
+   }
+  },
+  "p21": {
+   "influence": {
+    "order": 28,
+    "size": 53,
+    "isolated": 66,
+    "density": 0.0701,
+    "depth": 6,
+    "roots": 9,
+    "sinks": 5,
+    "clusters": [
+     21,
+     7
+    ],
+    "top_pagerank": [
+     [
+      "non_geometric_abstract_art",
+      0.1408
+     ],
+     [
+      "abstract_surrealism",
+      0.1023
+     ],
+     [
+      "modern_architecture",
+      0.0836
+     ],
+     [
+      "abstract_expressionism",
+      0.0793
+     ],
+     [
+      "abstract_dadaism",
+      0.0771
+     ],
+     [
+      "bauhaus",
+      0.0534
+     ],
+     [
+      "fauvism",
+      0.0528
+     ],
+     [
+      "cubism",
+      0.0424
+     ],
+     [
+      "geometric_abstract_art",
+      0.0346
+     ],
+     [
+      "futurism",
+      0.0251
+     ]
+    ],
+    "back_edges": []
+   },
+   "all_relations": {
+    "order": 94,
+    "size": 138,
+    "isolated": 0,
+    "density": 0.0158,
+    "depth": 6,
+    "roots": 63,
+    "sinks": 15,
+    "clusters": [
+     37,
+     34,
+     16,
+     7
+    ],
+    "top_pagerank": [
+     [
+      "paris",
+      0.0755
+     ],
+     [
+      "cubism",
+      0.0574
+     ],
+     [
+      "abstract_surrealism",
+      0.0444
+     ],
+     [
+      "bauhaus",
+      0.0433
+     ],
+     [
+      "abstract_dadaism",
+      0.0419
+     ],
+     [
+      "modern_architecture",
+      0.0398
+     ],
+     [
+      "non_geometric_abstract_art",
+      0.0353
+     ],
+     [
+      "abstract_expressionism",
+      0.0325
+     ],
+     [
+      "futurism",
+      0.032
+     ],
+     [
+      "de_stijl_and_neoplasticism",
+      0.0313
+     ]
+    ],
+    "back_edges": []
+   },
+   "arcs": {
+    "membership": 66,
+    "siting": 19,
+    "influence": 53
+   },
+   "influence_by_scope": {
+    "internal": 34,
+    "external": 19
+   },
+   "influence_by_line": {
+    "solid": 45,
+    "dotted": 8
+   },
+   "chronology": {
+    "influence_arrows": 53,
+    "both_ends_on_scale": 53,
+    "backward": [
+     [
+      "machine_esthetic",
+      "futurism",
+      1912,
+      1910
+     ],
+     [
+      "machine_esthetic",
+      "cubism",
+      1912,
+      1907
+     ]
+    ],
+    "same_year": 1,
+    "entities_on_scale": 28,
+    "span": [
+     1887,
+     1935
+    ]
+   }
+  },
+  "cover": {
+   "influence": {
+    "order": 26,
+    "size": 51,
+    "isolated": 14,
+    "density": 0.0785,
+    "depth": 5,
+    "roots": 9,
+    "sinks": 4,
+    "clusters": [
+     26
+    ],
+    "top_pagerank": [
+     [
+      "non_geometric_abstract_art",
+      0.1213
+     ],
+     [
+      "modern_architecture",
+      0.1118
+     ],
+     [
+      "abstract_expressionism",
+      0.096
+     ],
+     [
+      "bauhaus",
+      0.0825
+     ],
+     [
+      "fauvism",
+      0.0794
+     ],
+     [
+      "abstract_surrealism",
+      0.0599
+     ],
+     [
+      "cubism",
+      0.0451
+     ],
+     [
+      "abstract_dadaism",
+      0.0446
+     ],
+     [
+      "geometric_abstract_art",
+      0.0417
+     ],
+     [
+      "futurism",
+      0.0265
+     ]
+    ],
+    "back_edges": []
+   },
+   "all_relations": {
+    "order": 40,
+    "size": 78,
+    "isolated": 0,
+    "density": 0.05,
+    "depth": 6,
+    "roots": 10,
+    "sinks": 15,
+    "clusters": [
+     18,
+     14,
+     8
+    ],
+    "top_pagerank": [
+     [
+      "paris",
+      0.1109
+     ],
+     [
+      "fauvism",
+      0.0592
+     ],
+     [
+      "abstract_expressionism",
+      0.0479
+     ],
+     [
+      "non_geometric_abstract_art",
+      0.0423
+     ],
+     [
+      "bauhaus",
+      0.0407
+     ],
+     [
+      "modern_architecture",
+      0.0361
+     ],
+     [
+      "cubism",
+      0.0338
+     ],
+     [
+      "synthetism",
+      0.0332
+     ],
+     [
+      "abstract_dadaism",
+      0.0278
+     ],
+     [
+      "geometric_abstract_art",
+      0.0271
+     ]
+    ],
+    "back_edges": []
+   },
+   "arcs": {
+    "membership": 2,
+    "siting": 25,
+    "influence": 51
+   },
+   "influence_by_scope": {
+    "internal": 34,
+    "external": 17
+   },
+   "influence_by_line": {
+    "solid": 45,
+    "dotted": 6
+   },
+   "chronology": {
+    "influence_arrows": 51,
+    "both_ends_on_scale": 51,
+    "backward": [
+     [
+      "japanese_prints",
+      "synthetism",
+      1890,
+      1888
+     ],
+     [
+      "machine_esthetic",
+      "cubism",
+      1909,
+      1906
+     ],
+     [
+      "cezanne",
+      "synthetism",
+      1890,
+      1888
+     ]
+    ],
+    "same_year": 1,
+    "entities_on_scale": 28,
+    "span": [
+     1888,
+     1934
+    ]
+   }
+  }
+ },
+ "genetic": {
+  "nasko2025": {
+   "label": "Drafting sequence as presented at NASKO 2025",
+   "basis": "analytical",
+   "proposed_by": "Leazer (NASKO 2025)",
+   "order": [
+    "insert",
+    "p19",
+    "p21",
+    "cover"
+   ],
+   "dropped": [
+    "p15"
+   ],
+   "steps": [
+    {
+     "from": "insert",
+     "to": "p19",
+     "inserted": [
+      "berlin",
+      "cologne",
+      "dessau",
+      "non_geometric_abstract_art",
+      "weimar",
+      "zurich"
+     ],
+     "deleted": [
+      "archipenko",
+      "arp",
+      "balla",
+      "barcelona",
+      "biomorphic_abstract_art",
+      "boccioni",
+      "brancusi",
+      "braque",
+      "breuer",
+      "carra",
+      "davis",
+      "delaunay",
+      "derain",
+      "doesburg",
+      "duchamp",
+      "ernst",
+      "france",
+      "gabo",
+      "gauguin",
+      "gleizes",
+      "gris",
+      "gropius",
+      "illegible_place_456_1",
+      "illegible_place_456_2",
+      "illegible_place_456_3",
+      "kandinsky",
+      "klee",
+      "le_corbusier",
+      "leger",
+      "lissitzky",
+      "london",
+      "malevich",
+      "man_ray",
+      "marc",
+      "masson",
+      "matisse",
+      "miro",
+      "moholy_nagy",
+      "mondrian",
+      "oud",
+      "ozenfant",
+      "pevsner",
+      "picabia",
+      "picasso",
+      "prague",
+      "rodchenko",
+      "russia",
+      "sant_elia",
+      "schlemmer",
+      "serusier",
+      "seurat",
+      "severini",
+      "signac",
+      "tatlin",
+      "vesnin",
+      "villon"
+     ],
+     "relabelled": [
+      {
+       "id": "abstract_dadaism",
+       "a": "Abstract Dadaism",
+       "b": "(Abstract) Dadaism",
+       "kind": "bracketing"
+      },
+      {
+       "id": "abstract_surrealism",
+       "a": "Abstract Surrealism",
+       "b": "(Abstract) Surrealism",
+       "kind": "bracketing"
+      },
+      {
+       "id": "geometric_abstract_art",
+       "a": "Geometric Abstract Art",
+       "b": "Contemporary Geometric Abstract Art",
+       "kind": "wording"
+      },
+      {
+       "id": "japanese_prints",
+       "a": "Japanese prints",
+       "b": "Japanese Prints",
+       "kind": "case"
+      },
+      {
+       "id": "neoimpressionism",
+       "a": "Neoimpressionism",
+       "b": "Seurat and Neo-Impressionism",
+       "kind": "wording"
+      },
+      {
+       "id": "synthetism",
+       "a": "Synthetism",
+       "b": "Gauguin and Synthetism",
+       "kind": "wording"
+      }
+     ],
+     "wired": [
+      "abstract_dadaism|siting|paris",
+      "abstract_expressionism|influence|bauhaus",
+      "constructivism|siting|moscow",
+      "constructivism|siting|paris",
+      "cubism|influence|bauhaus",
+      "de_stijl_and_neoplasticism|influence|bauhaus",
+      "de_stijl_and_neoplasticism|siting|germany",
+      "futurism|influence|abstract_dadaism",
+      "futurism|siting|milan",
+      "machine_esthetic|influence|bauhaus",
+      "machine_esthetic|influence|geometric_abstract_art",
+      "negro_sculpture|influence|fauvism",
+      "neoimpressionism|influence|futurism",
+      "orphism|siting|paris"
+     ],
+     "cut": [
+      "abstract_dadaism|siting|germany",
+      "bauhaus|siting|germany",
+      "de_stijl_and_neoplasticism|influence|geometric_abstract_art",
+      "fauvism|influence|cubism",
+      "futurism|influence|constructivism",
+      "geometric_abstract_art|siting|milan",
+      "geometric_abstract_art|siting|paris",
+      "machine_esthetic|influence|de_stijl_and_neoplasticism",
+      "suprematism|influence|geometric_abstract_art"
+     ],
+     "restyled": [
+      "cezanne|influence|fauvism",
+      "de_stijl_and_neoplasticism|influence|purism",
+      "machine_esthetic|influence|cubism",
+      "neoimpressionism|influence|cubism",
+      "neoimpressionism|influence|fauvism",
+      "rousseau|influence|cubism"
+     ],
+     "collapsed": [
+      "archipenko",
+      "arp",
+      "balla",
+      "boccioni",
+      "brancusi",
+      "braque",
+      "breuer",
+      "carra",
+      "davis",
+      "delaunay",
+      "derain",
+      "doesburg",
+      "duchamp",
+      "ernst",
+      "gabo",
+      "gauguin",
+      "gleizes",
+      "gris",
+      "gropius",
+      "kandinsky",
+      "klee",
+      "le_corbusier",
+      "leger",
+      "malevich",
+      "man_ray",
+      "marc",
+      "masson",
+      "matisse",
+      "miro",
+      "moholy_nagy",
+      "mondrian",
+      "oud",
+      "ozenfant",
+      "pevsner",
+      "picabia",
+      "picasso",
+      "rodchenko",
+      "sant_elia",
+      "schlemmer",
+      "serusier",
+      "seurat",
+      "severini",
+      "signac",
+      "tatlin",
+      "vesnin",
+      "villon"
+     ],
+     "restored": [],
+     "hedged": [
+      {
+       "id": "abstract_dadaism",
+       "a": "Abstract Dadaism",
+       "b": "(Abstract) Dadaism",
+       "kind": "bracketing"
+      },
+      {
+       "id": "abstract_surrealism",
+       "a": "Abstract Surrealism",
+       "b": "(Abstract) Surrealism",
+       "kind": "bracketing"
+      }
+     ],
+     "dehedged": [],
+     "promoted": [],
+     "demoted": [
+      {
+       "id": "cubism",
+       "from": 1,
+       "to": 7,
+       "d": -6
+      },
+      {
+       "id": "constructivism",
+       "from": 7,
+       "to": 11,
+       "d": -4
+      },
+      {
+       "id": "geometric_abstract_art",
+       "from": 5,
+       "to": 9,
+       "d": -4
+      }
+     ],
+     "entity_j": 0.311
+    },
+    {
+     "from": "p19",
+     "to": "p21",
+     "inserted": [
+      "albers",
+      "archipenko",
+      "arp",
+      "balla",
+      "boccioni",
+      "brancusi",
+      "braque",
+      "breuer",
+      "carra",
+      "de_chirico",
+      "delaunay",
+      "derain",
+      "doesburg",
+      "duchamp",
+      "ernst",
+      "europe",
+      "gabo",
+      "gauguin",
+      "giacometti",
+      "gleizes",
+      "gris",
+      "gropius",
+      "jeanneret",
+      "kandinsky",
+      "kiesler",
+      "klee",
+      "kupka",
+      "laurens",
+      "layden",
+      "le_corbusier",
+      "leger",
+      "lipchitz",
+      "lissitzky",
+      "malevich",
+      "man_ray",
+      "marc",
+      "marcoussis",
+      "masson",
+      "matisse",
+      "metzinger",
+      "mies_van_der_rohe",
+      "miro",
+      "modern_architecture",
+      "moholy_nagy",
+      "mondrian",
+      "oud",
+      "ozenfant",
+      "pevsner",
+      "picabia",
+      "picasso",
+      "redon",
+      "rietveld",
+      "rodchenko",
+      "russolo",
+      "schlemmer",
+      "seurat",
+      "severini",
+      "signac",
+      "tanguy",
+      "tatlin",
+      "vantongerloo",
+      "villon"
+     ],
+     "deleted": [
+      "germany",
+      "holland"
+     ],
+     "relabelled": [
+      {
+       "id": "abstract_dadaism",
+       "a": "(Abstract) Dadaism",
+       "b": "Dadaism (Abstract)",
+       "kind": "word order"
+      },
+      {
+       "id": "abstract_surrealism",
+       "a": "(Abstract) Surrealism",
+       "b": "Surrealism (Abstract)",
+       "kind": "word order"
+      },
+      {
+       "id": "geometric_abstract_art",
+       "a": "Contemporary Geometric Abstract Art",
+       "b": "Geometric Abstract Art",
+       "kind": "wording"
+      },
+      {
+       "id": "near_eastern_art",
+       "a": "Near Eastern Art",
+       "b": "Near-Eastern Art",
+       "kind": "punctuation"
+      },
+      {
+       "id": "neoimpressionism",
+       "a": "Seurat and Neo-Impressionism",
+       "b": "Neoimpressionism",
+       "kind": "wording"
+      },
+      {
+       "id": "non_geometric_abstract_art",
+       "a": "Contemporary Non-Geometric Abstract Art",
+       "b": "Non-Geometric Abstract Art",
+       "kind": "wording"
+      },
+      {
+       "id": "synthetism",
+       "a": "Gauguin and Synthetism",
+       "b": "Synthetism",
+       "kind": "wording"
+      },
+      {
+       "id": "van_gogh",
+       "a": "van Gogh",
+       "b": "Van Gogh",
+       "kind": "case"
+      }
+     ],
+     "wired": [
+      "de_stijl_and_neoplasticism|influence|geometric_abstract_art",
+      "machine_esthetic|influence|de_stijl_and_neoplasticism",
+      "machine_esthetic|influence|suprematism",
+      "suprematism|influence|geometric_abstract_art",
+      "synthetism|influence|abstract_expressionism"
+     ],
+     "cut": [
+      "abstract_expressionism|influence|bauhaus",
+      "constructivism|siting|berlin",
+      "constructivism|siting|paris",
+      "cubism|influence|bauhaus",
+      "de_stijl_and_neoplasticism|influence|purism",
+      "machine_esthetic|influence|constructivism",
+      "machine_esthetic|influence|geometric_abstract_art",
+      "van_gogh|influence|fauvism"
+     ],
+     "restyled": [
+      "abstract_expressionism|influence|abstract_dadaism",
+      "abstract_expressionism|influence|abstract_surrealism",
+      "cubism|influence|de_stijl_and_neoplasticism",
+      "negro_sculpture|influence|fauvism",
+      "rousseau|influence|cubism"
+     ],
+     "collapsed": [],
+     "restored": [
+      "albers",
+      "archipenko",
+      "arp",
+      "balla",
+      "boccioni",
+      "brancusi",
+      "braque",
+      "breuer",
+      "carra",
+      "de_chirico",
+      "delaunay",
+      "derain",
+      "doesburg",
+      "duchamp",
+      "ernst",
+      "gabo",
+      "gauguin",
+      "giacometti",
+      "gleizes",
+      "gris",
+      "gropius",
+      "jeanneret",
+      "kandinsky",
+      "kiesler",
+      "klee",
+      "kupka",
+      "laurens",
+      "le_corbusier",
+      "leger",
+      "lipchitz",
+      "lissitzky",
+      "malevich",
+      "man_ray",
+      "marc",
+      "marcoussis",
+      "masson",
+      "matisse",
+      "metzinger",
+      "mies_van_der_rohe",
+      "miro",
+      "moholy_nagy",
+      "mondrian",
+      "oud",
+      "ozenfant",
+      "pevsner",
+      "picabia",
+      "picasso",
+      "redon",
+      "rietveld",
+      "rodchenko",
+      "russolo",
+      "schlemmer",
+      "seurat",
+      "severini",
+      "signac",
+      "tanguy",
+      "tatlin",
+      "vantongerloo",
+      "villon"
+     ],
+     "hedged": [],
+     "dehedged": [],
+     "promoted": [],
+     "demoted": [
+      {
+       "id": "constructivism",
+       "from": 11,
+       "to": 16,
+       "d": -5
+      },
+      {
+       "id": "rousseau",
+       "from": 23,
+       "to": 28,
+       "d": -5
+      },
+      {
+       "id": "japanese_prints",
+       "from": 18,
+       "to": 22,
+       "d": -4
+      },
+      {
+       "id": "machine_esthetic",
+       "from": 19,
+       "to": 23,
+       "d": -4
+      },
+      {
+       "id": "near_eastern_art",
+       "from": 20,
+       "to": 24,
+       "d": -4
+      },
+      {
+       "id": "negro_sculpture",
+       "from": 21,
+       "to": 25,
+       "d": -4
+      },
+      {
+       "id": "neoimpressionism",
+       "from": 22,
+       "to": 26,
+       "d": -4
+      },
+      {
+       "id": "orphism",
+       "from": 13,
+       "to": 17,
+       "d": -4
+      },
+      {
+       "id": "purism",
+       "from": 8,
+       "to": 12,
+       "d": -4
+      }
+     ],
+     "entity_j": 0.333
+    },
+    {
+     "from": "p21",
+     "to": "cover",
+     "inserted": [
+      "pont_aven",
+      "provence"
+     ],
+     "deleted": [
+      "albers",
+      "archipenko",
+      "arp",
+      "balla",
+      "boccioni",
+      "braque",
+      "breuer",
+      "carra",
+      "de_chirico",
+      "delaunay",
+      "derain",
+      "doesburg",
+      "duchamp",
+      "ernst",
+      "europe",
+      "gabo",
+      "giacometti",
+      "gleizes",
+      "gris",
+      "gropius",
+      "jeanneret",
+      "kandinsky",
+      "kiesler",
+      "klee",
+      "kupka",
+      "laurens",
+      "le_corbusier",
+      "leger",
+      "lipchitz",
+      "lissitzky",
+      "malevich",
+      "man_ray",
+      "marc",
+      "marcoussis",
+      "masson",
+      "matisse",
+      "metzinger",
+      "mies_van_der_rohe",
+      "miro",
+      "moholy_nagy",
+      "mondrian",
+      "oud",
+      "ozenfant",
+      "pevsner",
+      "picabia",
+      "picasso",
+      "rietveld",
+      "rodchenko",
+      "russolo",
+      "schlemmer",
+      "severini",
+      "signac",
+      "tanguy",
+      "tatlin",
+      "vantongerloo",
+      "villon"
+     ],
+     "relabelled": [
+      {
+       "id": "abstract_dadaism",
+       "a": "Dadaism (Abstract)",
+       "b": "(Abstract) Dadaism",
+       "kind": "word order"
+      },
+      {
+       "id": "abstract_expressionism",
+       "a": "Abstract Expressionism",
+       "b": "(Abstract) Expressionism",
+       "kind": "bracketing"
+      },
+      {
+       "id": "abstract_surrealism",
+       "a": "Surrealism (Abstract)",
+       "b": "(Abstract) Surrealism",
+       "kind": "word order"
+      },
+      {
+       "id": "geometric_abstract_art",
+       "a": "Geometric Abstract Art",
+       "b": "Geometrical Abstract Art",
+       "kind": "wording"
+      },
+      {
+       "id": "neoimpressionism",
+       "a": "Neoimpressionism",
+       "b": "Neo-Impressionism",
+       "kind": "punctuation"
+      },
+      {
+       "id": "non_geometric_abstract_art",
+       "a": "Non-Geometric Abstract Art",
+       "b": "Non-Geometrical Abstract Art",
+       "kind": "wording"
+      }
+     ],
+     "wired": [
+      "abstract_expressionism|influence|bauhaus",
+      "brancusi|siting|paris",
+      "cezanne|influence|synthetism",
+      "de_stijl_and_neoplasticism|siting|berlin",
+      "de_stijl_and_neoplasticism|siting|paris",
+      "machine_esthetic|influence|constructivism",
+      "machine_esthetic|influence|geometric_abstract_art",
+      "machine_esthetic|influence|modern_architecture",
+      "redon|influence|abstract_surrealism",
+      "redon|siting|paris",
+      "rousseau|siting|paris",
+      "van_gogh|influence|fauvism"
+     ],
+     "cut": [
+      "abstract_expressionism|influence|abstract_dadaism",
+      "abstract_expressionism|influence|abstract_surrealism",
+      "japanese_prints|influence|van_gogh",
+      "negro_sculpture|influence|brancusi",
+      "redon|influence|fauvism",
+      "synthetism|influence|abstract_expressionism"
+     ],
+     "restyled": [
+      "cubism|influence|de_stijl_and_neoplasticism",
+      "machine_esthetic|influence|brancusi",
+      "redon|influence|abstract_expressionism",
+      "rousseau|influence|cubism"
+     ],
+     "collapsed": [
+      "albers",
+      "archipenko",
+      "arp",
+      "balla",
+      "boccioni",
+      "braque",
+      "breuer",
+      "carra",
+      "delaunay",
+      "derain",
+      "doesburg",
+      "duchamp",
+      "ernst",
+      "gabo",
+      "giacometti",
+      "gleizes",
+      "gris",
+      "gropius",
+      "jeanneret",
+      "kandinsky",
+      "kiesler",
+      "klee",
+      "kupka",
+      "laurens",
+      "le_corbusier",
+      "leger",
+      "lipchitz",
+      "malevich",
+      "man_ray",
+      "marc",
+      "marcoussis",
+      "masson",
+      "matisse",
+      "metzinger",
+      "mies_van_der_rohe",
+      "miro",
+      "moholy_nagy",
+      "mondrian",
+      "oud",
+      "ozenfant",
+      "pevsner",
+      "picabia",
+      "picasso",
+      "rietveld",
+      "rodchenko",
+      "russolo",
+      "schlemmer",
+      "severini",
+      "signac",
+      "tanguy",
+      "tatlin",
+      "vantongerloo",
+      "villon"
+     ],
+     "restored": [],
+     "hedged": [
+      {
+       "id": "abstract_expressionism",
+       "a": "Abstract Expressionism",
+       "b": "(Abstract) Expressionism",
+       "kind": "bracketing"
+      }
+     ],
+     "dehedged": [],
+     "promoted": [
+      {
+       "id": "synthetism",
+       "from": 18,
+       "to": 11,
+       "d": 7
+      },
+      {
+       "id": "constructivism",
+       "from": 16,
+       "to": 12,
+       "d": 4
+      }
+     ],
+     "demoted": [
+      {
+       "id": "van_gogh",
+       "from": 19,
+       "to": 26,
+       "d": -7
+      },
+      {
+       "id": "abstract_surrealism",
+       "from": 2,
+       "to": 6,
+       "d": -4
+      }
+     ],
+     "entity_j": 0.396
+    }
+   ],
+   "to_endpoint": {
+    "insert": 0.305,
+    "p19": 0.762,
+    "p21": 0.396,
+    "cover": 1.0
+   }
+  }
+ },
+ "synchronic": {
+  "pairs": [
+   {
+    "a": "insert",
+    "b": "p19",
+    "entity_j": 0.311,
+    "relation_j": 0.302,
+    "influence_j": 0.647,
+    "shared": 28,
+    "only_a": 56,
+    "only_b": 6,
+    "relabelled": 6,
+    "rel_only_a": 75,
+    "rel_only_b": 22,
+    "rewired": 23,
+    "restyled": 6
+   },
+   {
+    "a": "insert",
+    "b": "p21",
+    "entity_j": 0.633,
+    "relation_j": 0.491,
+    "influence_j": 0.567,
+    "shared": 69,
+    "only_a": 15,
+    "only_b": 25,
+    "relabelled": 6,
+    "rel_only_a": 33,
+    "rel_only_b": 54,
+    "rewired": 34,
+    "restyled": 9
+   },
+   {
+    "a": "insert",
+    "b": "cover",
+    "entity_j": 0.305,
+    "relation_j": 0.283,
+    "influence_j": 0.559,
+    "shared": 29,
+    "only_a": 55,
+    "only_b": 11,
+    "relabelled": 8,
+    "rel_only_a": 74,
+    "rel_only_b": 35,
+    "rewired": 25,
+    "restyled": 6
+   },
+   {
+    "a": "p19",
+    "b": "p21",
+    "entity_j": 0.333,
+    "relation_j": 0.365,
+    "influence_j": 0.627,
+    "shared": 32,
+    "only_a": 2,
+    "only_b": 62,
+    "relabelled": 8,
+    "rel_only_a": 10,
+    "rel_only_b": 84,
+    "rewired": 13,
+    "restyled": 5
+   },
+   {
+    "a": "p19",
+    "b": "cover",
+    "entity_j": 0.762,
+    "relation_j": 0.632,
+    "influence_j": 0.679,
+    "shared": 32,
+    "only_a": 2,
+    "only_b": 8,
+    "relabelled": 7,
+    "rel_only_a": 9,
+    "rel_only_b": 23,
+    "rewired": 15,
+    "restyled": 1
+   },
+   {
+    "a": "p21",
+    "b": "cover",
+    "entity_j": 0.396,
+    "relation_j": 0.421,
+    "influence_j": 0.733,
+    "shared": 38,
+    "only_a": 56,
+    "only_b": 2,
+    "relabelled": 6,
+    "rel_only_a": 74,
+    "rel_only_b": 14,
+    "rewired": 18,
+    "restyled": 4
+   }
+  ],
+  "entity_consensus": {
+   "1": 31,
+   "2": 45,
+   "3": 9,
+   "4": 26
+  },
+  "relation_consensus": {
+   "1": 74,
+   "2": 51,
+   "3": 27,
+   "4": 35
+  },
+  "relations_on_all": [
+   "abstract_dadaism|influence|abstract_surrealism",
+   "abstract_expressionism|siting|munich",
+   "abstract_surrealism|siting|paris",
+   "cezanne|influence|cubism",
+   "cezanne|influence|fauvism",
+   "constructivism|influence|bauhaus",
+   "constructivism|influence|geometric_abstract_art",
+   "cubism|influence|abstract_dadaism",
+   "cubism|influence|constructivism",
+   "cubism|influence|de_stijl_and_neoplasticism",
+   "cubism|influence|futurism",
+   "cubism|influence|orphism",
+   "cubism|influence|purism",
+   "cubism|influence|suprematism",
+   "cubism|siting|paris",
+   "fauvism|influence|abstract_expressionism",
+   "fauvism|siting|paris",
+   "japanese_prints|influence|fauvism",
+   "japanese_prints|influence|synthetism",
+   "machine_esthetic|influence|abstract_dadaism",
+   "machine_esthetic|influence|cubism",
+   "machine_esthetic|influence|futurism",
+   "machine_esthetic|influence|purism",
+   "near_eastern_art|influence|abstract_expressionism",
+   "near_eastern_art|influence|fauvism",
+   "negro_sculpture|influence|cubism",
+   "neoimpressionism|influence|cubism",
+   "neoimpressionism|influence|fauvism",
+   "neoimpressionism|siting|paris",
+   "purism|siting|paris",
+   "rousseau|influence|cubism",
+   "suprematism|influence|bauhaus",
+   "suprematism|siting|moscow",
+   "synthetism|influence|fauvism",
+   "synthetism|siting|paris"
+  ],
+  "nearest": {
+   "insert": "p21",
+   "p19": "cover",
+   "p21": "insert",
+   "cover": "p19"
+  },
+  "mutual_nearest": [
+   [
+    "cover",
+    "p19"
+   ],
+   [
+    "insert",
+    "p21"
+   ]
+  ]
+ },
+ "pragmatic": {
+  "insert": {
+   "ink_key": {
+    "black": "internal",
+    "red": "external"
+   },
+   "legend": [
+    {
+     "code": "a",
+     "meaning": "architect"
+    },
+    {
+     "code": "p",
+     "meaning": "painter"
+    },
+    {
+     "code": "s",
+     "meaning": "sculptor"
+    },
+    {
+     "code": "c",
+     "meaning": "constructivism [?]"
+    },
+    {
+     "code": "t",
+     "meaning": "theatre"
+    },
+    {
+     "code": "ph",
+     "meaning": "photographer"
+    }
+   ],
+   "dossier": {
+    "support": "",
+    "audience": "",
+    "permanence": "",
+    "constraint": "",
+    "fn": ""
+   },
+   "forms": {
+    "underlined": 20,
+    "semicircle": 9,
+    "other": 1,
+    "boxed": 4
+   },
+   "inks_on_entities": {
+    "graphite": 21
+   },
+   "arrow_colours": {
+    "graphite": 41
+   },
+   "tagged": 40,
+   "archival": "Moma archives",
+   "date": "1936"
+  },
+  "p19": {
+   "ink_key": {
+    "black": "internal",
+    "red": "external"
+   },
+   "legend": [],
+   "dossier": {
+    "support": "",
+    "audience": "",
+    "permanence": "",
+    "constraint": "",
+    "fn": ""
+   },
+   "forms": {
+    "underlined": 18,
+    "semicircle": 6,
+    "boxed": 4
+   },
+   "inks_on_entities": {
+    "graphite": 20
+   },
+   "arrow_colours": {
+    "graphite": 43
+   },
+   "tagged": 0,
+   "archival": "Moma archives",
+   "date": "1936"
+  },
+  "p21": {
+   "ink_key": {
+    "blue": "internal",
+    "graphite": "external"
+   },
+   "legend": [],
+   "dossier": {
+    "support": "",
+    "audience": "",
+    "permanence": "",
+    "constraint": "",
+    "fn": ""
+   },
+   "forms": {
+    "semicircle": 15,
+    "underlined": 17,
+    "boxed": 5
+   },
+   "inks_on_entities": {
+    "blue": 21,
+    "graphite": 6
+   },
+   "arrow_colours": {
+    "blue": 34,
+    "graphite": 19
+   },
+   "tagged": 0,
+   "archival": "AHB VI.A.38 ARCH.61 (p. 70)",
+   "date": "1936"
+  },
+  "cover": {
+   "ink_key": {
+    "black": "internal",
+    "red": "external"
+   },
+   "legend": [],
+   "dossier": {
+    "support": "",
+    "audience": "",
+    "permanence": "",
+    "constraint": "",
+    "fn": ""
+   },
+   "forms": {
+    "semicircle": 19,
+    "boxed": 5
+   },
+   "inks_on_entities": {
+    "black": 24,
+    "red": 4
+   },
+   "arrow_colours": {
+    "black": 34,
+    "red": 17
+   },
+   "tagged": 0,
+   "archival": "Moma archives",
+   "date": "1936"
+  }
+ }
+}

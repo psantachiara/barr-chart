@@ -1,0 +1,7 @@
+# Influence arrows asserted on every chart in the corpus (the consensus core).
+PREFIX bc: <https://psantachiara.github.io/barr-chart/ns#>
+SELECT ?from ?to (COUNT(DISTINCT ?chart) AS ?charts) WHERE {
+  GRAPH ?chart { ?from bc:influenced ?to }
+}
+GROUP BY ?from ?to
+HAVING (COUNT(DISTINCT ?chart) = 5)

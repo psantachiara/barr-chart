@@ -1,0 +1,7 @@
+a,b,entity_jaccard,relation_jaccard,influence_jaccard,shared_entities,entities_only_a,entities_only_b,relabelled,relations_only_a,relations_only_b,restyled,rewired
+insert,p19,0.311,0.302,0.647,28,56,6,6,75,22,6,23
+insert,p21,0.633,0.491,0.567,69,15,25,6,33,54,9,34
+insert,cover,0.305,0.283,0.559,29,55,11,8,74,35,6,25
+p19,p21,0.333,0.365,0.627,32,2,62,8,10,84,5,13
+p19,cover,0.762,0.632,0.679,32,2,8,7,9,23,1,15
+p21,cover,0.396,0.421,0.733,38,56,2,6,74,14,4,18

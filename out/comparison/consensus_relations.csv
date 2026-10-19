@@ -1,0 +1,188 @@
+relation,n_charts,charts
+abstract_dadaism influenced abstract_surrealism,4,insert p19 p21 cover
+abstract_expressionism sitedIn munich,4,insert p19 p21 cover
+abstract_surrealism sitedIn paris,4,insert p19 p21 cover
+cezanne influenced cubism,4,insert p19 p21 cover
+cezanne influenced fauvism,4,insert p19 p21 cover
+constructivism influenced bauhaus,4,insert p19 p21 cover
+constructivism influenced geometric_abstract_art,4,insert p19 p21 cover
+cubism influenced abstract_dadaism,4,insert p19 p21 cover
+cubism influenced constructivism,4,insert p19 p21 cover
+cubism influenced de_stijl_and_neoplasticism,4,insert p19 p21 cover
+cubism influenced futurism,4,insert p19 p21 cover
+cubism influenced orphism,4,insert p19 p21 cover
+cubism influenced purism,4,insert p19 p21 cover
+cubism influenced suprematism,4,insert p19 p21 cover
+cubism sitedIn paris,4,insert p19 p21 cover
+fauvism influenced abstract_expressionism,4,insert p19 p21 cover
+fauvism sitedIn paris,4,insert p19 p21 cover
+japanese_prints influenced fauvism,4,insert p19 p21 cover
+japanese_prints influenced synthetism,4,insert p19 p21 cover
+machine_esthetic influenced abstract_dadaism,4,insert p19 p21 cover
+machine_esthetic influenced cubism,4,insert p19 p21 cover
+machine_esthetic influenced futurism,4,insert p19 p21 cover
+machine_esthetic influenced purism,4,insert p19 p21 cover
+near_eastern_art influenced abstract_expressionism,4,insert p19 p21 cover
+near_eastern_art influenced fauvism,4,insert p19 p21 cover
+negro_sculpture influenced cubism,4,insert p19 p21 cover
+neoimpressionism influenced cubism,4,insert p19 p21 cover
+neoimpressionism influenced fauvism,4,insert p19 p21 cover
+neoimpressionism sitedIn paris,4,insert p19 p21 cover
+purism sitedIn paris,4,insert p19 p21 cover
+rousseau influenced cubism,4,insert p19 p21 cover
+suprematism influenced bauhaus,4,insert p19 p21 cover
+suprematism sitedIn moscow,4,insert p19 p21 cover
+synthetism influenced fauvism,4,insert p19 p21 cover
+synthetism sitedIn paris,4,insert p19 p21 cover
+abstract_dadaism sitedIn berlin,3,p19 p21 cover
+abstract_dadaism sitedIn cologne,3,p19 p21 cover
+abstract_dadaism sitedIn paris,3,p19 p21 cover
+abstract_dadaism sitedIn zurich,3,p19 p21 cover
+abstract_expressionism influenced abstract_dadaism,3,insert p19 p21
+abstract_expressionism influenced abstract_surrealism,3,insert p19 p21
+abstract_expressionism influenced non_geometric_abstract_art,3,p19 p21 cover
+abstract_surrealism influenced non_geometric_abstract_art,3,p19 p21 cover
+bauhaus sitedIn dessau,3,p19 p21 cover
+bauhaus sitedIn weimar,3,p19 p21 cover
+constructivism sitedIn moscow,3,p19 p21 cover
+de_stijl_and_neoplasticism influenced bauhaus,3,p19 p21 cover
+de_stijl_and_neoplasticism influenced geometric_abstract_art,3,insert p21 cover
+futurism influenced abstract_dadaism,3,p19 p21 cover
+futurism sitedIn milan,3,p19 p21 cover
+gauguin memberOf synthetism,3,insert p21 cover
+japanese_prints influenced van_gogh,3,insert p19 p21
+machine_esthetic influenced bauhaus,3,p19 p21 cover
+machine_esthetic influenced brancusi,3,insert p21 cover
+machine_esthetic influenced constructivism,3,insert p19 cover
+machine_esthetic influenced de_stijl_and_neoplasticism,3,insert p21 cover
+negro_sculpture influenced fauvism,3,p19 p21 cover
+neoimpressionism influenced futurism,3,p19 p21 cover
+orphism sitedIn paris,3,p19 p21 cover
+seurat memberOf neoimpressionism,3,insert p21 cover
+suprematism influenced geometric_abstract_art,3,insert p21 cover
+van_gogh influenced fauvism,3,insert p19 cover
+abstract_expressionism influenced bauhaus,2,p19 cover
+archipenko memberOf cubism,2,insert p21
+balla memberOf futurism,2,insert p21
+bauhaus influenced modern_architecture,2,p21 cover
+boccioni memberOf futurism,2,insert p21
+brancusi influenced non_geometric_abstract_art,2,p21 cover
+braque memberOf cubism,2,insert p21
+breuer memberOf bauhaus,2,insert p21
+carra memberOf futurism,2,insert p21
+de_stijl_and_neoplasticism influenced modern_architecture,2,p21 cover
+de_stijl_and_neoplasticism influenced purism,2,insert p19
+de_stijl_and_neoplasticism sitedIn holland,2,insert p19
+de_stijl_and_neoplasticism sitedIn layden,2,p21 cover
+delaunay memberOf orphism,2,insert p21
+derain memberOf fauvism,2,insert p21
+doesburg memberOf de_stijl_and_neoplasticism,2,insert p21
+duchamp memberOf abstract_dadaism,2,insert p21
+duchamp memberOf cubism,2,insert p21
+ernst memberOf abstract_dadaism,2,insert p21
+gabo memberOf constructivism,2,insert p21
+gris memberOf cubism,2,insert p21
+gropius memberOf bauhaus,2,insert p21
+kandinsky memberOf abstract_expressionism,2,insert p21
+klee memberOf abstract_expressionism,2,insert p21
+le_corbusier memberOf purism,2,insert p21
+leger memberOf cubism,2,insert p21
+machine_esthetic influenced geometric_abstract_art,2,p19 cover
+machine_esthetic influenced suprematism,2,p21 cover
+malevich memberOf suprematism,2,insert p21
+man_ray memberOf abstract_dadaism,2,insert p21
+man_ray memberOf abstract_surrealism,2,insert p21
+marc memberOf abstract_expressionism,2,insert p21
+masson memberOf abstract_surrealism,2,insert p21
+matisse memberOf fauvism,2,insert p21
+miro memberOf abstract_surrealism,2,insert p21
+moholy_nagy memberOf bauhaus,2,insert p21
+mondrian memberOf de_stijl_and_neoplasticism,2,insert p21
+oud memberOf de_stijl_and_neoplasticism,2,insert p21
+ozenfant memberOf purism,2,insert p21
+pevsner memberOf constructivism,2,insert p21
+picabia memberOf abstract_dadaism,2,insert p21
+picasso memberOf abstract_surrealism,2,insert p21
+purism influenced modern_architecture,2,p21 cover
+redon influenced abstract_expressionism,2,p21 cover
+rodchenko memberOf constructivism,2,insert p21
+rodchenko memberOf suprematism,2,insert p21
+schlemmer memberOf bauhaus,2,insert p21
+severini memberOf futurism,2,insert p21
+signac memberOf neoimpressionism,2,insert p21
+tatlin memberOf constructivism,2,insert p21
+villon memberOf cubism,2,insert p21
+abstract_dadaism sitedIn france,1,insert
+abstract_dadaism sitedIn germany,1,insert
+abstract_expressionism influenced biomorphic_abstract_art,1,insert
+abstract_surrealism influenced biomorphic_abstract_art,1,insert
+albers memberOf bauhaus,1,p21
+arp memberOf abstract_dadaism,1,insert
+arp memberOf abstract_surrealism,1,p21
+bauhaus sitedIn germany,1,insert
+biomorphic_abstract_art sitedIn barcelona,1,insert
+biomorphic_abstract_art sitedIn illegible_place_456_1,1,insert
+biomorphic_abstract_art sitedIn london,1,insert
+biomorphic_abstract_art sitedIn paris,1,insert
+brancusi memberOf futurism,1,insert
+brancusi sitedIn paris,1,cover
+cezanne influenced synthetism,1,cover
+cezanne sitedIn provence,1,cover
+constructivism sitedIn berlin,1,p19
+constructivism sitedIn paris,1,p19
+constructivism sitedIn russia,1,insert
+cubism influenced bauhaus,1,p19
+davis memberOf synthetism,1,insert
+de_chirico influenced abstract_dadaism,1,p21
+de_stijl_and_neoplasticism sitedIn berlin,1,cover
+de_stijl_and_neoplasticism sitedIn europe,1,p21
+de_stijl_and_neoplasticism sitedIn germany,1,p19
+de_stijl_and_neoplasticism sitedIn paris,1,cover
+delaunay memberOf cubism,1,p21
+ernst memberOf abstract_surrealism,1,p21
+fauvism influenced cubism,1,insert
+futurism influenced constructivism,1,insert
+geometric_abstract_art sitedIn barcelona,1,insert
+geometric_abstract_art sitedIn illegible_place_456_2,1,insert
+geometric_abstract_art sitedIn illegible_place_456_3,1,insert
+geometric_abstract_art sitedIn london,1,insert
+geometric_abstract_art sitedIn milan,1,insert
+geometric_abstract_art sitedIn paris,1,insert
+geometric_abstract_art sitedIn prague,1,insert
+giacometti memberOf abstract_surrealism,1,p21
+gleizes memberOf cubism,1,p21
+gleizes memberOf orphism,1,insert
+gropius memberOf modern_architecture,1,p21
+jeanneret memberOf purism,1,p21
+kiesler memberOf de_stijl_and_neoplasticism,1,p21
+kupka memberOf orphism,1,p21
+laurens memberOf cubism,1,p21
+le_corbusier memberOf modern_architecture,1,p21
+leger memberOf purism,1,insert
+lipchitz memberOf cubism,1,p21
+lissitzky influenced bauhaus,1,p21
+machine_esthetic influenced modern_architecture,1,cover
+marcoussis memberOf cubism,1,p21
+metzinger memberOf cubism,1,p21
+mies_van_der_rohe memberOf modern_architecture,1,p21
+negro_sculpture influenced brancusi,1,p21
+oud memberOf modern_architecture,1,p21
+picabia memberOf cubism,1,p21
+picabia memberOf orphism,1,p21
+picasso memberOf cubism,1,insert
+redon influenced abstract_surrealism,1,cover
+redon influenced fauvism,1,p21
+redon sitedIn paris,1,cover
+rietveld memberOf de_stijl_and_neoplasticism,1,p21
+rodchenko memberOf cubism,1,p21
+rousseau sitedIn paris,1,cover
+russolo memberOf futurism,1,p21
+sant_elia memberOf futurism,1,insert
+serusier memberOf synthetism,1,insert
+suprematism influenced lissitzky,1,p21
+synthetism influenced abstract_expressionism,1,p21
+synthetism sitedIn pont_aven,1,cover
+tanguy memberOf abstract_surrealism,1,p21
+vantongerloo memberOf de_stijl_and_neoplasticism,1,p21
+vesnin memberOf constructivism,1,insert
+villon memberOf orphism,1,insert

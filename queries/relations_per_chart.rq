@@ -1,0 +1,8 @@
+# Every relation each chart asserts, with how it is drawn.
+PREFIX bc: <https://psantachiara.github.io/barr-chart/ns#>
+SELECT ?chart ?from ?relation ?to ?line ?colour ?scope WHERE {
+  GRAPH ?chart {
+    ?m a bc:Mark ; bc:from ?from ; bc:relation ?relation ; bc:to ?to .
+    OPTIONAL { ?m bc:line ?line } OPTIONAL { ?m bc:colour ?colour } OPTIONAL { ?m bc:scope ?scope }
+  }
+}

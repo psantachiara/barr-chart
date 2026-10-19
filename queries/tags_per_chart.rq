@@ -1,0 +1,7 @@
+# Entities per legend tag, chart by chart (only charts with a legend, e.g. the Insert).
+PREFIX bc: <https://psantachiara.github.io/barr-chart/ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?chart ?code ?meaning (COUNT(DISTINCT ?entity) AS ?entities) WHERE {
+  GRAPH ?chart { ?tag a bc:Tag ; bc:code ?code ; rdfs:label ?meaning . OPTIONAL { ?entity bc:taggedWith ?tag } }
+}
+GROUP BY ?chart ?code ?meaning ORDER BY ?chart ?code

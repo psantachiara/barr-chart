@@ -1,0 +1,6 @@
+# Relations drawn as dotted lines, chart by chart.
+PREFIX bc: <https://psantachiara.github.io/barr-chart/ns#>
+SELECT ?chart ?from ?relation ?to WHERE {
+  GRAPH ?chart { ?m a bc:Mark ; bc:line "dotted" ; bc:from ?from ; bc:relation ?relation ; bc:to ?to }
+}
+ORDER BY ?chart

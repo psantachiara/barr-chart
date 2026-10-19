@@ -1,0 +1,13 @@
+ERRORS
+none
+
+WARNINGS
+none
+
+SUMMARY
+unverified rows: 0 nodes, 0 edges (0 of them seeded from the legacy file)
+cover: 40 entities, 51 influence arrows, acyclic (well-formed DAG)
+insert: 84 entities, 41 influence arrows, acyclic (well-formed DAG)
+p15: 32 entities, 15 influence arrows, acyclic (well-formed DAG)
+p19: 34 entities, 43 influence arrows, acyclic (well-formed DAG)
+p21: 94 entities, 53 influence arrows, acyclic (well-formed DAG)

@@ -1,0 +1,7 @@
+# Entities Barr labels differently on different charts (Terminological plane).
+PREFIX bc: <https://psantachiara.github.io/barr-chart/ns#>
+SELECT ?entity (COUNT(DISTINCT ?label) AS ?variants)
+       (GROUP_CONCAT(DISTINCT CONCAT(STRAFTER(STR(?chart), "/chart/"), ": ", ?label); separator=" | ") AS ?labels)
+WHERE { GRAPH ?chart { ?entity bc:labelAsWritten ?label } }
+GROUP BY ?entity HAVING (COUNT(DISTINCT ?label) > 1)
+ORDER BY DESC(?variants)

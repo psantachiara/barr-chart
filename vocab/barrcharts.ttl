@@ -1,0 +1,143 @@
+@prefix bc:      <https://psantachiara.github.io/barr-chart/ns#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# ---------------------------------------------------------------------------
+# Barr Charts vocabulary
+#
+# One vocabulary shared by every chart. Each chart is a named graph whose
+# triples use only these terms; what differs between charts is the
+# arrangement, not the descriptive ingredients.
+# ---------------------------------------------------------------------------
+
+<https://psantachiara.github.io/barr-chart/ns>
+    a owl:Ontology ;
+    rdfs:label "Barr Charts vocabulary"@en ;
+    dcterms:description "Shared terms for encoding Alfred H. Barr, Jr.'s charts for Cubism and Abstract Art (1936) as linked data: one named graph per chart, one vocabulary for all."@en ;
+    dcterms:creator "Pietro Santachiara" ;
+    owl:versionInfo "0.1" .
+
+# --- Records ----------------------------------------------------------------
+
+bc:Chart a owl:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Chart"@en ;
+    rdfs:comment "A single surviving chart (drawing, proof, or printed state). Its IRI also names the graph holding what the chart asserts."@en .
+
+bc:set a owl:DatatypeProperty ; rdfs:domain bc:Chart ;
+    rdfs:comment "core: in the present study (charts that write places as labels: 456, 457, 458, Cover). secondary: held for a follow-up study (charts that encode location through page areas or treat a single region)."@en .
+
+bc:Sequence a owl:Class ;
+    rdfs:label "Sequence"@en ;
+    rdfs:comment "An ordering of charts proposed by a reading. Order belongs to the reading, not to the charts."@en .
+
+bc:charts a owl:ObjectProperty ;
+    rdfs:domain bc:Sequence ;
+    rdfs:comment "An rdf:List of bc:Chart, in the order the reading proposes."@en .
+
+bc:basis a owl:DatatypeProperty ;
+    rdfs:domain bc:Sequence ;
+    rdfs:comment "Grounds for the ordering: 'documented' (supported by the archival record) or 'analytical' (chosen by the analyst)."@en .
+
+bc:proposedBy a owl:DatatypeProperty ;
+    rdfs:domain bc:Sequence .
+
+bc:archivalReference a owl:DatatypeProperty ;
+    rdfs:subPropertyOf dcterms:source ;
+    rdfs:domain bc:Chart ;
+    rdfs:comment "Repository citation for the chart (e.g. MoMA Archives, AHB folder number)."@en .
+
+# --- Entities that appear on charts -----------------------------------------
+
+bc:Concept a owl:Class ;
+    rdfs:label "Charted entity"@en ;
+    rdfs:comment "Anything Barr writes on a chart. Identity is shared across charts: the same IRI on every chart where the entity appears."@en .
+
+bc:Movement a owl:Class ; rdfs:subClassOf bc:Concept , skos:Concept ;
+    rdfs:label "Movement"@en .
+bc:Person a owl:Class ; rdfs:subClassOf bc:Concept , foaf:Person ;
+    rdfs:label "Person"@en .
+bc:Place a owl:Class ; rdfs:subClassOf bc:Concept , dcterms:Location ;
+    rdfs:label "Place"@en .
+
+bc:appearsOn a owl:ObjectProperty ;
+    rdfs:domain bc:Concept ; rdfs:range bc:Chart ;
+    rdfs:comment "Asserted inside a chart's graph: this entity is written on this chart."@en .
+
+bc:labelAsWritten a owl:DatatypeProperty ;
+    rdfs:domain bc:Concept ;
+    rdfs:comment "The entity's label exactly as written on the chart. Lives in the chart's graph; the reconciled label (skos:prefLabel) lives in the concepts graph."@en .
+
+bc:yearOnScale a owl:DatatypeProperty ;
+    rdfs:comment "The entity's position on this chart read against the year scale Barr draws on it. On the typeset Cover the printed dates coincide with the scale."@en .
+
+bc:form a owl:DatatypeProperty ;
+    rdfs:comment "How the entity is drawn on this chart (e.g. boxed, oval, plain)."@en .
+
+# --- Relations asserted by charts --------------------------------------------
+# Each drawn relation is recorded twice inside the chart's graph:
+#   1. as a direct triple (e.g. :cezanne bc:influenced :cubism) for simple queries;
+#   2. as a bc:Mark describing how it is drawn (line, colour, certainty of reading).
+
+bc:influenced a owl:ObjectProperty ;
+    rdfs:label "influenced"@en ;
+    rdfs:comment "An arrow of influence or descent drawn from subject to object."@en .
+
+bc:sitedIn a owl:ObjectProperty ;
+    rdfs:label "sited in"@en ;
+    rdfs:range bc:Place .
+
+bc:memberOf a owl:ObjectProperty ;
+    rdfs:label "member of"@en ;
+    rdfs:domain bc:Person .
+
+bc:relatedTo a owl:ObjectProperty ;
+    rdfs:label "related to (unspecified)"@en ;
+    rdfs:comment "A drawn connection whose type the transcriber cannot assign."@en .
+
+bc:Mark a owl:Class ;
+    rdfs:label "Mark"@en ;
+    rdfs:comment "A drawn connection on a chart: the inscription, as distinct from the relation it asserts."@en .
+
+bc:from        a owl:ObjectProperty ; rdfs:domain bc:Mark ; rdfs:range bc:Concept .
+bc:to          a owl:ObjectProperty ; rdfs:domain bc:Mark ; rdfs:range bc:Concept .
+bc:relation    a owl:ObjectProperty ; rdfs:domain bc:Mark ;
+    rdfs:comment "The property asserted by this mark (bc:influenced, bc:sitedIn, bc:memberOf, bc:relatedTo)."@en .
+bc:onChart     a owl:ObjectProperty ; rdfs:domain bc:Mark ; rdfs:range bc:Chart .
+bc:line        a owl:DatatypeProperty ; rdfs:domain bc:Mark ;
+    rdfs:comment "solid | dotted | dashed | other"@en .
+bc:colour      a owl:DatatypeProperty ; rdfs:domain bc:Mark ;
+    rdfs:comment "Ink colour as seen: black | red | blue | graphite | other."@en .
+bc:ink a owl:DatatypeProperty ;
+    rdfs:comment "Ink of an entity as written on this chart: black | red | blue | graphite | other. What an ink means is set by the chart's ink key (bc:inkMeaning)."@en .
+
+# Barr's key (interpretation, derived from the observed colour and line of an influence mark;
+# not asserted where the sheet does not distinguish colours, e.g. graphite drafts)
+bc:Tag a owl:Class ;
+    rdfs:label "Legend tag"@en ;
+    rdfs:comment "A code from a chart's own legend (e.g. on the Insert: a = architect, p = painter). Tags belong to the chart that defines them; rdfs:label holds the meaning as written."@en .
+bc:code a owl:DatatypeProperty ; rdfs:domain bc:Tag ;
+    rdfs:comment "The code as written in the legend, e.g. 'p'."@en .
+bc:inLegendOf a owl:ObjectProperty ; rdfs:domain bc:Tag ; rdfs:range bc:Chart .
+bc:taggedWith a owl:ObjectProperty ; rdfs:domain bc:Concept ; rdfs:range bc:Tag ;
+    rdfs:comment "Asserted in a chart's graph: Barr marks this entity with this legend code on this chart."@en .
+
+bc:inkMeaning a owl:DatatypeProperty ; rdfs:domain bc:Chart ;
+    rdfs:comment "One entry of the chart's ink key, as 'ink=meaning' (e.g. 'blue=internal', 'graphite=external'). Charts without a key take the Cover's: black=internal, red=external."@en .
+bc:external a owl:DatatypeProperty ; rdfs:range xsd:boolean ;
+    rdfs:comment "true where the entity's ink means external influence by this chart's ink key (red on the Cover, graphite on 458). Derived from bc:ink and bc:inkMeaning, never entered by hand."@en .
+bc:scope a owl:DatatypeProperty ; rdfs:domain bc:Mark ;
+    rdfs:comment "internal | external influence, read from bc:colour by the chart's ink key."@en .
+bc:weight a owl:DatatypeProperty ; rdfs:domain bc:Mark ;
+    rdfs:comment "primary (solid) | secondary (dotted) influence, read from bc:line by Barr's key."@en .
+
+bc:certainty   a owl:DatatypeProperty ;
+    rdfs:comment "Transcriber's confidence in the reading: certain | probable | uncertain."@en .
+bc:verified    a owl:DatatypeProperty ;
+    rdfs:comment "Date the row was checked against the facsimile. Absent = not yet verified."@en .
