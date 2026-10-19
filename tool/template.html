@@ -301,7 +301,7 @@ body.lb-open{overflow:hidden}
   <header id="masthead">
     <div class="kicker">A six-plane comparison tool</div>
     <h1>Four Versions of a Chart</h1>
-    <p class="sub">Alfred H. Barr, Jr.'s chart for <em>Cubism and Abstract Art</em> (MoMA, 1936) survives in several hand-drawn versions. This tool holds four of them side by side and reads each as a complete ontology in its own right. No version is treated as the draft of another unless a reading on Plane IV says so.</p>
+    <p class="sub">Alfred H. Barr, Jr.'s chart for <em>Cubism and Abstract Art</em> (MoMA, 1936) survives in several hand-drawn versions. This tool compares four of them without treating any of them as the draft of another unless a reading on Plane IV says so. Each chart is transcribed and transformed to Linked Data, and therefore queried to support the analysis offered within each plane. Each chart is read as a self-contained, valid ontology.</p>
     <button class="mini" id="theme" type="button" aria-label="Switch colour theme">Dark</button>
   </header>
 
@@ -701,7 +701,7 @@ function paneCharts(){
 
   return `
   <h2 class="ph">The charts</h2>
-  <p class="lede">Four versions of the chart, each transcribed entity by entity from its facsimile. <strong>Each is read as a self-contained, valid ontology.</strong> The drafts are named by their plate numbers in Glenn D. Lowry, “Abstraction in 1936: Barr’s Diagrams,” in Leah Dickerman, ed., <em>Inventing Abstraction, 1910–1925</em> (Museum of Modern Art, 2012), 358–363. The chips list them in that order, which makes no claim about which came first.</p>
+  <p class="lede">The four versions of the chart are untitled in the MoMA Archives. Here they are referred to by their plate numbers from Glenn D. Lowry, “Abstraction in 1936: Barr’s Diagrams,” in Leah Dickerman, ed., <em>Inventing Abstraction, 1910–1925</em> (Museum of Modern Art, 2012), 358–363. The chips are listed in that order, but this organization should not be taken as a claim about which version came first or last—Barr continued to revise the chart even after the MoMA exhibition took place.</p>
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(238px,1fr))">${cards}</div>
 
   <h3 class="sh">Size <span>entities and drawn relations per chart ${scopeNote()}</span></h3>
