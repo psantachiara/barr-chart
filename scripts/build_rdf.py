@@ -55,7 +55,7 @@ APPLIES = {"label": DINO.LabelMark, "relation": DINO.RelationMark, "any": None}
 MEANINGS = {"internal", "external", "primary", "secondary", "sourceOutsideModernArt", "membership", "title", "date"}
 CERTAINTY = {"certain", "probable", "uncertain", ""}
 INKS = set(INK) | {""}
-BASIS = {"documented", "analytical"}
+BASIS = {"documented", "analytical", "published"}
 DEFAULT_KEY = {"black": "internal", "red": "external"}   # the Cover's key; applies where a chart sets none
 SLUG = re.compile(r"^[a-z0-9_]+$")
 
@@ -184,7 +184,7 @@ def main(strict=False):
 
     for s in seqs:
         if s["basis"] not in BASIS:
-            errors.append(f"sequences: {s['sequence_id']} basis '{s['basis']}' (documented | analytical)")
+            errors.append(f"sequences: {s['sequence_id']} basis '{s['basis']}' (documented | analytical | published)")
         for c in s["charts"].split():
             if c not in chart_ids:
                 errors.append(f"sequences: {s['sequence_id']} names unknown chart '{c}'")

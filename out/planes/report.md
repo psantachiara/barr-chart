@@ -95,11 +95,11 @@ Backward arrows: 456: Machine Esthetic (1917) → Brancusi (1912); 456: Machine 
 
 ## IV · Genetic
 
-Each reading is an ordering proposed by someone, with its basis. Charts outside the scope are dropped from it.
+Each reading is an ordering with a stated source and basis. Charts outside the scope are dropped from it.
 
-### Drafting sequence as presented at NASKO 2025 (`nasko2025`)
+### Plate order (Lowry 2012) (`lowry2012`)
 
-Basis: analytical. Proposed by: Leazer (NASKO 2025). Order in scope: 456 → 457 → 458 → Cover (dropped: 455).
+Basis: published. Source: Lowry (2012). Order in scope: 456 → 457 → 458 → Cover (dropped: 455).
 
 | step | inserted | deleted | relabelled | wired | cut | restyled | persons collapsed | promoted | demoted | brackets gained/lost | J |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

@@ -1237,10 +1237,10 @@
   }
  },
  "genetic": {
-  "nasko2025": {
-   "label": "Drafting sequence as presented at NASKO 2025",
-   "basis": "analytical",
-   "proposed_by": "Leazer (NASKO 2025)",
+  "lowry2012": {
+   "label": "Plate order (Lowry 2012)",
+   "basis": "published",
+   "proposed_by": "Lowry (2012)",
    "order": [
     "insert",
     "p19",

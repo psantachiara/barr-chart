@@ -68,7 +68,7 @@ Relations by number of charts they appear on: {1: 74, 2: 51, 3: 27, 4: 35}
 | 456 | s | sculptor | 8 |
 | 456 | t | theatre | 1 |
 
-## Sequence `nasko2025` (analytical; Leazer (NASKO 2025))
+## Sequence `lowry2012` (published; Lowry (2012))
 
 456 → 457 → 458 → Cover
 

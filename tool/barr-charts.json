@@ -7348,10 +7348,10 @@
  ],
  "sequences": [
   {
-   "id": "nasko2025",
-   "label": "Drafting sequence as presented at NASKO 2025",
-   "basis": "analytical",
-   "proposedBy": "Leazer (NASKO 2025)",
+   "id": "lowry2012",
+   "label": "Plate order (Lowry 2012)",
+   "basis": "published",
+   "proposedBy": "Lowry (2012)",
    "charts": [
     "p15",
     "insert",
@@ -7359,7 +7359,7 @@
     "p21",
     "cover"
    ],
-   "note": "Order as used in the NASKO 2025 deck; basis not stated there."
+   "note": "The order of the plates in Lowry (2012), then the Cover. A publication's numbering, not a claim about which version came first."
   }
  ]
 }

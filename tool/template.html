@@ -1041,7 +1041,7 @@ function paneGenetic(){
   </div></div>
   <div class="card" style="max-width:var(--measure)">
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
-      <span class="badge">basis: ${esc(cur.basis)}</span><span class="kv">proposed by ${esc(cur.by)}</span></div>
+      <span class="badge">basis: ${esc(cur.basis)}</span><span class="kv">${cur.basis==="published"?"given in":"proposed by"} ${esc(cur.by)}</span></div>
     <p style="margin:0 0 6px;font-size:14px">${order.map(v=>`<b style="font-family:var(--disp);letter-spacing:.05em">${esc(v.name)}</b>`).join(' <span style="color:var(--ink-3)">→</span> ')||"—"}</p>
     <p class="note" style="margin:0">${esc(cur.note||"")}${cur.dropped.length?` Excluded in the chart bar, so left out of this reading: ${cur.dropped.map(c=>esc((DATA.versions.find(v=>v.id===c)||{}).name||c)).join(", ")}.`:""}${outside.length?` Selected but not in this reading: ${outside.map(v=>esc(v.name)).join(", ")}.`:""}</p>
   </div>
@@ -1251,7 +1251,7 @@ function paneMethod(){
     ["Reconcile, keep the wording","The same referent gets one identifier on every chart, and each chart keeps its own wording. Merges are noted in the vocabulary, and the formal difference stays visible on Planes I and V."],
     ["Linked data","The tables become linked data described with DINO, the Diagram Notation Ontology: marks, the conventions that give them meaning on each chart, and readings. One graph per chart, one for the analyst's interpretation. The comparison runs as SPARQL over it."],
     ["Five planes","Terminological, conceptual, structural, genetic, synchronic. Each can be run on its own; only the genetic plane uses an order."],
-    ["Readings","A reading orders some of the charts and states its basis: documented (from the archive) or analytical (proposed by an analyst). The edit grammar is computed along it."]
+    ["Readings","A reading orders some of the charts and states its basis: documented (from the archive), analytical (proposed by an analyst), or published (an order given in a publication, such as Lowry’s plate numbers, with no claim about chronology). The edit grammar is computed along it."]
   ];
   const grammar=[
     ["insertion / deletion","An entity is written on one chart of a step and not the other."],

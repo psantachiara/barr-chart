@@ -84,7 +84,7 @@ Reuse comes first. A term is minted only where no established vocabulary has it,
 |---|---|---|---|
 | an ordering proposed by a reading | `bc:Sequence`, `bc:charts` | **mint** `Reading`, with an `rdf:List` of charts | order is a reading, not a property of the charts |
 | who proposed it | `bc:proposedBy` (string) | `dcterms:creator` | |
-| its basis | `bc:basis` | **mint** values `Documented`, `Analytical` | |
+| its basis | `bc:basis` | **mint** values `Documented`, `Analytical`, `Published` | published = an order given in a publication (e.g. plate numbers), no claim about chronology |
 | certainty of a reading of a mark | `bc:certainty` | **mint** | the CRM route (attribute assignments) is far heavier than needed |
 | date checked against the facsimile | `bc:verified` | **mint** `checkedOn` | no Dublin Core term means this |
 
@@ -104,7 +104,7 @@ Attribution is carried by the graph, so no provenance vocabulary is needed. The 
   - mark kinds;
   - graphic values;
   - notational meanings (internal, external, primary, secondary, membership, no meaning);
-  - bases (stated on sheet, inferred by analyst; documented, analytical).
+  - bases (stated on sheet, inferred by analyst; documented, analytical, published).
 
 Everything else is reused.
 

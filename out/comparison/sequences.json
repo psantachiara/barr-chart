@@ -1,7 +1,7 @@
 {
- "nasko2025": {
-  "basis": "analytical",
-  "proposed_by": "Leazer (NASKO 2025)",
+ "lowry2012": {
+  "basis": "published",
+  "proposed_by": "Lowry (2012)",
   "order": [
    "insert",
    "p19",

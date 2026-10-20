@@ -228,6 +228,9 @@ dino:documented a dino:Basis ; skos:inScheme dino:bases ;
 dino:analytical a dino:Basis ; skos:inScheme dino:bases ;
     skos:prefLabel "analytical"@en ;
     skos:definition "For a reading: the order is proposed by an analyst."@en .
+dino:published a dino:Basis ; skos:inScheme dino:bases ;
+    skos:prefLabel "published"@en ;
+    skos:definition "For a reading: the order is given in a publication, such as the numbering of plates. It makes no claim about chronology."@en .
 
 dino:noMeaning a skos:Concept ;
     skos:prefLabel "no meaning"@en ;

@@ -361,9 +361,9 @@ def report(P):
     if back:
         md += ["", "Backward arrows: " + "; ".join(f"{T(i)}: {L(b[0])} ({b[2]}) → {L(b[1])} ({b[3]})" for i, b in back) + "."]
 
-    md += ["", "## IV · Genetic", "", "Each reading is an ordering proposed by someone, with its basis. Charts outside the scope are dropped from it.", ""]
+    md += ["", "## IV · Genetic", "", "Each reading is an ordering with a stated source and basis. Charts outside the scope are dropped from it.", ""]
     for sid, g in P["genetic"].items():
-        md += [f"### {g['label']} (`{sid}`)", "", f"Basis: {g['basis']}. Proposed by: {g['proposed_by']}. "
+        md += [f"### {g['label']} (`{sid}`)", "", f"Basis: {g['basis']}. Source: {g['proposed_by']}. "
                f"Order in scope: {' → '.join(T(i) for i in g['order'])}"
                + (f" (dropped: {', '.join(T(i) for i in g['dropped'])})" if g["dropped"] else "") + ".", ""]
         md += hdr(["step", "inserted", "deleted", "relabelled", "wired", "cut", "restyled", "persons collapsed", "promoted", "demoted", "brackets gained/lost", "J"])
