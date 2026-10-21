@@ -1,0 +1,135 @@
+@prefix dino:    <https://psantachiara.github.io/dino/ns#> .
+@prefix crm:     <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosxl:  <http://www.w3.org/2008/05/skos-xl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# DINO — node-link profile
+#
+# For labelled node-and-link diagrams: written labels that name the concepts
+# of a scheme, and marks that connect them (arrows, enclosures, placement,
+# undirected lines). Developed from Alfred H. Barr, Jr.'s charts for Cubism and
+# Abstract Art (MoMA, 1936). Same namespace as the core; builds on it.
+#
+# Other kinds of diagram (charts with axes, maps, Venn diagrams, tables) would
+# be described by profiles of their own.
+# =============================================================================
+
+<https://psantachiara.github.io/dino/nodelink>
+    a owl:Ontology ;
+    rdfs:label "DINO: node-link profile"@en ;
+    dcterms:description "Label marks, relation marks and the concept scheme a labelled node-and-link diagram expresses."@en ;
+    owl:imports <https://psantachiara.github.io/dino/ns> ;
+    dcterms:creator "Pietro Santachiara" ;
+    owl:versionInfo "0.1" .
+
+# --- The diagram as a knowledge organization system ---------------------------
+
+dino:expresses a owl:ObjectProperty ;
+    rdfs:label "expresses"@en ;
+    rdfs:domain crm:E36_Visual_Item ;
+    rdfs:range skos:ConceptScheme ;
+    rdfs:comment "Links a diagram to the concept scheme it expresses: the knowledge organization system the diagram is read as."@en .
+
+
+# --- Label marks --------------------------------------------------------------
+
+dino:LabelMark a owl:Class ;
+    rdfs:subClassOf dino:Mark , skosxl:Label ;
+    rdfs:label "Label mark"@en ;
+    rdfs:comment "A written label: at once a lexical label (its skosxl:literalForm is the wording as written) and a visual item (with ink, shape and position). Comparable to crm:E34_Inscription, which is both a linguistic object and a mark."@en .
+
+
+dino:notates a owl:ObjectProperty ;
+    rdfs:label "notates"@en ;
+    rdfs:domain dino:LabelMark ;
+    rdfs:range skos:Concept ;
+    rdfs:comment "Links a label mark to the concept of the diagram it writes. Not crm:P138_represents, which is for depiction."@en .
+
+
+# --- Relation marks -----------------------------------------------------------
+
+dino:RelationMark a owl:Class ;
+    rdfs:subClassOf dino:Mark ;
+    rdfs:label "Relation mark"@en ;
+    rdfs:comment "A mark that connects two concepts of the diagram."@en .
+
+
+dino:Arrow a owl:Class ;
+    rdfs:subClassOf dino:RelationMark ;
+    rdfs:label "Arrow"@en ;
+    rdfs:comment "A directed line from one label to another."@en .
+
+
+dino:Enclosure a owl:Class ;
+    rdfs:subClassOf dino:RelationMark ;
+    rdfs:label "Enclosure"@en ;
+    rdfs:comment "A label written inside a shape drawn around or under another label, such as a name inside a semicircle."@en .
+
+
+dino:Juxtaposition a owl:Class ;
+    rdfs:subClassOf dino:RelationMark ;
+    rdfs:label "Juxtaposition"@en ;
+    rdfs:comment "A label written with another, connected by placement rather than by a drawn line."@en .
+
+
+dino:Connector a owl:Class ;
+    rdfs:subClassOf dino:RelationMark ;
+    rdfs:label "Connector"@en ;
+    rdfs:comment "An undirected line, or a drawn connection whose kind cannot be assigned."@en .
+
+
+dino:from a owl:ObjectProperty ;
+    rdfs:label "from"@en ;
+    rdfs:domain dino:RelationMark ;
+    rdfs:range skos:Concept ;
+    rdfs:comment "The concept a relation mark starts from (the tail of an arrow; the enclosed or juxtaposed label)."@en .
+
+
+dino:to a owl:ObjectProperty ;
+    rdfs:label "to"@en ;
+    rdfs:domain dino:RelationMark ;
+    rdfs:range skos:Concept ;
+    rdfs:comment "The concept a relation mark leads to (the head of an arrow; the enclosing or anchoring label)."@en .
+
+
+dino:fromMark a owl:ObjectProperty ;
+    rdfs:label "from mark"@en ;
+    rdfs:domain dino:RelationMark ;
+    rdfs:range dino:LabelMark ;
+    rdfs:comment "Where a concept is written more than once on a diagram, the written label a relation mark leaves from. Each occurrence is its own label mark, with its own position; the concept stays one."@en .
+
+
+dino:toMark a owl:ObjectProperty ;
+    rdfs:label "to mark"@en ;
+    rdfs:domain dino:RelationMark ;
+    rdfs:range dino:LabelMark ;
+    rdfs:comment "Where a concept is written more than once on a diagram, the written label a relation mark arrives at."@en .
+
+
+dino:records a owl:ObjectProperty ;
+    rdfs:label "records"@en ;
+    rdfs:domain dino:RelationMark ;
+    rdfs:range rdf:Property ;
+    rdfs:comment "The domain relation the transcriber reads a relation mark as recording, e.g. an influence. The corresponding plain triple between the two concepts is asserted alongside."@en ;
+    skos:scopeNote "In this version the analyst records the relation when transcribing the mark. The intended route, for a later version, is a convention on the relation mark (\"on this diagram an arrow signifies influence\"), with its basis, so that the reading of a relation mark is derived like every other meaning."@en .
+
+# --- Module ------------------------------------------------------------------
+
+dino:expresses rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:LabelMark rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:RelationMark rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:Arrow rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:Enclosure rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:Juxtaposition rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:Connector rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:notates rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:from rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:to rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:fromMark rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:toMark rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:records rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .

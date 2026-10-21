@@ -8,8 +8,9 @@ Reads   data/charts.csv, concepts.csv, nodes.csv, edges.csv, legend.csv, sequenc
 Writes  out/barr-charts.trig      the dataset (graphs below)
         out/validation.txt        everything the checks found
 
-Vocabularies: DINO (vocab/dino.ttl) for marks, conventions and readings; the project
-vocabulary (vocab/barr.ttl) for the relations the charts assert and the meanings their
+Vocabularies: DINO (vocab/dino.ttl, the core, and vocab/dino-nodelink.ttl, the node-link profile)
+for marks, conventions and readings; the project
+vocabulary (vocab/barr.ttl) for the relations the charts assert and the meanings of their
 conventions point to; SKOS, SKOS-XL, CIDOC CRM and Dublin Core for the rest.
 
 Graph layout
@@ -52,7 +53,9 @@ GRAPHIC = {"box": DINO.box, "semicircle": DINO.semicircle, "underline": DINO.und
            "solid": DINO.solid, "dotted": DINO.dotted, "dashed": DINO.dashed, "verticalPosition": DINO.verticalPosition,
            **{k: v for k, v in INK.items()}}
 APPLIES = {"label": DINO.LabelMark, "relation": DINO.RelationMark, "any": None}
-MEANINGS = {"internal", "external", "primary", "secondary", "sourceOutsideModernArt", "membership", "title", "date"}
+DINO_MEANINGS = {"primary", "secondary", "membership", "title", "date"}        # notational: in DINO
+MEANINGS = {"internal", "external", "sourceOutsideModernArt"} | DINO_MEANINGS   # the rest are Barr's own: in barr:
+meaning_u = lambda m: DINO.noMeaning if m == "noMeaning" else DINO[m] if m in DINO_MEANINGS else BARR[m]
 CERTAINTY = {"certain", "probable", "uncertain", ""}
 INKS = set(INK) | {""}
 BASIS = {"documented", "analytical", "published"}
@@ -398,12 +401,12 @@ def main(strict=False):
         key = ink_key(c)
         for ink in sorted(used_inks):                 # only inks the chart uses: a key never invents marks
             meaning = key.get(ink)
-            convention(f"ink-{ink}", INK[ink], BARR[meaning] if meaning else DINO.noMeaning)
+            convention(f"ink-{ink}", INK[ink], meaning_u(meaning) if meaning else DINO.noMeaning)
         present = {o for _, _, o in g.triples((None, DINO.graphicValue, None))}
         for r in conventions:
             if r["chart_id"] in ("*", cid) and GRAPHIC[r["graphic_value"]] in present:
                 convention(r["graphic_value"], GRAPHIC[r["graphic_value"]],
-                           DINO.noMeaning if r["signifies"] == "noMeaning" else BARR[r["signifies"]],
+                           meaning_u(r["signifies"]),
                            APPLIES[r["applies_to"]], r["note"])
 
     for s in seqs:

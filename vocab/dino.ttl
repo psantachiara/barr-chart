@@ -9,11 +9,11 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 
 # =============================================================================
-# DINO — Diagram Notation Ontology
+# DINO — Diagram Notation Ontology · core
 #
-# Describes how a hand-drawn diagram means: the marks on the sheet, the
-# conventions that give those marks a meaning on that diagram, and the
-# readings that order several diagrams.
+# Describes how a diagram means, for any kind of diagram: the marks on the
+# sheet, the conventions that give those marks a meaning on that diagram, and
+# the readings that order several diagrams.
 #
 # Three layers are kept apart:
 #   Mark         what is on the sheet (ink, line, shape, position); no meaning
@@ -22,35 +22,28 @@
 #   Proposition  what the diagram asserts once its conventions are applied;
 #                derived by query, never entered by hand
 #
-# The diagram's concepts are a skos:ConceptScheme; its written labels are
-# SKOS-XL labels that are also marks. The sheet and the diagram are modelled
-# with CIDOC CRM. Domain relations (what the diagram asserts about its subject)
-# belong to the vocabulary of each project, not to DINO.
+# DINO is modular. This core holds what any diagram has. Kinds of diagram are
+# described by profiles that build on it; the first, dino-nodelink.ttl, covers
+# labelled node-and-link diagrams (genealogies, stemmata, concept maps, Barr's
+# charts). What a diagram asserts about its subject belongs to each project's
+# own vocabulary, not to DINO.
 #
 # Related work, not imported:
 #   VISO (http://purl.org/viso/) models graphic attributes for producing
 #   visualizations, and RVL maps data to graphics. DINO runs the other way:
 #   from graphics, through a diagram's own conventions, to meaning.
-#   A dino:Convention behaves like a Description in the DOLCE Descriptions and
-#   Situations pattern, which a diagram's marks satisfy.
 # =============================================================================
 
 <https://psantachiara.github.io/dino/ns>
     a owl:Ontology ;
-    rdfs:label "DINO: Diagram Notation Ontology"@en ;
-    dcterms:description "Marks, conventions and readings for describing how hand-drawn diagrams mean."@en ;
+    rdfs:label "DINO: Diagram Notation Ontology (core)"@en ;
+    dcterms:description "Marks, graphic values, conventions, notational meanings and readings: what any diagram has, for describing how diagrams mean as linked data."@en ;
     dcterms:creator "Pietro Santachiara" ;
     owl:versionInfo "0.1" .
 
 # --- The diagram -------------------------------------------------------------
 # The physical sheet is a crm:E22_Human-Made_Object, which crm:P65_shows_visual_item
 # the diagram, a crm:E36_Visual_Item. The diagram is crm:P106_is_composed_of its marks.
-
-dino:expresses a owl:ObjectProperty ;
-    rdfs:label "expresses"@en ;
-    rdfs:domain crm:E36_Visual_Item ;
-    rdfs:range skos:ConceptScheme ;
-    rdfs:comment "Links a diagram to the concept scheme it expresses: the knowledge organization system the diagram is read as."@en .
 
 # --- Marks -------------------------------------------------------------------
 
@@ -59,72 +52,6 @@ dino:Mark a owl:Class ;
     rdfs:label "Mark"@en ;
     rdfs:comment "A graphical element of a diagram, as drawn: a written label, an arrow, an enclosure. A mark records what is on the sheet and carries no meaning of its own; meaning comes from the diagram's conventions. Not crm:E37_Mark, which covers signatures and similar identifying marks."@en .
 
-dino:LabelMark a owl:Class ;
-    rdfs:subClassOf dino:Mark , skosxl:Label ;
-    rdfs:label "Label mark"@en ;
-    rdfs:comment "A written label: at once a lexical label (its skosxl:literalForm is the wording as written) and a visual item (with ink, shape and position). Comparable to crm:E34_Inscription, which is both a linguistic object and a mark."@en .
-
-dino:RelationMark a owl:Class ;
-    rdfs:subClassOf dino:Mark ;
-    rdfs:label "Relation mark"@en ;
-    rdfs:comment "A mark that connects two concepts of the diagram."@en .
-
-dino:Arrow a owl:Class ;
-    rdfs:subClassOf dino:RelationMark ;
-    rdfs:label "Arrow"@en ;
-    rdfs:comment "A directed line from one label to another."@en .
-
-dino:Enclosure a owl:Class ;
-    rdfs:subClassOf dino:RelationMark ;
-    rdfs:label "Enclosure"@en ;
-    rdfs:comment "A label written inside a shape drawn around or under another label, such as a name inside a semicircle."@en .
-
-dino:Juxtaposition a owl:Class ;
-    rdfs:subClassOf dino:RelationMark ;
-    rdfs:label "Juxtaposition"@en ;
-    rdfs:comment "A label written with another, connected by placement rather than by a drawn line."@en .
-
-dino:Connector a owl:Class ;
-    rdfs:subClassOf dino:RelationMark ;
-    rdfs:label "Connector"@en ;
-    rdfs:comment "An undirected line, or a drawn connection whose kind cannot be assigned."@en .
-
-dino:notates a owl:ObjectProperty ;
-    rdfs:label "notates"@en ;
-    rdfs:domain dino:LabelMark ;
-    rdfs:range skos:Concept ;
-    rdfs:comment "Links a label mark to the concept of the diagram it writes. Not crm:P138_represents, which is for depiction."@en .
-
-dino:from a owl:ObjectProperty ;
-    rdfs:label "from"@en ;
-    rdfs:domain dino:RelationMark ;
-    rdfs:range skos:Concept ;
-    rdfs:comment "The concept a relation mark starts from (the tail of an arrow; the enclosed or juxtaposed label)."@en .
-
-dino:to a owl:ObjectProperty ;
-    rdfs:label "to"@en ;
-    rdfs:domain dino:RelationMark ;
-    rdfs:range skos:Concept ;
-    rdfs:comment "The concept a relation mark leads to (the head of an arrow; the enclosing or anchoring label)."@en .
-
-dino:fromMark a owl:ObjectProperty ;
-    rdfs:label "from mark"@en ;
-    rdfs:domain dino:RelationMark ;
-    rdfs:range dino:LabelMark ;
-    rdfs:comment "Where a concept is written more than once on a diagram, the written label a relation mark leaves from. Each occurrence is its own label mark, with its own position; the concept stays one."@en .
-
-dino:toMark a owl:ObjectProperty ;
-    rdfs:label "to mark"@en ;
-    rdfs:domain dino:RelationMark ;
-    rdfs:range dino:LabelMark ;
-    rdfs:comment "Where a concept is written more than once on a diagram, the written label a relation mark arrives at."@en .
-
-dino:records a owl:ObjectProperty ;
-    rdfs:label "records"@en ;
-    rdfs:domain dino:RelationMark ;
-    rdfs:range rdf:Property ;
-    rdfs:comment "The domain relation the transcriber reads a relation mark as recording, e.g. an influence. The corresponding plain triple between the two concepts is asserted alongside."@en .
-
 dino:graphicValue a owl:ObjectProperty ;
     rdfs:label "graphic value"@en ;
     rdfs:range dino:GraphicValue ;
@@ -132,18 +59,18 @@ dino:graphicValue a owl:ObjectProperty ;
 
 dino:positionOnScale a owl:DatatypeProperty ;
     rdfs:label "position on scale"@en ;
-    rdfs:domain dino:LabelMark ;
+    rdfs:domain dino:Mark ;
     rdfs:comment "The value read off the scale the diagram itself draws, at the label's position (e.g. a year on a ruled time scale). A reading of position, given meaning by the diagram's scale convention."@en .
 
 dino:positionAcross a owl:DatatypeProperty ;
     rdfs:label "position across"@en ;
-    rdfs:domain dino:LabelMark ;
+    rdfs:domain dino:Mark ;
     rdfs:range xsd:decimal ;
     rdfs:comment "Where the label sits across the sheet, read from the facsimile: 0 at the left edge, 1 at the right. Recorded as observed; no convention gives it a meaning."@en .
 
 dino:carriesCode a owl:DatatypeProperty ;
     rdfs:label "carries code"@en ;
-    rdfs:domain dino:LabelMark ;
+    rdfs:domain dino:Mark ;
     rdfs:comment "A code from the diagram's own legend written against the label (e.g. 'p')."@en .
 
 # --- Graphic values ----------------------------------------------------------
@@ -241,7 +168,30 @@ dino:published a dino:Basis ; skos:inScheme dino:bases ;
     skos:prefLabel "published"@en ;
     skos:definition "For a reading: the order is given in a publication, such as the numbering of plates. It makes no claim about chronology."@en .
 
-dino:noMeaning a skos:Concept ;
+# --- Notational meanings -------------------------------------------------------
+# Meanings that diagrams of many kinds give to position, enclosure, emphasis and line weight. A convention
+# may point to one of these, or to a meaning in a project's own vocabulary; what a diagram asserts about
+# its subject stays in that vocabulary.
+
+dino:meanings a skos:ConceptScheme ; rdfs:label "DINO notational meanings"@en .
+
+dino:date a skos:Concept ; skos:inScheme dino:meanings ;
+    skos:prefLabel "date"@en ;
+    skos:definition "Position read as a date against a time scale the diagram draws."@en .
+dino:membership a skos:Concept ; skos:inScheme dino:meanings ;
+    skos:prefLabel "membership"@en ;
+    skos:definition "The labels enclosed belong to the group named by the label the enclosure is drawn with."@en .
+dino:title a skos:Concept ; skos:inScheme dino:meanings ;
+    skos:prefLabel "title"@en ;
+    skos:definition "The label is a heading: the anchor of what is written with it."@en .
+dino:primary a skos:Concept ; skos:inScheme dino:meanings ;
+    skos:prefLabel "primary"@en ;
+    skos:definition "A main relation, drawn so as to stand above others (e.g. by a solid line)."@en .
+dino:secondary a skos:Concept ; skos:inScheme dino:meanings ;
+    skos:prefLabel "secondary"@en ;
+    skos:definition "A lesser relation, drawn so as to recede (e.g. by a dotted line)."@en .
+
+dino:noMeaning a skos:Concept ; skos:inScheme dino:meanings ;
     skos:prefLabel "no meaning"@en ;
     skos:definition "Signified by a graphic value that carries no meaning on a diagram, e.g. an ink used throughout. Stating it makes the absence of a convention an explicit judgment."@en .
 
@@ -270,3 +220,56 @@ dino:checkedOn a owl:DatatypeProperty ;
     rdfs:range xsd:date ;
     rdfs:comment "The date the transcription of the mark was checked against the facsimile."@en .
 
+# --- Module ------------------------------------------------------------------
+
+dino:Mark rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:graphicValue rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:positionOnScale rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:positionAcross rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:carriesCode rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:GraphicValue rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:Ink rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:LineStyle rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:Shape rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:Dimension rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:graphicValues rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:black rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:red rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:blue rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:graphite rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:otherInk rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:solid rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:dotted rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:dashed rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:otherLine rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:box rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:semicircle rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:underline rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:oval rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:otherShape rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:plain rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:verticalPosition rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:Convention rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:holdsFor rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:appliesTo rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:code rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:signifies rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:basis rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:Basis rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:bases rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:statedOnSheet rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:inferredByAnalyst rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:documented rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:analytical rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:published rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:meanings rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:date rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:membership rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:title rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:primary rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:secondary rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:noMeaning rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:Reading rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:orders rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:certainty rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:checkedOn rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .

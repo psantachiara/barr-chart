@@ -47,7 +47,8 @@ def local(u):
 ds = Dataset()
 ds.parse(ROOT / "out" / "barr-charts.trig", format="trig")
 vocab = ds.graph(URIRef(BASE + "graph/vocabularies"))      # in memory only, for the labels of meanings
-vocab.parse(ROOT / "vocab" / "dino.ttl"); vocab.parse(ROOT / "vocab" / "barr.ttl")
+for f in ("dino.ttl", "dino-nodelink.ttl", "barr.ttl"):
+    vocab.parse(ROOT / "vocab" / f)
 run = lambda name: ds.query((Q / name).read_text())
 
 # ---- the reconciled index
@@ -160,11 +161,16 @@ for r in run("readings.rq"):
                       "charts": order, "note": str(r.note or "")})
 sequences.sort(key=lambda s: s["id"])
 
-# ---- the ontology itself, for the Method page: every DINO term, in the order vocab/dino.ttl gives
+# ---- the ontology itself, for the Method page: every DINO term, core then node-link profile,
+#      in the order the files declare them, with the module that defines it
 from rdflib import Graph, RDF, RDFS, OWL
 from rdflib.namespace import SKOS as SK
-ttl_text = (ROOT / "vocab" / "dino.ttl").read_text()
-onto = Graph().parse(ROOT / "vocab" / "dino.ttl")
+DINO_FILES = ("dino.ttl", "dino-nodelink.ttl")
+ttl_text = "\n".join((ROOT / "vocab" / f).read_text() for f in DINO_FILES)
+onto = Graph()
+for f in DINO_FILES:
+    onto.parse(ROOT / "vocab" / f)
+MODULE = {DINO.rstrip("#"): "core", BASE.replace("barr-chart/", "dino/nodelink"): "node-link"}
 def qn(u):
     s = str(u)
     for pfx, ns in (("dino:", DINO), ("crm:", CRM), ("skos:", SKOS), ("skosxl:", "http://www.w3.org/2008/05/skos-xl#"),
@@ -182,20 +188,30 @@ def txt(u, *props):
             return str(v)
     return ""
 dino_terms = lambda: [u for u in set(onto.subjects()) if str(u).startswith(DINO)]
+module = lambda u: MODULE.get(str(onto.value(u, RDFS.isDefinedBy)), "")
+
+# every DINO term the data uses must be defined in one of the two files
+used = {t for q in ds.quads() for t in q[:3] if isinstance(t, URIRef) and str(t).startswith(DINO)}
+undefined = sorted(qn(u) for u in used if (u, RDFS.isDefinedBy, None) not in onto)
+if undefined:
+    raise SystemExit("DINO terms used in the data but not defined in vocab/: " + ", ".join(undefined))
 ontology = {
     "iri": DINO, "version": str(onto.value(URIRef(DINO.rstrip("#")), OWL.versionInfo) or ""),
+    "modules": [{"name": "core", "file": "vocab/dino.ttl", "label": str(onto.value(URIRef(DINO.rstrip("#")), RDFS.label) or "")},
+                {"name": "node-link", "file": "vocab/dino-nodelink.ttl",
+                 "label": str(onto.value(URIRef(BASE.replace("barr-chart/", "dino/nodelink")), RDFS.label) or "")}],
     "classes": [{"term": qn(u), "label": txt(u, RDFS.label), "sub": sorted(qn(o) for o in onto.objects(u, RDFS.subClassOf)),
-                 "def": txt(u, RDFS.comment, SK.definition)}
+                 "def": txt(u, RDFS.comment, SK.definition), "module": module(u)}
                 for u in sorted((u for u in dino_terms() if (u, RDF.type, OWL.Class) in onto), key=pos)],
     "properties": [{"term": qn(u), "label": txt(u, RDFS.label),
                     "kind": "data" if (u, RDF.type, OWL.DatatypeProperty) in onto else "object",
                     "domain": qn(onto.value(u, RDFS.domain)) if onto.value(u, RDFS.domain) else "",
                     "range": qn(onto.value(u, RDFS.range)) if onto.value(u, RDFS.range) else "",
-                    "def": txt(u, RDFS.comment)}
+                    "def": txt(u, RDFS.comment), "note": txt(u, SK.scopeNote), "module": module(u)}
                    for u in sorted((u for u in dino_terms() if (u, RDF.type, OWL.ObjectProperty) in onto
                                     or (u, RDF.type, OWL.DatatypeProperty) in onto), key=pos)],
     "values": [{"term": qn(u), "label": txt(u, SK.prefLabel), "type": qn(onto.value(u, RDF.type)),
-                "def": txt(u, SK.definition)}
+                "def": txt(u, SK.definition), "module": module(u)}
                for u in sorted((u for u in dino_terms() if onto.value(u, SK.prefLabel) is not None), key=pos)],
 }
 

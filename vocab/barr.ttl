@@ -10,17 +10,18 @@
 # Barr chart project vocabulary
 #
 # Terms specific to Alfred H. Barr, Jr.'s charts for Cubism and Abstract Art
-# (MoMA, 1936): the relations the charts assert, the meanings their
-# conventions point to, and the grouping of the corpus. Everything about
-# notation is in DINO; everything here is about the subject.
+# (MoMA, 1936): the relations the charts assert, the meanings of their own
+# typology (internal and external to modern art, a source outside it), and
+# the grouping of the corpus. Notation, and the notational meanings diagrams
+# commonly share (date, membership, title, primary, secondary), are in DINO.
 # =============================================================================
 
 <https://psantachiara.github.io/barr-chart/ns>
     a owl:Ontology ;
     rdfs:label "Barr chart project vocabulary"@en ;
-    owl:imports <https://psantachiara.github.io/dino/ns> ;
+    owl:imports <https://psantachiara.github.io/dino/nodelink> ;
     dcterms:creator "Pietro Santachiara" ;
-    owl:versionInfo "0.2" .
+    owl:versionInfo "0.3" .
 
 # --- Relations the charts assert ----------------------------------------------
 
@@ -48,7 +49,7 @@ barr:memberOf a owl:ObjectProperty ;
 # --- Meanings the charts' conventions point to --------------------------------
 
 barr:meanings a skos:ConceptScheme ;
-    rdfs:label "Meanings in Barr's chart notation"@en .
+    rdfs:label "Meanings of Barr's own typology"@en .
 
 barr:internal a skos:Concept ; skos:inScheme barr:meanings ;
     skos:prefLabel "internal"@en ;
@@ -56,24 +57,9 @@ barr:internal a skos:Concept ; skos:inScheme barr:meanings ;
 barr:external a skos:Concept ; skos:inScheme barr:meanings ;
     skos:prefLabel "external"@en ;
     skos:definition "External to modern art: an influence from outside it, or an entity outside it."@en .
-barr:primary a skos:Concept ; skos:inScheme barr:meanings ;
-    skos:prefLabel "primary"@en ;
-    skos:definition "A primary relation."@en .
-barr:secondary a skos:Concept ; skos:inScheme barr:meanings ;
-    skos:prefLabel "secondary"@en ;
-    skos:definition "A secondary relation."@en .
 barr:sourceOutsideModernArt a skos:Concept ; skos:inScheme barr:meanings ;
     skos:prefLabel "source outside modern art"@en ;
     skos:definition "A source that feeds the chart without being a movement of modern art."@en .
-barr:membership a skos:Concept ; skos:inScheme barr:meanings ;
-    skos:prefLabel "membership"@en ;
-    skos:definition "The names enclosed are members of the movement whose label the shape belongs to."@en .
-barr:title a skos:Concept ; skos:inScheme barr:meanings ;
-    skos:prefLabel "title"@en ;
-    skos:definition "The label is a title: the conceptual anchor of what is written with it."@en .
-barr:date a skos:Concept ; skos:inScheme barr:meanings ;
-    skos:prefLabel "date"@en ;
-    skos:definition "Vertical position read as a date against the year scale drawn on the chart."@en .
 
 # --- The corpus ---------------------------------------------------------------
 

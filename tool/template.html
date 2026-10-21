@@ -1558,7 +1558,7 @@ function conventionList(v){
     ${stated.length?`<div class="kv" style="margin-top:3px">stated on the sheet: the legend above</div>`:""}`;
 }
 /* ============================================================
-   METHOD — DINO, THE DIAGRAM NOTATION ONTOLOGY (terms read from vocab/dino.ttl at build time)
+   METHOD — DINO, THE DIAGRAM NOTATION ONTOLOGY (terms read from vocab/dino.ttl and vocab/dino-nodelink.ttl at build time)
    ============================================================ */
 function dinoSection(){
   const O=(DATA&&DATA.ontology)||{classes:[],properties:[],values:[]};
@@ -1574,6 +1574,7 @@ function dinoSection(){
     ["absence","Absence is recorded","An ink that means nothing signifies "+c("dino:noMeaning")+"; a label with no shape is "+c("dino:plain")+". A missing meaning is a judgment, not a gap."],
     ["domain","What a diagram asserts stays outside","Relations about the diagram's subject, such as influence or membership, belong to each project's vocabulary ("+c("barr:")+" for Barr's charts), so DINO can describe any diagram."],
     ["order","Order belongs to readings","Diagrams carry no sequence. A reading orders them and states its source and basis: documented, analytical or published."],
+    ["modular","A core, and profiles",`What any diagram has is in the core; what one kind of diagram has is in a profile that builds on it. A term moves into the core only when it holds beyond the diagrams it was found in.`],
     ["reuse","Reuse first","The sheet is a CIDOC CRM human-made object that shows the diagram, a visual item; the diagram's concepts are a SKOS scheme; a written label is at once a SKOS-XL label and a mark."]
   ];
   const groups=[];
@@ -1581,7 +1582,14 @@ function dinoSection(){
   const typeName={"dino:Ink":"Ink","dino:LineStyle":"Line style","dino:Shape":"Shape","dino:Dimension":"Dimension","dino:Basis":"Basis","skos:Concept":"Meaning"};
   return `
   <h3 class="sh">DINO, the Diagram Notation Ontology <span>dino: · version ${esc(O.version||"")}</span></h3>
-  <p class="lede" style="font-size:14.5px">Barr's charts mean through how they are drawn, and the same drawing means different things on different sheets: graphite means nothing on 456 and 457 and external influence on 458, while red on the Cover means what graphite means on 458. Existing vocabularies describe the sheet as an object (CIDOC CRM), the concepts a chart names (SKOS), or the mapping from data to graphics (VISO); none records a mark together with the rule, valid for one diagram, that gives it a meaning. <strong>DINO describes how a hand-drawn diagram means</strong>: its marks, the conventions that give them meaning, and the readings that order several diagrams.</p>
+  <p class="lede" style="font-size:14.5px">Barr's charts mean through how they are drawn, and the same drawing means different things on different sheets: graphite means nothing on 456 and 457 and external influence on 458, while red on the Cover means what graphite means on 458. Existing vocabularies describe the sheet as an object (CIDOC CRM), the concepts a chart names (SKOS), or the mapping from data to graphics (VISO); none records a mark together with the rule, valid for one diagram, that gives it a meaning. <strong>DINO describes how a diagram means</strong>: its marks, the conventions that give them meaning, and the readings that order several diagrams. It is meant for diagrams of any kind; this first version is worked out on one kind, Barr's.</p>
+
+  <h4 class="ss">Modules</h4>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+    <div class="card"><h4>Core · any diagram</h4><p style="margin:0;font-size:14px">Marks and their graphic values (ink, line, shape, position on a scale or across the sheet), conventions with their basis, the notational meanings diagrams commonly share (date, membership, title, primary, secondary, no meaning), readings, and how securely each mark is read.</p><p class="note" style="margin-top:8px"><code>vocab/dino.ttl</code></p></div>
+    <div class="card"><h4>Node-link profile · labelled node-and-link diagrams</h4><p style="margin:0;font-size:14px">Written labels that name the concepts of a scheme, and the marks that connect them: arrows, enclosures, placement, undirected lines. Genealogies, stemmata and concept maps are of this kind, as are Barr's charts, from which the profile was developed.</p><p class="note" style="margin-top:8px"><code>vocab/dino-nodelink.ttl</code></p></div>
+    <div class="card"><h4>Next</h4><p style="margin:0;font-size:14px">The reading of a relation mark becomes a convention like any other (“on this diagram, an arrow signifies influence”), with its basis; in this version the analyst records it at transcription. Other kinds of diagram (charts with axes, maps, Venn diagrams) get profiles of their own.</p></div>
+  </div>
 
   <h4 class="ss">Three layers</h4>
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">${layers.map(([t,d,e],i)=>`<div class="card">
@@ -1591,22 +1599,22 @@ function dinoSection(){
   <div class="oplist">${principles.map(([k,t,d])=>`<div class="oprow"><div class="opk">${k}</div><div class="opb">${t}<span class="opn" style="font-style:normal">${d}</span></div></div>`).join("")}</div>
 
   <h4 class="ss">Classes <span>${O.classes.length}</span></h4>
-  <div class="tw"><table class="dt"><thead><tr><th>Class</th><th>Subclass of</th><th>Definition</th></tr></thead><tbody>
-    ${O.classes.map(k=>`<tr><td>${c(k.term)}</td><td>${k.sub.map(c).join(" ")||'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}</td></tr>`).join("")}
+  <div class="tw"><table class="dt"><thead><tr><th>Class</th><th>Module</th><th>Subclass of</th><th>Definition</th></tr></thead><tbody>
+    ${O.classes.map(k=>`<tr><td>${c(k.term)}</td><td class="lbl">${esc(k.module)}</td><td>${k.sub.map(c).join(" ")||'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}</td></tr>`).join("")}
   </tbody></table></div>
 
   <h4 class="ss">Properties <span>${O.properties.length}</span></h4>
-  <div class="tw"><table class="dt"><thead><tr><th>Property</th><th>Domain</th><th>Range</th><th>Definition</th></tr></thead><tbody>
-    ${O.properties.map(k=>`<tr><td>${c(k.term)}${k.kind==="data"?' <span class="kv">literal</span>':""}</td><td>${k.domain?c(k.domain):'<span style="color:var(--ink-3)">any</span>'}</td><td>${k.range?c(k.range):'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}</td></tr>`).join("")}
+  <div class="tw"><table class="dt"><thead><tr><th>Property</th><th>Module</th><th>Domain</th><th>Range</th><th>Definition</th></tr></thead><tbody>
+    ${O.properties.map(k=>`<tr><td>${c(k.term)}${k.kind==="data"?' <span class="kv">literal</span>':""}</td><td class="lbl">${esc(k.module)}</td><td>${k.domain?c(k.domain):'<span style="color:var(--ink-3)">any</span>'}</td><td>${k.range?c(k.range):'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}${k.note?`<div class="note" style="margin-top:4px;font-size:12.5px">${esc(k.note)}</div>`:""}</td></tr>`).join("")}
   </tbody></table></div>
 
-  <h4 class="ss">Controlled values <span>SKOS concepts</span></h4>
+  <h4 class="ss">Controlled values <span>SKOS concepts · core</span></h4>
   <div class="tw"><table class="dt"><thead><tr><th>Kind</th><th>Values</th><th>Definitions</th></tr></thead><tbody>
     ${groups.map(g=>`<tr><td class="lbl">${esc(typeName[g.type]||g.type)}</td><td class="wrap">${g.items.map(v=>c(v.term)).join(" ")}</td>
       <td class="lbl wrap">${g.items.filter(v=>v.def).map(v=>`<b>${esc(v.label)}</b>: ${esc(v.def)}`).join("<br>")||'<span style="color:var(--ink-3)">—</span>'}</td></tr>`).join("")}
   </tbody></table></div>
 
-  <p class="note">Defined in <code>vocab/dino.ttl</code>, namespace <code>${esc(O.iri||"")}</code>. The tables above are read from that file when this page is built.</p>`;
+  <p class="note">Defined in <code>vocab/dino.ttl</code> (core) and <code>vocab/dino-nodelink.ttl</code> (node-link profile), in one namespace, <code>${esc(O.iri||"")}</code>. The tables above are read from those files when this page is built.</p>`;
 }
 
 /* ============================================================
@@ -1654,14 +1662,14 @@ const LD_TRIG = String.raw`@base   <https://psantachiara.github.io/barr-chart/> 
       dino:graphicValue dino:blue ; dino:signifies barr:internal ;
       dino:basis dino:inferredByAnalyst .
   <chart/p21/convention/solid> a dino:Convention ; dino:holdsFor <chart/p21/diagram> ;
-      dino:graphicValue dino:solid ; dino:appliesTo dino:RelationMark ; dino:signifies barr:primary ;
+      dino:graphicValue dino:solid ; dino:appliesTo dino:RelationMark ; dino:signifies dino:primary ;
       dino:basis dino:inferredByAnalyst .
 }
 
 # What follows, computed by queries/derive_meanings.rq
 <graph/derived> {
-  <chart/p21/mark/cubism--influenced--futurism> dino:signifies barr:internal , barr:primary .
-  <chart/p21/label/cubism> dino:signifies barr:internal , barr:membership , barr:title , barr:date .
+  <chart/p21/mark/cubism--influenced--futurism> dino:signifies barr:internal , dino:primary .
+  <chart/p21/label/cubism> dino:signifies barr:internal , dino:membership , dino:title , dino:date .
 }`;
 
 const LD_CSV = String.raw`charts.csv   p21,458,core,"MoMA Archives, AHB VI.A.38 ARCH.61 (p. 70)",…,blue=internal graphite=external,…
@@ -1722,11 +1730,11 @@ function ldDiagram(){
   ${box(410,360,230,"Cubism, reconciled","id/cubism · crm:E55_Type")}
   ${edge("M525,182 V356",533,330,"skos:exactMatch","start")}
   ${box(700,360,160,"Convention","blue → barr:internal")}
-  ${box(875,360,160,"Convention","solid → barr:primary")}
+  ${box(875,360,160,"Convention","solid → dino:primary")}
   ${edge("M842,360 V266",850,330,"dino:graphicValue","start")}
   ${edge("M967,360 V266","",0,"")}
 
-  ${box(24,486,560,"The arrow: dino:signifies barr:internal, barr:primary","computed by queries/derive_meanings.rq (SPARQL CONSTRUCT)","der")}
+  ${box(24,486,560,"The arrow: dino:signifies barr:internal, dino:primary","computed by queries/derive_meanings.rq (SPARQL CONSTRUCT)","der")}
   ${edge("M270,272 V482","",0,"","middle","d")}
   ${edge("M780,406 V462 H570 V482",780,478,"conventions applied to the arrow's graphic values","middle","d")}
   ${line("M955,406 V462 H780","d")}
@@ -1753,8 +1761,8 @@ function ldEdition(){
     ["graph/derived","one","What every mark signifies, by the conventions of its own diagram.","no one: computed by query"]
   ];
   const vocabs=[
-    ["dino:","https://psantachiara.github.io/dino/ns#","DINO, the Diagram Notation Ontology: marks, graphic values, conventions, readings. Generic, for any diagram."],
-    ["barr:","https://psantachiara.github.io/barr-chart/ns#","What Barr's charts assert (influenced, sitedIn, memberOf) and what their conventions mean (internal, external, primary, secondary, source outside modern art, membership, title, date)."],
+    ["dino:","https://psantachiara.github.io/dino/ns#","DINO, the Diagram Notation Ontology: marks, graphic values, conventions, readings, and the notational meanings diagrams commonly share (date, membership, title, primary, secondary, no meaning). Generic, for any diagram."],
+    ["barr:","https://psantachiara.github.io/barr-chart/ns#","What Barr's charts assert (influenced, sitedIn, memberOf), the meanings of his own typology (internal, external, source outside modern art), and the core and secondary sets."],
     ["crm:","http://www.cidoc-crm.org/cidoc-crm/","The sheet (E22), the diagram it shows (E36, P65), its parts (P106); movements, persons and places (E55, E21, E53)."],
     ["skos:, skosxl:","W3C","Each chart as a concept scheme; wording as labels; identity and analogy as mappings."],
     ["dcterms:, foaf:","DCMI, FOAF","Identifiers, dates, types, creators; facsimiles."]
