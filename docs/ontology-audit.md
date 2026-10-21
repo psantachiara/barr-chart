@@ -7,7 +7,7 @@ Status: draft for review. Nothing in the pipeline changes until the open decisio
 The model has three layers, and keeps them apart:
 
 1. **Mark** — what is on the sheet: an arrow, a label, a box, a semicircle, an underline, a position against the year scale, each with graphical properties (ink, line, shape). No meaning attached.
-2. **Convention** — a rule, specific to one chart, that gives a graphical value a meaning: on 458 graphite signifies external influence; on 457 graphite signifies nothing. A convention is either stated on the sheet (the Insert's legend) or inferred by the analyst (every ink key).
+2. **Convention** — a rule, specific to one chart, that gives a graphical value a meaning: on 458 graphite signifies external influence; on 457 graphite signifies nothing. A convention is either stated on the sheet (the Insert's legend) or inferred by the modeller (every ink key).
 3. **Proposition** — what the chart asserts once its conventions are applied: "Cubism influenced Futurism, internally, as a primary influence". Derived by a query from marks and conventions, never entered by hand.
 
 Entities (artists, movements, places) are not modelled here: they come from existing vocabularies.
@@ -46,9 +46,9 @@ Reuse comes first. A term is minted only where no established vocabulary has it,
 | a concept as it appears on one chart | `bc:Concept` + one id shared by all charts | `skos:Concept` with its own IRI per chart, `skos:inScheme` the chart's scheme | the Cover's "(Abstract) Dadaism" and 458's "Dadaism (Abstract)" become two concepts |
 | wording as written | `bc:labelAsWritten` | `skosxl:Label` with `skosxl:literalForm`, attached by `skosxl:prefLabel` | a label resource can carry certainty and belong to one chart |
 | illegible word | label "[?]" | `skosxl:Label` with literal form "[?]" and uncertain certainty | kept distinct per position, as now |
-| identity across charts (a merge) | shared id; note in concepts.csv | `skos:exactMatch` from each chart concept to a reconciled concept | stated by the analyst, in the interpretation graph (below) |
+| identity across charts (a merge) | shared id; note in concepts.csv | `skos:exactMatch` from each chart concept to a reconciled concept | stated by the modeller, in the interpretation graph (below) |
 | analogue but not identical (biomorphic ~ non-geometric) | (nothing) | `skos:closeMatch` | makes "kept distinct" an explicit judgment |
-| the reconciled index | `skos:prefLabel` in the catalogue | a separate `skos:ConceptScheme` authored by the analyst | the index used to join charts, not a correction of them |
+| the reconciled index | `skos:prefLabel` in the catalogue | a separate `skos:ConceptScheme` authored by the modeller | the index used to join charts, not a correction of them |
 | link to authorities | (none) | `skos:exactMatch` / `skos:closeMatch` to AAT, ULAN, TGN, Wikidata | from the reconciled concepts |
 | kind: person, place | `bc:Person`, `bc:Place` | `crm:E21_Person`, `crm:E53_Place` on reconciled concepts' referents | |
 | kind: movement | `bc:Movement` | **open decision** | CIDOC CRM has no class for an art movement; candidates are `crm:E55_Type` (style), `crm:E4_Period`, or AAT style terms. Each asserts something different. |
@@ -58,7 +58,7 @@ Reuse comes first. A term is minted only where no established vocabulary has it,
 | need | current term | reuse | note |
 |---|---|---|---|
 | influence | `bc:influenced` | **mint** | `crm:P15_was_influenced_by` has an activity as its domain; Wikidata P737 "influenced by" applies to persons and ideas. Both noted as alignments, neither adopted. |
-| place written with a movement | `bc:sitedIn` | **mint** | `crm:P7_took_place_at` is for events; `dcterms:spatial` is about a resource's coverage |
+| place written with a movement | `bc:sitedIn`, now `associatedWithPlace` | **mint** | `crm:P7_took_place_at` is for events; `dcterms:spatial` is about a resource's coverage |
 | person listed with a movement | `bc:memberOf` | **mint**, rename open | "member of" claims membership; the chart only lists a name under a current. See decisions. |
 | unassignable connection | `bc:relatedTo` | `skos:related` | between concepts of the same scheme |
 | internal / external, primary / secondary | `bc:scope`, `bc:weight` (strings) | **mint** as concepts: primary / secondary in DINO's notational meanings, internal / external in `barr:` | so that "external" is one resource on every chart |
@@ -73,7 +73,7 @@ Reuse comes first. A term is minted only where no established vocabulary has it,
 | position on the chart's year scale | `bc:yearOnScale` | **mint** | a reading of position, governed by the chart's scale convention |
 | what a mark notates | (implicit) | **mint** `notates` | `crm:P138_represents` is for depiction; a label does not depict Cubism |
 | convention | `bc:inkMeaning "graphite=external"` (string) | **mint** `Convention` with `onChart`, `graphicValue`, `appliesTo` (kind of mark), `signifies`, `basis` | the core contribution |
-| basis of a convention | (none) | **mint** values `StatedOnSheet`, `InferredByAnalyst` | the Insert's legend is stated; every ink key is inferred |
+| basis of a convention | (none) | **mint** values `StatedOnSheet`, `InferredByModeller` | the Insert's legend is stated; every ink key is inferred |
 | legend codes on the Insert | `bc:Tag`, `bc:code` | the same `Convention` class, with `basis StatedOnSheet` | unifies legend and ink key |
 | derivation of propositions | Python lookup | SPARQL `CONSTRUCT` | no OWL reasoning |
 | anchoring a mark to a region of the facsimile | (none) | Web Annotation with IIIF image selectors | later: needs coordinates not yet recorded |
@@ -91,20 +91,20 @@ Reuse comes first. A term is minted only where no established vocabulary has it,
 ## Graph layout
 
 - **One graph per chart**: the sheet, its diagram, its marks, its concept scheme, its wording, and the conventions stated on the sheet. What the chart itself shows.
-- **One interpretation graph**, with `dcterms:creator` the analyst: inferred conventions, the reconciled index, all `exactMatch` / `closeMatch` mappings, links to authorities.
+- **One interpretation graph**, with `dcterms:creator` the modeller: inferred conventions, the reconciled index, all `exactMatch` / `closeMatch` mappings, links to authorities.
 - **One readings graph**: sequences and their bases.
 
-Attribution is carried by the graph, so no provenance vocabulary is needed. The boundary between what the charts say and what the analyst says is visible in the data's structure.
+Attribution is carried by the graph, so no provenance vocabulary is needed. The boundary between what the charts say and what the modeller says is visible in the data's structure.
 
 ## What gets minted
 
 - **Classes (4):** Mark, Convention, Reading, NotationalMeaning.
-- **Properties (about 12):** notates, onChart, graphicValue, appliesTo, signifies, basis, positionOnScale, certainty, checkedOn, influenced, sitedIn, listedUnder.
+- **Properties (about 12):** notates, onChart, graphicValue, appliesTo, signifies, basis, positionOnScale, certainty, checkedOn, influenced, associatedWithPlace, listedUnder.
 - **Controlled values, as SKOS concepts:**
   - mark kinds;
   - graphic values;
   - notational meanings in DINO (date, membership, title, primary, secondary, no meaning); Barr's own meanings in `barr:` (internal, external, source outside modern art);
-  - bases (stated on sheet, inferred by analyst; documented, analytical, published).
+  - bases (stated on sheet, inferred by the modeller; documented, analytical, published).
 
 Everything else is reused.
 
@@ -113,7 +113,7 @@ Everything else is reused.
 Settled (2026-10-18):
 
 - **Movements** are typed `crm:E55_Type`.
-- **Box** signifies a source outside modern art (convention, inferred by the analyst).
+- **Box** signifies a source outside modern art (convention, inferred by the modeller).
 - **Semicircle** signifies membership: the names inside it are members of the current. So the proposition keeps the name "member of" (minted: CIDOC CRM's group membership property takes a group, not a type, as its subject).
 - **Underline** signifies a title: the label is the conceptual anchor of what is written with it.
 - **Per-chart concept identifiers**: yes, with identity across charts as `skos:exactMatch` / `skos:closeMatch` in the interpretation graph.
@@ -122,7 +122,7 @@ Settled (2026-10-18):
 - **Name**: DINO, the Diagram Notation Ontology, prefix `dino:`, namespace `https://psantachiara.github.io/dino/ns#`. Terms specific to the Barr charts (their relations, the meanings of Barr's own typology, the core and secondary sets) are in a separate project vocabulary, `barr:`, so DINO stays reusable for other diagrams.
 - **Notational meanings in DINO** (2026-10-21). Date, membership, title, primary and secondary moved from `barr:` to DINO's `dino:meanings` scheme, beside `dino:noMeaning`: they are what diagrams of many kinds do with position, enclosure, emphasis and line weight. Internal, external and source outside modern art stay in `barr:`, as Barr's own typology. Where this line falls is itself an analytical decision.
 - **DINO is modular** (2026-10-21). DINO is meant for diagrams of any kind. A core (`vocab/dino.ttl`) holds what any diagram has: marks, graphic values, conventions and bases, notational meanings, readings, transcription quality. A node-link profile (`vocab/dino-nodelink.ttl`), in the same namespace, holds what labelled node-and-link diagrams add: label marks that name concepts, relation marks that connect them, the concept scheme a diagram expresses. Position on a scale, position across the sheet and legend codes moved to the core, with `dino:Mark` as their domain. Each term states its module with `rdfs:isDefinedBy`. A term enters the core only when it holds beyond the diagrams it was found in.
-- **Arrow readings as conventions: next version.** In 0.1 the analyst records what a relation mark means at transcription (`dino:records`, with a scope note saying so). The intended route is a convention on the relation mark, with its basis, so that its reading is derived like every other meaning. The typology of arrow readings (influence, derivation, descent, sequence, hierarchy, …) is left until a second kind of diagram can test it.
+- **Arrow readings as conventions: next version.** In 0.1 the modeller records what a relation mark means at transcription (`dino:records`, with a scope note saying so). The intended route is a convention on the relation mark, with its basis, so that its reading is derived like every other meaning. The typology of arrow readings (influence, derivation, descent, sequence, hierarchy, …) is left until a second kind of diagram can test it.
 - **Influence** is minted (`barr:influenced`), not `crm:P15i_influenced`. P15i has `crm:E7_Activity` as its range; asserting that one movement influenced another would make the second an activity, and in CIDOC CRM an activity (a temporal entity) cannot also be a type (a conceptual object). The clash is documented on the property.
 - **No per-sheet dossier.** The Pragmatic plane was dropped (2026-10-19), and with it the dossier fields (support, audience, permanence, constraint, function) and the three DINO properties minted for them.
 - **Not open data.** The linked data reuses open ontologies and points to open vocabularies, but is not published for dereferencing or reuse. No persistent identifiers are minted for now.

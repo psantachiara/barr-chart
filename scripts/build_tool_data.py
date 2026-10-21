@@ -5,7 +5,7 @@
 
 Everything the tool and planes.py show comes from the linked data, through the queries in
 queries/tool/: wording, years and forms from each chart's graph; identity across charts from
-the analyst's skos:exactMatch; every meaning (internal, external, ...) from the derived graph,
+the modeller's skos:exactMatch; every meaning (internal, external, ...) from the derived graph,
 which follows from each chart's conventions; conventions and readings as stated in the data.
 Nothing is read from the CSV tables.
 
@@ -25,7 +25,7 @@ BARR = BASE + "ns#"
 CRM = "http://www.cidoc-crm.org/cidoc-crm/"
 SKOS = "http://www.w3.org/2004/02/skos/core#"
 KIND = {CRM + "E55_Type": "movement", CRM + "E21_Person": "person", CRM + "E53_Place": "place"}
-REL = {BARR + "influenced": "influence", BARR + "sitedIn": "siting", BARR + "memberOf": "membership", SKOS + "related": "related"}
+REL = {BARR + "influenced": "influence", BARR + "associatedWithPlace": "placeAssociation", BARR + "memberOf": "membership", SKOS + "related": "related"}
 INKS = {"black", "red", "blue", "graphite", "otherInk"}
 LINES = {"solid", "dotted", "dashed", "otherLine"}
 FORM = {"box": "boxed", "underline": "underlined", "semicircle": "semicircle", "oval": "oval", "otherShape": "other", "plain": "plain"}

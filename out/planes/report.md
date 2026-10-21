@@ -55,7 +55,7 @@ On every chart: Abstract Dadaism, Abstract Expressionism, Abstract Surrealism, B
 | 458 | 28 | 53 | 66 | 0.0701 | 6 | 9 | 5 | 2 | Non-Geometric Abstract Art 0.141, Abstract Surrealism 0.102, Modern Architecture 0.084 |
 | Cover | 26 | 51 | 14 | 0.0785 | 5 | 9 | 4 | 1 | Non-Geometric Abstract Art 0.121, Modern Architecture 0.112, Abstract Expressionism 0.096 |
 
-## III · Structural — all relations (influence, siting, membership)
+## III · Structural — all relations (influence, place association, membership)
 
 | chart | order | size | not in this graph | density | depth | roots | sinks | clusters ≥2 | highest PageRank |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -73,7 +73,7 @@ Influence arrows by meaning (per chart ink key) and line:
 | 458 | {'internal': 34, 'external': 19} | {'solid': 45, 'dotted': 8} | 0 |
 | Cover | {'internal': 34, 'external': 17} | {'solid': 45, 'dotted': 6} | 0 |
 
-Conventions: how each chart's marks are given meaning. Stated on the sheet (the Insert's legend) or inferred by the analyst.
+Conventions: how each chart's marks are given meaning. Stated on the sheet (the Insert's legend) or inferred by the modeller.
 
 | chart | ink key | legend (stated on the sheet) | other conventions (inferred) |
 | --- | --- | --- | --- |
@@ -129,8 +129,8 @@ Nearest neighbour (entity Jaccard): 456 → 458, 457 → Cover, 458 → 456, Cov
 Relations on every chart (35):
 
 - Abstract Dadaism —influence→ Abstract Surrealism
-- Abstract Expressionism —siting→ Munich
-- Abstract Surrealism —siting→ Paris
+- Abstract Expressionism —associated with place→ Munich
+- Abstract Surrealism —associated with place→ Paris
 - Cézanne —influence→ Cubism
 - Cézanne —influence→ Fauvism
 - Constructivism —influence→ Bauhaus
@@ -142,9 +142,9 @@ Relations on every chart (35):
 - Cubism —influence→ Orphism
 - Cubism —influence→ Purism
 - Cubism —influence→ Suprematism
-- Cubism —siting→ Paris
+- Cubism —associated with place→ Paris
 - Fauvism —influence→ Abstract Expressionism
-- Fauvism —siting→ Paris
+- Fauvism —associated with place→ Paris
 - Japanese Prints —influence→ Fauvism
 - Japanese Prints —influence→ Synthetism
 - Machine Esthetic —influence→ Abstract Dadaism
@@ -156,10 +156,10 @@ Relations on every chart (35):
 - Negro Sculpture —influence→ Cubism
 - Neo-Impressionism —influence→ Cubism
 - Neo-Impressionism —influence→ Fauvism
-- Neo-Impressionism —siting→ Paris
-- Purism —siting→ Paris
+- Neo-Impressionism —associated with place→ Paris
+- Purism —associated with place→ Paris
 - Rousseau —influence→ Cubism
 - Suprematism —influence→ Bauhaus
-- Suprematism —siting→ Moscow
+- Suprematism —associated with place→ Moscow
 - Synthetism —influence→ Fauvism
-- Synthetism —siting→ Paris
+- Synthetism —associated with place→ Paris

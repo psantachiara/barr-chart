@@ -1,5 +1,5 @@
 # Every entity written on each chart, with its wording there and whether the chart's conventions make it external.
-# Identity across charts comes from the analyst's skos:exactMatch, in the interpretation graph.
+# Identity across charts comes from the modeller's skos:exactMatch, in the interpretation graph.
 PREFIX dino:   <https://psantachiara.github.io/dino/ns#>
 PREFIX barr:   <https://psantachiara.github.io/barr-chart/ns#>
 PREFIX crm:    <http://www.cidoc-crm.org/cidoc-crm/>

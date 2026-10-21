@@ -625,42 +625,42 @@
      "value": "dotted",
      "code": "",
      "meaning": "secondary",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "RelationMark"
     },
     {
      "value": "graphite",
      "code": "",
      "meaning": "no meaning",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": ""
     },
     {
      "value": "semicircle",
      "code": "",
      "meaning": "membership",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "solid",
      "code": "",
      "meaning": "primary",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "RelationMark"
     },
     {
      "value": "underline",
      "code": "",
      "meaning": "title",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "verticalPosition",
      "code": "",
      "meaning": "date",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     }
    ],
@@ -830,7 +830,7 @@
     [
      "balla",
      "milan",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -852,7 +852,7 @@
     [
      "boccioni",
      "milan",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -874,7 +874,7 @@
     [
      "braque",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -896,7 +896,7 @@
     [
      "carra",
      "milan",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -962,7 +962,7 @@
     [
      "delaunay",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -984,7 +984,7 @@
     [
      "derain",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1006,7 +1006,7 @@
     [
      "duchamp",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1028,7 +1028,7 @@
     [
      "gris",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1050,7 +1050,7 @@
     [
      "jack_of_diamonds",
      "russia",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1083,7 +1083,7 @@
     [
      "kandinsky",
      "munich",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1105,7 +1105,7 @@
     [
      "klee",
      "munich",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1127,7 +1127,7 @@
     [
      "leger",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1149,7 +1149,7 @@
     [
      "marc",
      "munich",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1182,7 +1182,7 @@
     [
      "matisse",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1237,7 +1237,7 @@
     [
      "picasso",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1259,7 +1259,7 @@
     [
      "russolo",
      "milan",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1281,7 +1281,7 @@
     [
      "severini",
      "milan",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1314,7 +1314,7 @@
     [
      "suprematism",
      "russia",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1325,7 +1325,7 @@
     [
      "the_blue_rider",
      "munich",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1336,7 +1336,7 @@
     [
      "the_bridge",
      "dresden",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1358,7 +1358,7 @@
     [
      "the_cubists",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1380,7 +1380,7 @@
     [
      "the_fauves",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1402,7 +1402,7 @@
     [
      "the_futurists",
      "milan",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -1455,49 +1455,49 @@
      "value": "box",
      "code": "",
      "meaning": "source outside modern art",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "dotted",
      "code": "",
      "meaning": "secondary",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "RelationMark"
     },
     {
      "value": "graphite",
      "code": "",
      "meaning": "no meaning",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": ""
     },
     {
      "value": "semicircle",
      "code": "",
      "meaning": "membership",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "solid",
      "code": "",
      "meaning": "primary",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "RelationMark"
     },
     {
      "value": "underline",
      "code": "",
      "meaning": "title",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "verticalPosition",
      "code": "",
      "meaning": "date",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
@@ -2011,7 +2011,7 @@
     [
      "abstract_dadaism",
      "france",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2022,7 +2022,7 @@
     [
      "abstract_dadaism",
      "germany",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2066,7 +2066,7 @@
     [
      "abstract_expressionism",
      "munich",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2088,7 +2088,7 @@
     [
      "abstract_surrealism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2132,7 +2132,7 @@
     [
      "bauhaus",
      "germany",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2143,7 +2143,7 @@
     [
      "biomorphic_abstract_art",
      "barcelona",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2154,7 +2154,7 @@
     [
      "biomorphic_abstract_art",
      "illegible_place_456_1",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2165,7 +2165,7 @@
     [
      "biomorphic_abstract_art",
      "london",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2176,7 +2176,7 @@
     [
      "biomorphic_abstract_art",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2286,7 +2286,7 @@
     [
      "constructivism",
      "russia",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2374,7 +2374,7 @@
     [
      "cubism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2418,7 +2418,7 @@
     [
      "de_stijl_and_neoplasticism",
      "holland",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2517,7 +2517,7 @@
     [
      "fauvism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2561,7 +2561,7 @@
     [
      "geometric_abstract_art",
      "barcelona",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2572,7 +2572,7 @@
     [
      "geometric_abstract_art",
      "illegible_place_456_2",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2583,7 +2583,7 @@
     [
      "geometric_abstract_art",
      "illegible_place_456_3",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2594,7 +2594,7 @@
     [
      "geometric_abstract_art",
      "london",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2605,7 +2605,7 @@
     [
      "geometric_abstract_art",
      "milan",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2616,7 +2616,7 @@
     [
      "geometric_abstract_art",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2627,7 +2627,7 @@
     [
      "geometric_abstract_art",
      "prague",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -2990,7 +2990,7 @@
     [
      "neoimpressionism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3067,7 +3067,7 @@
     [
      "purism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3199,7 +3199,7 @@
     [
      "suprematism",
      "moscow",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3221,7 +3221,7 @@
     [
      "synthetism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3330,49 +3330,49 @@
      "value": "box",
      "code": "",
      "meaning": "source outside modern art",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "dotted",
      "code": "",
      "meaning": "secondary",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "RelationMark"
     },
     {
      "value": "graphite",
      "code": "",
      "meaning": "no meaning",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": ""
     },
     {
      "value": "semicircle",
      "code": "",
      "meaning": "membership",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "solid",
      "code": "",
      "meaning": "primary",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "RelationMark"
     },
     {
      "value": "underline",
      "code": "",
      "meaning": "title",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "verticalPosition",
      "code": "",
      "meaning": "date",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     }
    ],
@@ -3588,7 +3588,7 @@
     [
      "abstract_dadaism",
      "berlin",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3599,7 +3599,7 @@
     [
      "abstract_dadaism",
      "cologne",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3610,7 +3610,7 @@
     [
      "abstract_dadaism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3621,7 +3621,7 @@
     [
      "abstract_dadaism",
      "zurich",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3676,7 +3676,7 @@
     [
      "abstract_expressionism",
      "munich",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3698,7 +3698,7 @@
     [
      "abstract_surrealism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3709,7 +3709,7 @@
     [
      "bauhaus",
      "dessau",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3720,7 +3720,7 @@
     [
      "bauhaus",
      "weimar",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3775,7 +3775,7 @@
     [
      "constructivism",
      "berlin",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3786,7 +3786,7 @@
     [
      "constructivism",
      "moscow",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3797,7 +3797,7 @@
     [
      "constructivism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3896,7 +3896,7 @@
     [
      "cubism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3929,7 +3929,7 @@
     [
      "de_stijl_and_neoplasticism",
      "germany",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3940,7 +3940,7 @@
     [
      "de_stijl_and_neoplasticism",
      "holland",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3962,7 +3962,7 @@
     [
      "fauvism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -3984,7 +3984,7 @@
     [
      "futurism",
      "milan",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4182,7 +4182,7 @@
     [
      "neoimpressionism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4193,7 +4193,7 @@
     [
      "orphism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4204,7 +4204,7 @@
     [
      "purism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4237,7 +4237,7 @@
     [
      "suprematism",
      "moscow",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4259,7 +4259,7 @@
     [
      "synthetism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4325,56 +4325,56 @@
      "value": "blue",
      "code": "",
      "meaning": "internal",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": ""
     },
     {
      "value": "box",
      "code": "",
      "meaning": "source outside modern art",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "dotted",
      "code": "",
      "meaning": "secondary",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "RelationMark"
     },
     {
      "value": "graphite",
      "code": "",
      "meaning": "external",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": ""
     },
     {
      "value": "semicircle",
      "code": "",
      "meaning": "membership",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "solid",
      "code": "",
      "meaning": "primary",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "RelationMark"
     },
     {
      "value": "underline",
      "code": "",
      "meaning": "title",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "verticalPosition",
      "code": "",
      "meaning": "date",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     }
    ],
@@ -4738,7 +4738,7 @@
     [
      "abstract_dadaism",
      "berlin",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4749,7 +4749,7 @@
     [
      "abstract_dadaism",
      "cologne",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4760,7 +4760,7 @@
     [
      "abstract_dadaism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4771,7 +4771,7 @@
     [
      "abstract_dadaism",
      "zurich",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4815,7 +4815,7 @@
     [
      "abstract_expressionism",
      "munich",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4837,7 +4837,7 @@
     [
      "abstract_surrealism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4903,7 +4903,7 @@
     [
      "bauhaus",
      "dessau",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -4914,7 +4914,7 @@
     [
      "bauhaus",
      "weimar",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -5024,7 +5024,7 @@
     [
      "constructivism",
      "moscow",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -5112,7 +5112,7 @@
     [
      "cubism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -5167,7 +5167,7 @@
     [
      "de_stijl_and_neoplasticism",
      "europe",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -5178,7 +5178,7 @@
     [
      "de_stijl_and_neoplasticism",
      "layden",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -5288,7 +5288,7 @@
     [
      "fauvism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -5310,7 +5310,7 @@
     [
      "futurism",
      "milan",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -5860,7 +5860,7 @@
     [
      "neoimpressionism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -5871,7 +5871,7 @@
     [
      "orphism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -5981,7 +5981,7 @@
     [
      "purism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6157,7 +6157,7 @@
     [
      "suprematism",
      "moscow",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6190,7 +6190,7 @@
     [
      "synthetism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6294,49 +6294,49 @@
      "value": "black",
      "code": "",
      "meaning": "internal",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": ""
     },
     {
      "value": "box",
      "code": "",
      "meaning": "source outside modern art",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "dotted",
      "code": "",
      "meaning": "secondary",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "RelationMark"
     },
     {
      "value": "red",
      "code": "",
      "meaning": "external",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": ""
     },
     {
      "value": "semicircle",
      "code": "",
      "meaning": "membership",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     },
     {
      "value": "solid",
      "code": "",
      "meaning": "primary",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "RelationMark"
     },
     {
      "value": "verticalPosition",
      "code": "",
      "meaning": "date",
-     "basis": "inferredByAnalyst",
+     "basis": "inferredByModeller",
      "appliesTo": "LabelMark"
     }
    ],
@@ -6582,7 +6582,7 @@
     [
      "abstract_dadaism",
      "berlin",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6593,7 +6593,7 @@
     [
      "abstract_dadaism",
      "cologne",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6604,7 +6604,7 @@
     [
      "abstract_dadaism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6615,7 +6615,7 @@
     [
      "abstract_dadaism",
      "zurich",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6648,7 +6648,7 @@
     [
      "abstract_expressionism",
      "munich",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6670,7 +6670,7 @@
     [
      "abstract_surrealism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6692,7 +6692,7 @@
     [
      "bauhaus",
      "dessau",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6703,7 +6703,7 @@
     [
      "bauhaus",
      "weimar",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6725,7 +6725,7 @@
     [
      "brancusi",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6769,7 +6769,7 @@
     [
      "cezanne",
      "provence",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6802,7 +6802,7 @@
     [
      "constructivism",
      "moscow",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6890,7 +6890,7 @@
     [
      "cubism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6934,7 +6934,7 @@
     [
      "de_stijl_and_neoplasticism",
      "berlin",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6945,7 +6945,7 @@
     [
      "de_stijl_and_neoplasticism",
      "layden",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6956,7 +6956,7 @@
     [
      "de_stijl_and_neoplasticism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -6978,7 +6978,7 @@
     [
      "fauvism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -7000,7 +7000,7 @@
     [
      "futurism",
      "milan",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -7242,7 +7242,7 @@
     [
      "neoimpressionism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -7253,7 +7253,7 @@
     [
      "orphism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -7275,7 +7275,7 @@
     [
      "purism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -7308,7 +7308,7 @@
     [
      "redon",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -7330,7 +7330,7 @@
     [
      "rousseau",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -7374,7 +7374,7 @@
     [
      "suprematism",
      "moscow",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -7396,7 +7396,7 @@
     [
      "synthetism",
      "paris",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -7407,7 +7407,7 @@
     [
      "synthetism",
      "pont_aven",
-     "siting",
+     "placeAssociation",
      "",
      "",
      "",
@@ -7547,7 +7547,7 @@
     "term": "dino:Convention",
     "label": "Convention",
     "sub": [],
-    "def": "A rule, valid for one diagram, that gives a graphic value (or a legend code) a meaning: 'on this diagram, graphite signifies external influence'. The same graphic value can mean different things on different diagrams, and different values can mean the same thing; conventions make both statements explicit. Every convention has a basis: stated on the sheet, or inferred by an analyst.",
+    "def": "A rule, valid for one diagram, that gives a graphic value (or a legend code) a meaning: 'on this diagram, graphite signifies external influence'. The same graphic value can mean different things on different diagrams, and different values can mean the same thing; conventions make both statements explicit. Every convention has a basis: stated on the sheet, or inferred by a modeller.",
     "module": "core"
    },
    {
@@ -7810,7 +7810,7 @@
     "domain": "dino:RelationMark",
     "range": "rdf:Property",
     "def": "The domain relation the transcriber reads a relation mark as recording, e.g. an influence. The corresponding plain triple between the two concepts is asserted alongside.",
-    "note": "In this version the analyst records the relation when transcribing the mark. The intended route, for a later version, is a convention on the relation mark (\"on this diagram an arrow signifies influence\"), with its basis, so that the reading of a relation mark is derived like every other meaning.",
+    "note": "In this version the modeller records the relation when transcribing the mark. The intended route, for a later version, is a convention on the relation mark (\"on this diagram an arrow signifies influence\"), with its basis, so that the reading of a relation mark is derived like every other meaning.",
     "module": "node-link"
    }
   ],
@@ -7935,10 +7935,10 @@
     "module": "core"
    },
    {
-    "term": "dino:inferredByAnalyst",
-    "label": "inferred by the analyst",
+    "term": "dino:inferredByModeller",
+    "label": "inferred by the modeller",
     "type": "dino:Basis",
-    "def": "The analyst infers the convention from how the diagram is drawn.",
+    "def": "The modeller infers the convention from how the diagram is drawn.",
     "module": "core"
    },
    {
@@ -7952,7 +7952,7 @@
     "term": "dino:analytical",
     "label": "analytical",
     "type": "dino:Basis",
-    "def": "For a reading: the order is proposed by an analyst.",
+    "def": "For a reading: the order is proposed in an analysis of the diagrams, by a scholar or by the modeller; it is not attested in the archive.",
     "module": "core"
    },
    {

@@ -116,7 +116,7 @@ dino:records a owl:ObjectProperty ;
     rdfs:domain dino:RelationMark ;
     rdfs:range rdf:Property ;
     rdfs:comment "The domain relation the transcriber reads a relation mark as recording, e.g. an influence. The corresponding plain triple between the two concepts is asserted alongside."@en ;
-    skos:scopeNote "In this version the analyst records the relation when transcribing the mark. The intended route, for a later version, is a convention on the relation mark (\"on this diagram an arrow signifies influence\"), with its basis, so that the reading of a relation mark is derived like every other meaning."@en .
+    skos:scopeNote "In this version the modeller records the relation when transcribing the mark. The intended route, for a later version, is a convention on the relation mark (\"on this diagram an arrow signifies influence\"), with its basis, so that the reading of a relation mark is derived like every other meaning."@en .
 
 # --- Module ------------------------------------------------------------------
 

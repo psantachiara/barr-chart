@@ -1,4 +1,4 @@
-chart,title,entities,n_Movement,n_Person,n_Place,n_external,r_influenced,r_sitedIn,r_memberOf,r_relatedTo,infl_internal,infl_external,infl_secondary,influence_density,influence_acyclic
+chart,title,entities,n_Movement,n_Person,n_Place,n_external,r_influenced,r_associatedWithPlace,r_memberOf,r_relatedTo,infl_internal,infl_external,infl_secondary,influence_density,influence_acyclic
 insert,456,84,20,50,14,0,41,24,52,0,0,0,10,0.0059,True
 p19,457,34,20,3,11,0,43,21,0,0,0,0,4,0.0383,True
 p21,458,94,21,62,11,6,53,19,66,0,34,19,8,0.0061,True

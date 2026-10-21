@@ -1,4 +1,4 @@
-# Every label mark: the entity it writes (through the analyst's identity mapping), the wording,
+# Every label mark: the entity it writes (through the modeller's identity mapping), the wording,
 # its graphic values, position on the scale, legend codes, certainty, and what it signifies.
 PREFIX dino:    <https://psantachiara.github.io/dino/ns#>
 PREFIX barr:    <https://psantachiara.github.io/barr-chart/ns#>

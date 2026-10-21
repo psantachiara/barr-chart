@@ -16,7 +16,7 @@ conventions point to; SKOS, SKOS-XL, CIDOC CRM and Dublin Core for the rest.
 Graph layout
   <…/graph/{chart}>        what one chart shows: the sheet, its diagram, its concept scheme,
                            its labels as written, its relation marks, conventions stated on it
-  <…/graph/interpretation> what the analyst says: the reconciled index, identity across charts
+  <…/graph/interpretation> what the modeller says: the reconciled index, identity across charts
                            (skos:exactMatch / closeMatch), conventions inferred from the drawing
   <…/graph/readings>       orderings proposed by readings
   <…/graph/derived>        what follows from marks and conventions (computed by query)
@@ -40,10 +40,10 @@ CH = Namespace(BASE + "chart/")
 READING = Namespace(BASE + "reading/")
 GRAPH = Namespace(BASE + "graph/")
 INTERP, READINGS, DERIVED = GRAPH.interpretation, GRAPH.readings, GRAPH.derived
-ANALYST = "Pietro Santachiara"
+MODELLER = "Pietro Santachiara"
 
 TYPES = {"Movement": CRM.E55_Type, "Person": CRM.E21_Person, "Place": CRM.E53_Place}
-RELATIONS = {"influenced": (BARR.influenced, DINO.Arrow), "sitedIn": (BARR.sitedIn, DINO.Juxtaposition),
+RELATIONS = {"influenced": (BARR.influenced, DINO.Arrow), "associatedWithPlace": (BARR.associatedWithPlace, DINO.Juxtaposition),
              "memberOf": (BARR.memberOf, DINO.Enclosure), "relatedTo": (SKOS.related, DINO.Connector)}
 LINES = {"solid": DINO.solid, "dotted": DINO.dotted, "dashed": DINO.dashed, "other": DINO.otherLine}
 INK = {"black": DINO.black, "red": DINO.red, "blue": DINO.blue, "graphite": DINO.graphite, "other": DINO.otherInk}
@@ -177,8 +177,8 @@ def main(strict=False):
             errors.append(f"edges.csv line {i}: certainty '{e['certainty']}'")
         if e["colour"] not in INKS:
             errors.append(f"edges.csv line {i}: colour '{e['colour']}' (expected {sorted(INKS - {''})})")
-        if e["relation"] == "sitedIn" and concept.get(e["target"], {}).get("type") != "Place":
-            warnings.append(f"edges.csv line {i}: sitedIn target {e['target']} is not a Place")
+        if e["relation"] == "associatedWithPlace" and concept.get(e["target"], {}).get("type") != "Place":
+            warnings.append(f"edges.csv line {i}: associatedWithPlace target {e['target']} is not a Place")
         if e["relation"] == "memberOf" and concept.get(e["source"], {}).get("type") != "Person":
             warnings.append(f"edges.csv line {i}: memberOf source {e['source']} is not a Person")
         if key in seen:
@@ -212,8 +212,8 @@ def main(strict=False):
             errors.append(f"conventions.csv line {i}: graphic_value '{c['graphic_value']}' (expected {sorted(GRAPHIC)})")
         if c["signifies"] not in MEANINGS | {"noMeaning"}:
             errors.append(f"conventions.csv line {i}: signifies '{c['signifies']}' (expected {sorted(MEANINGS)} or noMeaning)")
-        if c["basis"] not in ("statedOnSheet", "inferredByAnalyst"):
-            errors.append(f"conventions.csv line {i}: basis '{c['basis']}' (statedOnSheet | inferredByAnalyst)")
+        if c["basis"] not in ("statedOnSheet", "inferredByModeller"):
+            errors.append(f"conventions.csv line {i}: basis '{c['basis']}' (statedOnSheet | inferredByModeller)")
     alignments = read("alignments.csv") if (DATA / "alignments.csv").exists() else []
     for i, a in enumerate(alignments, start=2):
         for end in ("source", "target"):
@@ -280,8 +280,8 @@ def main(strict=False):
                  ("reading", READING), ("skos", SKOS), ("dcterms", DCTERMS), ("foaf", FOAF)):
         ds.bind(k, v)
     ig, rg = ds.graph(INTERP), ds.graph(READINGS)
-    ig.add((INTERP, DCTERMS.creator, Literal(ANALYST)))
-    ig.add((INTERP, DCTERMS.description, Literal("The analyst's statements: the reconciled index, identity across charts, conventions inferred from the drawing.")))
+    ig.add((INTERP, DCTERMS.creator, Literal(MODELLER)))
+    ig.add((INTERP, DCTERMS.description, Literal("The modeller's statements: the reconciled index, identity across charts, conventions inferred from the drawing.")))
 
     # the reconciled index: one entry per referent, typed with CIDOC CRM
     index = ID["index"]
@@ -354,7 +354,7 @@ def main(strict=False):
                     g.add((lab, DINO.checkedOn, Literal(n["verified"], datatype=XSD.date)))
                 if n["note"]:
                     g.add((lab, SKOS.note, Literal(n["note"])))
-            ig.add((cu, SKOS.exactMatch, ID[k]))        # identity across charts is the analyst's statement
+            ig.add((cu, SKOS.exactMatch, ID[k]))        # identity across charts is the modeller's statement
 
         # relation marks, and the plain triple each records
         for e in (e for e in edges if e["chart_id"] == cid):
@@ -388,12 +388,12 @@ def main(strict=False):
             g.add((cv, RDF.type, DINO.Convention)); g.add((cv, DINO.holdsFor, diagram)); g.add((cv, DINO.code, Literal(code)))
             g.add((cv, DINO.signifies, lc)); g.add((cv, DINO.basis, DINO.statedOnSheet))
 
-        # conventions inferred by the analyst: the ink key (and inks that mean nothing), then conventions.csv
+        # conventions inferred by the modeller: the ink key (and inks that mean nothing), then conventions.csv
         def convention(slug, value, meaning, applies=None, note=""):
             cv = URIRef(f"{CH[cid]}/convention/{slug}")
             ig.add((cv, RDF.type, DINO.Convention)); ig.add((cv, DINO.holdsFor, diagram))
             ig.add((cv, DINO.graphicValue, value)); ig.add((cv, DINO.signifies, meaning))
-            ig.add((cv, DINO.basis, DINO.inferredByAnalyst))
+            ig.add((cv, DINO.basis, DINO.inferredByModeller))
             if applies is not None:
                 ig.add((cv, DINO.appliesTo, applies))
             if note:

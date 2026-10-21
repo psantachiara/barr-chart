@@ -242,7 +242,7 @@ const chartIds = () => Object.keys(S.charts).sort((a,b) => (S.charts[a].pos||99)
 
 function normalise(c){
   c.nodes = c.nodes || {}; c.edges = c.edges || []; c.checked = c.checked || {}; c.legend = c.legend || [];
-  c.edges.forEach(e => { if (!e.k) e.k = rid(); });
+  c.edges.forEach(e => { if (!e.k) e.k = rid(); if (e.relation === "sit" + "edIn") e.relation = "associatedWithPlace"; });
   return c;
 }
 
@@ -459,9 +459,9 @@ function entRow(id){
         const byLabel = (a,b) => label(c,a).localeCompare(label(c,b));
         const mvs = Object.keys(c.nodes).filter(x => ctype(x) === "Movement").sort(byLabel);
         const ppl = Object.keys(c.nodes).filter(x => ctype(x) === "Person").sort(byLabel);
-        const chip = x => `<button type="button" class="chip" data-act="site" data-of="${esc(x)}" aria-pressed="${c.edges.some(e => e.source===x && e.relation==="sitedIn" && e.target===id)}">${esc(label(c,x))}</button>`;
+        const chip = x => `<button type="button" class="chip" data-act="place" data-of="${esc(x)}" aria-pressed="${c.edges.some(e => e.source===x && e.relation==="associatedWithPlace" && e.target===id)}">${esc(label(c,x))}</button>`;
         return `<div class="field wide"><span>Attached to (choose all that apply)</span>${mvs.length || ppl.length ?
-          `${mvs.length ? `<div class="chips">${mvs.map(chip).join("")}</div>` : ""}${ppl.length ? `<details${ppl.some(x => c.edges.some(e => e.source===x && e.relation==="sitedIn" && e.target===id)) ? " open" : ""}><summary class="count">People (${ppl.length})</summary><div class="chips" style="margin-top:6px">${ppl.map(chip).join("")}</div></details>` : ""}`
+          `${mvs.length ? `<div class="chips">${mvs.map(chip).join("")}</div>` : ""}${ppl.length ? `<details${ppl.some(x => c.edges.some(e => e.source===x && e.relation==="associatedWithPlace" && e.target===id)) ? " open" : ""}><summary class="count">People (${ppl.length})</summary><div class="chips" style="margin-top:6px">${ppl.map(chip).join("")}</div></details>` : ""}`
           : `<p class="note" style="margin:0">Add the currents on this chart first; they appear here to choose from.</p>`}</div>`; })() : ""}
       <div class="field wide"><span>Drawn as (choose all that apply)</span><div class="chips">${FORMS.map(f =>
         `<button type="button" class="chip" data-act="form" data-v="${f}" aria-pressed="${(n.form||"").split(" ").includes(f)}">${f}</button>`).join("")}</div></div>
@@ -549,7 +549,7 @@ function card(id){
     <p class="sub">Arrows leaving it</p>
     ${arrows.map(arrowRow).join("") || `<p class="note">No arrows recorded.</p>`}
     <div><button class="btn small" type="button" data-act="add-arrow">Add an arrow</button></div>
-    ${places.length ? `<p class="sub">Places written with it</p><div class="chips">${places.map(p => chip("sitedIn", p, id, p)).join("")}</div>` : ""}
+    ${places.length ? `<p class="sub">Places written with it</p><div class="chips">${places.map(p => chip("associatedWithPlace", p, id, p)).join("")}</div>` : ""}
     ${t === "Movement" && persons.length ? `<p class="sub">Names listed under it</p><div class="chips">${persons.map(p => chip("memberOf", p, p, id)).join("")}</div>` : ""}
     ${incoming.length || listedUnder.length ? `<p class="incoming">${incoming.length ? "Arrows arriving from: "+incoming.join(", ")+". " : ""}${listedUnder.length ? "Listed under: "+listedUnder.join(", ")+"." : ""}</p>` : ""}
   </div>`;
@@ -685,7 +685,7 @@ async function importFiles(files){
       inkKey: r.ink_key === "none" ? Object.fromEntries(INKS.filter(Boolean).map(i => [i, ""])) : r.ink_key ? Object.fromEntries(INKS.filter(Boolean).map(i => [i, ((r.ink_key.split(/\s+/).find(x => x.startsWith(i + "=")) || "").split("=")[1]) || ""])) : undefined}; });
   (got["legend.csv"] || []).forEach(r => { if (charts[r.chart_id]) charts[r.chart_id].legend.push({code:r.code, meaning:r.meaning}); });
   got["nodes.csv"].forEach(r => { if (charts[r.chart_id]) charts[r.chart_id].nodes[r.concept_id] = {label:r.label_as_written, date:(r.year_on_scale ?? r.date_as_written ?? ""), form:r.form, ink:r.ink||"", tags:(r.tags||"").split(/\s+/).filter(Boolean), certainty:r.certainty, verified:r.verified, origin:r.origin, note:r.note}; });
-  got["edges.csv"].forEach(r => { if (charts[r.chart_id]) charts[r.chart_id].edges.push({k:rid(), source:r.source, target:r.target, relation:r.relation, line:r.line, colour:r.colour, certainty:r.certainty, verified:r.verified, origin:r.origin, note:r.note}); });
+  got["edges.csv"].forEach(r => { if (charts[r.chart_id]) charts[r.chart_id].edges.push({k:rid(), source:r.source, target:r.target, relation:(r.relation === "sit" + "edIn" ? "associatedWithPlace" : r.relation), line:r.line, colour:r.colour, certainty:r.certainty, verified:r.verified, origin:r.origin, note:r.note}); });
   S.concepts = concepts; S.charts = charts;
   if (!S.charts[S.cur]) S.cur = chartIds()[0];
   S.loaded = true; await saveConcepts();
@@ -753,8 +753,8 @@ document.addEventListener("click", async ev => {
     case "member": { const m = t.dataset.mv, i = c.edges.findIndex(e => e.source===entId && e.relation==="memberOf" && e.target===m);
       if (i >= 0) c.edges.splice(i,1); else c.edges.push({k:rid(), source:entId, target:m, relation:"memberOf", line:"", colour:"", certainty:"", verified:today(), origin:"transcribed", note:""});
       touch(); rerenderEnt(entId); break; }
-    case "site": { const of = t.dataset.of, i = c.edges.findIndex(e => e.source===of && e.relation==="sitedIn" && e.target===entId);
-      if (i >= 0) c.edges.splice(i,1); else c.edges.push({k:rid(), source:of, target:entId, relation:"sitedIn", line:"", colour:"", certainty:"", verified:today(), origin:"transcribed", note:""});
+    case "place": { const of = t.dataset.of, i = c.edges.findIndex(e => e.source===of && e.relation==="associatedWithPlace" && e.target===entId);
+      if (i >= 0) c.edges.splice(i,1); else c.edges.push({k:rid(), source:of, target:entId, relation:"associatedWithPlace", line:"", colour:"", certainty:"", verified:today(), origin:"transcribed", note:""});
       touch(); rerenderEnt(entId); break; }
     case "form": { const n = c.nodes[entId], v = t.dataset.v, cur = (n.form||"").split(" ").filter(Boolean);
       n.form = (cur.includes(v) ? cur.filter(x => x !== v) : [...cur, v]).join(" "); n.verified = today(); touch(); rerenderEnt(entId); break; }

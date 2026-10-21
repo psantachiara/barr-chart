@@ -21,7 +21,7 @@
     rdfs:label "Barr chart project vocabulary"@en ;
     owl:imports <https://psantachiara.github.io/dino/nodelink> ;
     dcterms:creator "Pietro Santachiara" ;
-    owl:versionInfo "0.3" .
+    owl:versionInfo "0.4" .
 
 # --- Relations the charts assert ----------------------------------------------
 
@@ -32,10 +32,10 @@ barr:influenced a owl:ObjectProperty ;
     rdfs:seeAlso crm:P15i_influenced ;
     skos:scopeNote "Corresponds to crm:P15i_influenced (the inverse of crm:P15_was_influenced_by) without its range constraint. In CIDOC CRM, P15 runs from an activity (crm:E7_Activity) to any entity, so P15i has an activity as its range. Barr's charts assert influence between movements, typed here as crm:E55_Type; using P15i would make every influenced movement an activity, and in CIDOC CRM an activity (a temporal entity) cannot also be a type (a conceptual object). The relation is therefore minted, and the clash documented: CIDOC CRM models influence as bearing on activities, the charts as passing between movements."@en .
 
-barr:sitedIn a owl:ObjectProperty ;
-    rdfs:label "sited in"@en ;
+barr:associatedWithPlace a owl:ObjectProperty ;
+    rdfs:label "associated with place"@en ;
     rdfs:domain skos:Concept ; rdfs:range skos:Concept ;
-    rdfs:comment "A place written with a movement or a person on a chart."@en ;
+    rdfs:comment "A place written with a movement or a person on a chart. The chart sets the two side by side and does not say how they are related (where a movement began, where it was active, where a person worked); the property claims no more than the association."@en ;
     skos:scopeNote "Not crm:P7_took_place_at, which is for events; not dcterms:spatial, which describes a resource's coverage."@en .
 
 barr:memberOf a owl:ObjectProperty ;

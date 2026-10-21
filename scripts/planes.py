@@ -304,7 +304,8 @@ def main():
 # ---------------------------------------------------------------- report
 def report(P):
     ids = P["charts"]; T = lambda i: N[i]; L = lambda x: C[x]["l"]
-    k = lambda key: f"{L(key.split('|')[0])} —{key.split('|')[1]}→ {L(key.split('|')[2])}"
+    REL_WORD = {"placeAssociation": "associated with place"}
+    k = lambda key: f"{L(key.split('|')[0])} —{REL_WORD.get(key.split('|')[1], key.split('|')[1])}→ {L(key.split('|')[2])}"
     row = lambda cells: "| " + " | ".join(str(c) for c in cells) + " |"
     hdr = lambda cols: [row(cols), row(["---"] * len(cols))]
     md = ["# Five planes of comparison", "",
@@ -334,7 +335,7 @@ def report(P):
            "On every chart: " + ", ".join(L(x) for x in c["core"]) + "."]
 
     s = P["structural"]
-    for mode, title in (("influence", "influence arrows only"), ("all_relations", "all relations (influence, siting, membership)")):
+    for mode, title in (("influence", "influence arrows only"), ("all_relations", "all relations (influence, place association, membership)")):
         md += ["", f"## III · Structural — {title}", ""]
         md += hdr(["chart", "order", "size", "not in this graph", "density", "depth", "roots", "sinks", "clusters ≥2", "highest PageRank"])
         for i in ids:
@@ -344,7 +345,7 @@ def report(P):
     md += ["", "Influence arrows by meaning (per chart ink key) and line:", ""]
     md += hdr(["chart", "by meaning (ink key)", "by line", "back-edges (cycles)"])
     md += [row([T(i), s[i]["influence_by_scope"], s[i]["influence_by_line"], len(s[i]["influence"]["back_edges"])]) for i in ids]
-    md += ["", "Conventions: how each chart's marks are given meaning. Stated on the sheet (the Insert's legend) or inferred by the analyst.", ""]
+    md += ["", "Conventions: how each chart's marks are given meaning. Stated on the sheet (the Insert's legend) or inferred by the modeller.", ""]
     md += hdr(["chart", "ink key", "legend (stated on the sheet)", "other conventions (inferred)"])
     for i in ids:
         cv = s[i]["conventions"]

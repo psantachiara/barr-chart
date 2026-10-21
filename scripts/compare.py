@@ -90,7 +90,7 @@ def main(include_all=False):
         if r.scope is not None:
             scope[c][t] = short(r.scope)
 
-    # charts are the sheets (crm:E22) in the chart graphs; the core / secondary grouping is the analyst's
+    # charts are the sheets (crm:E22) in the chart graphs; the core / secondary grouping is the modeller's
     sheets = {s: ctx for s, _, _, ctx in ds.quads((None, RDF_TYPE, URIRef(CRM + "E22_Human-Made_Object"), None))}
     TITLE = {short(s): str(ds.graph(g).value(s, RDFS_LABEL) or short(s)) for s, g in sheets.items()}
     ig = ds.graph(INTERP)
@@ -113,7 +113,7 @@ def main(include_all=False):
         infl = [(s, o) for s, p, o in rel[c] if p == "influenced"]
         n = len(ent[c])
         rows.append({"chart": c, "title": T(c), "entities": n, **{f"n_{t}": by_t[t] for t in ("Movement", "Person", "Place")}, "n_external": len(ext[c]),
-                     **{f"r_{p}": by_r[p] for p in ("influenced", "sitedIn", "memberOf", "relatedTo")},
+                     **{f"r_{p}": by_r[p] for p in ("influenced", "associatedWithPlace", "memberOf", "relatedTo")},
                      "infl_internal": sum(1 for t_ in rel[c] if t_[1] == "influenced" and scope[c].get(t_) == "internal"),
                      "infl_external": sum(1 for t_ in rel[c] if t_[1] == "influenced" and scope[c].get(t_) == "external"),
                      "infl_secondary": sum(1 for s_, p_, o_ in rel[c] if p_ == "influenced" and style[c][(s_, p_, o_)][0] == "dotted"),
@@ -200,11 +200,11 @@ def main(include_all=False):
     md = ["# Chart comparison", "", "Generated from `out/barr-charts.trig`. Order-free unless a sequence is named. "
           + ("All charts." if include_all else "Core set only (run with --all to include secondary charts)."), "",
           "## Charts", "", "Influence arrows are split by each chart's ink key (internal / external) and by line (dotted = secondary).", "",
-          "| chart | entities | movements | persons | places | external entities | influence | internal | external | secondary | sited | member | acyclic |",
+          "| chart | entities | movements | persons | places | external entities | influence | internal | external | secondary | place association | member | acyclic |",
           "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for r in rows:
         md.append(f"| {r['title']} | {r['entities']} | {r['n_Movement']} | {r['n_Person']} | {r['n_Place']} | {r['n_external']} | "
-                  f"{r['r_influenced']} | {r['infl_internal']} | {r['infl_external']} | {r['infl_secondary']} | {r['r_sitedIn']} | {r['r_memberOf']} | {'yes' if r['influence_acyclic'] else 'NO'} |")
+                  f"{r['r_influenced']} | {r['infl_internal']} | {r['infl_external']} | {r['infl_secondary']} | {r['r_associatedWithPlace']} | {r['r_memberOf']} | {'yes' if r['influence_acyclic'] else 'NO'} |")
     md += ["", "## Entity overlap (Jaccard)", "", "| | " + " | ".join(T(c) for c in charts) + " |", "|---" * (len(charts) + 1) + "|"]
     J = {(p["a"], p["b"]): p["entity_jaccard"] for p in pairs}
     for a in charts:

@@ -449,7 +449,7 @@
    },
    "arcs": {
     "influence": 41,
-    "siting": 24,
+    "placeAssociation": 24,
     "membership": 52
    },
    "influence_by_scope": {
@@ -516,49 +516,49 @@
       "value": "box",
       "code": "",
       "meaning": "source outside modern art",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      },
      {
       "value": "dotted",
       "code": "",
       "meaning": "secondary",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "RelationMark"
      },
      {
       "value": "graphite",
       "code": "",
       "meaning": "no meaning",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": ""
      },
      {
       "value": "semicircle",
       "code": "",
       "meaning": "membership",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      },
      {
       "value": "solid",
       "code": "",
       "meaning": "primary",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "RelationMark"
      },
      {
       "value": "underline",
       "code": "",
       "meaning": "title",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      },
      {
       "value": "verticalPosition",
       "code": "",
       "meaning": "date",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      },
      {
@@ -719,7 +719,7 @@
    },
    "arcs": {
     "influence": 43,
-    "siting": 21
+    "placeAssociation": 21
    },
    "influence_by_scope": {
     "ink carries no meaning": 43
@@ -766,49 +766,49 @@
       "value": "box",
       "code": "",
       "meaning": "source outside modern art",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      },
      {
       "value": "dotted",
       "code": "",
       "meaning": "secondary",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "RelationMark"
      },
      {
       "value": "graphite",
       "code": "",
       "meaning": "no meaning",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": ""
      },
      {
       "value": "semicircle",
       "code": "",
       "meaning": "membership",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      },
      {
       "value": "solid",
       "code": "",
       "meaning": "primary",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "RelationMark"
      },
      {
       "value": "underline",
       "code": "",
       "meaning": "title",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      },
      {
       "value": "verticalPosition",
       "code": "",
       "meaning": "date",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      }
     ]
@@ -931,7 +931,7 @@
    },
    "arcs": {
     "influence": 53,
-    "siting": 19,
+    "placeAssociation": 19,
     "membership": 66
    },
    "influence_by_scope": {
@@ -977,56 +977,56 @@
       "value": "blue",
       "code": "",
       "meaning": "internal",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": ""
      },
      {
       "value": "box",
       "code": "",
       "meaning": "source outside modern art",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      },
      {
       "value": "dotted",
       "code": "",
       "meaning": "secondary",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "RelationMark"
      },
      {
       "value": "graphite",
       "code": "",
       "meaning": "external",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": ""
      },
      {
       "value": "semicircle",
       "code": "",
       "meaning": "membership",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      },
      {
       "value": "solid",
       "code": "",
       "meaning": "primary",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "RelationMark"
      },
      {
       "value": "underline",
       "code": "",
       "meaning": "title",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      },
      {
       "value": "verticalPosition",
       "code": "",
       "meaning": "date",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      }
     ]
@@ -1147,7 +1147,7 @@
    },
    "arcs": {
     "influence": 51,
-    "siting": 25,
+    "placeAssociation": 25,
     "membership": 2
    },
    "influence_by_scope": {
@@ -1187,49 +1187,49 @@
       "value": "black",
       "code": "",
       "meaning": "internal",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": ""
      },
      {
       "value": "box",
       "code": "",
       "meaning": "source outside modern art",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      },
      {
       "value": "dotted",
       "code": "",
       "meaning": "secondary",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "RelationMark"
      },
      {
       "value": "red",
       "code": "",
       "meaning": "external",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": ""
      },
      {
       "value": "semicircle",
       "code": "",
       "meaning": "membership",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      },
      {
       "value": "solid",
       "code": "",
       "meaning": "primary",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "RelationMark"
      },
      {
       "value": "verticalPosition",
       "code": "",
       "meaning": "date",
-      "basis": "inferredByAnalyst",
+      "basis": "inferredByModeller",
       "appliesTo": "LabelMark"
      }
     ]
@@ -1359,29 +1359,29 @@
       }
      ],
      "wired": [
-      "abstract_dadaism|siting|paris",
+      "abstract_dadaism|placeAssociation|paris",
       "abstract_expressionism|influence|bauhaus",
-      "constructivism|siting|moscow",
-      "constructivism|siting|paris",
+      "constructivism|placeAssociation|moscow",
+      "constructivism|placeAssociation|paris",
       "cubism|influence|bauhaus",
       "de_stijl_and_neoplasticism|influence|bauhaus",
-      "de_stijl_and_neoplasticism|siting|germany",
+      "de_stijl_and_neoplasticism|placeAssociation|germany",
       "futurism|influence|abstract_dadaism",
-      "futurism|siting|milan",
+      "futurism|placeAssociation|milan",
       "machine_esthetic|influence|bauhaus",
       "machine_esthetic|influence|geometric_abstract_art",
       "negro_sculpture|influence|fauvism",
       "neoimpressionism|influence|futurism",
-      "orphism|siting|paris"
+      "orphism|placeAssociation|paris"
      ],
      "cut": [
-      "abstract_dadaism|siting|germany",
-      "bauhaus|siting|germany",
+      "abstract_dadaism|placeAssociation|germany",
+      "bauhaus|placeAssociation|germany",
       "de_stijl_and_neoplasticism|influence|geometric_abstract_art",
       "fauvism|influence|cubism",
       "futurism|influence|constructivism",
-      "geometric_abstract_art|siting|milan",
-      "geometric_abstract_art|siting|paris",
+      "geometric_abstract_art|placeAssociation|milan",
+      "geometric_abstract_art|placeAssociation|paris",
       "machine_esthetic|influence|de_stijl_and_neoplasticism",
       "suprematism|influence|geometric_abstract_art"
      ],
@@ -1610,8 +1610,8 @@
      ],
      "cut": [
       "abstract_expressionism|influence|bauhaus",
-      "constructivism|siting|berlin",
-      "constructivism|siting|paris",
+      "constructivism|placeAssociation|berlin",
+      "constructivism|placeAssociation|paris",
       "cubism|influence|bauhaus",
       "de_stijl_and_neoplasticism|influence|purism",
       "machine_esthetic|influence|constructivism",
@@ -1853,16 +1853,16 @@
      ],
      "wired": [
       "abstract_expressionism|influence|bauhaus",
-      "brancusi|siting|paris",
+      "brancusi|placeAssociation|paris",
       "cezanne|influence|synthetism",
-      "de_stijl_and_neoplasticism|siting|berlin",
-      "de_stijl_and_neoplasticism|siting|paris",
+      "de_stijl_and_neoplasticism|placeAssociation|berlin",
+      "de_stijl_and_neoplasticism|placeAssociation|paris",
       "machine_esthetic|influence|constructivism",
       "machine_esthetic|influence|geometric_abstract_art",
       "machine_esthetic|influence|modern_architecture",
       "redon|influence|abstract_surrealism",
-      "redon|siting|paris",
-      "rousseau|siting|paris",
+      "redon|placeAssociation|paris",
+      "rousseau|placeAssociation|paris",
       "van_gogh|influence|fauvism"
      ],
      "cut": [
@@ -2090,8 +2090,8 @@
   },
   "relations_on_all": [
    "abstract_dadaism|influence|abstract_surrealism",
-   "abstract_expressionism|siting|munich",
-   "abstract_surrealism|siting|paris",
+   "abstract_expressionism|placeAssociation|munich",
+   "abstract_surrealism|placeAssociation|paris",
    "cezanne|influence|cubism",
    "cezanne|influence|fauvism",
    "constructivism|influence|bauhaus",
@@ -2103,9 +2103,9 @@
    "cubism|influence|orphism",
    "cubism|influence|purism",
    "cubism|influence|suprematism",
-   "cubism|siting|paris",
+   "cubism|placeAssociation|paris",
    "fauvism|influence|abstract_expressionism",
-   "fauvism|siting|paris",
+   "fauvism|placeAssociation|paris",
    "japanese_prints|influence|fauvism",
    "japanese_prints|influence|synthetism",
    "machine_esthetic|influence|abstract_dadaism",
@@ -2117,13 +2117,13 @@
    "negro_sculpture|influence|cubism",
    "neoimpressionism|influence|cubism",
    "neoimpressionism|influence|fauvism",
-   "neoimpressionism|siting|paris",
-   "purism|siting|paris",
+   "neoimpressionism|placeAssociation|paris",
+   "purism|placeAssociation|paris",
    "rousseau|influence|cubism",
    "suprematism|influence|bauhaus",
-   "suprematism|siting|moscow",
+   "suprematism|placeAssociation|moscow",
    "synthetism|influence|fauvism",
-   "synthetism|siting|paris"
+   "synthetism|placeAssociation|paris"
   ],
   "nearest": {
    "insert": "p21",

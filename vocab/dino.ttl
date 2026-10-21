@@ -18,7 +18,7 @@
 # Three layers are kept apart:
 #   Mark         what is on the sheet (ink, line, shape, position); no meaning
 #   Convention   a rule, valid for one diagram, giving a graphic value a meaning;
-#                either stated on the sheet (a legend) or inferred by an analyst
+#                either stated on the sheet (a legend) or inferred by a modeller
 #   Proposition  what the diagram asserts once its conventions are applied;
 #                derived by query, never entered by hand
 #
@@ -119,7 +119,7 @@ dino:verticalPosition a dino:Dimension ; skos:prefLabel "vertical position"@en ;
 
 dino:Convention a owl:Class ;
     rdfs:label "Convention"@en ;
-    rdfs:comment "A rule, valid for one diagram, that gives a graphic value (or a legend code) a meaning: 'on this diagram, graphite signifies external influence'. The same graphic value can mean different things on different diagrams, and different values can mean the same thing; conventions make both statements explicit. Every convention has a basis: stated on the sheet, or inferred by an analyst."@en .
+    rdfs:comment "A rule, valid for one diagram, that gives a graphic value (or a legend code) a meaning: 'on this diagram, graphite signifies external influence'. The same graphic value can mean different things on different diagrams, and different values can mean the same thing; conventions make both statements explicit. Every convention has a basis: stated on the sheet, or inferred by a modeller."@en .
 
 dino:holdsFor a owl:ObjectProperty ;
     rdfs:label "holds for"@en ;
@@ -155,15 +155,15 @@ dino:bases a skos:ConceptScheme ; rdfs:label "DINO bases"@en .
 dino:statedOnSheet a dino:Basis ; skos:inScheme dino:bases ;
     skos:prefLabel "stated on the sheet"@en ;
     skos:definition "The diagram states the convention itself, e.g. in a legend."@en .
-dino:inferredByAnalyst a dino:Basis ; skos:inScheme dino:bases ;
-    skos:prefLabel "inferred by the analyst"@en ;
-    skos:definition "The analyst infers the convention from how the diagram is drawn."@en .
+dino:inferredByModeller a dino:Basis ; skos:inScheme dino:bases ;
+    skos:prefLabel "inferred by the modeller"@en ;
+    skos:definition "The modeller infers the convention from how the diagram is drawn."@en .
 dino:documented a dino:Basis ; skos:inScheme dino:bases ;
     skos:prefLabel "documented"@en ;
     skos:definition "For a reading: the order is attested in the archive."@en .
 dino:analytical a dino:Basis ; skos:inScheme dino:bases ;
     skos:prefLabel "analytical"@en ;
-    skos:definition "For a reading: the order is proposed by an analyst."@en .
+    skos:definition "For a reading: the order is proposed in an analysis of the diagrams, by a scholar or by the modeller; it is not attested in the archive."@en .
 dino:published a dino:Basis ; skos:inScheme dino:bases ;
     skos:prefLabel "published"@en ;
     skos:definition "For a reading: the order is given in a publication, such as the numbering of plates. It makes no claim about chronology."@en .
@@ -258,7 +258,7 @@ dino:basis rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
 dino:Basis rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
 dino:bases rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
 dino:statedOnSheet rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
-dino:inferredByAnalyst rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
+dino:inferredByModeller rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
 dino:documented rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
 dino:analytical rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .
 dino:published rdfs:isDefinedBy <https://psantachiara.github.io/dino/ns> .

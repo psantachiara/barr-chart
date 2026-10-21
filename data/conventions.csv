@@ -1,7 +1,7 @@
 chart_id,applies_to,graphic_value,signifies,basis,note
-*,label,box,sourceOutsideModernArt,inferredByAnalyst,
-*,label,semicircle,membership,inferredByAnalyst,The names written inside the semicircle are members of the movement.
-*,label,underline,title,inferredByAnalyst,The underlined label is the conceptual anchor of what is written with it.
-*,relation,solid,primary,inferredByAnalyst,
-*,relation,dotted,secondary,inferredByAnalyst,
-*,label,verticalPosition,date,inferredByAnalyst,Read against the year scale drawn on this chart.
+*,label,box,sourceOutsideModernArt,inferredByModeller,
+*,label,semicircle,membership,inferredByModeller,The names written inside the semicircle are members of the movement.
+*,label,underline,title,inferredByModeller,The underlined label is the conceptual anchor of what is written with it.
+*,relation,solid,primary,inferredByModeller,
+*,relation,dotted,secondary,inferredByModeller,
+*,label,verticalPosition,date,inferredByModeller,Read against the year scale drawn on this chart.

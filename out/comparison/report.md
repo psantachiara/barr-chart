@@ -6,7 +6,7 @@ Generated from `out/barr-charts.trig`. Order-free unless a sequence is named. Co
 
 Influence arrows are split by each chart's ink key (internal / external) and by line (dotted = secondary).
 
-| chart | entities | movements | persons | places | external entities | influence | internal | external | secondary | sited | member | acyclic |
+| chart | entities | movements | persons | places | external entities | influence | internal | external | secondary | place association | member | acyclic |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 456 | 84 | 20 | 50 | 14 | 0 | 41 | 0 | 0 | 10 | 24 | 52 | yes |
 | 457 | 34 | 20 | 3 | 11 | 0 | 43 | 0 | 0 | 4 | 21 | 0 | yes |

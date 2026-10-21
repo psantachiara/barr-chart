@@ -642,7 +642,7 @@ function sheetLayout(v, f){
     const sub={};
     v.edges.forEach(e=>{
       if(e.rel==="membership" && folded(e.s) && !dropped(e.s) && byId[e.t]) (sub[e.t]=sub[e.t]||{p:[],l:[]}).p.push(surface(v,e.s));
-      if(e.rel==="siting" && byId[e.s]) (sub[e.s]=sub[e.s]||{p:[],l:[]}).l.push(surface(v,e.t));
+      if(e.rel==="placeAssociation" && byId[e.s]) (sub[e.s]=sub[e.s]||{p:[],l:[]}).l.push(surface(v,e.t));
     });
     L.nodes.forEach(n=>{ const s=sub[n.id]; if(!s) return;
       n.sub=[s.p.join(", "), s.l.join(", ")].filter(Boolean).join(" · ");
@@ -823,8 +823,8 @@ function svgNetwork(L, key){
     const a=e.a, b=e.b, dx=b.x-a.x, dy=b.y-a.y, d=Math.hypot(dx,dy)||1, ux=dx/d, uy=dy/d;
     const x1=a.x+ux*(a.r+1), y1=a.y+uy*(a.r+1), x2=b.x-ux*(b.r+2), y2=b.y-uy*(b.r+2);
     if(e.rel!=="influence"){
-      const col=e.rel==="siting"?"var(--moss)":e.rel==="membership"?"var(--indigo)":"var(--ink-3)";
-      return `<line x1="${f2(x1)}" y1="${f2(y1)}" x2="${f2(x2)}" y2="${f2(y2)}" stroke="${col}" stroke-width=".7" stroke-dasharray="${e.rel==="siting"?"2 3":e.rel==="membership"?"1 3":"5 2 1 2"}" opacity=".5"/>`;
+      const col=e.rel==="placeAssociation"?"var(--moss)":e.rel==="membership"?"var(--indigo)":"var(--ink-3)";
+      return `<line x1="${f2(x1)}" y1="${f2(y1)}" x2="${f2(x2)}" y2="${f2(y2)}" stroke="${col}" stroke-width=".7" stroke-dasharray="${e.rel==="placeAssociation"?"2 3":e.rel==="membership"?"1 3":"5 2 1 2"}" opacity=".5"/>`;
     }
     const col=e.scope==="external"?"var(--oxblood)":e.scope==="internal"?"var(--ink-2)":"var(--ink-3)";
     /* a slight bend, so that arrows in both directions between two entities stay apart */
@@ -936,7 +936,7 @@ function paneCharts(){
       <div style="display:flex;gap:18px;margin-bottom:12px;flex-wrap:wrap">
         <div><div class="big">${v.nodes.length}</div><div class="kv">entities</div></div>
         <div><div class="big">${relCount(v,"influence")}</div><div class="kv">influence</div></div>
-        <div><div class="big">${relCount(v,"siting")}</div><div class="kv">sited</div></div>
+        <div><div class="big">${relCount(v,"placeAssociation")}</div><div class="kv">place association</div></div>
         <div><div class="big">${relCount(v,"membership")}</div><div class="kv">member</div></div>
       </div>
       <div class="kv" style="margin-bottom:4px">Ink key</div>
@@ -1161,7 +1161,7 @@ function paneStruct(){
   const sw=(d,c,w)=>`<svg width="26" height="8" style="vertical-align:-1px"><line x1="0" y1="4" x2="26" y2="4" stroke="${c}" stroke-width="${w||1.2}" ${d?`stroke-dasharray="${d}"`:""}/></svg>`;
   return `
   <h2 class="ph">Plane III · Structural</h2>
-  <p class="lede">Position and relational logic. Each chart is drawn as Barr laid it out, on its own year scale, or as a network with time set aside, and measured as a graph. <strong>Influence arrows and the other relations are measured separately</strong>, because siting and membership say where and with whom, not what caused what.</p>
+  <p class="lede">Position and relational logic. Each chart is drawn as Barr laid it out, on its own year scale, or as a network with time set aside, and measured as a graph. <strong>Influence arrows and the other relations are measured separately</strong>, because place associations and memberships say where and with whom, not what caused what.</p>
 
   <div class="ctl">
     <label>Draw</label>
@@ -1202,7 +1202,7 @@ function paneStruct(){
     <span>${sw("","var(--ink-2)")} internal</span>
     <span>${sw("","var(--oxblood)")} external</span>
     <span>${sw("3 3","var(--ink-2)")} dotted = secondary</span>
-    <span>${sw("2 3","var(--moss)",.9)} siting</span>
+    <span>${sw("2 3","var(--moss)",.9)} place association</span>
     <span>${sw("1 3","var(--indigo)",.9)} membership</span>
   </div>
   <div class="legend" style="margin:6px 0 0">
@@ -1227,7 +1227,7 @@ function paneStruct(){
       ${v.legend.length?`<div style="font-family:var(--mono);font-size:11.5px;margin-bottom:8px">${v.legend.map(t=>`<b>${esc(t.code)}</b> ${esc(t.meaning)}`).join(" · ")}</div>`:""}
       <div style="font-size:13.5px">${conventionList(v)}</div></div>`).join("")}</div>
   <div class="callout" style="margin-top:16px">
-    <p>Ink, line, shape and position are recorded as seen and given meaning only by each chart's own conventions. A convention is either stated on the sheet, like the Insert's legend, or inferred by the analyst, like every ink key. The same meaning can be carried by different inks on different sheets (red on the Cover, graphite on 458), and that equivalence is stated in the data, not inferred by the tool.</p>
+    <p>Ink, line, shape and position are recorded as seen and given meaning only by each chart's own conventions. A convention is either stated on the sheet, like the Insert's legend, or inferred by the modeller, like every ink key. The same meaning can be carried by different inks on different sheets (red on the Cover, graphite on 458), and that equivalence is stated in the data, not inferred by the tool.</p>
   </div>
 
   <h3 class="sh">Graph statistics <span>measured on</span></h3>
@@ -1269,9 +1269,9 @@ function svgGraph(L, key){
   const arcs=L.edges.map(e=>{
     const {a,b}=e; if(!a||!b) return "";
     if(e.rel!=="influence"){
-      const col=e.rel==="siting"?"var(--moss)":e.rel==="membership"?"var(--indigo)":"var(--ink-3)";
+      const col=e.rel==="placeAssociation"?"var(--moss)":e.rel==="membership"?"var(--indigo)":"var(--ink-3)";
       return `<line x1="${f2(a.x)}" y1="${f2(a.y)}" x2="${f2(b.x)}" y2="${f2(b.y)}" stroke="${col}" stroke-width=".7"
-        stroke-dasharray="${e.rel==="siting"?"2 3":e.rel==="membership"?"1 3":"5 2 1 2"}" opacity=".45"/>`;
+        stroke-dasharray="${e.rel==="placeAssociation"?"2 3":e.rel==="membership"?"1 3":"5 2 1 2"}" opacity=".45"/>`;
     }
     const col=e.back?"var(--warn)":e.scope==="external"?"var(--oxblood)":e.scope==="internal"?"var(--ink-2)":"var(--ink-3)";
     const mk=e.back?"aw":e.scope==="external"?"ax":"ah";
@@ -1554,7 +1554,7 @@ function conventionList(v){
   return `<table style="border-collapse:collapse;width:100%">${cs.map(c=>`<tr>
       <td style="font-family:var(--mono);font-size:11px;white-space:nowrap;padding:2px 10px 2px 0;vertical-align:top">${swatch(c)}${esc(VALUE_LABEL[c.value]||c.value)}</td>
       <td style="padding:2px 0;vertical-align:top;${c.meaning==="no meaning"?"color:var(--ink-3)":""}">${esc(c.meaning)}</td></tr>`).join("")}</table>
-    ${cs.length?'<div class="kv" style="margin-top:6px">inferred by the analyst</div>':""}
+    ${cs.length?'<div class="kv" style="margin-top:6px">inferred by the modeller</div>':""}
     ${stated.length?`<div class="kv" style="margin-top:3px">stated on the sheet: the legend above</div>`:""}`;
 }
 /* ============================================================
@@ -1565,12 +1565,12 @@ function dinoSection(){
   const c=t=>`<code>${esc(t)}</code>`;
   const layers=[
     ["Mark","What is on the sheet: a written label, an arrow, an enclosure, with its ink, line, shape and position. A mark carries no meaning of its own.","On 458, an arrow from Cubism to Futurism, in blue, solid."],
-    ["Convention","A rule valid for one diagram that gives a graphic value a meaning. Its basis is stated: written on the sheet, as in a legend, or inferred by the analyst.","On 458, blue signifies internal influence; a solid line, primary."],
+    ["Convention","A rule valid for one diagram that gives a graphic value a meaning. Its basis is stated: written on the sheet, as in a legend, or inferred by the modeller.","On 458, blue signifies internal influence; a solid line, primary."],
     ["Proposition","What the diagram asserts once its conventions are applied. Derived by query from marks and conventions, never entered by hand.","On 458, Cubism influenced Futurism: internal, primary."]
   ];
   const principles=[
     ["derived","Meaning is computed, never entered","A mark signifies something only through a convention of its own diagram; the derivation is a SPARQL query anyone can rerun."],
-    ["per diagram","Conventions belong to one diagram, with a basis","The same graphic value can mean different things on different diagrams, and different values the same thing. Each convention says whether the sheet states it or the analyst infers it."],
+    ["per diagram","Conventions belong to one diagram, with a basis","The same graphic value can mean different things on different diagrams, and different values the same thing. Each convention says whether the sheet states it or the modeller infers it."],
     ["absence","Absence is recorded","An ink that means nothing signifies "+c("dino:noMeaning")+"; a label with no shape is "+c("dino:plain")+". A missing meaning is a judgment, not a gap."],
     ["domain","What a diagram asserts stays outside","Relations about the diagram's subject, such as influence or membership, belong to each project's vocabulary ("+c("barr:")+" for Barr's charts), so DINO can describe any diagram."],
     ["order","Order belongs to readings","Diagrams carry no sequence. A reading orders them and states its source and basis: documented, analytical or published."],
@@ -1588,7 +1588,7 @@ function dinoSection(){
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
     <div class="card"><h4>Core · any diagram</h4><p style="margin:0;font-size:14px">Marks and their graphic values (ink, line, shape, position on a scale or across the sheet), conventions with their basis, the notational meanings diagrams commonly share (date, membership, title, primary, secondary, no meaning), readings, and how securely each mark is read.</p><p class="note" style="margin-top:8px"><code>vocab/dino.ttl</code></p></div>
     <div class="card"><h4>Node-link profile · labelled node-and-link diagrams</h4><p style="margin:0;font-size:14px">Written labels that name the concepts of a scheme, and the marks that connect them: arrows, enclosures, placement, undirected lines. Genealogies, stemmata and concept maps are of this kind, as are Barr's charts, from which the profile was developed.</p><p class="note" style="margin-top:8px"><code>vocab/dino-nodelink.ttl</code></p></div>
-    <div class="card"><h4>Next</h4><p style="margin:0;font-size:14px">The reading of a relation mark becomes a convention like any other (“on this diagram, an arrow signifies influence”), with its basis; in this version the analyst records it at transcription. Other kinds of diagram (charts with axes, maps, Venn diagrams) get profiles of their own.</p></div>
+    <div class="card"><h4>Next</h4><p style="margin:0;font-size:14px">The reading of a relation mark becomes a convention like any other (“on this diagram, an arrow signifies influence”), with its basis; in this version the modeller records it at transcription. Other kinds of diagram (charts with axes, maps, Venn diagrams) get profiles of their own.</p></div>
   </div>
 
   <h4 class="ss">Three layers</h4>
@@ -1653,17 +1653,17 @@ const LD_TRIG = String.raw`@base   <https://psantachiara.github.io/barr-chart/> 
       dino:certainty "certain" ; dino:checkedOn "2026-10-18"^^xsd:date .
 }
 
-# What the analyst says
+# What the modeller says
 <graph/interpretation> {
   <chart/p21/concept/cubism> skos:exactMatch <id/cubism> .
   <id/cubism> a skos:Concept , crm:E55_Type ; skos:inScheme <id/index> ; skos:prefLabel "Cubism"@en .
 
   <chart/p21/convention/ink-blue> a dino:Convention ; dino:holdsFor <chart/p21/diagram> ;
       dino:graphicValue dino:blue ; dino:signifies barr:internal ;
-      dino:basis dino:inferredByAnalyst .
+      dino:basis dino:inferredByModeller .
   <chart/p21/convention/solid> a dino:Convention ; dino:holdsFor <chart/p21/diagram> ;
       dino:graphicValue dino:solid ; dino:appliesTo dino:RelationMark ; dino:signifies dino:primary ;
-      dino:basis dino:inferredByAnalyst .
+      dino:basis dino:inferredByModeller .
 }
 
 # What follows, computed by queries/derive_meanings.rq
@@ -1675,7 +1675,7 @@ const LD_TRIG = String.raw`@base   <https://psantachiara.github.io/barr-chart/> 
 const LD_CSV = String.raw`charts.csv   p21,458,core,"MoMA Archives, AHB VI.A.38 ARCH.61 (p. 70)",…,blue=internal graphite=external,…
 nodes.csv    p21,cubism,Cubism,1907,semicircle underlined,blue,,certain,2026-10-18,transcribed,
 edges.csv    p21,cubism,futurism,influenced,solid,blue,certain,2026-10-18,transcribed,
-conventions  *,relation,solid,primary,inferredByAnalyst,`;
+conventions  *,relation,solid,primary,inferredByModeller,`;
 
 function ttlHTML(src){
   return src.split("\n").map(line=>{
@@ -1702,7 +1702,7 @@ function ldDiagram(){
     <marker id="ldarr-d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ldm d"/></marker>
   </defs>
   ${lane(0,300,"graph/p21","what sheet 458 shows")}
-  ${lane(314,120,"graph/interpretation","what the analyst says")}
+  ${lane(314,120,"graph/interpretation","what the modeller says")}
   ${lane(448,100,"graph/derived","what follows, by query")}
 
   ${box(24,36,230,"Sheet 458","crm:E22_Human-Made_Object")}
@@ -1746,9 +1746,9 @@ function ldEdition(){
     ["charts.csv","one row per chart","The sheet <code>chart/{id}</code>, a <code>crm:E22_Human-Made_Object</code>: title → <code>rdfs:label</code>, archival reference → <code>dcterms:identifier</code>, date → <code>dcterms:created</code>, notes → <code>skos:note</code>, facsimile → <code>foaf:depiction</code>. It shows a diagram (<code>crm:P65</code>, <code>crm:E36_Visual_Item</code>) that expresses the chart's <code>skos:ConceptScheme</code>. The set → <code>dcterms:type</code>; the ink key → one <code>dino:Convention</code> per ink the chart uses.","chart · interpretation"],
     ["concepts.csv","the reconciled index","One <code>skos:Concept</code> per referent, <code>id/{id}</code>, in the scheme <code>id/index</code>, typed <code>crm:E55_Type</code> (movement), <code>crm:E21_Person</code> or <code>crm:E53_Place</code>; reference name → <code>skos:prefLabel</code>.","interpretation"],
     ["nodes.csv","what is written","A concept of that chart, <code>chart/{c}/concept/{id}</code>, and a label mark <code>chart/{c}/label/{id}</code> (<code>dino:LabelMark</code>, also a <code>skosxl:Label</code>): wording → <code>skosxl:literalForm</code>; year → <code>dino:positionOnScale</code>; form and ink → <code>dino:graphicValue</code>; legend tags → <code>dino:carriesCode</code>; reading and check date → <code>dino:certainty</code>, <code>dino:checkedOn</code>. A label written at two years becomes two marks. The chart concept <code>skos:exactMatch</code> its reconciled concept.","chart · interpretation"],
-    ["edges.csv","what is drawn","A relation mark <code>chart/{c}/mark/{source}--{relation}--{target}</code> with <code>dino:from</code>, <code>dino:to</code> and <code>dino:records</code>; line and ink → <code>dino:graphicValue</code>. The kind of mark follows the relation: influence an <code>dino:Arrow</code> (<code>barr:influenced</code>), siting a <code>dino:Juxtaposition</code> (<code>barr:sitedIn</code>), membership a <code>dino:Enclosure</code> (<code>barr:memberOf</code>), an unclear link a <code>dino:Connector</code> (<code>skos:related</code>). The plain triple between the two concepts is recorded too.","chart"],
+    ["edges.csv","what is drawn","A relation mark <code>chart/{c}/mark/{source}--{relation}--{target}</code> with <code>dino:from</code>, <code>dino:to</code> and <code>dino:records</code>; line and ink → <code>dino:graphicValue</code>. The kind of mark follows the relation: influence an <code>dino:Arrow</code> (<code>barr:influenced</code>), place association a <code>dino:Juxtaposition</code> (<code>barr:associatedWithPlace</code>), membership a <code>dino:Enclosure</code> (<code>barr:memberOf</code>), an unclear link a <code>dino:Connector</code> (<code>skos:related</code>). The plain triple between the two concepts is recorded too.","chart"],
     ["legend.csv","the chart's own key","A <code>dino:Convention</code> with <code>dino:code</code> and <code>dino:basis dino:statedOnSheet</code>, signifying a concept of the chart's scheme.","chart"],
-    ["conventions.csv","conventions beyond the ink key","A <code>dino:Convention</code> for each chart where the graphic value occurs: <code>dino:appliesTo</code> label or relation marks, <code>dino:signifies</code> a meaning in <code>barr:</code>, <code>dino:basis dino:inferredByAnalyst</code>.","interpretation"],
+    ["conventions.csv","conventions beyond the ink key","A <code>dino:Convention</code> for each chart where the graphic value occurs: <code>dino:appliesTo</code> label or relation marks, <code>dino:signifies</code> a meaning in <code>barr:</code>, <code>dino:basis dino:inferredByModeller</code>.","interpretation"],
     ["layout.csv","where labels sit","<code>dino:positionAcross</code> on a label mark: where it sits across the sheet, read from the facsimile, from 0 at the left edge to 1 at the right. Plane III draws each chart with it.","chart"],
     ["occurrences.csv","labels written twice","<code>dino:fromMark</code> / <code>dino:toMark</code>: which written occurrence an arrow leaves from or reaches.","chart"],
     ["alignments.csv","analogy, not identity","<code>skos:closeMatch</code> between reconciled concepts.","interpretation"],
@@ -1756,20 +1756,20 @@ function ldEdition(){
   ];
   const graphs=[
     ["graph/{chart}","one per chart","The sheet, its diagram, its marks and their graphic values, its concept scheme and wording, the conventions stated on the sheet.","the sheet, as transcribed"],
-    ["graph/interpretation","one","The reconciled index, identity and analogy across charts (<code>skos:exactMatch</code>, <code>skos:closeMatch</code>), every inferred convention, the core and secondary sets.","the analyst (<code>dcterms:creator</code>)"],
+    ["graph/interpretation","one","The reconciled index, identity and analogy across charts (<code>skos:exactMatch</code>, <code>skos:closeMatch</code>), every inferred convention, the core and secondary sets.","the modeller (<code>dcterms:creator</code>)"],
     ["graph/readings","one","Orderings of the sheets, each with its source and basis.","the source named on each reading"],
     ["graph/derived","one","What every mark signifies, by the conventions of its own diagram.","no one: computed by query"]
   ];
   const vocabs=[
     ["dino:","https://psantachiara.github.io/dino/ns#","DINO, the Diagram Notation Ontology: marks, graphic values, conventions, readings, and the notational meanings diagrams commonly share (date, membership, title, primary, secondary, no meaning). Generic, for any diagram."],
-    ["barr:","https://psantachiara.github.io/barr-chart/ns#","What Barr's charts assert (influenced, sitedIn, memberOf), the meanings of his own typology (internal, external, source outside modern art), and the core and secondary sets."],
+    ["barr:","https://psantachiara.github.io/barr-chart/ns#","What Barr's charts assert (influenced, associatedWithPlace, memberOf), the meanings of his own typology (internal, external, source outside modern art), and the core and secondary sets."],
     ["crm:","http://www.cidoc-crm.org/cidoc-crm/","The sheet (E22), the diagram it shows (E36, P65), its parts (P106); movements, persons and places (E55, E21, E53)."],
     ["skos:, skosxl:","W3C","Each chart as a concept scheme; wording as labels; identity and analogy as mappings."],
     ["dcterms:, foaf:","DCMI, FOAF","Identifiers, dates, types, creators; facsimiles."]
   ];
   return `
   <h3 class="sh">Linked data edition <span>CSV → RDF</span></h3>
-  <p class="lede" style="font-size:14.5px">The transcription is turned into linked data before anything is compared. <strong>Each chart becomes its own graph, the analyst's decisions a separate one, and every meaning is derived by query</strong>, so what a sheet shows, what the analyst says about it and what follows from both stay apart in the data itself.</p>
+  <p class="lede" style="font-size:14.5px">The transcription is turned into linked data before anything is compared. <strong>Each chart becomes its own graph, the modeller's decisions a separate one, and every meaning is derived by query</strong>, so what a sheet shows, what the modeller says about it and what follows from both stay apart in the data itself.</p>
 
   <h4 class="ss">One arrow, modelled <span>Cubism → Futurism on 458, blue and solid</span></h4>
   <div class="ldwrap">${ldDiagram()}</div>
@@ -1807,11 +1807,11 @@ function paneMethod(){
   const steps=[
     ["Census without order","List the surviving charts and their archival references. No order is assigned: each chart is a self-contained ontology, and any sequence is recorded separately as a reading with its basis."],
     ["Typed transcription","Every entity and relation is typed in from the facsimile, chart by chart, through the Barr Chart Transcriber. Nothing is carried over from earlier datasets. Each row has a certainty and a verification date."],
-    ["Record the mark, derive the meaning","Ink, line, shape and position are recorded as seen. Each chart's conventions, stated on the sheet or inferred by the analyst, give them meaning: internal or external, primary or secondary, a source outside modern art, membership, a title. Meaning is derived by query, never entered by hand."],
+    ["Record the mark, derive the meaning","Ink, line, shape and position are recorded as seen. Each chart's conventions, stated on the sheet or inferred by the modeller, give them meaning: internal or external, primary or secondary, a source outside modern art, membership, a title. Meaning is derived by query, never entered by hand."],
     ["Reconcile, keep the wording","The same referent gets one identifier on every chart, and each chart keeps its own wording. Merges are noted in the vocabulary, and the formal difference stays visible on Planes I and V."],
-    ["Linked data","The tables become linked data described with <span class='cap'>DINO</span> 🦖, the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology: marks, the conventions that give them meaning on each chart, and readings. One graph per chart, one for the analyst's interpretation. The comparison runs as SPARQL over it."],
+    ["Linked data","The tables become linked data described with <span class='cap'>DINO</span> 🦖, the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology: marks, the conventions that give them meaning on each chart, and readings. One graph per chart, one for the modeller's interpretation. The comparison runs as SPARQL over it."],
     ["Five planes","Terminological, conceptual, structural, genetic, synchronic. Each can be run on its own; only the genetic plane uses an order."],
-    ["Readings","A reading orders some of the charts and states its basis: documented (from the archive), analytical (proposed by an analyst), or published (an order given in a publication, such as Lowry’s plate numbers, with no claim about chronology). The edit grammar is computed along it."]
+    ["Readings","A reading orders some of the charts and states its basis: documented (from the archive), analytical (proposed in an analysis of the charts), or published (an order given in a publication, such as Lowry’s plate numbers, with no claim about chronology). The edit grammar is computed along it."]
   ];
   const grammar=[
     ["insertion / deletion","An entity is written on one chart of a step and not the other."],
