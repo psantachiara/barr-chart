@@ -676,6 +676,132 @@ function sheetLayout(v, f){
   return L;
 }
 
+/* ---------- the chart as a network ----------
+   No time: every entity (currents, persons, places) is a node and every drawn relation an edge.
+   Distance from the centre is measured: the higher an entity's PageRank, the nearer the centre.
+   The angle only groups: entities of one cluster (label propagation) share a sector. Two variants:
+   "central" centres each chart on its own PageRank; "fixed" gives every entity one place, computed
+   on the union of the selected charts, so that what appears, disappears or moves stands out. */
+const NET={W:960, H:820, R:350};
+function netGraph(v, f){
+  const C=MODEL.concepts;
+  const keepN=x=>f!=="nopersons"||C[x].t!=="person";
+  const edges=v.edges.filter(e=>(f!=="influence"||e.rel==="influence") && keepN(e.s) && keepN(e.t));
+  const nodes = f==="influence" ? [...new Set(edges.flatMap(e=>[e.s,e.t]))] : v.nodes.filter(keepN);
+  return {nodes, edges};
+}
+/* PageRank and clusters on a node set, with the edges of the "Measured on" choice */
+function netMeasures(nodes, edges, mode){
+  const ns=new Set(nodes), kids={}; nodes.forEach(x=>kids[x]=[]);
+  const pairs=[], seen=new Set();
+  edges.forEach(e=>{ if(mode!=="all"&&e.rel!=="influence") return; if(!ns.has(e.s)||!ns.has(e.t)) return;
+    const k=e.s+">"+e.t; if(seen.has(k)) return; seen.add(k); kids[e.s].push(e.t); pairs.push([e.s,e.t]); });
+  const linked=new Set(pairs.flat());
+  const inG=nodes.filter(x=>linked.has(x));
+  const pr=pagerank(inG, kids);
+  return {pr, comm:communities(inG, pairs)};
+}
+function radial(nodes, pr, comm){
+  const C=MODEL.concepts, {W,H,R}=NET, cx=W/2, cy=H/2;
+  const score=x=>pr[x]||0;
+  const ranked=nodes.slice().sort((a,b)=>score(b)-score(a)||(C[a].l<C[b].l?-1:1));
+  /* sectors: clusters by size, then everything unclustered */
+  const groups=comm.map(g=>g.filter(x=>nodes.includes(x))).filter(g=>g.length);
+  const inGroup=new Set(groups.flat()); const rest=nodes.filter(x=>!inGroup.has(x));
+  if(rest.length) groups.push(rest);
+  const total=nodes.length, pref={}, sectors=[]; let a0=-Math.PI/2;
+  groups.forEach((g,gi)=>{ const w=2*Math.PI*g.length/total;
+    g.slice().sort((a,b)=>score(b)-score(a)||(a<b?-1:1)).forEach((x,j)=>pref[x]=a0+w*(j+.5)/g.length);
+    sectors.push({a0, a1:a0+w, n:g.length, rest:gi===groups.length-1&&rest.length>0}); a0+=w; });
+  /* rings filled in rank order: one node at the centre, then rings that hold more the further out they are */
+  const rings=[]; let i=0, k=0;
+  while(i<ranked.length){ const cap=k===0?1:6*k+2; rings.push(ranked.slice(i,i+cap)); i+=cap; k++; }
+  /* inner rings are given more room, since they hold the entities that are named */
+  const K=rings.length, rOf=k=>K>1? R*Math.pow(k/(K-1), .72) : 0, pos={};
+  rings.forEach((ring,k)=>{
+    const r=rOf(k);
+    if(k===0){ ring.forEach(x=>pos[x]={x:cx,y:cy,ring:0}); return; }
+    const sorted=ring.slice().sort((a,b)=>pref[a]-pref[b]), n=sorted.length, gap=2*Math.PI/n;
+    /* even spacing, rotated to sit as close as possible to each node's sector */
+    let rot=0; { let sx=0, sy=0; sorted.forEach((x,j)=>{ const d=pref[x]-j*gap; sx+=Math.cos(d); sy+=Math.sin(d); }); rot=Math.atan2(sy,sx); }
+    sorted.forEach((x,j)=>{ const th=rot+j*gap; pos[x]={x:cx+r*Math.cos(th), y:cy+r*Math.sin(th), ring:k}; });
+  });
+  return {pos, sectors, cx, cy, rings:K, radii:rings.map((_,k)=>rOf(k))};
+}
+function netLayout(v, f, kind, shared){
+  const C=MODEL.concepts, mode=state.gmode;
+  const {nodes, edges}=netGraph(v, f);
+  const own=netMeasures(nodes, edges, mode);
+  const geo = kind==="fixed" ? shared : radial(nodes, own.pr, own.comm);
+  const maxPr = kind==="fixed" ? shared.maxPr : Math.max(1e-9, ...Object.values(own.pr));
+  const rank=nodes.slice().sort((a,b)=>(own.pr[b]||0)-(own.pr[a]||0)||(a<b?-1:1));
+  const labelled=new Set(rank.slice(0, kind==="fixed"?14:18).filter(x=>own.pr[x]));
+  const present=new Set(nodes);
+  const ns=nodes.map(x=>{ const p=geo.pos[x]||{x:geo.cx,y:geo.cy};
+    return {id:x, x:p.x, y:p.y, r:3+11*Math.sqrt((own.pr[x]||0)/maxPr), label:surface(v,x), type:C[x].t,
+      boxed:(v.form[x]||[]).includes("boxed"), ext:v.ext.has(x), showLabel:labelled.has(x), pr:own.pr[x]||0}; });
+  const ghosts = kind==="fixed" ? Object.keys(geo.pos).filter(x=>!present.has(x)).map(x=>({id:x, x:geo.pos[x].x, y:geo.pos[x].y, label:C[x].l})) : [];
+  const by={}; ns.forEach(n=>by[n.id]=n);
+  return {network:true, kind, nodes:ns, ghosts, edges:edges.map(e=>Object.assign({},e,{a:by[e.s], b:by[e.t]})).filter(e=>e.a&&e.b),
+    sectors:geo.sectors, cx:geo.cx, cy:geo.cy, R:NET.R, radii:geo.radii, rings:geo.rings, width:NET.W, height:NET.H};
+}
+/* one place per entity across the selected charts: the union graph, measured and laid out once */
+function netShared(vs, f){
+  const nodes=new Set(), edges=[], seen=new Set();
+  vs.forEach(v=>{ const g=netGraph(v,f); g.nodes.forEach(x=>nodes.add(x));
+    g.edges.forEach(e=>{ const k=e.s+"|"+e.rel+"|"+e.t; if(!seen.has(k)){ seen.add(k); edges.push(e); } }); });
+  const ns=[...nodes], m=netMeasures(ns, edges, state.gmode), geo=radial(ns, m.pr, m.comm);
+  /* node sizes comparable across charts: scaled to the largest PageRank on any selected chart */
+  geo.maxPr=Math.max(1e-9, ...vs.map(v=>{ const g=netGraph(v,f); return Math.max(0, ...Object.values(netMeasures(g.nodes,g.edges,state.gmode).pr)); }));
+  return geo;
+}
+function svgNetwork(L, key){
+  const {W,H}={W:L.width,H:L.height}, cx=L.cx, cy=L.cy;
+  const rings=L.radii.slice(1).map(r=>`<circle cx="${cx}" cy="${cy}" r="${f2(r)}" fill="none" stroke="var(--rule)" stroke-width=".6"/>`);
+  const seps=L.sectors.length>1 ? L.sectors.map(s=>`<line x1="${cx}" y1="${cy}" x2="${f2(cx+(L.R+26)*Math.cos(s.a0))}" y2="${f2(cy+(L.R+26)*Math.sin(s.a0))}" stroke="var(--rule-2)" stroke-width=".6" stroke-dasharray="2 4"/>`).join("") : "";
+  const slabels=L.sectors.map((s,i)=>{ const m=(s.a0+s.a1)/2, rr=L.R+40;
+    return `<text x="${f2(cx+rr*Math.cos(m))}" y="${f2(cy+rr*Math.sin(m)+3)}" text-anchor="middle" font-family="var(--mono)" font-size="9.5" fill="var(--ink-3)">${s.rest?"unclustered":"cluster "+(i+1)}</text>`; }).join("");
+  const ghosts=(L.ghosts||[]).map(g=>`<circle cx="${f2(g.x)}" cy="${f2(g.y)}" r="2.2" fill="none" stroke="var(--ink-3)" stroke-width=".7" opacity=".45"><title>${esc(g.label)} · not on this chart</title></circle>`).join("");
+  const arcs=L.edges.map(e=>{
+    const a=e.a, b=e.b, dx=b.x-a.x, dy=b.y-a.y, d=Math.hypot(dx,dy)||1, ux=dx/d, uy=dy/d;
+    const x1=a.x+ux*(a.r+1), y1=a.y+uy*(a.r+1), x2=b.x-ux*(b.r+2), y2=b.y-uy*(b.r+2);
+    if(e.rel!=="influence"){
+      const col=e.rel==="siting"?"var(--moss)":e.rel==="membership"?"var(--indigo)":"var(--ink-3)";
+      return `<line x1="${f2(x1)}" y1="${f2(y1)}" x2="${f2(x2)}" y2="${f2(y2)}" stroke="${col}" stroke-width=".7" stroke-dasharray="${e.rel==="siting"?"2 3":e.rel==="membership"?"1 3":"5 2 1 2"}" opacity=".5"/>`;
+    }
+    const col=e.scope==="external"?"var(--oxblood)":e.scope==="internal"?"var(--ink-2)":"var(--ink-3)";
+    /* a slight bend, so that arrows in both directions between two entities stay apart */
+    const mx=(x1+x2)/2-uy*d*.08, my=(y1+y2)/2+ux*d*.08;
+    return `<path d="M${f2(x1)} ${f2(y1)} Q ${f2(mx)} ${f2(my)} ${f2(x2)} ${f2(y2)}" fill="none" stroke="${col}" stroke-width="1"
+      ${e.line==="dotted"?'stroke-dasharray="3 3"':""} opacity=".6" marker-end="url(#${e.scope==="external"?"ax":"ah"}-${key})"/>`;
+  }).join("");
+  const boxes=[], CH=6.1, place={};
+  L.nodes.filter(n=>n.showLabel).sort((a,b)=>b.pr-a.pr).forEach(n=>{
+    const w=n.label.length*CH, h=12, out=n.x>=cx;
+    const cands=[[out?"start":"end", out?n.x+n.r+4:n.x-n.r-4, n.y+3.3], [out?"end":"start", out?n.x-n.r-4:n.x+n.r+4, n.y+3.3],
+      ["middle", n.x, n.y-n.r-4], ["middle", n.x, n.y+n.r+11]];
+    for(const [anc,x,y] of cands){
+      const x0=anc==="start"?x:anc==="end"?x-w:x-w/2, b={x0, x1:x0+w, y0:y-9, y1:y-9+h};
+      const hit=boxes.some(o=>!(b.x1<o.x0||b.x0>o.x1||b.y1<o.y0||b.y0>o.y1))
+        || L.nodes.some(m=>m!==n && m.r>5 && m.x+m.r>b.x0 && m.x-m.r<b.x1 && m.y+m.r>b.y0 && m.y-m.r<b.y1);
+      if(!hit){ boxes.push(b); place[n.id]={anc,x,y}; break; }
+    }
+  });
+  const nodes=L.nodes.slice().sort((a,b)=>a.r-b.r).map(n=>{
+    const c=KIND_VAR[n.type], P=place[n.id];
+    const shape=n.boxed
+      ? `<rect x="${f2(n.x-n.r)}" y="${f2(n.y-n.r)}" width="${f2(2*n.r)}" height="${f2(2*n.r)}" fill="var(--card)" stroke="${c}" stroke-width="1"/>`
+      : `<circle cx="${f2(n.x)}" cy="${f2(n.y)}" r="${f2(n.r)}" fill="var(--card)" stroke="${c}" stroke-width="1"/>`;
+    const lab=P?`<text class="nlabel" x="${f2(P.x)}" y="${f2(P.y)}" text-anchor="${P.anc}" fill="${c}" paint-order="stroke" stroke="var(--card)" stroke-width="3" stroke-linejoin="round">${esc(n.label)}</text>`:"";
+    return `<g class="nd" data-id="${esc(n.id)}"><title>${esc(n.label)} · PageRank ${f3(n.pr)}</title>${shape}
+      ${n.ext?`<circle cx="${f2(n.x-n.r-4)}" cy="${f2(n.y)}" r="2.4" fill="var(--oxblood)"/>`:""}${lab}</g>`;
+  }).join("");
+  const marker=(id,col)=>`<marker id="${id}-${key}" viewBox="0 0 8 8" refX="7" refY="4" markerUnits="userSpaceOnUse" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 1 L7 4 L0 7 z" fill="${col}"/></marker>`;
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${Math.round(W*1.15)}px;height:auto;margin:0 auto;display:block" data-g="${esc(key)}" role="img" aria-label="Network of chart ${esc(key)}">
+    <defs>${marker("ah","var(--ink-3)")}${marker("ax","var(--oxblood)")}</defs>
+    <g class="cam">${rings.join("")}${seps}${slabels}${ghosts}${arcs}${nodes}</g></svg>`;
+}
+
 /* ============================================================
    VIEWS
    ============================================================ */
@@ -685,7 +811,7 @@ const esc = s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;
 const f3 = n=>n.toFixed(3), f2 = n=>n.toFixed(2);
 
 const state = {plane:"charts", sel:new Set(), secondary:false,
-  termQ:"", termFilter:"all", gfilter:"all", gmode:"influence", clusterOf:null,
+  termQ:"", termFilter:"all", gfilter:"all", gview:"positional", gmode:"influence", clusterOf:null,
   reading:null, custom:[], step:0, mxMeasure:"entities", mxSel:null, thresh:4};
 
 function strip(id, small, test){
@@ -920,7 +1046,16 @@ function paneConc(){
 function paneStruct(){
   const C=MODEL.concepts, vs=sel(), mode=state.gmode;
   const f=state.gfilter;
+  const gv=state.gview, shared = gv==="fixed" ? netShared(vs,f) : null;
   const graphs = vs.map(v=>{
+    if(gv!=="positional"){
+      const N=netLayout(v,f,gv,shared);
+      return `<div class="gwrap">
+      <div class="ghead"><b>${esc(v.name)}</b><em>${N.nodes.length} entities · ${N.edges.length} relations · nearer the centre = higher PageRank, on ${mode==="all"?"all relations":"influence arrows"}${gv==="fixed"&&N.ghosts.length?` · ${N.ghosts.length} not on this chart`:""}</em></div>
+      ${svgNetwork(N,v.id)}
+      <div class="zhint">scroll to zoom · drag to pan · double-click to reset</div>
+    </div>`;
+    }
     const L=sheetLayout(v,f);
     const keepE=e=>f==="influence"?e.rel==="influence":f==="nopersons"?C[e.s].t!=="person"&&C[e.t].t!=="person":true;
     const ents=f==="influence"?new Set(v.edges.filter(e=>e.rel==="influence").flatMap(e=>[e.s,e.t])).size
@@ -967,7 +1102,7 @@ function paneStruct(){
   const sw=(d,c,w)=>`<svg width="26" height="8" style="vertical-align:-1px"><line x1="0" y1="4" x2="26" y2="4" stroke="${c}" stroke-width="${w||1.2}" ${d?`stroke-dasharray="${d}"`:""}/></svg>`;
   return `
   <h2 class="ph">Plane III · Structural</h2>
-  <p class="lede">Position and relational logic. Each chart is drawn on its own year scale, with every relation it draws, and measured as a graph. <strong>Influence arrows and the other relations are measured separately</strong>, because siting and membership say where and with whom, not what caused what.</p>
+  <p class="lede">Position and relational logic. Each chart is drawn as Barr laid it out, on its own year scale, or as a network with time set aside, and measured as a graph. <strong>Influence arrows and the other relations are measured separately</strong>, because siting and membership say where and with whom, not what caused what.</p>
 
   <div class="ctl">
     <label>Draw</label>
@@ -975,9 +1110,14 @@ function paneStruct(){
       ${[["all","Arrows, places and names"],["influence","Influence arrows only"],["nopersons","Without persons"]]
         .map(([k,l])=>`<button data-k="${k}" class="${f===k?"on":""}">${l}</button>`).join("")}
     </div>
+    <label style="margin-left:14px">View</label>
+    <div class="seg" id="gview">
+      ${[["positional","Positional"],["central","Network: centrality"],["fixed","Network: fixed"]]
+        .map(([k,l])=>`<button data-k="${k}" class="${state.gview===k?"on":""}">${l}</button>`).join("")}
+    </div>
   </div>
   <div class="grid">${graphs}</div>
-  <div class="legend" style="margin:10px 0 0">
+  ${state.gview==="positional"?`  <div class="legend" style="margin:10px 0 0">
     <span>${sw("","var(--ink-3)")} influence (no meaning in the ink key)</span>
     <span>${sw("","var(--ink-2)")} internal</span>
     <span>${sw("","var(--oxblood)")} external</span>
@@ -998,6 +1138,29 @@ function paneStruct(){
     <p><b>An arrow in violet runs backward on the scale</b>: its tail is read later than its head. Nothing is moved to hide it, so it is either Barr's drawing or a reading to check against the facsimile.</p>
   </div>
 
+`:`  <div class="legend" style="margin:10px 0 0">
+    <span>${sw("","var(--ink-3)")} influence (no meaning in the ink key)</span>
+    <span>${sw("","var(--ink-2)")} internal</span>
+    <span>${sw("","var(--oxblood)")} external</span>
+    <span>${sw("3 3","var(--ink-2)")} dotted = secondary</span>
+    <span>${sw("2 3","var(--moss)",.9)} siting</span>
+    <span>${sw("1 3","var(--indigo)",.9)} membership</span>
+  </div>
+  <div class="legend" style="margin:6px 0 0">
+    <span><svg width="14" height="14" style="vertical-align:-3px"><circle cx="7" cy="7" r="5.5" fill="none" stroke="var(--ink-2)"/></svg> entity · size = PageRank</span>
+    <span><svg width="14" height="14" style="vertical-align:-3px"><rect x="1.5" y="1.5" width="11" height="11" fill="none" stroke="var(--ink-2)"/></svg> boxed on the chart</span>
+    <span><svg width="10" height="10" style="vertical-align:-1px"><circle cx="5" cy="5" r="3" fill="var(--oxblood)"/></svg> external entity (ink key)</span>
+    ${state.gview==="fixed"?`<span><svg width="10" height="10" style="vertical-align:-1px"><circle cx="5" cy="5" r="2.4" fill="none" stroke="var(--ink-3)"/></svg> on another selected chart only</span>`:""}
+    ${KINDS.map(t=>`<span>${dot(t)}${KIND_LABEL[t]}</span>`).join("")}
+  </div>
+  <div class="callout" style="margin-top:16px">
+    <p><b>Time is set aside.</b> Every entity, persons and places included, is a node, and every relation the chart draws is an edge. <b>Distance from the centre is measured:</b> the higher an entity's PageRank, the nearer the centre, on the graph chosen under “Measured on” below. Node size is PageRank too. Only the most central entities are named; hover over the others.</p>
+    <p><b>The angle only groups.</b> Entities in the same cluster (label propagation, as in the table below) share a sector of the circle; entities in no cluster share the last one. Where two entities sit within a ring carries no meaning.</p>
+    ${state.gview==="fixed"?`<p><b>Fixed:</b> every entity keeps one place on all the selected charts, worked out on all of them together, so what appears, disappears or changes size from chart to chart stands out. Empty dots are entities on another selected chart but not this one. Node sizes share one scale across the charts.</p>`
+      :`<p><b>Centrality:</b> each chart is centred on its own most central entities, so the same entity can sit in a different place on each chart.</p>`}
+  </div>
+
+`}
   <h3 class="sh">Conventions <span>how each chart's marks are given meaning</span></h3>
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">${vs.map(v=>`<div class="card">
       <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px">
@@ -1662,6 +1825,7 @@ function bindPane(){
   seg("termfilt", b=>state.termFilter=b.dataset.k);
   seg("gfilt", b=>state.gfilter=b.dataset.k);
   seg("gmode", b=>state.gmode=b.dataset.k);
+  seg("gview", b=>state.gview=b.dataset.k);
   seg("clusterof", b=>state.clusterOf=b.dataset.k);
   seg("reading", b=>{state.reading=b.dataset.k; state.step=0;});
   seg("step", b=>state.step=+b.dataset.i);
