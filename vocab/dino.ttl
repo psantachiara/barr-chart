@@ -147,8 +147,10 @@ dino:GraphicValue a owl:Class ;
     rdfs:label "Graphic value"@en ;
     rdfs:comment "A value a mark can take on one graphical dimension."@en .
 
-dino:Ink a owl:Class ; rdfs:subClassOf dino:GraphicValue ; rdfs:label "Ink"@en .
-dino:LineStyle a owl:Class ; rdfs:subClassOf dino:GraphicValue ; rdfs:label "Line style"@en .
+dino:Ink a owl:Class ; rdfs:subClassOf dino:GraphicValue ; rdfs:label "Ink"@en ;
+    rdfs:comment "The ink or medium a mark is drawn in."@en .
+dino:LineStyle a owl:Class ; rdfs:subClassOf dino:GraphicValue ; rdfs:label "Line style"@en ;
+    rdfs:comment "How a drawn line is drawn: solid, dotted, dashed."@en .
 dino:Shape a owl:Class ; rdfs:subClassOf dino:GraphicValue ; rdfs:label "Shape"@en ;
     rdfs:comment "A shape drawn with or around a label."@en .
 dino:Dimension a owl:Class ; rdfs:subClassOf dino:GraphicValue ; rdfs:label "Dimension"@en ;
@@ -213,7 +215,8 @@ dino:basis a owl:ObjectProperty ;
     rdfs:range dino:Basis ;
     rdfs:comment "Where a convention, or a reading, comes from."@en .
 
-dino:Basis a owl:Class ; rdfs:subClassOf skos:Concept ; rdfs:label "Basis"@en .
+dino:Basis a owl:Class ; rdfs:subClassOf skos:Concept ; rdfs:label "Basis"@en ;
+    rdfs:comment "Where a convention or a reading comes from."@en .
 dino:bases a skos:ConceptScheme ; rdfs:label "DINO bases"@en .
 
 dino:statedOnSheet a dino:Basis ; skos:inScheme dino:bases ;
@@ -240,7 +243,7 @@ dino:noMeaning a skos:Concept ;
 
 dino:Reading a owl:Class ;
     rdfs:label "Reading"@en ;
-    rdfs:comment "An ordering of several diagrams proposed by someone, with a basis. Order belongs to the reading, not to the diagrams: the diagrams carry no sequence of their own."@en .
+    rdfs:comment "An ordering of several diagrams, with its source and basis. Order belongs to the reading, not to the diagrams: the diagrams carry no sequence of their own."@en .
 
 dino:orders a owl:ObjectProperty ;
     rdfs:label "orders"@en ;

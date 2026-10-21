@@ -1266,6 +1266,64 @@ function conventionList(v){
     ${stated.length?`<div class="kv" style="margin-top:3px">stated on the sheet: the legend above</div>`:""}`;
 }
 /* ============================================================
+   METHOD — DINO, THE DIAGRAM NOTATION ONTOLOGY (terms read from vocab/dino.ttl at build time)
+   ============================================================ */
+function dinoSection(){
+  const O=(DATA&&DATA.ontology)||{classes:[],properties:[],values:[]};
+  const c=t=>`<code>${esc(t)}</code>`;
+  const layers=[
+    ["Mark","What is on the sheet: a written label, an arrow, an enclosure, with its ink, line, shape and position. A mark carries no meaning of its own.","On 458, an arrow from Cubism to Futurism, in blue, solid."],
+    ["Convention","A rule valid for one diagram that gives a graphic value a meaning. Its basis is stated: written on the sheet, as in a legend, or inferred by the analyst.","On 458, blue signifies internal influence; a solid line, primary."],
+    ["Proposition","What the diagram asserts once its conventions are applied. Derived by query from marks and conventions, never entered by hand.","On 458, Cubism influenced Futurism: internal, primary."]
+  ];
+  const principles=[
+    ["derived","Meaning is computed, never entered","A mark signifies something only through a convention of its own diagram; the derivation is a SPARQL query anyone can rerun."],
+    ["per diagram","Conventions belong to one diagram, with a basis","The same graphic value can mean different things on different diagrams, and different values the same thing. Each convention says whether the sheet states it or the analyst infers it."],
+    ["absence","Absence is recorded","An ink that means nothing signifies "+c("dino:noMeaning")+"; a label with no shape is "+c("dino:plain")+". A missing meaning is a judgment, not a gap."],
+    ["domain","What a diagram asserts stays outside","Relations about the diagram's subject, such as influence or membership, belong to each project's vocabulary ("+c("barr:")+" for Barr's charts), so DINO can describe any diagram."],
+    ["order","Order belongs to readings","Diagrams carry no sequence. A reading orders them and states its source and basis: documented, analytical or published."],
+    ["reuse","Reuse first","The sheet is a CIDOC CRM human-made object that shows the diagram, a visual item; the diagram's concepts are a SKOS scheme; a written label is at once a SKOS-XL label and a mark."]
+  ];
+  const groups=[];
+  O.values.forEach(v=>{ let g=groups.find(x=>x.type===v.type); if(!g){g={type:v.type,items:[]};groups.push(g);} g.items.push(v); });
+  const typeName={"dino:Ink":"Ink","dino:LineStyle":"Line style","dino:Shape":"Shape","dino:Dimension":"Dimension","dino:Basis":"Basis","skos:Concept":"Meaning"};
+  return `
+  <h3 class="sh">DINO, the Diagram Notation Ontology <span>dino: · version ${esc(O.version||"")}</span></h3>
+  <p class="lede" style="font-size:14.5px">Barr's charts mean through how they are drawn, and the same drawing means different things on different sheets: graphite means nothing on 456 and 457 and external influence on 458, while red on the Cover means what graphite means on 458. Existing vocabularies describe the sheet as an object (CIDOC CRM), the concepts a chart names (SKOS), or the mapping from data to graphics (VISO); none records a mark together with the rule, valid for one diagram, that gives it a meaning. <strong>DINO describes how a hand-drawn diagram means</strong>: its marks, the conventions that give them meaning, and the readings that order several diagrams.</p>
+
+  <h4 class="ss">Three layers</h4>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">${layers.map(([t,d,e],i)=>`<div class="card">
+    <h4>${i+1} · ${t}</h4><p style="margin:0;font-size:14px">${d}</p><p class="note" style="margin-top:8px">${e}</p></div>`).join("")}</div>
+
+  <h4 class="ss">Design principles</h4>
+  <div class="oplist">${principles.map(([k,t,d])=>`<div class="oprow"><div class="opk">${k}</div><div class="opb">${t}<span class="opn" style="font-style:normal">${d}</span></div></div>`).join("")}</div>
+
+  <h4 class="ss">Classes <span>${O.classes.length}</span></h4>
+  <div class="tw"><table class="dt"><thead><tr><th>Class</th><th>Subclass of</th><th>Definition</th></tr></thead><tbody>
+    ${O.classes.map(k=>`<tr><td>${c(k.term)}</td><td>${k.sub.map(c).join(" ")||'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}</td></tr>`).join("")}
+  </tbody></table></div>
+
+  <h4 class="ss">Properties <span>${O.properties.length}</span></h4>
+  <div class="tw"><table class="dt"><thead><tr><th>Property</th><th>Domain</th><th>Range</th><th>Definition</th></tr></thead><tbody>
+    ${O.properties.map(k=>`<tr><td>${c(k.term)}${k.kind==="data"?' <span class="kv">literal</span>':""}</td><td>${k.domain?c(k.domain):'<span style="color:var(--ink-3)">any</span>'}</td><td>${k.range?c(k.range):'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}</td></tr>`).join("")}
+  </tbody></table></div>
+
+  <h4 class="ss">Controlled values <span>SKOS concepts</span></h4>
+  <div class="tw"><table class="dt"><thead><tr><th>Kind</th><th>Values</th><th>Definitions</th></tr></thead><tbody>
+    ${groups.map(g=>`<tr><td class="lbl">${esc(typeName[g.type]||g.type)}</td><td class="wrap">${g.items.map(v=>c(v.term)).join(" ")}</td>
+      <td class="lbl wrap">${g.items.filter(v=>v.def).map(v=>`<b>${esc(v.label)}</b>: ${esc(v.def)}`).join("<br>")||'<span style="color:var(--ink-3)">—</span>'}</td></tr>`).join("")}
+  </tbody></table></div>
+
+  <h4 class="ss">Related work</h4>
+  <div class="oplist">
+    <div class="oprow"><div class="opk">VISO</div><div class="opb">The Visualization Ontology and RVL<span class="opn" style="font-style:normal">Model graphic attributes in order to produce visualizations, mapping data to graphics. DINO runs the other way: from graphics, through a diagram's own conventions, to meaning. Aligned with, not imported.</span></div></div>
+    <div class="oprow"><div class="opk">DnS</div><div class="opb">Descriptions and Situations (DOLCE)<span class="opn" style="font-style:normal">A convention behaves like a Description that a diagram's marks satisfy. Not imported.</span></div></div>
+    <div class="oprow"><div class="opk">CIDOC CRM</div><div class="opb">Terms DINO does not use, and why<span class="opn" style="font-style:normal">${c("crm:E37_Mark")} covers signatures and similar identifying marks; ${c("crm:P138_represents")} is for depiction, and a label does not depict Cubism. A label mark is closest to ${c("crm:E34_Inscription")}, at once a linguistic object and a mark.</span></div></div>
+  </div>
+  <p class="note">Defined in <code>vocab/dino.ttl</code>, namespace <code>${esc(O.iri||"")}</code>. The tables above are read from that file when this page is built.</p>`;
+}
+
+/* ============================================================
    METHOD — LINKED DATA EDITION (the mapping from transcription to RDF)
    ============================================================ */
 const LD_TRIG = String.raw`@base   <https://psantachiara.github.io/barr-chart/> .
@@ -1509,6 +1567,8 @@ function paneMethod(){
     ${grammar.map(([a,b])=>`<tr><td style="color:var(--oxblood)">${esc(a)}</td><td class="lbl">${esc(b)}</td></tr>`).join("")}
   </tbody></table></div>
   <p class="note">On Plane V the same tests run without a direction: “only on A”, “only on B”, worded differently, rewired, restyled.</p>
+
+  ${dinoSection()}
 
   ${ldEdition()}
 

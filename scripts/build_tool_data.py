@@ -151,8 +151,47 @@ for r in run("readings.rq"):
                       "charts": order, "note": str(r.note or "")})
 sequences.sort(key=lambda s: s["id"])
 
+# ---- the ontology itself, for the Method page: every DINO term, in the order vocab/dino.ttl gives
+from rdflib import Graph, RDF, RDFS, OWL
+from rdflib.namespace import SKOS as SK
+ttl_text = (ROOT / "vocab" / "dino.ttl").read_text()
+onto = Graph().parse(ROOT / "vocab" / "dino.ttl")
+def qn(u):
+    s = str(u)
+    for pfx, ns in (("dino:", DINO), ("crm:", CRM), ("skos:", SKOS), ("skosxl:", "http://www.w3.org/2008/05/skos-xl#"),
+                    ("rdf:", str(RDF)), ("owl:", str(OWL)), ("xsd:", "http://www.w3.org/2001/XMLSchema#")):
+        if s.startswith(ns):
+            return pfx + s[len(ns):]
+    return s
+def pos(u):
+    m = re.search(r"^" + re.escape(qn(u)) + r"\s+a\s", ttl_text, re.M)     # where the term is declared
+    return m.start() if m else 10**9
+def txt(u, *props):
+    for pr in props:
+        v = onto.value(u, pr)
+        if v is not None:
+            return str(v)
+    return ""
+dino_terms = lambda: [u for u in set(onto.subjects()) if str(u).startswith(DINO)]
+ontology = {
+    "iri": DINO, "version": str(onto.value(URIRef(DINO.rstrip("#")), OWL.versionInfo) or ""),
+    "classes": [{"term": qn(u), "label": txt(u, RDFS.label), "sub": sorted(qn(o) for o in onto.objects(u, RDFS.subClassOf)),
+                 "def": txt(u, RDFS.comment, SK.definition)}
+                for u in sorted((u for u in dino_terms() if (u, RDF.type, OWL.Class) in onto), key=pos)],
+    "properties": [{"term": qn(u), "label": txt(u, RDFS.label),
+                    "kind": "data" if (u, RDF.type, OWL.DatatypeProperty) in onto else "object",
+                    "domain": qn(onto.value(u, RDFS.domain)) if onto.value(u, RDFS.domain) else "",
+                    "range": qn(onto.value(u, RDFS.range)) if onto.value(u, RDFS.range) else "",
+                    "def": txt(u, RDFS.comment)}
+                   for u in sorted((u for u in dino_terms() if (u, RDF.type, OWL.ObjectProperty) in onto
+                                    or (u, RDF.type, OWL.DatatypeProperty) in onto), key=pos)],
+    "values": [{"term": qn(u), "label": txt(u, SK.prefLabel), "type": qn(onto.value(u, RDF.type)),
+                "def": txt(u, SK.definition)}
+               for u in sorted((u for u in dino_terms() if onto.value(u, SK.prefLabel) is not None), key=pos)],
+}
+
 out = {"generated_from": "out/barr-charts.trig (by SPARQL, queries/tool/)", "concepts": concepts,
-       "versions": versions, "sequences": sequences}
+       "versions": versions, "sequences": sequences, "ontology": ontology}
 (ROOT / "tool").mkdir(exist_ok=True)
 (ROOT / "tool" / "barr-charts.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
 core = [v["name"] for v in versions if v["set"] == "core"]
