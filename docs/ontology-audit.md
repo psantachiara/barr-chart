@@ -24,7 +24,7 @@ Reuse comes first. A term is minted only where no established vocabulary has it,
 | `dcterms:` | Dublin Core terms | identifiers, dates, creators, audience, medium |
 | `foaf:` | FOAF | facsimile images |
 | Getty AAT, ULAN, TGN; Wikidata | external authorities | targets of `skos:exactMatch` / `skos:closeMatch` for movements, persons, places |
-| VISO (`http://purl.org/viso/`) | Visualization Ontology (Polowinski & Voigt) | related work only. Its GRAPHIC module models graphic attributes (colour, shape, texture) and graphic relations (linking, containment) for producing visualizations; its companion RVL maps data to graphics. Our conventions run the other way, from graphics to meaning. Version 0.6, maintenance uncertain: aligned with, not depended on. |
+| VISO (`http://purl.org/viso/`) | Visualization Ontology (Polowinski & Voigt) | related work only. Its GRAPHIC module models graphic attributes (colour, shape, texture) and graphic relations (linking, containment) for producing visualizations; its companion RVL maps data to graphics. Our conventions run the other way, from graphics to meaning. Version 0.6, maintenance uncertain: compared with, not aligned or depended on. |
 | DOLCE+DnS (Gangemi) | Descriptions and Situations pattern | related work for the later formalization: a convention behaves like a Description that a chart's marks satisfy. Not imported. |
 
 ## 1. The chart as a record
@@ -68,7 +68,7 @@ Reuse comes first. A term is minted only where no established vocabulary has it,
 | need | current term | reuse | note |
 |---|---|---|---|
 | a mark | `bc:Mark` | **mint** `Mark`, `rdfs:subClassOf crm:E36_Visual_Item` | not `crm:E37_Mark`, which covers signatures and similar identifying marks |
-| kinds of mark: arrow, label, enclosure, underline | `bc:form` (strings) | **mint** as SKOS concepts | aligned to VISO GRAPHIC where a counterpart exists |
+| kinds of mark: arrow, label, enclosure, underline | `bc:form` (strings) | **mint** as SKOS concepts | not aligned to VISO GRAPHIC: compared only, in related work |
 | graphic values: inks, line styles, shapes | `bc:ink`, line, `bc:form` (strings) | **mint** as SKOS concepts | as above |
 | position on the chart's year scale | `bc:yearOnScale` | **mint** | a reading of position, governed by the chart's scale convention |
 | what a mark notates | (implicit) | **mint** `notates` | `crm:P138_represents` is for depiction; a label does not depict Cubism |

@@ -1314,12 +1314,6 @@ function dinoSection(){
       <td class="lbl wrap">${g.items.filter(v=>v.def).map(v=>`<b>${esc(v.label)}</b>: ${esc(v.def)}`).join("<br>")||'<span style="color:var(--ink-3)">—</span>'}</td></tr>`).join("")}
   </tbody></table></div>
 
-  <h4 class="ss">Related work</h4>
-  <div class="oplist">
-    <div class="oprow"><div class="opk">VISO</div><div class="opb">The Visualization Ontology and RVL<span class="opn" style="font-style:normal">Model graphic attributes in order to produce visualizations, mapping data to graphics. DINO runs the other way: from graphics, through a diagram's own conventions, to meaning. Aligned with, not imported.</span></div></div>
-    <div class="oprow"><div class="opk">DnS</div><div class="opb">Descriptions and Situations (DOLCE)<span class="opn" style="font-style:normal">A convention behaves like a Description that a diagram's marks satisfy. Not imported.</span></div></div>
-    <div class="oprow"><div class="opk">CIDOC CRM</div><div class="opb">Terms DINO does not use, and why<span class="opn" style="font-style:normal">${c("crm:E37_Mark")} covers signatures and similar identifying marks; ${c("crm:P138_represents")} is for depiction, and a label does not depict Cubism. A label mark is closest to ${c("crm:E34_Inscription")}, at once a linguistic object and a mark.</span></div></div>
-  </div>
   <p class="note">Defined in <code>vocab/dino.ttl</code>, namespace <code>${esc(O.iri||"")}</code>. The tables above are read from that file when this page is built.</p>`;
 }
 
