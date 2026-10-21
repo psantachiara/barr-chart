@@ -146,6 +146,31 @@ h3.sh span{float:right; font-family:var(--mono); font-size:10px; letter-spacing:
 .strip i.off{opacity:.28}
 .strip.sm i{width:7px; height:11px}
 
+/* ---------- linked data ---------- */
+.ldwrap{overflow-x:auto; border:1px solid var(--rule); background:var(--paper)}
+.ldwrap svg{display:block; min-width:860px; width:100%; height:auto}
+.ldlane{fill:var(--paper-2)}
+.ldln{font-family:var(--mono); font-size:11px; fill:var(--oxblood)}
+.ldlw{font-family:var(--prose); font-style:italic; font-size:12px; fill:var(--ink-3)}
+.ldb rect{fill:var(--card); stroke:var(--rule-2)}
+.ldb.mark rect{stroke:var(--ink-2)}
+.ldb.der rect{stroke:var(--oxblood); stroke-dasharray:4 3}
+.ldb .t1{font-family:var(--disp); font-size:14px; font-weight:600; fill:var(--ink)}
+.ldb .t2{font-family:var(--mono); font-size:10.5px; fill:var(--ink-2)}
+.ldp rect{fill:var(--paper-3); stroke:var(--rule-2)}
+.ldp text{font-family:var(--mono); font-size:10.5px; fill:var(--ink)}
+.lde{fill:none; stroke:var(--ink-3); stroke-width:1.2}
+.lde.d{stroke:var(--oxblood); stroke-dasharray:4 3}
+.ldm{fill:var(--ink-3)} .ldm.d{fill:var(--oxblood)}
+.ldl{font-family:var(--mono); font-size:10px; fill:var(--ink-2); paint-order:stroke; stroke:var(--paper-2); stroke-width:4px; stroke-linejoin:round}
+pre.ttl{font-family:var(--mono); font-size:11.5px; line-height:1.6; background:var(--paper-2); border:1px solid var(--rule); padding:14px 16px; overflow-x:auto; margin:0; white-space:pre; color:var(--ink)}
+.ttl .tc{color:var(--ink-3); font-style:italic}
+.ttl .tg{color:var(--oxblood); font-weight:600}
+.ttl .tp{color:var(--indigo)}
+table.dt td.wrap{white-space:normal; min-width:300px; line-height:1.5}
+table.dt td.wrap code{font-size:.82em}
+h4.ss{font-family:var(--disp); font-size:16px; letter-spacing:.01em; color:var(--ink); margin:28px 0 10px; font-weight:600}
+h4.ss span{float:right; font-family:var(--mono); font-size:10px; letter-spacing:.04em; color:var(--ink-3); text-transform:none; font-weight:400}
 /* ---------- tables ---------- */
 table.dt{border-collapse:collapse; width:100%; font-family:var(--mono); font-size:11.5px}
 table.dt th{
@@ -1241,6 +1266,188 @@ function conventionList(v){
     ${stated.length?`<div class="kv" style="margin-top:3px">stated on the sheet: the legend above</div>`:""}`;
 }
 /* ============================================================
+   METHOD — LINKED DATA EDITION (the mapping from transcription to RDF)
+   ============================================================ */
+const LD_TRIG = String.raw`@base   <https://psantachiara.github.io/barr-chart/> .
+@prefix dino:   <https://psantachiara.github.io/dino/ns#> .
+@prefix barr:   <https://psantachiara.github.io/barr-chart/ns#> .
+@prefix crm:    <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+# What sheet 458 shows
+<graph/p21> {
+  <chart/p21> a crm:E22_Human-Made_Object ; rdfs:label "458" ;
+      crm:P65_shows_visual_item <chart/p21/diagram> .
+  <chart/p21/diagram> a crm:E36_Visual_Item ; dino:expresses <chart/p21/scheme> ;
+      crm:P106_is_composed_of <chart/p21/label/cubism> , <chart/p21/mark/cubism--influenced--futurism> .
+
+  <chart/p21/concept/cubism> a skos:Concept ; skos:inScheme <chart/p21/scheme> ;
+      skosxl:prefLabel <chart/p21/label/cubism> ;
+      barr:influenced <chart/p21/concept/futurism> .
+
+  <chart/p21/label/cubism> a dino:LabelMark ; skosxl:literalForm "Cubism" ;
+      dino:notates <chart/p21/concept/cubism> ;
+      dino:graphicValue dino:blue , dino:semicircle , dino:underline , dino:verticalPosition ;
+      dino:positionOnScale "1907"^^xsd:gYear ;
+      dino:certainty "certain" ; dino:checkedOn "2026-10-18"^^xsd:date .
+
+  <chart/p21/mark/cubism--influenced--futurism> a dino:Arrow ;
+      dino:from <chart/p21/concept/cubism> ; dino:to <chart/p21/concept/futurism> ;
+      dino:records barr:influenced ;
+      dino:graphicValue dino:blue , dino:solid ;
+      dino:certainty "certain" ; dino:checkedOn "2026-10-18"^^xsd:date .
+}
+
+# What the analyst says
+<graph/interpretation> {
+  <chart/p21/concept/cubism> skos:exactMatch <id/cubism> .
+  <id/cubism> a skos:Concept , crm:E55_Type ; skos:inScheme <id/index> ; skos:prefLabel "Cubism"@en .
+
+  <chart/p21/convention/ink-blue> a dino:Convention ; dino:holdsFor <chart/p21/diagram> ;
+      dino:graphicValue dino:blue ; dino:signifies barr:internal ;
+      dino:basis dino:inferredByAnalyst .
+  <chart/p21/convention/solid> a dino:Convention ; dino:holdsFor <chart/p21/diagram> ;
+      dino:graphicValue dino:solid ; dino:appliesTo dino:RelationMark ; dino:signifies barr:primary ;
+      dino:basis dino:inferredByAnalyst .
+}
+
+# What follows, computed by queries/derive_meanings.rq
+<graph/derived> {
+  <chart/p21/mark/cubism--influenced--futurism> dino:signifies barr:internal , barr:primary .
+  <chart/p21/label/cubism> dino:signifies barr:internal , barr:membership , barr:title , barr:date .
+}`;
+
+const LD_CSV = String.raw`charts.csv   p21,458,core,"MoMA Archives, AHB VI.A.38 ARCH.61 (p. 70)",…,blue=internal graphite=external,…
+nodes.csv    p21,cubism,Cubism,1907,semicircle underlined,blue,,certain,2026-10-18,transcribed,
+edges.csv    p21,cubism,futurism,influenced,solid,blue,certain,2026-10-18,transcribed,
+conventions  *,relation,solid,primary,inferredByAnalyst,`;
+
+function ttlHTML(src){
+  return src.split("\n").map(line=>{
+    const e=esc(line);
+    if(/^\s*#/.test(line)) return `<span class="tc">${e}</span>`;
+    return e.replace(/(&lt;graph\/[a-z0-9]+&gt;)(\s*\{)/,'<b class="tg">$1</b>$2')
+            .replace(/\b(dino|barr|crm|skos|skosxl|rdfs|xsd):([A-Za-z0-9_\-]+)/g,'<span class="tp">$1:</span>$2');
+  }).join("\n");
+}
+
+function ldDiagram(){
+  /* lanes = named graphs; boxes = resources; labelled arrows = properties */
+  const W=1040, H=548;
+  const box=(x,y,w,title,sub,cls="")=>`<g class="ldb ${cls}"><rect x="${x}" y="${y}" width="${w}" height="46" rx="2"/>
+    <text x="${x+12}" y="${y+19}" class="t1">${title}</text><text x="${x+12}" y="${y+35}" class="t2">${sub}</text></g>`;
+  const pill=(x,y,w,t)=>`<g class="ldp"><rect x="${x}" y="${y}" width="${w}" height="26" rx="13"/><text x="${x+w/2}" y="${y+17}" text-anchor="middle">${t}</text></g>`;
+  const edge=(d,lx,ly,t,anchor="middle",cls="")=>`<path class="lde ${cls}" d="${d}" marker-end="url(#ldarr${cls?"-"+cls:""})"/>${t?`<text class="ldl" x="${lx}" y="${ly}" text-anchor="${anchor}">${t}</text>`:""}`;
+  const line=(d,cls="")=>`<path class="lde ${cls}" d="${d}"/>`;
+  const lane=(y,h,name,who)=>`<rect class="ldlane" x="0" y="${y}" width="${W}" height="${h}"/>
+    <text x="16" y="${y+20}"><tspan class="ldln">${name}</tspan><tspan class="ldlw" dx="10">${who}</tspan></text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="How one arrow on chart 458 is modelled: the sheet, its diagram, a label mark and an arrow mark in the chart's graph; two conventions and the reconciled concept in the interpretation graph; the meanings derived from them.">
+  <defs>
+    <marker id="ldarr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ldm"/></marker>
+    <marker id="ldarr-d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ldm d"/></marker>
+  </defs>
+  ${lane(0,300,"graph/p21","what sheet 458 shows")}
+  ${lane(314,120,"graph/interpretation","what the analyst says")}
+  ${lane(448,100,"graph/derived","what follows, by query")}
+
+  ${box(24,36,230,"Sheet 458","crm:E22_Human-Made_Object")}
+  ${box(410,36,230,"Diagram","crm:E36_Visual_Item")}
+  ${box(790,36,230,"Concept scheme of 458","skos:ConceptScheme")}
+  ${edge("M254,59 H406",330,52,"crm:P65_shows_visual_item")}
+  ${edge("M640,59 H786",713,52,"dino:expresses")}
+
+  ${box(24,136,230,"“Cubism”, as written","dino:LabelMark · skosxl:Label","mark")}
+  ${box(410,136,230,"Cubism on 458","skos:Concept")}
+  ${box(790,136,230,"Futurism on 458","skos:Concept")}
+  ${edge("M254,159 H406",330,152,"dino:notates")}
+  ${edge("M640,159 H786",713,152,"barr:influenced")}
+  ${edge("M905,136 V86",912,115,"skos:inScheme","start")}
+
+  ${line("M450,82 V108 H12 V249")}${edge("M12,249 H20","",0,"")}${edge("M12,159 H20","",0,"")}
+  <text class="ldl" x="30" y="103">crm:P106_is_composed_of</text>
+
+  ${box(24,226,260,"The arrow","dino:Arrow · records barr:influenced","mark")}
+  ${edge("M200,226 L450,184",318,201,"dino:from")}
+  ${edge("M284,236 L840,184",612,201,"dino:to")}
+  ${pill(790,236,105,"dino:blue")}${pill(915,236,105,"dino:solid")}
+  ${edge("M284,249 H786",700,243,"dino:graphicValue")}
+
+  ${box(410,360,230,"Cubism, reconciled","id/cubism · crm:E55_Type")}
+  ${edge("M525,182 V356",533,330,"skos:exactMatch","start")}
+  ${box(700,360,160,"Convention","blue → barr:internal")}
+  ${box(875,360,160,"Convention","solid → barr:primary")}
+  ${edge("M842,360 V266",850,330,"dino:graphicValue","start")}
+  ${edge("M967,360 V266","",0,"")}
+
+  ${box(24,486,560,"The arrow: dino:signifies barr:internal, barr:primary","computed by queries/derive_meanings.rq (SPARQL CONSTRUCT)","der")}
+  ${edge("M270,272 V482","",0,"","middle","d")}
+  ${edge("M780,406 V462 H570 V482",780,478,"conventions applied to the arrow's graphic values","middle","d")}
+  ${line("M955,406 V462 H780","d")}
+</svg>`;
+}
+
+function ldEdition(){
+  const files=[
+    ["charts.csv","one row per chart","The sheet <code>chart/{id}</code>, a <code>crm:E22_Human-Made_Object</code>: title → <code>rdfs:label</code>, archival reference → <code>dcterms:identifier</code>, date → <code>dcterms:created</code>, notes → <code>skos:note</code>, facsimile → <code>foaf:depiction</code>. It shows a diagram (<code>crm:P65</code>, <code>crm:E36_Visual_Item</code>) that expresses the chart's <code>skos:ConceptScheme</code>. The set → <code>dcterms:type</code>; the ink key → one <code>dino:Convention</code> per ink the chart uses.","chart · interpretation"],
+    ["concepts.csv","the reconciled index","One <code>skos:Concept</code> per referent, <code>id/{id}</code>, in the scheme <code>id/index</code>, typed <code>crm:E55_Type</code> (movement), <code>crm:E21_Person</code> or <code>crm:E53_Place</code>; reference name → <code>skos:prefLabel</code>.","interpretation"],
+    ["nodes.csv","what is written","A concept of that chart, <code>chart/{c}/concept/{id}</code>, and a label mark <code>chart/{c}/label/{id}</code> (<code>dino:LabelMark</code>, also a <code>skosxl:Label</code>): wording → <code>skosxl:literalForm</code>; year → <code>dino:positionOnScale</code>; form and ink → <code>dino:graphicValue</code>; legend tags → <code>dino:carriesCode</code>; reading and check date → <code>dino:certainty</code>, <code>dino:checkedOn</code>. A label written at two years becomes two marks. The chart concept <code>skos:exactMatch</code> its reconciled concept.","chart · interpretation"],
+    ["edges.csv","what is drawn","A relation mark <code>chart/{c}/mark/{source}--{relation}--{target}</code> with <code>dino:from</code>, <code>dino:to</code> and <code>dino:records</code>; line and ink → <code>dino:graphicValue</code>. The kind of mark follows the relation: influence an <code>dino:Arrow</code> (<code>barr:influenced</code>), siting a <code>dino:Juxtaposition</code> (<code>barr:sitedIn</code>), membership a <code>dino:Enclosure</code> (<code>barr:memberOf</code>), an unclear link a <code>dino:Connector</code> (<code>skos:related</code>). The plain triple between the two concepts is recorded too.","chart"],
+    ["legend.csv","the chart's own key","A <code>dino:Convention</code> with <code>dino:code</code> and <code>dino:basis dino:statedOnSheet</code>, signifying a concept of the chart's scheme.","chart"],
+    ["conventions.csv","conventions beyond the ink key","A <code>dino:Convention</code> for each chart where the graphic value occurs: <code>dino:appliesTo</code> label or relation marks, <code>dino:signifies</code> a meaning in <code>barr:</code>, <code>dino:basis dino:inferredByAnalyst</code>.","interpretation"],
+    ["occurrences.csv","labels written twice","<code>dino:fromMark</code> / <code>dino:toMark</code>: which written occurrence an arrow leaves from or reaches.","chart"],
+    ["alignments.csv","analogy, not identity","<code>skos:closeMatch</code> between reconciled concepts.","interpretation"],
+    ["sequences.csv","readings","A <code>dino:Reading</code> with <code>rdfs:label</code>, <code>dino:basis</code> (documented, analytical or published), <code>dcterms:creator</code> and <code>dino:orders</code>, an <code>rdf:List</code> of sheets.","readings"]
+  ];
+  const graphs=[
+    ["graph/{chart}","one per chart","The sheet, its diagram, its marks and their graphic values, its concept scheme and wording, the conventions stated on the sheet.","the sheet, as transcribed"],
+    ["graph/interpretation","one","The reconciled index, identity and analogy across charts (<code>skos:exactMatch</code>, <code>skos:closeMatch</code>), every inferred convention, the core and secondary sets.","the analyst (<code>dcterms:creator</code>)"],
+    ["graph/readings","one","Orderings of the sheets, each with its source and basis.","the source named on each reading"],
+    ["graph/derived","one","What every mark signifies, by the conventions of its own diagram.","no one: computed by query"]
+  ];
+  const vocabs=[
+    ["dino:","https://psantachiara.github.io/dino/ns#","DINO, the Diagram Notation Ontology: marks, graphic values, conventions, readings. Generic, for any diagram."],
+    ["barr:","https://psantachiara.github.io/barr-chart/ns#","What Barr's charts assert (influenced, sitedIn, memberOf) and what their conventions mean (internal, external, primary, secondary, source outside modern art, membership, title, date)."],
+    ["crm:","http://www.cidoc-crm.org/cidoc-crm/","The sheet (E22), the diagram it shows (E36, P65), its parts (P106); movements, persons and places (E55, E21, E53)."],
+    ["skos:, skosxl:","W3C","Each chart as a concept scheme; wording as labels; identity and analogy as mappings."],
+    ["dcterms:, foaf:","DCMI, FOAF","Identifiers, dates, types, creators; facsimiles."]
+  ];
+  return `
+  <h3 class="sh">Linked data edition <span>CSV → RDF</span></h3>
+  <p class="lede" style="font-size:14.5px">The transcription is turned into linked data before anything is compared. <strong>Each chart becomes its own graph, the analyst's decisions a separate one, and every meaning is derived by query</strong>, so what a sheet shows, what the analyst says about it and what follows from both stay apart in the data itself.</p>
+
+  <h4 class="ss">One arrow, modelled <span>Cubism → Futurism on 458, blue and solid</span></h4>
+  <div class="ldwrap">${ldDiagram()}</div>
+  <p class="note">Boxes are resources, labelled arrows are properties, bands are named graphs. The arrow on the sheet is a mark with graphic values; it signifies nothing until a convention of its own chart gives those values a meaning. Chart identifiers in the data: <code>insert</code> = 456, <code>p19</code> = 457, <code>p21</code> = 458, <code>cover</code> = Cover.</p>
+
+  <h4 class="ss">Graphs <span>who says what</span></h4>
+  <div class="tw"><table class="dt"><thead><tr><th>Graph</th><th>How many</th><th>Holds</th><th>Asserted by</th></tr></thead><tbody>
+    ${graphs.map(g=>`<tr><td><code>${g[0]}</code></td><td class="lbl">${g[1]}</td><td class="lbl wrap">${g[2]}</td><td class="lbl wrap">${g[3]}</td></tr>`).join("")}
+  </tbody></table></div>
+
+  <h4 class="ss">From the tables to the graphs <span>scripts/build_rdf.py</span></h4>
+  <div class="tw"><table class="dt"><thead><tr><th>Table</th><th>Records</th><th>Becomes</th><th>Graph</th></tr></thead><tbody>
+    ${files.map(f=>`<tr><td><code>${f[0]}</code></td><td class="lbl">${f[1]}</td><td class="lbl wrap">${f[2]}</td><td class="lbl">${f[3]}</td></tr>`).join("")}
+  </tbody></table></div>
+
+  <h4 class="ss">The same arrow, in the data <span>TriG, abridged</span></h4>
+  <p class="note" style="margin-bottom:8px">The rows it comes from:</p>
+  <pre class="ttl">${esc(LD_CSV)}</pre>
+  <p class="note" style="margin:14px 0 8px">What they become:</p>
+  <pre class="ttl">${ttlHTML(LD_TRIG)}</pre>
+
+  <h4 class="ss">Vocabularies</h4>
+  <div class="tw"><table class="dt"><thead><tr><th>Prefix</th><th>Namespace</th><th>Used for</th></tr></thead><tbody>
+    ${vocabs.map(v=>`<tr><td><code>${v[0]}</code></td><td class="lbl">${v[1]}</td><td class="lbl wrap">${v[2]}</td></tr>`).join("")}
+  </tbody></table></div>
+  <div class="callout">
+    <p><b>Two choices worth knowing.</b> Influence is minted as <code>barr:influenced</code> rather than taken from CIDOC CRM: <code>crm:P15i_influenced</code> has an activity as its range, and a movement typed as <code>crm:E55_Type</code> cannot be one. And the linked data is not open data: it reuses open ontologies and points to open vocabularies, but its identifiers are not published for dereferencing or reuse.</p>
+  </div>`;
+}
+
+/* ============================================================
    PANE — METHOD & EDITION
    ============================================================ */
 function paneMethod(){
@@ -1303,13 +1510,7 @@ function paneMethod(){
   </tbody></table></div>
   <p class="note">On Plane V the same tests run without a direction: “only on A”, “only on B”, worded differently, rewired, restyled.</p>
 
-  <h3 class="sh">The linked data</h3>
-  <div class="oplist">
-    <div class="oprow"><div class="opk">notation</div><div class="opb">DINO, the Diagram Notation Ontology<span class="opn" style="font-style:normal">Marks (what is on the sheet), conventions (chart-specific rules that give a graphic value a meaning, stated on the sheet or inferred by the analyst) and readings (orderings with a basis). Meaning is derived from marks and conventions by query, never entered by hand.</span></div></div>
-    <div class="oprow"><div class="opk">reused</div><div class="opb">SKOS, SKOS-XL, CIDOC CRM, Dublin Core<span class="opn" style="font-style:normal">Each chart is a SKOS concept scheme; its wording is kept as SKOS-XL labels, which are also marks; the sheet is a CIDOC CRM human-made object that shows the diagram. Movements are typed as CRM types, persons and places with the CRM classes.</span></div></div>
-    <div class="oprow"><div class="opk">graphs</div><div class="opb">One per chart, plus interpretation, readings, derived<span class="opn" style="font-style:normal">A chart's graph holds only what that sheet shows. The interpretation graph holds what the analyst says: identity across charts as SKOS mappings, and the conventions inferred from the drawing. What follows from both is computed into a separate graph.</span></div></div>
-    <div class="oprow"><div class="opk">report</div><div class="opb">The five planes as tables<span class="opn" style="font-style:normal">Computed by the same algorithms as this page.</span></div></div>
-  </div>
+  ${ldEdition()}
 
   <h3 class="sh">Integrity check <span>run on load</span></h3>
   <div class="tw"><table class="dt"><thead><tr><th>Chart</th><th class="num">Entities</th><th class="num">Relations</th><th class="num">Cycles, influence</th>
