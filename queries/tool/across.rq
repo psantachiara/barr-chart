@@ -1,0 +1,11 @@
+# Where each label mark sits across its sheet (0 = left edge, 1 = right edge), with its position on
+# the scale, so that a concept written more than once keeps one value per occurrence.
+PREFIX dino:    <https://psantachiara.github.io/dino/ns#>
+PREFIX crm:     <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+SELECT ?sheet ?entity ?year ?across WHERE {
+  GRAPH ?g { ?sheet crm:P65_shows_visual_item ?d . ?d crm:P106_is_composed_of ?mark .
+             ?mark a dino:LabelMark ; dino:notates ?c ; dino:positionAcross ?across .
+             OPTIONAL { ?mark dino:positionOnScale ?year } }
+  GRAPH <https://psantachiara.github.io/barr-chart/graph/interpretation> { ?c skos:exactMatch ?entity }
+}

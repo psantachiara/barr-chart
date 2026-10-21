@@ -1410,7 +1410,8 @@
      null,
      null
     ]
-   ]
+   ],
+   "across": {}
   },
   {
    "id": "insert",
@@ -3283,7 +3284,34 @@
      null,
      null
     ]
-   ]
+   ],
+   "across": {
+    "abstract_dadaism": 0.29,
+    "abstract_expressionism": 0.29,
+    "abstract_surrealism": 0.28,
+    "bauhaus": 0.71,
+    "biomorphic_abstract_art": 0.29,
+    "brancusi": 0.465,
+    "cezanne": 0.53,
+    "constructivism": 0.86,
+    "cubism": 0.64,
+    "de_stijl_and_neoplasticism": 0.56,
+    "fauvism": 0.27,
+    "futurism": 0.88,
+    "geometric_abstract_art": 0.7,
+    "japanese_prints": 0.14,
+    "machine_esthetic": 0.9,
+    "machine_esthetic@1917": 0.43,
+    "near_eastern_art": 0.12,
+    "negro_sculpture": 0.51,
+    "neoimpressionism": 0.8,
+    "orphism": 0.63,
+    "purism": 0.43,
+    "rousseau": 0.86,
+    "suprematism": 0.74,
+    "synthetism": 0.29,
+    "van_gogh": 0.145
+   }
   },
   {
    "id": "p19",
@@ -4250,7 +4278,32 @@
      null,
      null
     ]
-   ]
+   ],
+   "across": {
+    "abstract_dadaism": 0.31,
+    "abstract_expressionism": 0.19,
+    "abstract_surrealism": 0.25,
+    "bauhaus": 0.77,
+    "cezanne": 0.55,
+    "constructivism": 0.91,
+    "cubism": 0.72,
+    "de_stijl_and_neoplasticism": 0.71,
+    "fauvism": 0.18,
+    "futurism": 0.43,
+    "geometric_abstract_art": 0.75,
+    "japanese_prints": 0.07,
+    "machine_esthetic": 0.56,
+    "near_eastern_art": 0.06,
+    "negro_sculpture": 0.42,
+    "neoimpressionism": 0.85,
+    "non_geometric_abstract_art": 0.26,
+    "orphism": 0.92,
+    "purism": 0.56,
+    "rousseau": 0.9,
+    "suprematism": 0.82,
+    "synthetism": 0.28,
+    "van_gogh": 0.15
+   }
   },
   {
    "id": "p21",
@@ -6189,7 +6242,37 @@
      null,
      null
     ]
-   ]
+   ],
+   "across": {
+    "abstract_dadaism": 0.3,
+    "abstract_expressionism": 0.185,
+    "abstract_surrealism": 0.22,
+    "bauhaus": 0.765,
+    "brancusi": 0.44,
+    "cezanne": 0.53,
+    "constructivism": 0.88,
+    "cubism": 0.7,
+    "de_chirico": 0.4,
+    "de_stijl_and_neoplasticism": 0.63,
+    "fauvism": 0.25,
+    "futurism": 0.4,
+    "geometric_abstract_art": 0.73,
+    "japanese_prints": 0.1,
+    "lissitzky": 0.79,
+    "machine_esthetic": 0.52,
+    "modern_architecture": 0.51,
+    "near_eastern_art": 0.065,
+    "negro_sculpture": 0.45,
+    "neoimpressionism": 0.81,
+    "non_geometric_abstract_art": 0.29,
+    "orphism": 0.87,
+    "purism": 0.475,
+    "redon": 0.09,
+    "rousseau": 0.87,
+    "suprematism": 0.75,
+    "synthetism": 0.25,
+    "van_gogh": 0.135
+   }
   },
   {
    "id": "cover",
@@ -7343,7 +7426,35 @@
      null,
      null
     ]
-   ]
+   ],
+   "across": {
+    "abstract_dadaism": 0.24,
+    "abstract_expressionism": 0.2,
+    "abstract_surrealism": 0.22,
+    "bauhaus": 0.68,
+    "brancusi": 0.43,
+    "cezanne": 0.57,
+    "constructivism": 0.81,
+    "cubism": 0.79,
+    "de_stijl_and_neoplasticism": 0.585,
+    "fauvism": 0.32,
+    "futurism": 0.38,
+    "geometric_abstract_art": 0.73,
+    "japanese_prints": 0.2,
+    "machine_esthetic": 0.57,
+    "modern_architecture": 0.43,
+    "near_eastern_art": 0.195,
+    "negro_sculpture": 0.52,
+    "neoimpressionism": 0.78,
+    "non_geometric_abstract_art": 0.29,
+    "orphism": 0.58,
+    "purism": 0.42,
+    "redon": 0.13,
+    "rousseau": 0.87,
+    "suprematism": 0.76,
+    "synthetism": 0.4,
+    "van_gogh": 0.22
+   }
   }
  ],
  "sequences": [
@@ -7556,6 +7667,14 @@
     "domain": "dino:LabelMark",
     "range": "",
     "def": "The value read off the scale the diagram itself draws, at the label's position (e.g. a year on a ruled time scale). A reading of position, given meaning by the diagram's scale convention."
+   },
+   {
+    "term": "dino:positionAcross",
+    "label": "position across",
+    "kind": "data",
+    "domain": "dino:LabelMark",
+    "range": "xsd:decimal",
+    "def": "Where the label sits across the sheet, read from the facsimile: 0 at the left edge, 1 at the right. Recorded as observed; no convention gives it a meaning."
    },
    {
     "term": "dino:carriesCode",

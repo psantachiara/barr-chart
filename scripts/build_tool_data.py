@@ -90,6 +90,11 @@ for r in run("relations.rq"):
     if r.fromPos is not None: m["fromPos"] = year(str(r.fromPos))
     if r.toPos is not None: m["toPos"] = year(str(r.toPos))
 
+# ---- where each label sits across its sheet
+acr = defaultdict(dict)
+for r in run("across.rq"):
+    acr[local(r.sheet)][(local(r.entity), year(str(r.year)) if r.year is not None else None)] = round(float(r.across), 3)
+
 # ---- conventions
 conv = defaultdict(list)
 for r in run("conventions.rq"):
@@ -140,6 +145,10 @@ for pos, sid in enumerate(sorted(sheets, key=lambda s: sheets[s]["name"]), start
         "external": [k for k in ids if "external" in labels[k]["meanings"]],
         "certainty": {k: labels[k]["certainty"] for k in ids if labels[k].get("certainty", "certain") != "certain"},
         "edges": edges,
+        # across the sheet, keyed as the layout draws them: a concept written more than once is "id" at its
+        # first position and "id@year" at the others
+        "across": {(k if yr is None or yr == min(year(p) for p in labels[k]["positions"]) else f"{k}@{yr}"): x
+                   for (k, yr), x in sorted(acr[sid].items(), key=lambda t: (t[0][0], t[0][1] or 0))},
     })
 
 # ---- readings

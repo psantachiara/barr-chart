@@ -234,6 +234,23 @@ def main(strict=False):
                               f"(positions in nodes.csv: {', '.join(pos) or 'none'})")
         occurrence[key] = o
 
+    # where each label sits across the sheet, read from the facsimile (0 = left edge, 1 = right edge)
+    layout_rows = read("layout.csv") if (DATA / "layout.csv").exists() else []
+    across = {}
+    for i, r in enumerate(layout_rows, start=2):
+        key = (r["chart_id"], r["concept_id"])
+        pos = node_pos.get(key)
+        if pos is None:
+            errors.append(f"layout.csv line {i}: {r['concept_id']} is not written on {r['chart_id']}"); continue
+        if len(pos) > 1 and r["position"] not in pos:
+            errors.append(f"layout.csv line {i}: {r['concept_id']} is written more than once on {r['chart_id']}; "
+                          f"give the position ({', '.join(pos)})"); continue
+        try:
+            x = float(r["across"]); assert 0 <= x <= 1
+        except (ValueError, AssertionError):
+            errors.append(f"layout.csv line {i}: across '{r['across']}' (a number from 0 to 1)"); continue
+        across[(r["chart_id"], r["concept_id"], r["position"] if len(pos) > 1 else None)] = x
+
     unverified_n = sum(1 for n in nodes if not n["verified"])
     unverified_e = sum(1 for e in edges if not e["verified"])
     legacy = sum(1 for r in nodes + edges if r["origin"] == "legacy" and not r["verified"])
@@ -320,6 +337,9 @@ def main(strict=False):
                 for f in n["form"].split():
                     if SHAPES[f] is not None:
                         g.add((lab, DINO.graphicValue, SHAPES[f]))
+                x = across.get((cid, k, y if len(positions) > 1 else None))
+                if x is not None:
+                    g.add((lab, DINO.positionAcross, Literal(round(x, 3), datatype=XSD.decimal)))
                 if y:
                     g.add((lab, DINO.positionOnScale, Literal(y, datatype=XSD.gYear) if re.fullmatch(r"\d{4}", y) else Literal(y)))
                     g.add((lab, DINO.graphicValue, DINO.verticalPosition))

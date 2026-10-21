@@ -135,6 +135,12 @@ dino:positionOnScale a owl:DatatypeProperty ;
     rdfs:domain dino:LabelMark ;
     rdfs:comment "The value read off the scale the diagram itself draws, at the label's position (e.g. a year on a ruled time scale). A reading of position, given meaning by the diagram's scale convention."@en .
 
+dino:positionAcross a owl:DatatypeProperty ;
+    rdfs:label "position across"@en ;
+    rdfs:domain dino:LabelMark ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Where the label sits across the sheet, read from the facsimile: 0 at the left edge, 1 at the right. Recorded as observed; no convention gives it a meaning."@en .
+
 dino:carriesCode a owl:DatatypeProperty ;
     rdfs:label "carries code"@en ;
     rdfs:domain dino:LabelMark ;

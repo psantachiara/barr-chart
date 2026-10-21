@@ -117,7 +117,7 @@ Settled (2026-10-18):
 - **Semicircle** signifies membership: the names inside it are members of the current. So the proposition keeps the name "member of" (minted: CIDOC CRM's group membership property takes a group, not a type, as its subject).
 - **Underline** signifies a title: the label is the conceptual anchor of what is written with it.
 - **Per-chart concept identifiers**: yes, with identity across charts as `skos:exactMatch` / `skos:closeMatch` in the interpretation graph.
-- **Facsimile anchoring**: later.
+- **Facsimile anchoring**: later. In the meantime each label's horizontal place on the sheet is recorded as `dino:positionAcross` (0 = left edge, 1 = right edge, read from the facsimile; `data/layout.csv`), alongside its position on the year scale. Plane III draws each chart with it, and the consensus graph on Plane V uses the median across the charts.
 
 - **Name**: DINO, the Diagram Notation Ontology, prefix `dino:`, namespace `https://psantachiara.github.io/dino/ns#`. Terms specific to the Barr charts (their relations, the meanings of their conventions) are in a separate project vocabulary, `barr:`, so DINO stays reusable for other diagrams.
 - **Influence** is minted (`barr:influenced`), not `crm:P15i_influenced`. P15i has `crm:E7_Activity` as its range; asserting that one movement influenced another would make the second an activity, and in CIDOC CRM an activity (a temporal entity) cannot also be a type (a conceptual object). The clash is documented on the property.

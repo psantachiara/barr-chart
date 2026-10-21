@@ -624,6 +624,58 @@ function layout(v, opts){
     span:[minY,maxY], width:Math.max(320,maxW)+44, height, ticks, gutter:GUT};
 }
 
+
+/* ---------- the chart as Barr laid it out ----------
+   Vertical position is the year on the chart's own scale (as in layout()). Horizontal position is where
+   the label sits across the sheet, read from the facsimile (dino:positionAcross). Places, and persons only
+   listed under a current, are written beneath that current in small italics, as on the sheets, rather than
+   drawn as separate nodes. Labels that would overlap are pushed apart, keeping their order. */
+function sheetLayout(v, f){
+  const C=MODEL.concepts;
+  const infl=new Set(v.edges.filter(e=>e.rel==="influence").flatMap(e=>[e.s,e.t]));
+  const folded=id=>C[id].t==="place" || (C[id].t==="person" && !infl.has(id));
+  const dropped=id=>f==="nopersons" && C[id].t==="person";
+  const L=layout(v,{filter:id=>!folded(id)&&!dropped(id), rel:e=>e.rel==="influence", onlyLinked:f==="influence", pxPerYear:27});
+  if(!L.nodes.length) return L;
+  const byId={}; L.nodes.forEach(n=>byId[n.id]=n);
+  if(f!=="influence"){
+    const sub={};
+    v.edges.forEach(e=>{
+      if(e.rel==="membership" && folded(e.s) && !dropped(e.s) && byId[e.t]) (sub[e.t]=sub[e.t]||{p:[],l:[]}).p.push(surface(v,e.s));
+      if(e.rel==="siting" && byId[e.s]) (sub[e.s]=sub[e.s]||{p:[],l:[]}).l.push(surface(v,e.t));
+    });
+    L.nodes.forEach(n=>{ const s=sub[n.id]; if(!s) return;
+      n.sub=[s.p.join(", "), s.l.join(", ")].filter(Boolean).join(" · ");
+      /* a long list wraps, as Barr's lists run onto several lines under the name */
+      const lines=[]; let cur="";
+      n.sub.split(" ").forEach(w=>{ if(cur && (cur+" "+w).length>46){ lines.push(cur); cur=w; } else cur=cur?cur+" "+w:w; });
+      if(cur) lines.push(cur);
+      n.subLines=lines; n.h=19+11*lines.length;
+      n.w=Math.max(n.w, Math.max(...lines.map(l=>l.length))*4.9+16); });
+  }
+  /* across the sheet: recorded where the transcription has it; otherwise the mean of the neighbours,
+     or, for a chart with no recorded positions, the order the crossing-reduction found */
+  const A=v.across||{}, xs=L.nodes.map(n=>n.x), lo=Math.min(...xs), hi=Math.max(...xs);
+  const t={}, nb={}; L.nodes.forEach(n=>{ nb[n.id]=[]; if(A[n.id]!==undefined) t[n.id]=A[n.id]; });
+  L.edges.forEach(e=>{ if(nb[e.s]&&nb[e.t]){ nb[e.s].push(e.t); nb[e.t].push(e.s); } });
+  const recorded=Object.keys(t).length>0;
+  for(let it=0; it<6 && recorded; it++) L.nodes.forEach(n=>{ if(t[n.id]!==undefined) return;
+    const k=nb[n.id].filter(y=>t[y]!==undefined); if(k.length) t[n.id]=k.reduce((a,y)=>a+t[y],0)/k.length; });
+  L.nodes.forEach(n=>{ if(t[n.id]===undefined) t[n.id]= hi>lo ? .08+.84*(n.x-lo)/(hi-lo) : .5; });
+  const CW=Math.max(820, L.height*0.82);
+  L.nodes.forEach(n=>n.x=L.gutter+20+t[n.id]*CW);
+  const rows=[...L.nodes].sort((a,b)=>a.y-b.y);
+  for(let pass=0; pass<6; pass++) for(let i=0;i<rows.length;i++) for(let j=i+1;j<rows.length;j++){
+    const a=rows[i], b=rows[j]; if(Math.abs(a.y-b.y)>=(a.h+b.h)/2+3) continue;
+    const need=(a.w+b.w)/2+12, d=b.x-a.x;
+    if(Math.abs(d)<need){ const push=(need-Math.abs(d))/2*(d>=0?1:-1); a.x-=push; b.x+=push; } }
+  const minX=Math.min(...L.nodes.map(n=>n.x-n.w/2)); if(minX<L.gutter) L.nodes.forEach(n=>n.x+=L.gutter-minX);
+  L.width=Math.max(...L.nodes.map(n=>n.x+n.w/2))+30;
+  L.edges.forEach(e=>{ e.a=byId[e.s]; e.b=byId[e.t]; });
+  L.recorded=recorded;
+  return L;
+}
+
 /* ============================================================
    VIEWS
    ============================================================ */
@@ -868,14 +920,14 @@ function paneConc(){
 function paneStruct(){
   const C=MODEL.concepts, vs=sel(), mode=state.gmode;
   const f=state.gfilter;
-  const opts = f==="influence" ? {rel:e=>e.rel==="influence", onlyLinked:true}
-    : f==="nopersons" ? {filter:id=>C[id].t!=="person"} : {};
-
   const graphs = vs.map(v=>{
-    const L=layout(v,opts);
-    const mix={}; L.edges.forEach(e=>mix[e.rel]=(mix[e.rel]||0)+1);
+    const L=sheetLayout(v,f);
+    const keepE=e=>f==="influence"?e.rel==="influence":f==="nopersons"?C[e.s].t!=="person"&&C[e.t].t!=="person":true;
+    const ents=f==="influence"?new Set(v.edges.filter(e=>e.rel==="influence").flatMap(e=>[e.s,e.t])).size
+      :f==="nopersons"?v.nodes.filter(x=>C[x].t!=="person").length:v.nodes.length;
+    const mix={}; v.edges.filter(keepE).forEach(e=>mix[e.rel]=(mix[e.rel]||0)+1);
     return `<div class="gwrap">
-      <div class="ghead"><b>${esc(v.name)}</b><em>scale ${L.span[0]}–${L.span[1]} · ${L.nodes.length} entities · ${Object.entries(mix).map(([k,n])=>n+" "+k).join(" · ")}${L.backward?` · <b style="color:var(--warn)">${L.backward} backward on the scale</b>`:""}</em></div>
+      <div class="ghead"><b>${esc(v.name)}</b><em>scale ${L.span[0]}–${L.span[1]} · ${ents} entities · ${Object.entries(mix).map(([k,n])=>n+" "+k).join(" · ")}${L.backward?` · <b style="color:var(--warn)">${L.backward} backward on the scale</b>`:""}</em></div>
       ${svgGraph(L,v.id)}
       <div class="zhint">scroll to zoom · drag to pan · double-click to reset</div>
     </div>`;
@@ -920,7 +972,7 @@ function paneStruct(){
   <div class="ctl">
     <label>Draw</label>
     <div class="seg" id="gfilt">
-      ${[["all","Every relation"],["influence","Influence arrows only"],["nopersons","Without persons"]]
+      ${[["all","Arrows, places and names"],["influence","Influence arrows only"],["nopersons","Without persons"]]
         .map(([k,l])=>`<button data-k="${k}" class="${f===k?"on":""}">${l}</button>`).join("")}
     </div>
   </div>
@@ -931,8 +983,7 @@ function paneStruct(){
     <span>${sw("","var(--oxblood)")} external</span>
     <span>${sw("3 3","var(--ink-2)")} dotted = secondary</span>
     <span>${sw("","var(--warn)",1.6)} backward on the chart's scale</span>
-    <span>${sw("2 3","var(--moss)",.9)} siting</span>
-    <span>${sw("1 3","var(--indigo)",.9)} membership</span>
+    <span><i style="font-family:var(--prose);color:var(--ink-3)">Paris</i> places and listed names, under their current</span>
   </div>
   <div class="legend" style="margin:6px 0 0">
     <span><svg width="30" height="14" style="vertical-align:-3px"><rect x="1" y="1" width="28" height="12" fill="none" stroke="var(--ink-2)"/></svg> boxed</span>
@@ -942,8 +993,8 @@ function paneStruct(){
     ${KINDS.map(t=>`<span>${dot(t)}${KIND_LABEL[t]}</span>`).join("")}
   </div>
   <div class="callout" style="margin-top:16px">
-    <p><b>The vertical axis is the chart's own year scale.</b> Each entity sits at the year read off the scale Barr draws on that chart, so the four drawings are not forced onto one calendar. Horizontal position carries no meaning; it only reduces crossings.</p>
-    <p>Entities with no reading of their own — artists inside a current, most places — sit at the median year of what they are attached to, in faint italic. Anything that cannot be placed that way goes on a row below the scale.</p>
+    <p><b>The vertical axis is the chart's own year scale.</b> Each entity sits at the year read off the scale Barr draws on that chart, so the four drawings are not forced onto one calendar. <b>The horizontal axis is the sheet itself:</b> each label sits where Barr wrote it, read from the facsimile, so the layout is Barr's and not the tool's. Labels that would overlap are nudged apart.</p>
+    <p>Places, and artists listed under a current, are written beneath it in small italics, as on the sheets. An entity with no year of its own sits at the median year of what it is attached to, in faint italic; anything that cannot be placed that way goes on a row below the scale.</p>
     <p><b>An arrow in violet runs backward on the scale</b>: its tail is read later than its head. Nothing is moved to hide it, so it is either Barr's drawing or a reading to check against the facsimile.</p>
   </div>
 
@@ -1006,7 +1057,7 @@ function svgGraph(L, key){
     const y1=flat?a.y:a.y+(up?-a.h/2:a.h/2), y2=flat?b.y:b.y+(up?b.h/2:-b.h/2);
     const mid=flat?a.y-28:(y1+y2)/2;
     return `<path d="M${f2(a.x)} ${f2(y1)} C ${f2(a.x)} ${f2(mid)}, ${f2(b.x)} ${f2(mid)}, ${f2(b.x)} ${f2(y2)}"
-      fill="none" stroke="${col}" stroke-width="${e.back?1.4:1}" ${e.line==="dotted"?'stroke-dasharray="3 3"':""}
+      fill="none" stroke="${col}" stroke-width="${f2((e.back?1.4:1)*(e.weight||1))}" ${e.line==="dotted"?'stroke-dasharray="3 3"':""}
       opacity="${e.back?".95":".7"}" marker-end="url(#${mk}-${key})"/>`;
   }).join("");
 
@@ -1018,13 +1069,14 @@ function svgGraph(L, key){
       : `<rect x="${f2(x0)}" y="${f2(y0)}" width="${f2(n.w)}" height="${n.h}" fill="var(--card)" opacity=".85"/>`;
     const tw=n.label.length*5.5;
     return `<g class="nd" data-id="${esc(n.id)}"><title>${esc(n.label)}${n.onScale?" · "+n.year:" · not read on the scale"}${n.repeated?" · written more than once on this chart":""}</title>${frame}
-      ${under?`<line x1="${f2(n.x-tw/2)}" x2="${f2(n.x+tw/2)}" y1="${f2(n.y+6)}" y2="${f2(n.y+6)}" stroke="${c}" stroke-width=".8"/>`:""}
+      ${under?`<line x1="${f2(n.x-tw/2)}" x2="${f2(n.x+tw/2)}" y1="${f2(n.sub?y0+15.5:n.y+6)}" y2="${f2(n.sub?y0+15.5:n.y+6)}" stroke="${c}" stroke-width=".8"/>`:""}
       ${n.ext?`<circle cx="${f2(x0-4)}" cy="${f2(n.y)}" r="2.6" fill="var(--oxblood)"/>`:""}
-      <text class="nlabel" x="${f2(n.x)}" y="${f2(n.y+3.3)}" text-anchor="middle" fill="${c}"
-        ${n.onScale?"":'opacity=".7" font-style="italic"'}>${esc(n.label)}</text></g>`;
+      <text class="nlabel" x="${f2(n.x)}" y="${f2(n.sub?y0+12.5:n.y+3.3)}" text-anchor="middle" fill="${c}"
+        ${n.onScale?"":'opacity=".7" font-style="italic"'}>${esc(n.label)}</text>${n.sub?(n.subLines||[n.sub]).map((l,i)=>`
+      <text x="${f2(n.x)}" y="${f2(y0+24+11*i)}" text-anchor="middle" font-family="var(--prose)" font-style="italic" font-size="8.6" fill="var(--ink-3)">${esc(l)}</text>`).join(""):""}</g>`;
   }).join("");
 
-  const marker=(id,col)=>`<marker id="${id}-${key}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 1 L7 4 L0 7 z" fill="${col}"/></marker>`;
+  const marker=(id,col)=>`<marker id="${id}-${key}" viewBox="0 0 8 8" refX="7" refY="4" markerUnits="userSpaceOnUse" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 1 L7 4 L0 7 z" fill="${col}"/></marker>`;
   return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${Math.round(W*1.35)}px;height:auto;margin:0 auto" data-g="${esc(key)}" role="img" aria-label="Graph of chart ${esc(key)}">
     <defs>${marker("ah","var(--ink-3)")}${marker("ax","var(--oxblood)")}${marker("aw","var(--warn)")}</defs>
     <g class="cam">${axis}${arcs}${nodes}</g></svg>`;
@@ -1178,10 +1230,20 @@ function paneSyn(){
   const th=Math.min(state.thresh, vs.length);
   const keep=Object.keys(rc).filter(k=>rc[k]>=th);
   const cn=new Set(); keep.forEach(k=>{const p=k.split("|"); cn.add(p[0]); cn.add(p[2]);});
-  const years={}; [...cn].forEach(x=>{ const ys=vs.map(v=>v.years[x]).filter(Boolean).sort((a,b)=>a-b); if(ys.length) years[x]=ys[Math.floor((ys.length-1)/2)]; });
-  const pseudo={id:"consensus", name:"consensus", labels:{}, years, form:{}, ext:new Set(), set:cn, nodes:[...cn],
-    edges:keep.map(k=>{const p=k.split("|"); return {s:p[0],t:p[2],rel:p[1],line:"",scope:"",k};})};
-  const L=layout(pseudo,{});
+  /* every entity at the median of where the charts put it: its year on their scales, and its place
+     across their sheets; drawn as the charts draw it, with its usual form */
+  const med=a=>{ a=a.filter(x=>x!=null&&!isNaN(x)).sort((p,q)=>p-q); return a.length?a[Math.floor((a.length-1)/2)]:undefined; };
+  const medMid=a=>{ a=a.filter(x=>x!=null&&!isNaN(x)).sort((p,q)=>p-q); if(!a.length) return undefined; const m=a.length>>1; return a.length%2?a[m]:(a[m-1]+a[m])/2; };
+  const years={}, across={}, form={}; const has=x=>vs.filter(v=>v.set.has(x));
+  [...cn].forEach(x=>{ const y=med(vs.map(v=>v.years[x])); if(y!==undefined) years[x]=y;
+    const a=medMid(vs.map(v=>v.across&&v.across[x])); if(a!==undefined) across[x]=a;
+    const fc={}; has(x).forEach(v=>(v.form[x]||[]).forEach(f=>fc[f]=(fc[f]||0)+1));
+    form[x]=Object.keys(fc).filter(f=>fc[f]>has(x).length/2); });
+  /* a line style or a meaning is kept where every chart that draws the relation agrees on it */
+  const agreed=(k,i)=>{ const vals=vs.filter(v=>v.rel.has(k)).map(v=>(v.style[k]||[])[i]||""); return vals.every(z=>z===vals[0])?vals[0]:""; };
+  const pseudo={id:"consensus", name:"consensus", labels:{}, years, across, form, ext:new Set(), set:cn, nodes:[...cn],
+    edges:keep.map(k=>{const p=k.split("|"); return {s:p[0],t:p[2],rel:p[1],line:agreed(k,0),scope:agreed(k,1),k,weight:.75+.45*(rc[k]-1),n:rc[k]};})};
+  const L=sheetLayout(pseudo,"all");
   const hist=(cnt)=>{ const h={}; Object.values(cnt).forEach(n=>h[n]=(h[n]||0)+1); return h; };
   const he=hist(ec), hr=hist(rc);
   const ranked=Object.entries(rc).sort((a,b)=>b[1]-a[1]||(a[0]<b[0]?-1:1));
@@ -1212,7 +1274,7 @@ function paneSyn(){
     <span class="kv" style="font-size:13px">${th} chart${th>1?"s":""}</span>
     <span class="kv">${keep.length} relations · ${cn.size} entities</span>
   </div>
-  <div class="gwrap"><div class="ghead"><b>Consensus, on ≥ ${th}</b><em>${keep.length} relations · ${cn.size} entities · each entity at the median of its readings on the charts' scales</em></div>
+  <div class="gwrap"><div class="ghead"><b>Consensus, on ≥ ${th}</b><em>${keep.length} relations · ${cn.size} entities · each entity at the median of where the charts place it · line weight = number of charts</em></div>
     ${svgGraph(L,"cons")}<div class="zhint">scroll to zoom · drag to pan</div></div>
   <div class="tw" style="margin-top:14px;max-height:520px;overflow:auto"><table class="dt"><thead><tr><th>Relation</th><th class="num">n</th><th>Charts</th></tr></thead><tbody>${consRows}</tbody></table></div>
   <p class="note">The name of this plane is provisional. It is the order-free counterpart of Plane IV: the same differences, without a direction.</p>`;
@@ -1449,6 +1511,7 @@ function ldEdition(){
     ["edges.csv","what is drawn","A relation mark <code>chart/{c}/mark/{source}--{relation}--{target}</code> with <code>dino:from</code>, <code>dino:to</code> and <code>dino:records</code>; line and ink → <code>dino:graphicValue</code>. The kind of mark follows the relation: influence an <code>dino:Arrow</code> (<code>barr:influenced</code>), siting a <code>dino:Juxtaposition</code> (<code>barr:sitedIn</code>), membership a <code>dino:Enclosure</code> (<code>barr:memberOf</code>), an unclear link a <code>dino:Connector</code> (<code>skos:related</code>). The plain triple between the two concepts is recorded too.","chart"],
     ["legend.csv","the chart's own key","A <code>dino:Convention</code> with <code>dino:code</code> and <code>dino:basis dino:statedOnSheet</code>, signifying a concept of the chart's scheme.","chart"],
     ["conventions.csv","conventions beyond the ink key","A <code>dino:Convention</code> for each chart where the graphic value occurs: <code>dino:appliesTo</code> label or relation marks, <code>dino:signifies</code> a meaning in <code>barr:</code>, <code>dino:basis dino:inferredByAnalyst</code>.","interpretation"],
+    ["layout.csv","where labels sit","<code>dino:positionAcross</code> on a label mark: where it sits across the sheet, read from the facsimile, from 0 at the left edge to 1 at the right. Plane III draws each chart with it.","chart"],
     ["occurrences.csv","labels written twice","<code>dino:fromMark</code> / <code>dino:toMark</code>: which written occurrence an arrow leaves from or reaches.","chart"],
     ["alignments.csv","analogy, not identity","<code>skos:closeMatch</code> between reconciled concepts.","interpretation"],
     ["sequences.csv","readings","A <code>dino:Reading</code> with <code>rdfs:label</code>, <code>dino:basis</code> (documented, analytical or published), <code>dcterms:creator</code> and <code>dino:orders</code>, an <code>rdf:List</code> of sheets.","readings"]
