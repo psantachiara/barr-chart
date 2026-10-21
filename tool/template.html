@@ -71,9 +71,9 @@ h1,h2,h3,h4{margin:0; font-family:var(--disp); font-weight:600; letter-spacing:.
 
 /* ---------- chart chips ---------- */
 #stickybar{position:sticky; top:0; z-index:38; background:var(--paper)}
-#masthead{max-width:1500px}
-/* Both bars end where the theme button ends: 30px in from the masthead's right edge. */
-#versionbar, #planenav{max-width:calc(1500px - 60px); margin:0 30px}
+#masthead{max-width:1500px; margin:0 auto}
+/* The page is centred; both bars end where the theme button ends: 30px in from the masthead's right edge. */
+#versionbar, #planenav{margin:0 max(30px, calc((100% - 1440px) / 2))}
 #stickybar.stuck{box-shadow:var(--stuck-shadow)}
 #stickybar.stuck .vchip{padding:6px 16px 7px}
 #stickybar.stuck .vchip .vs{display:none}
@@ -114,7 +114,7 @@ h1,h2,h3,h4{margin:0; font-family:var(--disp); font-weight:600; letter-spacing:.
 .pnav:focus-visible{outline:2px solid var(--indigo); outline-offset:-4px}
 
 /* ---------- panes ---------- */
-main{padding:26px 30px 90px; max-width:1500px}
+main{padding:26px 30px 90px; max-width:1500px; margin:0 auto}
 .pane{display:none}
 .pane.on{display:block; animation:fade .22s ease-out}
 @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
