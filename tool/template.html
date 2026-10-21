@@ -703,9 +703,9 @@ function netMeasures(nodes, edges, mode){
 }
 function radial(nodes, pr, comm){
   const C=MODEL.concepts, {W,H,R}=NET, cx=W/2, cy=H/2;
+  const measured=nodes.filter(x=>pr[x]!==undefined), unmeasured=nodes.filter(x=>pr[x]===undefined);
   const score=x=>pr[x]||0;
-  const ranked=nodes.slice().sort((a,b)=>score(b)-score(a)||(C[a].l<C[b].l?-1:1));
-  /* sectors: clusters by size, then everything unclustered */
+  const ranked=measured.slice().sort((a,b)=>score(b)-score(a)||(C[a].l<C[b].l?-1:1));
   const groups=comm.map(g=>g.filter(x=>nodes.includes(x))).filter(g=>g.length);
   const inGroup=new Set(groups.flat()); const rest=nodes.filter(x=>!inGroup.has(x));
   if(rest.length) groups.push(rest);
@@ -713,20 +713,20 @@ function radial(nodes, pr, comm){
   groups.forEach((g,gi)=>{ const w=2*Math.PI*g.length/total;
     g.slice().sort((a,b)=>score(b)-score(a)||(a<b?-1:1)).forEach((x,j)=>pref[x]=a0+w*(j+.5)/g.length);
     sectors.push({a0, a1:a0+w, n:g.length, rest:gi===groups.length-1&&rest.length>0}); a0+=w; });
-  /* rings filled in rank order: one node at the centre, then rings that hold more the further out they are */
+  const pos={}, guides=[];
+  const RM = unmeasured.length ? R-34 : R;          /* measured entities inside; the unmeasured on their own outer band */
+  const spread=(ring, r)=>{ const sorted=ring.slice().sort((a,b)=>pref[a]-pref[b]), n=sorted.length, gap=2*Math.PI/n;
+    let sx=0, sy=0; sorted.forEach((x,j)=>{ const d=pref[x]-j*gap; sx+=Math.cos(d); sy+=Math.sin(d); }); const rot=Math.atan2(sy,sx);
+    sorted.forEach((x,j)=>{ const th=rot+j*gap; pos[x]={x:cx+r*Math.cos(th), y:cy+r*Math.sin(th)}; }); };
+  /* bands of rank, filled in order: rank 1 at the centre, then bands that widen slowly outward */
   const rings=[]; let i=0, k=0;
-  while(i<ranked.length){ const cap=k===0?1:6*k+2; rings.push(ranked.slice(i,i+cap)); i+=cap; k++; }
-  /* inner rings are given more room, since they hold the entities that are named */
-  const K=rings.length, rOf=k=>K>1? R*Math.pow(k/(K-1), .72) : 0, pos={};
-  rings.forEach((ring,k)=>{
-    const r=rOf(k);
-    if(k===0){ ring.forEach(x=>pos[x]={x:cx,y:cy,ring:0}); return; }
-    const sorted=ring.slice().sort((a,b)=>pref[a]-pref[b]), n=sorted.length, gap=2*Math.PI/n;
-    /* even spacing, rotated to sit as close as possible to each node's sector */
-    let rot=0; { let sx=0, sy=0; sorted.forEach((x,j)=>{ const d=pref[x]-j*gap; sx+=Math.cos(d); sy+=Math.sin(d); }); rot=Math.atan2(sy,sx); }
-    sorted.forEach((x,j)=>{ const th=rot+j*gap; pos[x]={x:cx+r*Math.cos(th), y:cy+r*Math.sin(th), ring:k}; });
-  });
-  return {pos, sectors, cx, cy, rings:K, radii:rings.map((_,k)=>rOf(k))};
+  while(i<ranked.length){ const cap=k===0?1:2*k+3; rings.push([i+1, Math.min(i+cap, ranked.length), ranked.slice(i,i+cap)]); i+=cap; k++; }
+  const K=rings.length, rOf=k=>K>1? RM*Math.pow(k/(K-1), .8) : 0;
+  rings.forEach(([a,b,ring],k)=>{ const r=rOf(k);
+    if(k===0) ring.forEach(x=>pos[x]={x:cx,y:cy}); else spread(ring, r);
+    guides.push({r, label: a===b ? `rank ${a}` : `ranks ${a}–${b}`}); });
+  if(unmeasured.length){ spread(unmeasured, R); guides.push({r:R, label:"not in this graph", out:true}); }
+  return {pos, sectors, cx, cy, guides};
 }
 function netLayout(v, f, kind, shared){
   const C=MODEL.concepts, mode=state.gmode;
@@ -735,7 +735,7 @@ function netLayout(v, f, kind, shared){
   const geo = kind==="fixed" ? shared : radial(nodes, own.pr, own.comm);
   const maxPr = kind==="fixed" ? shared.maxPr : Math.max(1e-9, ...Object.values(own.pr));
   const rank=nodes.slice().sort((a,b)=>(own.pr[b]||0)-(own.pr[a]||0)||(a<b?-1:1));
-  const labelled=new Set(rank.slice(0, kind==="fixed"?14:18).filter(x=>own.pr[x]));
+  const labelled=new Set(nodes);
   const present=new Set(nodes);
   const ns=nodes.map(x=>{ const p=geo.pos[x]||{x:geo.cx,y:geo.cy};
     return {id:x, x:p.x, y:p.y, r:3+11*Math.sqrt((own.pr[x]||0)/maxPr), label:surface(v,x), type:C[x].t,
@@ -743,7 +743,7 @@ function netLayout(v, f, kind, shared){
   const ghosts = kind==="fixed" ? Object.keys(geo.pos).filter(x=>!present.has(x)).map(x=>({id:x, x:geo.pos[x].x, y:geo.pos[x].y, label:C[x].l})) : [];
   const by={}; ns.forEach(n=>by[n.id]=n);
   return {network:true, kind, nodes:ns, ghosts, edges:edges.map(e=>Object.assign({},e,{a:by[e.s], b:by[e.t]})).filter(e=>e.a&&e.b),
-    sectors:geo.sectors, cx:geo.cx, cy:geo.cy, R:NET.R, radii:geo.radii, rings:geo.rings, width:NET.W, height:NET.H};
+    sectors:geo.sectors, cx:geo.cx, cy:geo.cy, R:NET.R, guides:geo.guides, width:NET.W, height:NET.H};
 }
 /* one place per entity across the selected charts: the union graph, measured and laid out once */
 function netShared(vs, f){
@@ -757,7 +757,8 @@ function netShared(vs, f){
 }
 function svgNetwork(L, key){
   const {W,H}={W:L.width,H:L.height}, cx=L.cx, cy=L.cy;
-  const rings=L.radii.slice(1).map(r=>`<circle cx="${cx}" cy="${cy}" r="${f2(r)}" fill="none" stroke="var(--rule)" stroke-width=".6"/>`);
+  const rings=L.guides.filter(g=>g.r>0).map(g=>`<circle cx="${cx}" cy="${cy}" r="${f2(g.r)}" fill="none" stroke="var(--rule${g.out?"-2":""})" stroke-width=".6" ${g.out?'stroke-dasharray="3 4"':""}/>
+    <text x="${cx+5}" y="${f2(cy-g.r-4)}" font-family="var(--mono)" font-size="9" fill="var(--ink-3)" paint-order="stroke" stroke="var(--card)" stroke-width="3">${esc(g.label)}</text>`);
   const seps=L.sectors.length>1 ? L.sectors.map(s=>`<line x1="${cx}" y1="${cy}" x2="${f2(cx+(L.R+26)*Math.cos(s.a0))}" y2="${f2(cy+(L.R+26)*Math.sin(s.a0))}" stroke="var(--rule-2)" stroke-width=".6" stroke-dasharray="2 4"/>`).join("") : "";
   const slabels=L.sectors.map((s,i)=>{ const m=(s.a0+s.a1)/2, rr=L.R+40;
     return `<text x="${f2(cx+rr*Math.cos(m))}" y="${f2(cy+rr*Math.sin(m)+3)}" text-anchor="middle" font-family="var(--mono)" font-size="9.5" fill="var(--ink-3)">${s.rest?"unclustered":"cluster "+(i+1)}</text>`; }).join("");
@@ -777,22 +778,24 @@ function svgNetwork(L, key){
   }).join("");
   const boxes=[], CH=6.1, place={};
   L.nodes.filter(n=>n.showLabel).sort((a,b)=>b.pr-a.pr).forEach(n=>{
-    const w=n.label.length*CH, h=12, out=n.x>=cx;
+    const small=n.r<6, cw=small?5.2:CH, w=n.label.length*cw, h=small?10:12, out=n.x>=cx;
     const cands=[[out?"start":"end", out?n.x+n.r+4:n.x-n.r-4, n.y+3.3], [out?"end":"start", out?n.x-n.r-4:n.x+n.r+4, n.y+3.3],
       ["middle", n.x, n.y-n.r-4], ["middle", n.x, n.y+n.r+11]];
     for(const [anc,x,y] of cands){
       const x0=anc==="start"?x:anc==="end"?x-w:x-w/2, b={x0, x1:x0+w, y0:y-9, y1:y-9+h};
       const hit=boxes.some(o=>!(b.x1<o.x0||b.x0>o.x1||b.y1<o.y0||b.y0>o.y1))
         || L.nodes.some(m=>m!==n && m.r>5 && m.x+m.r>b.x0 && m.x-m.r<b.x1 && m.y+m.r>b.y0 && m.y-m.r<b.y1);
-      if(!hit){ boxes.push(b); place[n.id]={anc,x,y}; break; }
+      if(!hit){ boxes.push(b); place[n.id]={anc,x,y,small}; break; }
     }
+    /* every entity is named: where no spot is free, the name goes on the outer side anyway */
+    if(!place[n.id]){ const [anc,x,y]=cands[0]; const x0=anc==="start"?x:x-w; boxes.push({x0,x1:x0+w,y0:y-9,y1:y-9+h}); place[n.id]={anc,x,y,small}; }
   });
   const nodes=L.nodes.slice().sort((a,b)=>a.r-b.r).map(n=>{
     const c=KIND_VAR[n.type], P=place[n.id];
     const shape=n.boxed
       ? `<rect x="${f2(n.x-n.r)}" y="${f2(n.y-n.r)}" width="${f2(2*n.r)}" height="${f2(2*n.r)}" fill="var(--card)" stroke="${c}" stroke-width="1"/>`
       : `<circle cx="${f2(n.x)}" cy="${f2(n.y)}" r="${f2(n.r)}" fill="var(--card)" stroke="${c}" stroke-width="1"/>`;
-    const lab=P?`<text class="nlabel" x="${f2(P.x)}" y="${f2(P.y)}" text-anchor="${P.anc}" fill="${c}" paint-order="stroke" stroke="var(--card)" stroke-width="3" stroke-linejoin="round">${esc(n.label)}</text>`:"";
+    const lab=P?`<text class="nlabel" x="${f2(P.x)}" y="${f2(P.y)}" text-anchor="${P.anc}" fill="${c}" ${P.small?'font-size="8"':""} paint-order="stroke" stroke="var(--card)" stroke-width="3" stroke-linejoin="round">${esc(n.label)}</text>`:"";
     return `<g class="nd" data-id="${esc(n.id)}"><title>${esc(n.label)} · PageRank ${f3(n.pr)}</title>${shape}
       ${n.ext?`<circle cx="${f2(n.x-n.r-4)}" cy="${f2(n.y)}" r="2.4" fill="var(--oxblood)"/>`:""}${lab}</g>`;
   }).join("");
@@ -1051,7 +1054,7 @@ function paneStruct(){
     if(gv!=="positional"){
       const N=netLayout(v,f,gv,shared);
       return `<div class="gwrap">
-      <div class="ghead"><b>${esc(v.name)}</b><em>${N.nodes.length} entities · ${N.edges.length} relations · nearer the centre = higher PageRank, on ${mode==="all"?"all relations":"influence arrows"}${gv==="fixed"&&N.ghosts.length?` · ${N.ghosts.length} not on this chart`:""}</em></div>
+      <div class="ghead"><b>${esc(v.name)}</b><em>${N.nodes.length} entities · ${N.edges.length} relations · circles = bands of PageRank rank, on ${mode==="all"?"all relations":"influence arrows"}${gv==="fixed"&&N.ghosts.length?` · ${N.ghosts.length} not on this chart`:""}</em></div>
       ${svgNetwork(N,v.id)}
       <div class="zhint">scroll to zoom · drag to pan · double-click to reset</div>
     </div>`;
@@ -1154,7 +1157,7 @@ function paneStruct(){
     ${KINDS.map(t=>`<span>${dot(t)}${KIND_LABEL[t]}</span>`).join("")}
   </div>
   <div class="callout" style="margin-top:16px">
-    <p><b>Time is set aside.</b> Every entity, persons and places included, is a node, and every relation the chart draws is an edge. <b>Distance from the centre is measured:</b> the higher an entity's PageRank, the nearer the centre, on the graph chosen under “Measured on” below. Node size is PageRank too. Only the most central entities are named; hover over the others.</p>
+    <p><b>Time is set aside.</b> Every entity, persons and places included, is a node, and every relation the chart draws is an edge. <b>Distance from the centre is rank:</b> entities are ranked by PageRank, on the graph chosen under “Measured on” below, and each circle holds one band of ranks, labelled on the circle. Rank 1 is at the centre. Entities outside that graph, such as places when only influence arrows are measured, sit on the dashed outer circle: they are not ranked at all. Node size is the PageRank value.</p>
     <p><b>The angle only groups.</b> Entities in the same cluster (label propagation, as in the table below) share a sector of the circle; entities in no cluster share the last one. Where two entities sit within a ring carries no meaning.</p>
     ${state.gview==="fixed"?`<p><b>Fixed:</b> every entity keeps one place on all the selected charts, worked out on all of them together, so what appears, disappears or changes size from chart to chart stands out. Empty dots are entities on another selected chart but not this one. Node sizes share one scale across the charts.</p>`
       :`<p><b>Centrality:</b> each chart is centred on its own most central entities, so the same entity can sit in a different place on each chart.</p>`}
