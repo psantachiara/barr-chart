@@ -43,7 +43,7 @@ INTERP, READINGS, DERIVED = GRAPH.interpretation, GRAPH.readings, GRAPH.derived
 MODELLER = "Pietro Santachiara"
 
 TYPES = {"Movement": CRM.E55_Type, "Person": CRM.E21_Person, "Place": CRM.E53_Place}
-RELATIONS = {"influenced": (BARR.influenced, DINO.Arrow), "associatedWithPlace": (BARR.associatedWithPlace, DINO.Juxtaposition),
+RELATIONS = {"influenced": (BARR.influenced, DINO.Arrow), "associatedWithPlace": (BARR.associatedWithPlace, DINO.Proximity),
              "memberOf": (BARR.memberOf, DINO.Enclosure), "relatedTo": (SKOS.related, DINO.Connector)}
 LINES = {"solid": DINO.solid, "dotted": DINO.dotted, "dashed": DINO.dashed, "other": DINO.otherLine}
 INK = {"black": DINO.black, "red": DINO.red, "blue": DINO.blue, "graphite": DINO.graphite, "other": DINO.otherInk}

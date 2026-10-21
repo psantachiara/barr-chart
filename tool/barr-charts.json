@@ -7496,6 +7496,7 @@
      "crm:E36_Visual_Item"
     ],
     "def": "A graphical element of a diagram, as drawn: a written label, an arrow, an enclosure. A mark records what is on the sheet and carries no meaning of its own; meaning comes from the diagram's conventions. Not crm:E37_Mark, which covers signatures and similar identifying marks.",
+    "note": "",
     "module": "core"
    },
    {
@@ -7505,6 +7506,7 @@
      "skos:Concept"
     ],
     "def": "A value a mark can take on one graphical dimension.",
+    "note": "",
     "module": "core"
    },
    {
@@ -7514,6 +7516,7 @@
      "dino:GraphicValue"
     ],
     "def": "The ink or medium a mark is drawn in.",
+    "note": "",
     "module": "core"
    },
    {
@@ -7523,6 +7526,7 @@
      "dino:GraphicValue"
     ],
     "def": "How a drawn line is drawn: solid, dotted, dashed.",
+    "note": "",
     "module": "core"
    },
    {
@@ -7532,6 +7536,7 @@
      "dino:GraphicValue"
     ],
     "def": "A shape drawn with or around a label.",
+    "note": "",
     "module": "core"
    },
    {
@@ -7541,6 +7546,7 @@
      "dino:GraphicValue"
     ],
     "def": "A positional dimension of the sheet that can carry meaning, such as vertical position against a scale.",
+    "note": "",
     "module": "core"
    },
    {
@@ -7548,6 +7554,7 @@
     "label": "Convention",
     "sub": [],
     "def": "A rule, valid for one diagram, that gives a graphic value (or a legend code) a meaning: 'on this diagram, graphite signifies external influence'. The same graphic value can mean different things on different diagrams, and different values can mean the same thing; conventions make both statements explicit. Every convention has a basis: stated on the sheet, or inferred by a modeller.",
+    "note": "",
     "module": "core"
    },
    {
@@ -7557,6 +7564,7 @@
      "skos:Concept"
     ],
     "def": "Where a convention or a reading comes from.",
+    "note": "",
     "module": "core"
    },
    {
@@ -7564,6 +7572,7 @@
     "label": "Reading",
     "sub": [],
     "def": "An ordering of several diagrams, with its source and basis. Order belongs to the reading, not to the diagrams: the diagrams carry no sequence of their own.",
+    "note": "",
     "module": "core"
    },
    {
@@ -7574,6 +7583,7 @@
      "skosxl:Label"
     ],
     "def": "A written label: at once a lexical label (its skosxl:literalForm is the wording as written) and a visual item (with ink, shape and position). Comparable to crm:E34_Inscription, which is both a linguistic object and a mark.",
+    "note": "",
     "module": "node-link"
    },
    {
@@ -7583,6 +7593,7 @@
      "dino:Mark"
     ],
     "def": "A mark that connects two concepts of the diagram.",
+    "note": "Two of the kinds follow Gestalt principles by which marks are seen to belong together: proximity (dino:Proximity) and connectedness (dino:Connector). dino:Arrow adds what grouping lacks: a direction.",
     "module": "node-link"
    },
    {
@@ -7592,6 +7603,7 @@
      "dino:RelationMark"
     ],
     "def": "A directed line from one label to another.",
+    "note": "The only relation mark with a direction: a line with a head.",
     "module": "node-link"
    },
    {
@@ -7601,15 +7613,17 @@
      "dino:RelationMark"
     ],
     "def": "A label written inside a shape drawn around or under another label, such as a name inside a semicircle.",
+    "note": "",
     "module": "node-link"
    },
    {
-    "term": "dino:Juxtaposition",
-    "label": "Juxtaposition",
+    "term": "dino:Proximity",
+    "label": "Proximity",
     "sub": [
      "dino:RelationMark"
     ],
-    "def": "A label written with another, connected by placement rather than by a drawn line.",
+    "def": "A label written near another and related to it by placement alone, with no line or shape joining them, such as a place written beneath a movement.",
+    "note": "Grouping by proximity, the first of the Gestalt grouping principles (Wertheimer 1923). Nearness is a matter of degree, and every label is near something: a proximity is recorded only where the modeller judges one label to be written with the other. It is a judgement made at transcription, not a measured distance.",
     "module": "node-link"
    },
    {
@@ -7619,6 +7633,7 @@
      "dino:RelationMark"
     ],
     "def": "An undirected line, or a drawn connection whose kind cannot be assigned.",
+    "note": "Grouping by connectedness (Palmer and Rock 1994).",
     "module": "node-link"
    }
   ],
@@ -7769,7 +7784,7 @@
     "kind": "object",
     "domain": "dino:RelationMark",
     "range": "skos:Concept",
-    "def": "The concept a relation mark starts from (the tail of an arrow; the enclosed or juxtaposed label).",
+    "def": "The concept a relation mark starts from (the tail of an arrow; the enclosed label; the label written near another).",
     "note": "",
     "module": "node-link"
    },

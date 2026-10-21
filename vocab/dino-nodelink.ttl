@@ -56,13 +56,15 @@ dino:notates a owl:ObjectProperty ;
 dino:RelationMark a owl:Class ;
     rdfs:subClassOf dino:Mark ;
     rdfs:label "Relation mark"@en ;
-    rdfs:comment "A mark that connects two concepts of the diagram."@en .
+    rdfs:comment "A mark that connects two concepts of the diagram."@en ;
+    skos:scopeNote "Two of the kinds follow Gestalt principles by which marks are seen to belong together: proximity (dino:Proximity) and connectedness (dino:Connector). dino:Arrow adds what grouping lacks: a direction."@en .
 
 
 dino:Arrow a owl:Class ;
     rdfs:subClassOf dino:RelationMark ;
     rdfs:label "Arrow"@en ;
-    rdfs:comment "A directed line from one label to another."@en .
+    rdfs:comment "A directed line from one label to another."@en ;
+    skos:scopeNote "The only relation mark with a direction: a line with a head."@en .
 
 
 dino:Enclosure a owl:Class ;
@@ -71,23 +73,25 @@ dino:Enclosure a owl:Class ;
     rdfs:comment "A label written inside a shape drawn around or under another label, such as a name inside a semicircle."@en .
 
 
-dino:Juxtaposition a owl:Class ;
+dino:Proximity a owl:Class ;
     rdfs:subClassOf dino:RelationMark ;
-    rdfs:label "Juxtaposition"@en ;
-    rdfs:comment "A label written with another, connected by placement rather than by a drawn line."@en .
+    rdfs:label "Proximity"@en ;
+    rdfs:comment "A label written near another and related to it by placement alone, with no line or shape joining them, such as a place written beneath a movement."@en ;
+    skos:scopeNote "Grouping by proximity, the first of the Gestalt grouping principles (Wertheimer 1923). Nearness is a matter of degree, and every label is near something: a proximity is recorded only where the modeller judges one label to be written with the other. It is a judgement made at transcription, not a measured distance."@en .
 
 
 dino:Connector a owl:Class ;
     rdfs:subClassOf dino:RelationMark ;
     rdfs:label "Connector"@en ;
-    rdfs:comment "An undirected line, or a drawn connection whose kind cannot be assigned."@en .
+    rdfs:comment "An undirected line, or a drawn connection whose kind cannot be assigned."@en ;
+    skos:scopeNote "Grouping by connectedness (Palmer and Rock 1994)."@en .
 
 
 dino:from a owl:ObjectProperty ;
     rdfs:label "from"@en ;
     rdfs:domain dino:RelationMark ;
     rdfs:range skos:Concept ;
-    rdfs:comment "The concept a relation mark starts from (the tail of an arrow; the enclosed or juxtaposed label)."@en .
+    rdfs:comment "The concept a relation mark starts from (the tail of an arrow; the enclosed label; the label written near another)."@en .
 
 
 dino:to a owl:ObjectProperty ;
@@ -125,7 +129,7 @@ dino:LabelMark rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
 dino:RelationMark rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
 dino:Arrow rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
 dino:Enclosure rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
-dino:Juxtaposition rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
+dino:Proximity rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
 dino:Connector rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
 dino:notates rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .
 dino:from rdfs:isDefinedBy <https://psantachiara.github.io/dino/nodelink> .

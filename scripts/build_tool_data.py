@@ -201,7 +201,7 @@ ontology = {
                 {"name": "node-link", "file": "vocab/dino-nodelink.ttl",
                  "label": str(onto.value(URIRef(BASE.replace("barr-chart/", "dino/nodelink")), RDFS.label) or "")}],
     "classes": [{"term": qn(u), "label": txt(u, RDFS.label), "sub": sorted(qn(o) for o in onto.objects(u, RDFS.subClassOf)),
-                 "def": txt(u, RDFS.comment, SK.definition), "module": module(u)}
+                 "def": txt(u, RDFS.comment, SK.definition), "note": txt(u, SK.scopeNote), "module": module(u)}
                 for u in sorted((u for u in dino_terms() if (u, RDF.type, OWL.Class) in onto), key=pos)],
     "properties": [{"term": qn(u), "label": txt(u, RDFS.label),
                     "kind": "data" if (u, RDF.type, OWL.DatatypeProperty) in onto else "object",

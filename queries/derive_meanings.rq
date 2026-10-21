@@ -13,7 +13,7 @@ WHERE {
     GRAPH ?h { ?conv a dino:Convention ; dino:holdsFor ?diagram ; dino:graphicValue ?value ; dino:signifies ?meaning .
                OPTIONAL { ?conv dino:appliesTo ?applies } }
     FILTER (!BOUND(?applies) || ?kind = ?applies ||
-            (?applies = dino:RelationMark && ?kind IN (dino:Arrow, dino:Enclosure, dino:Juxtaposition, dino:Connector)))
+            (?applies = dino:RelationMark && ?kind IN (dino:Arrow, dino:Enclosure, dino:Proximity, dino:Connector)))
   }
   UNION
   {
