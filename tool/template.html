@@ -1508,7 +1508,7 @@ function paneMethod(){
     ["Typed transcription","Every entity and relation is typed in from the facsimile, chart by chart, through the Barr Chart Transcriber. Nothing is carried over from earlier datasets. Each row has a certainty and a verification date."],
     ["Record the mark, derive the meaning","Ink, line, shape and position are recorded as seen. Each chart's conventions, stated on the sheet or inferred by the analyst, give them meaning: internal or external, primary or secondary, a source outside modern art, membership, a title. Meaning is derived by query, never entered by hand."],
     ["Reconcile, keep the wording","The same referent gets one identifier on every chart, and each chart keeps its own wording. Merges are noted in the vocabulary, and the formal difference stays visible on Planes I and V."],
-    ["Linked data","The tables become linked data described with DINO, the Diagram Notation Ontology: marks, the conventions that give them meaning on each chart, and readings. One graph per chart, one for the analyst's interpretation. The comparison runs as SPARQL over it."],
+    ["Linked data","The tables become linked data described with <span class='cap'>DINO</span> 🦖, the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology: marks, the conventions that give them meaning on each chart, and readings. One graph per chart, one for the analyst's interpretation. The comparison runs as SPARQL over it."],
     ["Five planes","Terminological, conceptual, structural, genetic, synchronic. Each can be run on its own; only the genetic plane uses an order."],
     ["Readings","A reading orders some of the charts and states its basis: documented (from the archive), analytical (proposed by an analyst), or published (an order given in a publication, such as Lowry’s plate numbers, with no claim about chronology). The edit grammar is computed along it."]
   ];
@@ -1536,7 +1536,7 @@ function paneMethod(){
   <h3 class="sh">Protocol</h3>
   <div class="oplist">${steps.map(([t,d],i)=>`<div class="oprow" style="grid-template-columns:44px 1fr">
     <div class="opk" style="font-size:15px">${i+1}</div>
-    <div class="opb"><b style="background:none;padding:0;font-family:var(--disp);font-size:13px;letter-spacing:.06em;text-transform:uppercase">${esc(t)}</b><span class="opn" style="font-style:normal">${esc(d)}</span></div></div>`).join("")}</div>
+    <div class="opb"><b style="background:none;padding:0;font-family:var(--disp);font-size:13px;letter-spacing:.06em;text-transform:uppercase">${esc(t)}</b><span class="opn" style="font-style:normal">${d}</span></div></div>`).join("")}</div>
 
   <h3 class="sh">How this page is built</h3>
   <div class="oplist">${[
