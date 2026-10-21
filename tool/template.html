@@ -769,9 +769,9 @@ function paneTerm(){
   }).join("");
 
   /* fixed layout: every chart column and the Difference column get exactly the same width */
-  const eq=(66/(vs.length+1)).toFixed(3)+"%";
+  const eq=((100-14.6-7-5.6)/(vs.length+1)).toFixed(3)+"%";
   const table = `<div class="tw"><table class="dt ledger">
-    <colgroup><col style="width:19%"><col style="width:7%"><col style="width:8%">${vs.map(()=>`<col style="width:${eq}">`).join("")}<col style="width:${eq}"></colgroup>
+    <colgroup><col style="width:14.6%"><col style="width:7%"><col style="width:5.6%">${vs.map(()=>`<col style="width:${eq}">`).join("")}<col style="width:${eq}"></colgroup>
     <thead><tr><th>Entity (reconciled)</th><th>Kind</th><th>Charts</th>${vs.map(v=>`<th>${esc(v.name)}</th>`).join("")}<th>Difference</th></tr></thead><tbody>
     ${rows.map(id=>{
       const kinds=kindsOf(id);
