@@ -701,7 +701,36 @@ function netMeasures(nodes, edges, mode){
   const pr=pagerank(inG, kids);
   return {pr, comm:communities(inG, pairs)};
 }
-function radial(nodes, pr, comm){
+/* Within each band, entities may swap places when that leaves fewer arrows crossing or running on top of
+   one another. The band (rank) never changes; a mild pull keeps each entity near its cluster's sector. */
+function untangle(pos, rings, edges, pref, cx, cy){
+  const E=edges.filter(e=>pos[e.s]&&pos[e.t]&&e.s!==e.t).map(e=>({s:e.s, t:e.t, w:e.rel==="influence"?1:.25}));
+  const inc={}; E.forEach(e=>{ (inc[e.s]=inc[e.s]||[]).push(e); (inc[e.t]=inc[e.t]||[]).push(e); });
+  const P=x=>pos[x];
+  const cross=(a,b,c,d)=>{ const o=(p,q,r)=>(q.x-p.x)*(r.y-p.y)-(q.y-p.y)*(r.x-p.x);
+    return o(a,b,c)*o(a,b,d)<0 && o(c,d,a)*o(c,d,b)<0; };
+  const angDiff=(a,b)=>{ let d=Math.abs(a-b)%(2*Math.PI); return d>Math.PI?2*Math.PI-d:d; };
+  const cost=set=>{ let c=0; const mine=new Set(); set.forEach(x=>(inc[x]||[]).forEach(e=>mine.add(e)));
+    mine.forEach(e=>{ const a=P(e.s), b=P(e.t);
+      c+=e.w*Math.hypot(a.x-b.x,a.y-b.y)*0.004;
+      E.forEach(f=>{ if(f===e||f.s===e.s||f.s===e.t||f.t===e.s||f.t===e.t) return; if(cross(a,b,P(f.s),P(f.t))) c+=e.w*f.w; });
+      /* arrows leaving or reaching one entity in nearly the same direction lie on top of each other */
+      [e.s,e.t].forEach(x=>(inc[x]||[]).forEach(f=>{ if(f===e) return;
+        const o1=x===e.s?e.t:e.s, o2=x===f.s?f.t:f.s, p=P(x);
+        const a1=Math.atan2(P(o1).y-p.y,P(o1).x-p.x), a2=Math.atan2(P(o2).y-p.y,P(o2).x-p.x);
+        if(angDiff(a1,a2)<0.22) c+=2.5*e.w*f.w*(1-angDiff(a1,a2)/0.22); })); });
+    set.forEach(x=>{ if(P(x).th!==undefined && pref[x]!==undefined) c+=0.35*angDiff(P(x).th,pref[x]); });
+    return c; };
+  const place=(x,th,r)=>{ pos[x]={x:cx+r*Math.cos(th), y:cy+r*Math.sin(th), th, r}; };
+  for(let pass=0; pass<3; pass++){ let better=false;
+    rings.forEach(ring=>{ for(let i=0;i<ring.length;i++) for(let j=i+1;j<ring.length;j++){
+      const a=ring[i], b=ring[j]; if(!inc[a]&&!inc[b]) continue;
+      const before=cost([a,b]), pa=P(a), pb=P(b);
+      place(a,pb.th,pb.r); place(b,pa.th,pa.r);
+      if(cost([a,b])+1e-9<before) better=true; else { place(a,pa.th,pa.r); place(b,pb.th,pb.r); } } });
+    if(!better) break; }
+}
+function radial(nodes, pr, comm, edges){
   const C=MODEL.concepts, {W,H,R}=NET, cx=W/2, cy=H/2;
   const measured=nodes.filter(x=>pr[x]!==undefined), unmeasured=nodes.filter(x=>pr[x]===undefined);
   const score=x=>pr[x]||0;
@@ -715,9 +744,11 @@ function radial(nodes, pr, comm){
     sectors.push({a0, a1:a0+w, n:g.length, rest:gi===groups.length-1&&rest.length>0}); a0+=w; });
   const pos={}, guides=[];
   const RM = unmeasured.length ? R-34 : R;          /* measured entities inside; the unmeasured on their own outer band */
+  const ringsOut=[];
   const spread=(ring, r)=>{ const sorted=ring.slice().sort((a,b)=>pref[a]-pref[b]), n=sorted.length, gap=2*Math.PI/n;
     let sx=0, sy=0; sorted.forEach((x,j)=>{ const d=pref[x]-j*gap; sx+=Math.cos(d); sy+=Math.sin(d); }); const rot=Math.atan2(sy,sx);
-    sorted.forEach((x,j)=>{ const th=rot+j*gap; pos[x]={x:cx+r*Math.cos(th), y:cy+r*Math.sin(th)}; }); };
+    sorted.forEach((x,j)=>{ const th=rot+j*gap; pos[x]={x:cx+r*Math.cos(th), y:cy+r*Math.sin(th), th, r}; });
+    ringsOut.push(sorted); };
   /* bands of rank, filled in order: rank 1 at the centre, then bands that widen slowly outward */
   const rings=[]; let i=0, k=0;
   while(i<ranked.length){ const cap=k===0?1:2*k+3; rings.push([i+1, Math.min(i+cap, ranked.length), ranked.slice(i,i+cap)]); i+=cap; k++; }
@@ -726,13 +757,14 @@ function radial(nodes, pr, comm){
     if(k===0) ring.forEach(x=>pos[x]={x:cx,y:cy}); else spread(ring, r);
     guides.push({r, label: a===b ? `rank ${a}` : `ranks ${a}–${b}`}); });
   if(unmeasured.length){ spread(unmeasured, R); guides.push({r:R, label:"not in this graph", out:true}); }
+  untangle(pos, ringsOut, edges||[], pref, cx, cy);
   return {pos, sectors, cx, cy, guides};
 }
 function netLayout(v, f, kind, shared){
   const C=MODEL.concepts, mode=state.gmode;
   const {nodes, edges}=netGraph(v, f);
   const own=netMeasures(nodes, edges, mode);
-  const geo = kind==="fixed" ? shared : radial(nodes, own.pr, own.comm);
+  const geo = kind==="fixed" ? shared : radial(nodes, own.pr, own.comm, edges);
   const maxPr = kind==="fixed" ? shared.maxPr : Math.max(1e-9, ...Object.values(own.pr));
   const rank=nodes.slice().sort((a,b)=>(own.pr[b]||0)-(own.pr[a]||0)||(a<b?-1:1));
   const labelled=new Set(nodes);
@@ -746,14 +778,38 @@ function netLayout(v, f, kind, shared){
     sectors:geo.sectors, cx:geo.cx, cy:geo.cy, R:NET.R, guides:geo.guides, width:NET.W, height:NET.H};
 }
 /* one place per entity across the selected charts: the union graph, measured and laid out once */
+const NET_CACHE={};
 function netShared(vs, f){
+  const key=vs.map(v=>v.id).join(",")+"|"+f+"|"+state.gmode;
+  return NET_CACHE[key] || (NET_CACHE[key]=netSharedCompute(vs, f));
+}
+function netSharedCompute(vs, f){
   const nodes=new Set(), edges=[], seen=new Set();
   vs.forEach(v=>{ const g=netGraph(v,f); g.nodes.forEach(x=>nodes.add(x));
     g.edges.forEach(e=>{ const k=e.s+"|"+e.rel+"|"+e.t; if(!seen.has(k)){ seen.add(k); edges.push(e); } }); });
-  const ns=[...nodes], m=netMeasures(ns, edges, state.gmode), geo=radial(ns, m.pr, m.comm);
+  const ns=[...nodes], m=netMeasures(ns, edges, state.gmode), geo=radial(ns, m.pr, m.comm, edges);
   /* node sizes comparable across charts: scaled to the largest PageRank on any selected chart */
   geo.maxPr=Math.max(1e-9, ...vs.map(v=>{ const g=netGraph(v,f); return Math.max(0, ...Object.values(netMeasures(g.nodes,g.edges,state.gmode).pr)); }));
   return geo;
+}
+/* The consensus as a network: every entity where Plane III's "Network: fixed" puts it, every relation drawn
+   by at least n of the selected charts. Line weight = charts that draw the relation; node size = charts that
+   name the entity; a faint dot is an entity whose relations fall below the threshold. */
+function consensusNetwork(vs, th){
+  const C=MODEL.concepts, geo=netShared(vs,"all");
+  const rc={}, ec={};
+  vs.forEach(v=>{ v.rel.forEach(k=>rc[k]=(rc[k]||0)+1); v.nodes.forEach(x=>ec[x]=(ec[x]||0)+1); });
+  const keep=Object.keys(rc).filter(k=>rc[k]>=th);
+  const shown=new Set(keep.flatMap(k=>{const p=k.split("|"); return [p[0],p[2]];}));
+  const agreed=(k,i)=>{ const vals=vs.filter(v=>v.rel.has(k)).map(v=>(v.style[k]||[])[i]||""); return vals.every(z=>z===vals[0])?vals[0]:""; };
+  const nodes=[...shown].map(x=>{ const p=geo.pos[x]||{x:geo.cx,y:geo.cy};
+    return {id:x, x:p.x, y:p.y, r:3+2.6*(ec[x]||1), label:C[x].l, type:C[x].t, boxed:vs.some(v=>(v.form[x]||[]).includes("boxed")),
+      ext:false, showLabel:true, pr:ec[x]||0, tip:`on ${ec[x]||0} of ${vs.length} charts`}; });
+  const by={}; nodes.forEach(n=>by[n.id]=n);
+  const edges=keep.map(k=>{ const p=k.split("|"); return {s:p[0], t:p[2], rel:p[1], line:agreed(k,0), scope:agreed(k,1), weight:.6+.55*(rc[k]-1), a:by[p[0]], b:by[p[2]]}; });
+  const ghosts=Object.keys(geo.pos).filter(x=>!shown.has(x)).map(x=>({id:x, x:geo.pos[x].x, y:geo.pos[x].y, label:C[x].l}));
+  return {network:true, kind:"fixed", nodes, ghosts, edges, sectors:geo.sectors, cx:geo.cx, cy:geo.cy, R:NET.R, guides:geo.guides,
+    width:NET.W, height:NET.H};
 }
 function svgNetwork(L, key){
   const {W,H}={W:L.width,H:L.height}, cx=L.cx, cy=L.cy;
@@ -773,7 +829,7 @@ function svgNetwork(L, key){
     const col=e.scope==="external"?"var(--oxblood)":e.scope==="internal"?"var(--ink-2)":"var(--ink-3)";
     /* a slight bend, so that arrows in both directions between two entities stay apart */
     const mx=(x1+x2)/2-uy*d*.08, my=(y1+y2)/2+ux*d*.08;
-    return `<path d="M${f2(x1)} ${f2(y1)} Q ${f2(mx)} ${f2(my)} ${f2(x2)} ${f2(y2)}" fill="none" stroke="${col}" stroke-width="1"
+    return `<path d="M${f2(x1)} ${f2(y1)} Q ${f2(mx)} ${f2(my)} ${f2(x2)} ${f2(y2)}" fill="none" stroke="${col}" stroke-width="${f2(e.weight||1)}"
       ${e.line==="dotted"?'stroke-dasharray="3 3"':""} opacity=".6" marker-end="url(#${e.scope==="external"?"ax":"ah"}-${key})"/>`;
   }).join("");
   const boxes=[], CH=6.1, place={};
@@ -796,7 +852,7 @@ function svgNetwork(L, key){
       ? `<rect x="${f2(n.x-n.r)}" y="${f2(n.y-n.r)}" width="${f2(2*n.r)}" height="${f2(2*n.r)}" fill="var(--card)" stroke="${c}" stroke-width="1"/>`
       : `<circle cx="${f2(n.x)}" cy="${f2(n.y)}" r="${f2(n.r)}" fill="var(--card)" stroke="${c}" stroke-width="1"/>`;
     const lab=P?`<text class="nlabel" x="${f2(P.x)}" y="${f2(P.y)}" text-anchor="${P.anc}" fill="${c}" ${P.small?'font-size="8"':""} paint-order="stroke" stroke="var(--card)" stroke-width="3" stroke-linejoin="round">${esc(n.label)}</text>`:"";
-    return `<g class="nd" data-id="${esc(n.id)}"><title>${esc(n.label)} · PageRank ${f3(n.pr)}</title>${shape}
+    return `<g class="nd" data-id="${esc(n.id)}"><title>${esc(n.label)} · ${n.tip||"PageRank "+f3(n.pr)}</title>${shape}
       ${n.ext?`<circle cx="${f2(n.x-n.r-4)}" cy="${f2(n.y)}" r="2.4" fill="var(--oxblood)"/>`:""}${lab}</g>`;
   }).join("");
   const marker=(id,col)=>`<marker id="${id}-${key}" viewBox="0 0 8 8" refX="7" refY="4" markerUnits="userSpaceOnUse" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 1 L7 4 L0 7 z" fill="${col}"/></marker>`;
@@ -814,7 +870,7 @@ const esc = s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;
 const f3 = n=>n.toFixed(3), f2 = n=>n.toFixed(2);
 
 const state = {plane:"charts", sel:new Set(), secondary:false,
-  termQ:"", termFilter:"all", gfilter:"all", gview:"positional", gmode:"influence", clusterOf:null,
+  termQ:"", termFilter:"all", gfilter:"all", gview:"positional", cview:"positional", gmode:"influence", clusterOf:null,
   reading:null, custom:[], step:0, mxMeasure:"entities", mxSel:null, thresh:4};
 
 function strip(id, small, test){
@@ -1439,9 +1495,17 @@ function paneSyn(){
     <input type="range" id="th" min="1" max="${vs.length}" value="${th}">
     <span class="kv" style="font-size:13px">${th} chart${th>1?"s":""}</span>
     <span class="kv">${keep.length} relations · ${cn.size} entities</span>
+    <label style="margin-left:14px">View</label>
+    <div class="seg" id="cview">
+      ${[["positional","Positional"],["network","Network: fixed"]].map(([k,l])=>`<button data-k="${k}" class="${state.cview===k?"on":""}">${l}</button>`).join("")}
+    </div>
   </div>
-  <div class="gwrap"><div class="ghead"><b>Consensus, on ≥ ${th}</b><em>${keep.length} relations · ${cn.size} entities · each entity at the median of where the charts place it · line weight = number of charts</em></div>
-    ${svgGraph(L,"cons")}<div class="zhint">scroll to zoom · drag to pan</div></div>
+  ${state.cview==="network"
+    ? `<div class="gwrap"><div class="ghead"><b>Consensus, on ≥ ${th}</b><em>${keep.length} relations · ${cn.size} entities · positions as in Plane III, Network: fixed, measured on ${state.gmode==="all"?"all relations":"influence arrows"} · line weight = charts that draw it · node size = charts that name it</em></div>
+      ${svgNetwork(consensusNetwork(vs,th),"cons")}<div class="zhint">scroll to zoom · drag to pan · double-click to reset</div></div>
+      <p class="note">Every entity keeps the place it has in Plane III's fixed network, so this is what remains of those drawings once at least ${th} chart${th>1?"s":""} must agree. Faint dots are entities whose relations fall below the threshold. Circles are bands of PageRank rank on all the selected charts together.</p>`
+    : `<div class="gwrap"><div class="ghead"><b>Consensus, on ≥ ${th}</b><em>${keep.length} relations · ${cn.size} entities · each entity at the median of where the charts place it · line weight = number of charts</em></div>
+    ${svgGraph(L,"cons")}<div class="zhint">scroll to zoom · drag to pan</div></div>`}
   <div class="tw" style="margin-top:14px;max-height:520px;overflow:auto"><table class="dt"><thead><tr><th>Relation</th><th class="num">n</th><th>Charts</th></tr></thead><tbody>${consRows}</tbody></table></div>
   <p class="note">The name of this plane is provisional. It is the order-free counterpart of Plane IV: the same differences, without a direction.</p>`;
 }
@@ -1829,6 +1893,7 @@ function bindPane(){
   seg("gfilt", b=>state.gfilter=b.dataset.k);
   seg("gmode", b=>state.gmode=b.dataset.k);
   seg("gview", b=>state.gview=b.dataset.k);
+  seg("cview", b=>state.cview=b.dataset.k);
   seg("clusterof", b=>state.clusterOf=b.dataset.k);
   seg("reading", b=>{state.reading=b.dataset.k; state.step=0;});
   seg("step", b=>state.step=+b.dataset.i);
