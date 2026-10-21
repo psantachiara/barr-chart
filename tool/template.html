@@ -172,6 +172,8 @@ table.dt td.wrap code{font-size:.82em}
 h4.ss{font-family:var(--disp); font-size:16px; letter-spacing:.01em; color:var(--ink); margin:28px 0 10px; font-weight:600}
 h4.ss span{float:right; font-family:var(--mono); font-size:10px; letter-spacing:.04em; color:var(--ink-3); text-transform:none; font-weight:400}
 /* ---------- tables ---------- */
+table.dt.ledger{table-layout:fixed; min-width:880px}
+table.dt.ledger td{overflow-wrap:anywhere}
 table.dt{border-collapse:collapse; width:100%; font-family:var(--mono); font-size:11.5px}
 table.dt th{
   text-align:left; font-family:var(--disp); font-size:10px; letter-spacing:.12em;
@@ -766,7 +768,10 @@ function paneTerm(){
       <td class="num">${ill}</td><td class="num">${unc}</td><td class="num">${dif}</td></tr>`;
   }).join("");
 
-  const table = `<div class="tw"><table class="dt">
+  /* fixed layout: every chart column and the Difference column get exactly the same width */
+  const eq=(66/(vs.length+1)).toFixed(3)+"%";
+  const table = `<div class="tw"><table class="dt ledger">
+    <colgroup><col style="width:19%"><col style="width:7%"><col style="width:8%">${vs.map(()=>`<col style="width:${eq}">`).join("")}<col style="width:${eq}"></colgroup>
     <thead><tr><th>Entity (reconciled)</th><th>Kind</th><th>Charts</th>${vs.map(v=>`<th>${esc(v.name)}</th>`).join("")}<th>Difference</th></tr></thead><tbody>
     ${rows.map(id=>{
       const kinds=kindsOf(id);
