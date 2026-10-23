@@ -185,15 +185,6 @@ table.dt td.lbl{font-family:var(--prose); font-size:13px}
 table.dt td.diff{color:var(--oxblood)}
 table.dt td.abs{color:var(--ink-3)}
 .tw{overflow-x:auto; border:1px solid var(--rule); background:var(--card)}
-/* label ledger, four core charts: chart columns of equal width, table width unchanged */
-@media (min-width:1200px){
-  table.dt.ledger-even{table-layout:fixed}
-  table.dt.ledger-even col.c-ent{width:23.05%}
-  table.dt.ledger-even col.c-kind{width:5.85%}
-  table.dt.ledger-even col.c-charts{width:4.94%}
-  table.dt.ledger-even col.c-chart{width:13.455%}
-  table.dt.ledger-even col.c-diff{width:12.34%}
-}
 .pill{font-family:var(--mono); font-size:9px; letter-spacing:.06em; text-transform:uppercase;
   padding:2px 6px; border:1px solid currentColor; border-radius:2px; white-space:nowrap}
 .t-movement{color:var(--t-movement)} .t-person{color:var(--t-person)} .t-place{color:var(--t-place)}
@@ -1012,9 +1003,10 @@ function paneTerm(){
       <td class="num">${ill}</td><td class="num">${unc}</td><td class="num">${dif}</td></tr>`;
   }).join("");
 
-  /* With the four core charts, their columns share one width; the other columns keep the widths they take in the automatic layout. Wide screens only. */
+  /* With the four core charts, their columns share one width (set by evenLedger after rendering);
+     every other column keeps the width the automatic layout gives it, so the table's width does not change. */
   const even = vs.length===4 && vs.every(v=>v.group==="core");
-  const cols = even ? `<colgroup><col class="c-ent"><col class="c-kind"><col class="c-charts">${vs.map(()=>`<col class="c-chart">`).join("")}<col class="c-diff"></colgroup>` : "";
+  const cols = even ? `<colgroup>${["","",""].concat(vs.map(()=>"chart"),[""]).map(k=>`<col${k?` class="c-chart"`:""}>`).join("")}</colgroup>` : "";
   const table = `<div class="tw"><table class="dt${even?" ledger-even":""}">${cols}
     <thead><tr><th>Entity (reconciled)</th><th>Kind</th><th>Charts</th>${vs.map(v=>`<th>${esc(v.name)}</th>`).join("")}<th>Difference</th></tr></thead><tbody>
     ${rows.map(id=>{
@@ -1907,6 +1899,17 @@ function render(){
   host.innerHTML = RENDERERS[state.plane]();
   bindPane();
 }
+/* Label ledger: measure the automatic layout, then give the chart columns their average width and keep every other column as measured */
+function evenLedger(){
+  const tb=$("table.ledger-even"); if(!tb) return;
+  const cols=[...tb.querySelectorAll("col")];
+  tb.style.tableLayout="auto"; cols.forEach(c=>c.style.width="");
+  const w=[...tb.querySelectorAll("thead th")].map(h=>h.getBoundingClientRect().width);
+  const ch=cols.map((c,i)=>c.classList.contains("c-chart")?i:-1).filter(i=>i>=0);
+  const avg=ch.reduce((s,i)=>s+w[i],0)/ch.length;
+  cols.forEach((c,i)=>c.style.width=(ch.includes(i)?avg:w[i])+"px");
+  tb.style.tableLayout="fixed";
+}
 function bindPane(){
   const seg=(id,fn)=>{const n=$("#"+id); if(!n) return; n.querySelectorAll("button").forEach(b=>b.onclick=()=>{fn(b); render();});};
   seg("termfilt", b=>state.termFilter=b.dataset.k);
@@ -1926,6 +1929,7 @@ function bindPane(){
   const th=$("#th"); if(th) th.oninput=()=>{ state.thresh=+th.value; render(); };
   $$("[data-mx]").forEach(td=>td.onclick=()=>{ state.mxSel = state.mxSel===td.dataset.mx ? null : td.dataset.mx; render(); });
   $$("svg[data-g]").forEach(initCamera);
+  evenLedger();
   $$(".facs a").forEach(el=>el.onclick=e=>{ e.preventDefault(); lbOpen(el.dataset.v); });
   const sc=$("#secondary"); if(sc) sc.onclick=()=>{ state.secondary=!state.secondary; reload(DATA); };
 }
@@ -2037,8 +2041,8 @@ async function boot(){
     render(); window.scrollTo({top:0,behavior:"instant"});
   });
   render();
-  let t; window.addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(syncChipWidth,150);});
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(syncChipWidth);
+  let t; window.addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>{syncChipWidth(); evenLedger();},150);});
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{syncChipWidth(); evenLedger();});
   const bar=$("#stickybar"), mast=$("#masthead");
   const onScroll=()=>bar.classList.toggle("stuck", window.scrollY > mast.offsetHeight - 4);
   window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
