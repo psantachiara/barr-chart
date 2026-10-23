@@ -185,6 +185,15 @@ table.dt td.lbl{font-family:var(--prose); font-size:13px}
 table.dt td.diff{color:var(--oxblood)}
 table.dt td.abs{color:var(--ink-3)}
 .tw{overflow-x:auto; border:1px solid var(--rule); background:var(--card)}
+/* label ledger, four core charts: chart columns of equal width, table width unchanged */
+@media (min-width:1200px){
+  table.dt.ledger-even{table-layout:fixed}
+  table.dt.ledger-even col.c-ent{width:23.05%}
+  table.dt.ledger-even col.c-kind{width:5.85%}
+  table.dt.ledger-even col.c-charts{width:4.94%}
+  table.dt.ledger-even col.c-chart{width:13.455%}
+  table.dt.ledger-even col.c-diff{width:12.34%}
+}
 .pill{font-family:var(--mono); font-size:9px; letter-spacing:.06em; text-transform:uppercase;
   padding:2px 6px; border:1px solid currentColor; border-radius:2px; white-space:nowrap}
 .t-movement{color:var(--t-movement)} .t-person{color:var(--t-person)} .t-place{color:var(--t-place)}
@@ -1003,7 +1012,10 @@ function paneTerm(){
       <td class="num">${ill}</td><td class="num">${unc}</td><td class="num">${dif}</td></tr>`;
   }).join("");
 
-  const table = `<div class="tw"><table class="dt">
+  /* With the four core charts, their columns share one width; the other columns keep the widths they take in the automatic layout. Wide screens only. */
+  const even = vs.length===4 && vs.every(v=>v.group==="core");
+  const cols = even ? `<colgroup><col class="c-ent"><col class="c-kind"><col class="c-charts">${vs.map(()=>`<col class="c-chart">`).join("")}<col class="c-diff"></colgroup>` : "";
+  const table = `<div class="tw"><table class="dt${even?" ledger-even":""}">${cols}
     <thead><tr><th>Entity (reconciled)</th><th>Kind</th><th>Charts</th>${vs.map(v=>`<th>${esc(v.name)}</th>`).join("")}<th>Difference</th></tr></thead><tbody>
     ${rows.map(id=>{
       const kinds=kindsOf(id);
