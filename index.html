@@ -1195,11 +1195,6 @@ function paneStruct(){
     <span><svg width="10" height="10" style="vertical-align:-1px"><circle cx="5" cy="5" r="3" fill="var(--oxblood)"/></svg> external entity (ink key)</span>
     ${KINDS.map(t=>`<span>${dot(t)}${KIND_LABEL[t]}</span>`).join("")}
   </div>
-  <div class="callout" style="margin-top:16px">
-    <p><b>The vertical axis is the chart's own year scale.</b> Each entity sits at the year read off the scale Barr draws on that chart, so the four drawings are not forced onto one calendar. <b>The horizontal axis is the sheet itself:</b> each label sits where Barr wrote it, read from the facsimile, so the layout is Barr's and not the tool's. Labels that would overlap are nudged apart.</p>
-    <p>Places, and artists listed under a current, are written beneath it in small italics, as on the sheets. An entity with no year of its own sits at the median year of what it is attached to, in faint italic; anything that cannot be placed that way goes on a row below the scale.</p>
-    <p><b>An arrow in violet runs backward on the scale</b>: its tail is read later than its head. Nothing is moved to hide it, so it is either Barr's drawing or a reading to check against the facsimile.</p>
-  </div>
 
 `:`  <div class="legend" style="margin:10px 0 0">
     <span>${sw("","var(--ink-3)")} influence (no meaning in the ink key)</span>
@@ -1216,12 +1211,6 @@ function paneStruct(){
     ${state.gview==="fixed"?`<span><svg width="10" height="10" style="vertical-align:-1px"><circle cx="5" cy="5" r="2.4" fill="none" stroke="var(--ink-3)"/></svg> on another selected chart only</span>`:""}
     ${KINDS.map(t=>`<span>${dot(t)}${KIND_LABEL[t]}</span>`).join("")}
   </div>
-  <div class="callout" style="margin-top:16px">
-    <p><b>Time is set aside.</b> Every entity, persons and places included, is a node, and every relation the chart draws is an edge. <b>Distance from the centre is rank:</b> entities are ranked by PageRank, on the graph chosen under “Measured on” below, and each circle holds one band of ranks, labelled on the circle. Rank 1 is at the centre. Entities outside that graph, such as places when only influence arrows are measured, sit on the dashed outer circle: they are not ranked at all. Node size is the PageRank value.</p>
-    <p><b>The angle only groups.</b> Entities in the same cluster (label propagation, as in the table below) share a sector of the circle; entities in no cluster share the last one. Where two entities sit within a ring carries no meaning.</p>
-    ${state.gview==="fixed"?`<p><b>Fixed:</b> every entity keeps one place on all the selected charts, worked out on all of them together, so what appears, disappears or changes size from chart to chart stands out. Empty dots are entities on another selected chart but not this one. Node sizes share one scale across the charts.</p>`
-      :`<p><b>Centrality:</b> each chart is centred on its own most central entities, so the same entity can sit in a different place on each chart.</p>`}
-  </div>
 
 `}
   <h3 class="sh">Conventions <span>how each chart's marks are given meaning</span></h3>
@@ -1230,9 +1219,6 @@ function paneStruct(){
         <b style="font-family:var(--disp);font-size:15px;letter-spacing:.06em;text-transform:uppercase">${esc(v.name)}</b>${unkeyed(v)}</div>
       ${v.legend.length?`<div style="font-family:var(--mono);font-size:11.5px;margin-bottom:8px">${v.legend.map(t=>`<b>${esc(t.code)}</b> ${esc(t.meaning)}`).join(" · ")}</div>`:""}
       <div style="font-size:13.5px">${conventionList(v)}</div></div>`).join("")}</div>
-  <div class="callout" style="margin-top:16px">
-    <p>Ink, line, shape and position are recorded as seen and given meaning only by each chart's own conventions. A convention is either stated on the sheet, like the Insert's legend, or inferred by the modeller, like every ink key. The same meaning can be carried by different inks on different sheets (red on the Cover, graphite on 458), and that equivalence is stated in the data, not inferred by the tool.</p>
-  </div>
 
   <h3 class="sh">Graph statistics <span>measured on</span></h3>
   <div class="ctl"><div class="seg" id="gmode">
