@@ -169,7 +169,7 @@ pre.ttl{font-family:var(--mono); font-size:11.5px; line-height:1.6; background:v
 .ttl .tp{color:var(--indigo)}
 table.dt td.wrap{white-space:normal; min-width:300px; line-height:1.5}
 table.dt td.wrap code{font-size:.82em}
-h4.ss{font-family:var(--disp); font-size:16px; letter-spacing:.01em; color:var(--ink); margin:28px 0 10px; font-weight:600}
+h4.ss{font-family:var(--disp); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); margin:26px 0 9px; font-weight:600}
 h4.ss span{float:right; font-family:var(--mono); font-size:10px; letter-spacing:.04em; color:var(--ink-3); text-transform:none; font-weight:400}
 /* ---------- tables ---------- */
 table.dt{border-collapse:collapse; width:100%; font-family:var(--mono); font-size:11.5px}
@@ -1565,14 +1565,14 @@ function dinoSection(){
     ["domain","What a diagram asserts stays outside","Relations about the diagram's subject, such as influence or membership, belong to each project's vocabulary ("+c("barr:")+" for Barr's charts), so DINO can describe any diagram."],
     ["order","Order belongs to readings","Diagrams carry no sequence. A reading orders them and states its source and basis: documented, analytical or published."],
     ["modular","A core, and profiles",`What any diagram has is in the core; what one kind of diagram has is in a profile that builds on it. A term moves into the core only when it holds beyond the diagrams it was found in.`],
-    ["reuse","Reuse first","The sheet is a CIDOC CRM human-made object that shows the diagram, a visual item; the diagram's concepts are a SKOS scheme; a written label is at once a SKOS-XL label and a mark."]
+    ["reuse","Reuse first","The sheet is a CIDOC-CRM human-made object that shows the diagram, a visual item; the diagram's concepts are a SKOS scheme; a written label is at once a SKOS-XL label and a mark."]
   ];
   const groups=[];
   O.values.forEach(v=>{ let g=groups.find(x=>x.type===v.type); if(!g){g={type:v.type,items:[]};groups.push(g);} g.items.push(v); });
   const typeName={"dino:Ink":"Ink","dino:LineStyle":"Line style","dino:Shape":"Shape","dino:Dimension":"Dimension","dino:Basis":"Basis","skos:Concept":"Meaning"};
   return `
   <h3 class="sh"><b class='cap' style="font-weight:inherit">DINO</b> 🦖, the <b class='cap' style="font-weight:inherit">DI</b>agram <b class='cap' style="font-weight:inherit">N</b>otation <b class='cap' style="font-weight:inherit">O</b>ntology <span>dino: · version ${esc(O.version||"")}</span></h3>
-  <p class="lede" style="font-size:14.5px">Diagrams express meaning through the use of graphical elements, but the same elements have different meanings across diagrams. In Barr's own representations, graphite means nothing on 456 and 457, yet encodes external influence in 458; and at the same time, external influence is represented in red in the cover, while internal influence is blue in 458 and black in cover.</p>
+  <p class="lede" style="font-size:14.5px">Diagrams express meaning through the use of graphical elements, but the same elements have different meanings across diagrams. In Barr's own representations, graphite is the only type of mark on 456 and 457, yet encodes external influence in 458; and at the same time, external influence is represented in red in the cover, while internal influence is blue in 458 and black in cover.</p>
   <p class="lede" style="font-size:14.5px">Existing vocabularies describe the sheet as an object (CIDOC-CRM), the concepts a chart names (SKOS), or the mapping from data to graphics (VISO); no existing computational ontology records a mark together with the rule that gives it a meaning. <strong>DINO 🦖 describes how a diagram expresses meaning</strong>: its marks, and the conventions that express semantic value. DINO supports the representation of diagrams of any kind as Linked Data.</p>
 
   <h4 class="ss">Modules</h4>
@@ -1811,7 +1811,7 @@ function ldEdition(){
     ${vocabs.map(v=>`<tr><td><code>${v[0]}</code></td><td class="lbl">${v[1]}</td><td class="lbl wrap">${v[2]}</td></tr>`).join("")}
   </tbody></table></div>
   <div class="callout">
-    <p><b>Two choices worth knowing.</b> Influence is minted as <code>barr:influenced</code> rather than taken from CIDOC CRM: <code>crm:P15i_influenced</code> has an activity as its range, and a movement typed as <code>crm:E55_Type</code> cannot be one. And the linked data is not open data: it reuses open ontologies and points to open vocabularies, but its identifiers are not published for dereferencing or reuse.</p>
+    <p><b>Two choices worth knowing.</b> Influence is minted as <code>barr:influenced</code> rather than taken from CIDOC-CRM: <code>crm:P15i_influenced</code> has an activity as its range, and a movement typed as <code>crm:E55_Type</code> cannot be one. And the linked data is not open data: it reuses open ontologies and points to open vocabularies, but its identifiers are not published for dereferencing or reuse.</p>
   </div>`;
 }
 
@@ -1855,7 +1855,7 @@ function paneMethod(){
   <h3 class="sh">How the pages are built</h3>
   <div class="oplist">${[
     ["Transcription","Each chart is typed in from its facsimile as tables (CSV): one row per entity written on the sheet and per relation drawn on it, with its wording, ink, line, shape, position on the year scale, certainty and the date it was checked."],
-    ["Linked data","A Python script (rdflib) turns the tables into RDF, serialized as TriG and described with the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology (<span class='cap'>DINO</span> 🦖), reusing SKOS, SKOS-XL, CIDOC CRM and Dublin Core. A SPARQL query then derives what each mark signifies from its chart's conventions. The tables are read only at this step."],
+    ["Linked data","A Python script (rdflib) turns the tables into RDF, serialized as TriG and described with the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology (<span class='cap'>DINO</span> 🦖), reusing SKOS, SKOS-XL, CIDOC-CRM and Dublin Core. A SPARQL query then derives what each mark signifies from its chart's conventions. The tables are read only at this step."],
     ["Queries","SPARQL queries over the linked data return everything this page shows: wording, positions, inks and shapes, identity across charts, meanings, conventions and readings. The results are flattened into JSON and embedded in the site, so it also works opened from disk."],
     ["The pages","Plain JavaScript computes every measure in the browser (overlap, consensus, PageRank, clusters, the edit grammar) and draws every graph as inline SVG, with no charting library. The same algorithms run in Python to produce the written report, and the two agree."]
   ].map(([t,d],i)=>`<div class="oprow" style="grid-template-columns:44px 1fr">

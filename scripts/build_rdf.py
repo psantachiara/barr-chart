@@ -11,7 +11,7 @@ Writes  out/barr-charts.trig      the dataset (graphs below)
 Vocabularies: DINO (vocab/dino.ttl, the core, and vocab/dino-nodelink.ttl, the node-link profile)
 for marks, conventions and readings; the project
 vocabulary (vocab/barr.ttl) for the relations the charts assert and the meanings of their
-conventions point to; SKOS, SKOS-XL, CIDOC CRM and Dublin Core for the rest.
+conventions point to; SKOS, SKOS-XL, CIDOC-CRM and Dublin Core for the rest.
 
 Graph layout
   <…/graph/{chart}>        what one chart shows: the sheet, its diagram, its concept scheme,
@@ -283,7 +283,7 @@ def main(strict=False):
     ig.add((INTERP, DCTERMS.creator, Literal(MODELLER)))
     ig.add((INTERP, DCTERMS.description, Literal("The modeller's statements: the reconciled index, identity across charts, conventions inferred from the drawing.")))
 
-    # the reconciled index: one entry per referent, typed with CIDOC CRM
+    # the reconciled index: one entry per referent, typed with CIDOC-CRM
     index = ID["index"]
     ig.add((index, RDF.type, SKOS.ConceptScheme)); ig.add((index, RDFS.label, Literal("Reconciled index")))
     for c in concepts:

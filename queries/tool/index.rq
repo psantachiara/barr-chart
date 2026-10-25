@@ -1,4 +1,4 @@
-# The reconciled index: every entity, its kind (CIDOC CRM class) and its reconciliation note.
+# The reconciled index: every entity, its kind (CIDOC-CRM class) and its reconciliation note.
 PREFIX dino:    <https://psantachiara.github.io/dino/ns#>
 PREFIX barr:    <https://psantachiara.github.io/barr-chart/ns#>
 PREFIX crm:     <http://www.cidoc-crm.org/cidoc-crm/>

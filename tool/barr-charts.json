@@ -8038,7 +8038,7 @@
      "dino:Arrow"
     ],
     "def": "One concept of a chart influenced another, as an arrow on the chart asserts.",
-    "note": "Corresponds to crm:P15i_influenced (the inverse of crm:P15_was_influenced_by) without its range constraint. In CIDOC CRM, P15 runs from an activity (crm:E7_Activity) to any entity, so P15i has an activity as its range. Barr's charts assert influence between movements, typed here as crm:E55_Type; using P15i would make every influenced movement an activity, and in CIDOC CRM an activity (a temporal entity) cannot also be a type (a conceptual object). The relation is therefore minted, and the clash documented: CIDOC CRM models influence as bearing on activities, the charts as passing between movements."
+    "note": "Corresponds to crm:P15i_influenced (the inverse of crm:P15_was_influenced_by) without its range constraint. In CIDOC-CRM, P15 runs from an activity (crm:E7_Activity) to any entity, so P15i has an activity as its range. Barr's charts assert influence between movements, typed here as crm:E55_Type; using P15i would make every influenced movement an activity, and in CIDOC-CRM an activity (a temporal entity) cannot also be a type (a conceptual object). The relation is therefore minted, and the clash documented: CIDOC-CRM models influence as bearing on activities, the charts as passing between movements."
    },
    {
     "term": "barr:associatedWithPlace",

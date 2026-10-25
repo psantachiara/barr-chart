@@ -20,7 +20,7 @@ Reuse comes first. A term is minted only where no established vocabulary has it,
 |---|---|---|
 | `skos:` | SKOS (W3C) | each chart as a concept scheme; mappings between charts and to external vocabularies |
 | `skosxl:` | SKOS-XL (W3C) | wording as written, as label resources that can belong to one chart and carry certainty |
-| `crm:` | CIDOC CRM | the sheet as a physical object, the diagram as a visual item it shows |
+| `crm:` | CIDOC-CRM | the sheet as a physical object, the diagram as a visual item it shows |
 | `dcterms:` | Dublin Core terms | identifiers, dates, creators, audience, medium |
 | `foaf:` | FOAF | facsimile images |
 | Getty AAT, ULAN, TGN; Wikidata | external authorities | targets of `skos:exactMatch` / `skos:closeMatch` for movements, persons, places |
@@ -51,7 +51,7 @@ Reuse comes first. A term is minted only where no established vocabulary has it,
 | the reconciled index | `skos:prefLabel` in the catalogue | a separate `skos:ConceptScheme` authored by the modeller | the index used to join charts, not a correction of them |
 | link to authorities | (none) | `skos:exactMatch` / `skos:closeMatch` to AAT, ULAN, TGN, Wikidata | from the reconciled concepts |
 | kind: person, place | `bc:Person`, `bc:Place` | `crm:E21_Person`, `crm:E53_Place` on reconciled concepts' referents | |
-| kind: movement | `bc:Movement` | **open decision** | CIDOC CRM has no class for an art movement; candidates are `crm:E55_Type` (style), `crm:E4_Period`, or AAT style terms. Each asserts something different. |
+| kind: movement | `bc:Movement` | **open decision** | CIDOC-CRM has no class for an art movement; candidates are `crm:E55_Type` (style), `crm:E4_Period`, or AAT style terms. Each asserts something different. |
 
 ## 3. Propositions
 
@@ -114,7 +114,7 @@ Settled (2026-10-18):
 
 - **Movements** are typed `crm:E55_Type`.
 - **Box** signifies a source outside modern art (convention, inferred by the modeller).
-- **Semicircle** signifies membership: the names inside it are members of the current. So the proposition keeps the name "member of" (minted: CIDOC CRM's group membership property takes a group, not a type, as its subject).
+- **Semicircle** signifies membership: the names inside it are members of the current. So the proposition keeps the name "member of" (minted: CIDOC-CRM's group membership property takes a group, not a type, as its subject).
 - **Underline** signifies a title: the label is the conceptual anchor of what is written with it.
 - **Per-chart concept identifiers**: yes, with identity across charts as `skos:exactMatch` / `skos:closeMatch` in the interpretation graph.
 - **Facsimile anchoring**: later. In the meantime each label's horizontal place on the sheet is recorded as `dino:positionAcross` (0 = left edge, 1 = right edge, read from the facsimile; `data/layout.csv`), alongside its position on the year scale. Plane III draws each chart with it, and the consensus graph on Plane V uses the median across the charts.
@@ -123,7 +123,7 @@ Settled (2026-10-18):
 - **Notational meanings in DINO** (2026-10-21). Date, membership, title, primary and secondary moved from `barr:` to DINO's `dino:meanings` scheme, beside `dino:noMeaning`: they are what diagrams of many kinds do with position, enclosure, emphasis and line weight. Internal, external and source outside modern art stay in `barr:`, as Barr's own typology. Where this line falls is itself an analytical decision.
 - **DINO is modular** (2026-10-21). DINO is meant for diagrams of any kind. A core (`vocab/dino.ttl`) holds what any diagram has: marks, graphic values, conventions and bases, notational meanings, readings, transcription quality. A node-link profile (`vocab/dino-nodelink.ttl`), in the same namespace, holds what labelled node-and-link diagrams add: label marks that name concepts, relation marks that connect them, the concept scheme a diagram expresses. Position on a scale, position across the sheet and legend codes moved to the core, with `dino:Mark` as their domain. Each term states its module with `rdfs:isDefinedBy`. A term enters the core only when it holds beyond the diagrams it was found in.
 - **Arrow readings as conventions: next version.** In 0.1 the modeller records what a relation mark means at transcription (`dino:records`, with a scope note saying so). The intended route is a convention on the relation mark, with its basis, so that its reading is derived like every other meaning. The typology of arrow readings (influence, derivation, descent, sequence, hierarchy, …) is left until a second kind of diagram can test it.
-- **Influence** is minted (`barr:influenced`), not `crm:P15i_influenced`. P15i has `crm:E7_Activity` as its range; asserting that one movement influenced another would make the second an activity, and in CIDOC CRM an activity (a temporal entity) cannot also be a type (a conceptual object). The clash is documented on the property.
+- **Influence** is minted (`barr:influenced`), not `crm:P15i_influenced`. P15i has `crm:E7_Activity` as its range; asserting that one movement influenced another would make the second an activity, and in CIDOC-CRM an activity (a temporal entity) cannot also be a type (a conceptual object). The clash is documented on the property.
 - **No per-sheet dossier.** The Pragmatic plane was dropped (2026-10-19), and with it the dossier fields (support, audience, permanence, constraint, function) and the three DINO properties minted for them.
 - **Not open data.** The linked data reuses open ontologies and points to open vocabularies, but is not published for dereferencing or reuse. No persistent identifiers are minted for now.
 
