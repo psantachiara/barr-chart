@@ -8020,5 +8020,90 @@
     "module": "core"
    }
   ]
+ },
+ "project": {
+  "iri": "https://psantachiara.github.io/barr-chart/ns#",
+  "version": "0.4",
+  "file": "vocab/barr.ttl",
+  "imports": [
+   "https://psantachiara.github.io/dino/nodelink"
+  ],
+  "properties": [
+   {
+    "term": "barr:influenced",
+    "label": "influenced",
+    "domain": "skos:Concept",
+    "range": "skos:Concept",
+    "drawn": [
+     "dino:Arrow"
+    ],
+    "def": "One concept of a chart influenced another, as an arrow on the chart asserts.",
+    "note": "Corresponds to crm:P15i_influenced (the inverse of crm:P15_was_influenced_by) without its range constraint. In CIDOC CRM, P15 runs from an activity (crm:E7_Activity) to any entity, so P15i has an activity as its range. Barr's charts assert influence between movements, typed here as crm:E55_Type; using P15i would make every influenced movement an activity, and in CIDOC CRM an activity (a temporal entity) cannot also be a type (a conceptual object). The relation is therefore minted, and the clash documented: CIDOC CRM models influence as bearing on activities, the charts as passing between movements."
+   },
+   {
+    "term": "barr:associatedWithPlace",
+    "label": "associated with place",
+    "domain": "skos:Concept",
+    "range": "skos:Concept",
+    "drawn": [
+     "dino:Proximity"
+    ],
+    "def": "A place written with a movement or a person on a chart. The chart sets the two side by side and does not say how they are related (where a movement began, where it was active, where a person worked); the property claims no more than the association.",
+    "note": "Not crm:P7_took_place_at, which is for events; not dcterms:spatial, which describes a resource's coverage."
+   },
+   {
+    "term": "barr:memberOf",
+    "label": "member of",
+    "domain": "skos:Concept",
+    "range": "skos:Concept",
+    "drawn": [
+     "dino:Enclosure"
+    ],
+    "def": "A person written inside a movement's semicircle: by the semicircle convention, a member of that movement.",
+    "note": "Not crm:P107i_is_current_or_former_member_of, whose object is a group (crm:E74_Group); movements are typed here as crm:E55_Type."
+   }
+  ],
+  "reused": [
+   {
+    "term": "skos:related",
+    "drawn": [
+     "dino:Connector"
+    ],
+    "used": false,
+    "def": "A drawn connection whose kind cannot be assigned. Reused from SKOS, not minted."
+   }
+  ],
+  "values": [
+   {
+    "term": "barr:internal",
+    "label": "internal",
+    "def": "Internal to modern art: an influence within modern art, or an entity belonging to it.",
+    "scheme": "Meanings of Barr's own typology"
+   },
+   {
+    "term": "barr:external",
+    "label": "external",
+    "def": "External to modern art: an influence from outside it, or an entity outside it.",
+    "scheme": "Meanings of Barr's own typology"
+   },
+   {
+    "term": "barr:sourceOutsideModernArt",
+    "label": "source outside modern art",
+    "def": "A source that feeds the chart without being a movement of modern art.",
+    "scheme": "Meanings of Barr's own typology"
+   },
+   {
+    "term": "barr:coreSet",
+    "label": "core set",
+    "def": "Charts that write places as labels: compared by default.",
+    "scheme": "The corpus"
+   },
+   {
+    "term": "barr:secondarySet",
+    "label": "secondary set",
+    "def": "Charts that express location through areas of the page: transcribed, compared on request.",
+    "scheme": "The corpus"
+   }
+  ]
  }
 }

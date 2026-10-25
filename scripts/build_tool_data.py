@@ -173,7 +173,7 @@ for f in DINO_FILES:
 MODULE = {DINO.rstrip("#"): "core", BASE.replace("barr-chart/", "dino/nodelink"): "node-link"}
 def qn(u):
     s = str(u)
-    for pfx, ns in (("dino:", DINO), ("crm:", CRM), ("skos:", SKOS), ("skosxl:", "http://www.w3.org/2008/05/skos-xl#"),
+    for pfx, ns in (("dino:", DINO), ("barr:", BARR), ("crm:", CRM), ("skos:", SKOS), ("skosxl:", "http://www.w3.org/2008/05/skos-xl#"),
                     ("rdf:", str(RDF)), ("owl:", str(OWL)), ("xsd:", "http://www.w3.org/2001/XMLSchema#")):
         if s.startswith(ns):
             return pfx + s[len(ns):]
@@ -215,8 +215,34 @@ ontology = {
                for u in sorted((u for u in dino_terms() if onto.value(u, SK.prefLabel) is not None), key=pos)],
 }
 
+# the project vocabulary (barr:), shown beside DINO on the Method page
+proj = Graph(); proj.parse(ROOT / "vocab" / "barr.ttl")
+barr_text = (ROOT / "vocab" / "barr.ttl").read_text()
+bpos = lambda u: (m.start() if (m := re.search(r"^" + re.escape(qn(u)) + r"\s+a\s", barr_text, re.M)) else 10**9)
+btxt = lambda u, *ps: next((str(v) for pr in ps if (v := proj.value(u, pr)) is not None), "")
+# the kind of relation mark each relation is drawn with, read from the data
+drawn = {}
+for m_, kind in ds.query("""PREFIX dino: <%s> SELECT DISTINCT ?p ?kind WHERE { GRAPH ?g { ?m dino:records ?p ; a ?kind } FILTER(?kind != dino:RelationMark && STRSTARTS(STR(?kind), STR(dino:))) }""" % DINO):
+    drawn.setdefault(qn(m_), set()).add(qn(kind))
+barr_onto = URIRef(BARR.rstrip("#"))
+project = {
+    "iri": BARR, "version": str(proj.value(barr_onto, OWL.versionInfo) or ""), "file": "vocab/barr.ttl",
+    "imports": [str(o) for o in proj.objects(barr_onto, OWL.imports)],
+    "properties": [{"term": qn(u), "label": btxt(u, RDFS.label),
+                    "domain": qn(proj.value(u, RDFS.domain)) if proj.value(u, RDFS.domain) else "",
+                    "range": qn(proj.value(u, RDFS.range)) if proj.value(u, RDFS.range) else "",
+                    "drawn": sorted(drawn.get(qn(u), [])), "def": btxt(u, RDFS.comment), "note": btxt(u, SK.scopeNote)}
+                   for u in sorted((u for u in proj.subjects(RDF.type, OWL.ObjectProperty) if str(u).startswith(BARR)), key=bpos)],
+    "reused": [{"term": "skos:related", "drawn": sorted(drawn.get("skos:related", ["dino:Connector"])),
+                "used": "skos:related" in drawn,
+                "def": "A drawn connection whose kind cannot be assigned. Reused from SKOS, not minted."}],
+    "values": [{"term": qn(u), "label": btxt(u, SK.prefLabel), "def": btxt(u, SK.definition),
+                "scheme": btxt(proj.value(u, SK.inScheme), RDFS.label) if proj.value(u, SK.inScheme) else "The corpus"}
+               for u in sorted((u for u in proj.subjects(RDF.type, SK.Concept) if str(u).startswith(BARR)), key=bpos)],
+}
+
 out = {"generated_from": "out/barr-charts.trig (by SPARQL, queries/tool/)", "concepts": concepts,
-       "versions": versions, "sequences": sequences, "ontology": ontology}
+       "versions": versions, "sequences": sequences, "ontology": ontology, "project": project}
 (ROOT / "tool").mkdir(exist_ok=True)
 (ROOT / "tool" / "barr-charts.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
 core = [v["name"] for v in versions if v["set"] == "core"]
