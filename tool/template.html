@@ -986,14 +986,6 @@ function paneCharts(){
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
     <div><div class="kv" style="margin-bottom:8px">Entities</div><div class="bars">${bars(v=>v.nodes.length,maxN,v=>v.nodes.length+" entities")}</div></div>
     <div><div class="kv" style="margin-bottom:8px">Relations</div><div class="bars">${bars(v=>v.edges.length,maxR,v=>v.edges.length+" relations")}</div></div>
-  </div>
-
-  <h3 class="sh">How to read this tool</h3>
-  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(232px,1fr))">
-    <div class="card"><h4>The strip</h4><p style="margin:0;font-size:13.5px">${strip(MODEL.all.find(x=>MODEL.versions.every(v=>v.set.has(x)))||MODEL.all[0])} — one cell per chart, in the same order as the chips. Filled means the entity is written on that chart. The strip appears wherever an entity or relation does.</p></div>
-    <div class="card"><h4>The chips</h4><p style="margin:0;font-size:13.5px">Excluding a chart removes it from every plane at once. Planes I–III and V never use an order; only Plane IV does, and only for a reading you choose there.</p></div>
-    <div class="card"><h4>Ink</h4><p style="margin:0;font-size:13.5px">Each chart has its own ink key. On the Cover black is internal and red external; on 458 blue and graphite carry the same two meanings. ${(()=>{ const n=MODEL.versions.filter(v=>v.edges.some(e=>e.rel==="influence")&&!v.edges.some(e=>e.scope)).map(v=>esc(v.name)); return n.length?`Where no arrow's ink carries a meaning (${n.join(", ")}), no arrow is classed either way.`:""; })()}</p></div>
-    <div class="card"><h4>Wording</h4><p style="margin:0;font-size:13.5px">An entity reconciled across charts keeps the wording each chart gives it. Planes I and V show those differences; the reconciled label is only an index.</p></div>
   </div>`;
 }
 
