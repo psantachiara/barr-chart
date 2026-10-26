@@ -95,13 +95,16 @@ h1,h2,h3,h4{margin:0; font-family:var(--disp); font-weight:600; letter-spacing:.
 .vchip.on{background:var(--card); color:var(--ink)}
 .vchip.on::before{content:""; position:absolute; left:0; right:0; top:0; height:3px; background:var(--oxblood)}
 .vchip:focus-visible{outline:2px solid var(--indigo); outline-offset:-2px}
+/* the chips and the tabs take the width they need; the hint sits at the right and drops to its own line when there is no room */
+#versionbar .vchips{display:flex; flex-wrap:wrap; width:max-content; max-width:100%}
+#planenav .ptabs{display:flex; width:max-content; max-width:100%; overflow-x:auto}
 #versionbar .vhint, #planenav .phint{
-  align-self:center; margin-left:auto; padding:0 0 0 12px; white-space:nowrap;
+  align-self:center; margin-left:auto; padding:6px 0 6px 12px; white-space:nowrap;
   font-family:var(--mono); font-size:10px; color:var(--ink-3); letter-spacing:.04em;
 }
 
 /* ---------- plane nav ---------- */
-#planenav{display:flex; gap:0; overflow-x:auto; background:var(--paper); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:0}
+#planenav{display:flex; gap:0; flex-wrap:wrap; background:var(--paper); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:0}
 .pnav{
   appearance:none; background:transparent; border:0; cursor:pointer;
   padding:13px 16px 12px; white-space:nowrap; font-family:var(--disp);
@@ -171,6 +174,22 @@ table.dt td.wrap{white-space:normal; min-width:300px; line-height:1.5}
 table.dt td.wrap code{font-size:.82em}
 h4.ss{font-family:var(--disp); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); margin:26px 0 9px; font-weight:600}
 h4.ss span{float:right; font-family:var(--mono); font-size:10px; letter-spacing:.04em; color:var(--ink-3); text-transform:none; font-weight:400}
+/* ---------- how meaning is modelled: levels down, mark to proposition across ---------- */
+.stk{display:grid; grid-template-columns:34px 210px 1fr 1fr 1fr; min-width:980px; font-size:13.5px; border:1px solid var(--rule); background:var(--card)}
+.stk > div{padding:11px 14px; border-bottom:1px solid var(--rule); border-left:1px solid var(--rule); line-height:1.45}
+.stk .hd{font-family:var(--disp); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); font-weight:600; background:var(--paper-2); padding:9px 14px}
+.stk .hd b{color:var(--oxblood); font-weight:600; margin:0 0 0 8px}
+.stk .axis{grid-row:span 5; border-left:none; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:12px 0; font-family:var(--disp); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
+.stk .axis i{flex:1; width:1px; background:var(--rule-2); margin:8px 0; position:relative}
+.stk .axis i:after{content:""; position:absolute; bottom:-1px; left:-4px; border:4.5px solid transparent; border-top:7px solid var(--rule-2)}
+.stk .axis span{writing-mode:vertical-rl; transform:rotate(180deg)}
+.stk .tier b{display:block; font-family:var(--disp); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink)}
+.stk .tier span{display:block; font-size:12px; color:var(--ink-3); margin-top:2px}
+.stk code{font-family:var(--mono); font-size:11px; background:var(--paper-2); padding:0 3px}
+.stk .none{color:var(--ink-3)}
+.stk .ex{background:color-mix(in srgb, var(--oxblood) 6%, var(--card))}
+.stk .ex.tier{box-shadow:inset 3px 0 0 var(--oxblood)}
+.stk > div:nth-last-child(-n+4){border-bottom:none}
 /* ---------- tables ---------- */
 table.dt{border-collapse:collapse; width:100%; font-family:var(--mono); font-size:11.5px}
 table.dt th{
@@ -292,9 +311,9 @@ table.mx td.sel{outline:2px solid var(--oxblood); outline-offset:-2px}
   letter-spacing:.07em; text-transform:uppercase; color:var(--ink-3)}
 body.lb-open{overflow:hidden}
 
-@media (max-width:1400px){ #versionbar .vhint, #planenav .phint{display:none} }
 @media (max-width:860px){
-  #versionbar{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch}
+  #versionbar .vchips{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch}
+  #versionbar .vhint, #planenav .phint{flex-basis:100%; margin-left:0; padding:6px 0}
   #versionbar, #planenav{margin:0 16px}
   .vchip{flex:0 0 auto; min-width:118px; padding:9px 13px 10px}
   .vchip .vn{font-size:15px}
@@ -327,6 +346,7 @@ body.lb-open{overflow:hidden}
   <div id="stickybar">
   <nav id="versionbar" aria-label="Charts"></nav>
   <nav id="planenav" aria-label="Planes of comparison">
+    <div class="ptabs">
     <button class="pnav on" data-p="charts"><b>—</b>Charts</button>
     <button class="pnav" data-p="term"><b>I</b>Terminological</button>
     <button class="pnav" data-p="conc"><b>II</b>Conceptual</button>
@@ -334,6 +354,7 @@ body.lb-open{overflow:hidden}
     <button class="pnav" data-p="genetic"><b>IV</b>Genetic</button>
     <button class="pnav" data-p="syn"><b>V</b>Synchronic</button>
     <button class="pnav" data-p="method"><b>§</b>Method &amp; edition</button>
+    </div>
     <span class="phint">planes of comparison</span>
   </nav>
   </div>
@@ -897,12 +918,12 @@ function kindCount(v,t){ return v.nodes.filter(x=>MODEL.concepts[x].t===t).lengt
 /* ---------- chart chips ---------- */
 function renderVersionBar(){
   const bar=$("#versionbar");
-  bar.innerHTML = MODEL.versions.map(v=>`
+  bar.innerHTML = `<div class="vchips">` + MODEL.versions.map(v=>`
     <button class="vchip ${state.sel.has(v.id)?"on":""}" data-v="${v.id}" aria-pressed="${state.sel.has(v.id)}">
       <span class="vn">${esc(v.name)}</span>
       <span class="vs">${v.group==="core"?"":"preview · "}${esc(v.date)}</span>
       <span class="vc">${v.nodes.length} entities · ${v.edges.length} relations</span>
-    </button>`).join("") + `<span class="vhint">include or exclude charts</span>`;
+    </button>`).join("") + `</div><span class="vhint">include or exclude charts</span>`;
   bar.querySelectorAll(".vchip").forEach(b=>b.onclick=()=>{
     const id=b.dataset.v;
     if(state.sel.has(id)){ if(state.sel.size>1) state.sel.delete(id); } else state.sel.add(id);
@@ -1553,11 +1574,6 @@ function conventionList(v){
 function dinoSection(){
   const O=(DATA&&DATA.ontology)||{classes:[],properties:[],values:[]};
   const c=t=>`<code>${esc(t)}</code>`;
-  const layers=[
-    ["Mark","What is on the sheet: a written label, an arrow, an enclosure, with its ink, line, shape and position. A mark carries no meaning of its own.","On 458, an arrow from Cubism to Futurism, in blue, solid."],
-    ["Convention","A rule valid for one diagram that gives a graphic value a meaning. Its basis is stated: written on the sheet, as in a legend, or inferred by the modeller.","On 458, blue signifies internal influence; a solid line, primary."],
-    ["Proposition","What the diagram asserts once its conventions are applied. Derived by query from marks and conventions, never entered by hand.","On 458, Cubism influenced Futurism: internal, primary."]
-  ];
   const principles=[
     ["derived","Meaning is computed, never entered","A mark signifies something only through a convention of its own diagram; the derivation is a SPARQL query anyone can rerun."],
     ["per diagram","Conventions belong to one diagram, with a basis","The same graphic value can mean different things on different diagrams, and different values the same thing. Each convention says whether the sheet states it or the modeller infers it."],
@@ -1575,37 +1591,68 @@ function dinoSection(){
   <p class="lede" style="font-size:14.5px">Diagrams express meaning through the use of graphical elements, but the same elements have different meanings across diagrams. In Barr's own representations, graphite is the only type of mark on 456 and 457, yet encodes external influence in 458; and at the same time, external influence is represented in red in the cover, while internal influence is blue in 458 and black in cover.</p>
   <p class="lede" style="font-size:14.5px">Existing vocabularies describe the sheet as an object (CIDOC-CRM), the concepts a chart names (SKOS), or the mapping from data to graphics (VISO); no existing computational ontology records a mark together with the rule that gives it a meaning. <strong>DINO 🦖 describes how a diagram expresses meaning</strong>: its marks, and the conventions that express semantic value. DINO supports the representation of diagrams of any kind as Linked Data.</p>
 
-  <h4 class="ss">Modules</h4>
-  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
-    <div class="card"><h4>Core · any diagram</h4><p style="margin:0;font-size:14px">Marks and their graphic values (ink, line, shape, position on a scale or across the sheet), conventions with their basis, the notational meanings diagrams commonly share (date, membership, title, primary, secondary, no meaning), readings, and how securely each mark is read.</p><p class="note" style="margin-top:8px"><code>vocab/dino.ttl</code></p></div>
-    <div class="card"><h4>Node-link profile · labelled node-and-link diagrams</h4><p style="margin:0;font-size:14px">Written labels that name the concepts of a scheme, and the marks that connect them: arrows, enclosures, proximity, undirected lines. Genealogies, stemmata and concept maps are of this kind, as are Barr's charts, from which the profile was developed.</p><p class="note" style="margin-top:8px"><code>vocab/dino-nodelink.ttl</code></p></div>
-    <div class="card"><h4>Next</h4><p style="margin:0;font-size:14px">The reading of a relation mark becomes a convention like any other (“on this diagram, an arrow signifies influence”), with its basis; in this version the modeller records it at transcription. Other kinds of diagram (charts with axes, maps, Venn diagrams) get profiles of their own.</p></div>
-  </div>
-
-  <h4 class="ss">Three layers</h4>
-  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">${layers.map(([t,d,e],i)=>`<div class="card">
-    <h4>${i+1} · ${t}</h4><p style="margin:0;font-size:14px">${d}</p><p class="note" style="margin-top:8px">${e}</p></div>`).join("")}</div>
-
   <h4 class="ss">Design principles</h4>
   <div class="oplist">${principles.map(([k,t,d])=>`<div class="oprow"><div class="opk">${k}</div><div class="opb">${t}<span class="opn" style="font-style:normal">${d}</span></div></div>`).join("")}</div>
 
-  <h4 class="ss">Classes <span>${O.classes.length}</span></h4>
-  <div class="tw"><table class="dt"><thead><tr><th>Class</th><th>Module</th><th>Subclass of</th><th>Definition</th></tr></thead><tbody>
-    ${O.classes.map(k=>`<tr><td>${c(k.term)}</td><td class="lbl">${esc(k.module)}</td><td>${k.sub.map(c).join(" ")||'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}${k.note?`<div class="note" style="margin-top:4px;font-size:12.5px">${esc(k.note)}</div>`:""}</td></tr>`).join("")}
-  </tbody></table></div>
-
-  <h4 class="ss">Properties <span>${O.properties.length}</span></h4>
-  <div class="tw"><table class="dt"><thead><tr><th>Property</th><th>Module</th><th>Domain</th><th>Range</th><th>Definition</th></tr></thead><tbody>
-    ${O.properties.map(k=>`<tr><td>${c(k.term)}${k.kind==="data"?' <span class="kv">literal</span>':""}</td><td class="lbl">${esc(k.module)}</td><td>${k.domain?c(k.domain):'<span style="color:var(--ink-3)">any</span>'}</td><td>${k.range?c(k.range):'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}${k.note?`<div class="note" style="margin-top:4px;font-size:12.5px">${esc(k.note)}</div>`:""}</td></tr>`).join("")}
-  </tbody></table></div>
-
-  <h4 class="ss">Controlled values <span>SKOS concepts · core</span></h4>
+  ${[["core","Core","any diagram"],["node-link","Node-link profile","labelled node-and-link diagrams"]].map(([m,name,scope])=>{
+    const cl=O.classes.filter(k=>k.module===m), pr=O.properties.filter(k=>k.module===m), vals=groups.map(g=>({type:g.type, items:g.items.filter(v=>v.module===m)})).filter(g=>g.items.length);
+    return `
+  ${cl.length?`<h4 class="ss">${name} · classes <span>${cl.length} · ${scope}</span></h4>
+  <div class="tw"><table class="dt"><thead><tr><th>Class</th><th>Subclass of</th><th>Definition</th></tr></thead><tbody>
+    ${cl.map(k=>`<tr><td>${c(k.term)}</td><td>${k.sub.map(c).join(" ")||'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}${k.note?`<div class="note" style="margin-top:4px;font-size:12.5px">${esc(k.note)}</div>`:""}</td></tr>`).join("")}
+  </tbody></table></div>`:""}
+  ${pr.length?`<h4 class="ss">${name} · properties <span>${pr.length}</span></h4>
+  <div class="tw"><table class="dt"><thead><tr><th>Property</th><th>Domain</th><th>Range</th><th>Definition</th></tr></thead><tbody>
+    ${pr.map(k=>`<tr><td>${c(k.term)}${k.kind==="data"?' <span class="kv">literal</span>':""}</td><td>${k.domain?c(k.domain):'<span style="color:var(--ink-3)">any</span>'}</td><td>${k.range?c(k.range):'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}${k.note?`<div class="note" style="margin-top:4px;font-size:12.5px">${esc(k.note)}</div>`:""}</td></tr>`).join("")}
+  </tbody></table></div>`:""}
+  ${vals.length?`<h4 class="ss">${name} · controlled values <span>SKOS concepts</span></h4>
   <div class="tw"><table class="dt"><thead><tr><th>Kind</th><th>Values</th><th>Definitions</th></tr></thead><tbody>
-    ${groups.map(g=>`<tr><td class="lbl">${esc(typeName[g.type]||g.type)}</td><td class="wrap">${g.items.map(v=>c(v.term)).join(" ")}</td>
+    ${vals.map(g=>`<tr><td class="lbl">${esc(typeName[g.type]||g.type)}</td><td class="wrap">${g.items.map(v=>c(v.term)).join(" ")}</td>
       <td class="lbl wrap">${g.items.filter(v=>v.def).map(v=>`<b>${esc(v.label)}</b>: ${esc(v.def)}`).join("<br>")||'<span style="color:var(--ink-3)">—</span>'}</td></tr>`).join("")}
-  </tbody></table></div>
+  </tbody></table></div>`:""}`; }).join("")}
 
   <p class="note">Defined in <code>vocab/dino.ttl</code> (core) and <code>vocab/dino-nodelink.ttl</code> (node-link profile), in one namespace, <code>${esc(O.iri||"")}</code>. The tables above are read from those files when this page is built.</p>`;
+}
+
+/* How meaning is modelled: the vocabularies from the general to the particular, and how a mark comes to mean */
+function modelSection(){
+  return `
+<h3 class="sh">How meaning is modelled <span>from the general to the particular</span></h3>
+<p class="lede" style="font-size:14.5px">The linked data is described with vocabularies at four levels of generality, each building on the one above it: shared standards, the core of DINO for any diagram, a DINO profile for one kind of diagram, and a project vocabulary for one body of diagrams. At the bottom is the data: each chart, described with terms from all four.</p>
+<p class="lede" style="font-size:14.5px">Read down, the figure goes from the general to the particular. Read across, it shows how a mark comes to mean something: the mark as drawn, the convention that gives it a meaning on its own diagram, and the proposition that follows. The last row puts one arrow on 458 through every level.</p>
+<div class="tw"><div class="stk">
+  <div class="axis" style="grid-row:2 / span 5"><span>general</span><i></i><span>particular</span></div>
+  <div class="hd" style="grid-column:2">Level</div>
+  <div class="hd">Mark<b>→</b></div>
+  <div class="hd">Convention<b>→</b></div>
+  <div class="hd">Proposition</div>
+
+  <div class="tier"><b>Shared standards</b><span>any resource · SKOS, SKOS-XL, CIDOC-CRM, Dublin Core</span></div>
+  <div>A sheet, and the diagram it shows. A written label as a lexical label.</div>
+  <div class="none">—</div>
+  <div>Concepts gathered in a scheme; identity between concepts of different schemes (<code>skos:exactMatch</code>).</div>
+
+  <div class="tier"><b>DINO core</b><span>any diagram · <code>dino:</code></span></div>
+  <div>A <code>dino:Mark</code> and its graphic values: ink, line style, shape, position on a scale or across the sheet.</div>
+  <div>A <code>dino:Convention</code>, valid for one diagram, with its basis: stated on the sheet or inferred by the modeller. Meanings many diagrams share: primary, secondary, date, membership, title, no meaning.</div>
+  <div>What a mark signifies (<code>dino:signifies</code>), derived by query from the mark and its diagram's conventions, never entered by hand.</div>
+
+  <div class="tier"><b>DINO node-link profile</b><span>labelled node-and-link diagrams · <code>dino:</code></span></div>
+  <div>Label marks that name concepts; relation marks that connect them: arrow, enclosure, proximity, connector.</div>
+  <div>A convention can hold for one kind of mark only: an ink on arrows, say.</div>
+  <div>The concept scheme a diagram expresses; where each relation mark starts and ends, and the relation it records (set at transcription in this version).</div>
+
+  <div class="tier"><b>Project vocabulary</b><span>Barr's charts · <code>barr:</code></span></div>
+  <div class="none">—</div>
+  <div>The meanings of Barr's own typology: internal, external, source outside modern art.</div>
+  <div>The relations the charts assert: influenced, associated with place, member of.</div>
+
+  <div class="tier ex"><b>The data</b><span>one chart · 458</span></div>
+  <div class="ex">An arrow from Cubism to Futurism, in blue, solid.</div>
+  <div class="ex">On 458, blue signifies internal; a solid line, primary. Both inferred by the modeller.</div>
+  <div class="ex">On 458, Cubism influenced Futurism: internal, primary.</div>
+</div></div>
+<p class="note">Another body of diagrams would keep the first three levels and bring its own project vocabulary; another kind of diagram would bring its own DINO profile.</p>`;
 }
 
 /* The project vocabulary: what is Barr's own, kept out of DINO */
@@ -1820,7 +1867,7 @@ function ldEdition(){
    ============================================================ */
 function paneMethod(){
   const steps=[
-    ["Typed transcription","Every entity and relation is typed in from the facsimile, chart by chart, through the Barr Chart Transcriber. Nothing is carried over from earlier datasets. Each row has a certainty and a verification date."],
+    ["Typed transcription","Every entity and relation is typed in from the facsimile, chart by chart. Nothing is carried over from earlier datasets. Each row has a certainty and a verification date."],
     ["Record the mark, derive the meaning","Ink, line, shape and position are recorded as seen. Each chart's conventions, stated on the sheet or inferred by the modeller, give them meaning: internal or external, primary or secondary, a source outside modern art, membership, a title. Meaning is derived by query, never entered by hand."],
     ["Reconcile, keep the wording","The same referent gets one identifier on every chart, and each chart keeps its own wording. Merges are noted in the vocabulary, and the formal difference stays visible on Planes I and V."],
     ["Linked data","The tables become linked data described with <span class='cap'>DINO</span> 🦖, the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology: marks, the conventions that give them meaning on each chart, and readings. One graph per chart, one for the modeller's interpretation. The comparison runs as SPARQL over it."],
@@ -1868,6 +1915,8 @@ function paneMethod(){
     ${grammar.map(([a,b])=>`<tr><td style="color:var(--oxblood)">${esc(a)}</td><td class="lbl">${esc(b)}</td></tr>`).join("")}
   </tbody></table></div>
   <p class="note">On Plane V the same tests run without a direction: “only on A”, “only on B”, worded differently, rewired, restyled.</p>
+
+  ${modelSection()}
 
   ${dinoSection()}
 
