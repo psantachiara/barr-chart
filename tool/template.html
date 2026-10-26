@@ -1658,6 +1658,26 @@ function modelSection(){
 </div></div>`;
 }
 
+/* The four kinds of named graph: who is answerable for each statement */
+function graphsSection(){
+  return `
+<h3 class="sh">Four graphs: who says what <span>named graphs in one dataset</span></h3>
+<p class="lede" style="font-size:14.5px">The linked data is one dataset divided into four kinds of named graph. A named graph is a labelled set of statements, and every statement belongs to exactly one, according to who is answerable for it: the sheet, the modeller, a named source, or the computation. <strong>The division is the dataset's provenance.</strong> It works like a critical edition, which keeps the transcription of a text apart from the editor's apparatus, from the scholarship on dating, and from an index compiled from both.</p>
+<div class="tw"><table class="dt"><thead><tr><th>Graph</th><th>How many</th><th>Who is answerable</th><th>What it holds</th><th>One arrow on 458</th></tr></thead><tbody>
+<tr><td class="lbl"><b>Chart</b><br><code>graph/{chart}</code></td><td class="lbl">one per chart</td><td class="lbl wrap">The sheet, as transcribed</td><td class="lbl wrap">What the sheet shows: its labels as written, its marks and their ink, line, shape and position, the concepts it names, and any convention the sheet states itself (the legend on 456).</td><td class="lbl wrap">An arrow from the label <i>Cubism</i> to the label <i>Futurism</i>, in blue, solid. Nothing about what blue or solid mean.</td></tr>
+<tr><td class="lbl"><b>Interpretation</b><br><code>graph/interpretation</code></td><td class="lbl">one</td><td class="lbl wrap">The modeller</td><td class="lbl wrap">Every decision made on top of the transcription: inferred conventions, the reconciled index, identity and analogy across charts.</td><td class="lbl wrap">On 458, blue means internal and a solid line primary. <i>Cubism</i> on 458 is the same Cubism as on the Cover.</td></tr>
+<tr><td class="lbl"><b>Readings</b><br><code>graph/readings</code></td><td class="lbl">one</td><td class="lbl wrap">The source named on each reading</td><td class="lbl wrap">Orders proposed for the sheets, each with its source and basis.</td><td class="lbl wrap">Lowry (2012) numbers the plates 456, 457, 458, Cover; basis: published.</td></tr>
+<tr><td class="lbl"><b>Derived</b><br><code>graph/derived</code></td><td class="lbl">one</td><td class="lbl wrap">No one: computed by query from the chart and interpretation graphs</td><td class="lbl wrap">What every mark signifies, by the conventions of its own chart.</td><td class="lbl wrap">On 458, Cubism influenced Futurism: internal, primary.</td></tr>
+</tbody></table></div>
+<h4 class="ss">Why four</h4>
+<div class="oplist">
+<div class="oprow"><div class="opk">attribution</div><div class="opb">Every statement can be traced to its source<span class="opn" style="font-style:normal">The graph that holds a statement says who makes it: the sheet, the modeller, a named source, or the query. No further provenance vocabulary is needed.</span></div></div>
+<div class="oprow"><div class="opk">revision</div><div class="opb">An interpretation can be replaced without touching the transcription<span class="opn" style="font-style:normal">If a reader disagrees that graphite means nothing on 456, only the interpretation graph changes; the chart graphs stay as transcribed, and the derived graph is recomputed.</span></div></div>
+<div class="oprow"><div class="opk">order</div><div class="opb">No sheet carries a sequence<span class="opn" style="font-style:normal">The chart graphs contain no order, so no plane can treat one as a property of the sheets. Plane IV takes its order from the readings graph, and says whose it is.</span></div></div>
+<div class="oprow"><div class="opk">rebuild</div><div class="opb">What is derived can always be derived again<span class="opn" style="font-style:normal">The derived graph holds nothing the chart and interpretation graphs do not already imply. It can be deleted and rebuilt by rerunning one query.</span></div></div>
+</div>`;
+}
+
 /* The project vocabulary: what is Barr's own, kept out of DINO */
 function barrSection(){
   const P=(DATA&&DATA.project)||{properties:[],values:[],reused:[]};
@@ -1817,12 +1837,6 @@ function ldEdition(){
     ["alignments.csv","analogy, not identity","<code>skos:closeMatch</code> between reconciled concepts.","interpretation"],
     ["sequences.csv","readings","A <code>dino:Reading</code> with <code>rdfs:label</code>, <code>dino:basis</code> (documented, analytical or published), <code>dcterms:creator</code> and <code>dino:orders</code>, an <code>rdf:List</code> of sheets.","readings"]
   ];
-  const graphs=[
-    ["graph/{chart}","one per chart","The sheet, its diagram, its marks and their graphic values, its concept scheme and wording, the conventions stated on the sheet.","the sheet, as transcribed"],
-    ["graph/interpretation","one","The reconciled index, identity and analogy across charts (<code>skos:exactMatch</code>, <code>skos:closeMatch</code>), every inferred convention, the core and secondary sets.","the modeller (<code>dcterms:creator</code>)"],
-    ["graph/readings","one","Orderings of the sheets, each with its source and basis.","the source named on each reading"],
-    ["graph/derived","one","What every mark signifies, by the conventions of its own diagram.","no one: computed by query"]
-  ];
   const vocabs=[
     ["dino:","https://psantachiara.github.io/dino/ns#","DINO 🦖, the DIagram Notation Ontology: marks, graphic values, conventions, readings, and the notational meanings diagrams commonly share (date, membership, title, primary, secondary, no meaning). Generic, for any diagram."],
     ["barr:","https://psantachiara.github.io/barr-chart/ns#","What Barr's charts assert (influenced, associatedWithPlace, memberOf), the meanings of his own typology (internal, external, source outside modern art), and the core and secondary sets."],
@@ -1836,11 +1850,6 @@ function ldEdition(){
 
   <h4 class="ss">One arrow, modelled <span>Cubism → Futurism on 458, blue and solid</span></h4>
   <div class="ldwrap">${ldDiagram()}</div>
-
-  <h4 class="ss">Graphs <span>who says what</span></h4>
-  <div class="tw"><table class="dt"><thead><tr><th>Graph</th><th>How many</th><th>Holds</th><th>Asserted by</th></tr></thead><tbody>
-    ${graphs.map(g=>`<tr><td><code>${g[0]}</code></td><td class="lbl">${g[1]}</td><td class="lbl wrap">${g[2]}</td><td class="lbl wrap">${g[3]}</td></tr>`).join("")}
-  </tbody></table></div>
 
   <h4 class="ss">From the tables to the graphs <span>scripts/build_rdf.py</span></h4>
   <div class="tw"><table class="dt"><thead><tr><th>Table</th><th>Records</th><th>Becomes</th><th>Graph</th></tr></thead><tbody>
@@ -1867,7 +1876,7 @@ function paneMethod(){
     ["Typed transcription","Every entity and relation is typed in from the facsimile, chart by chart. Nothing is carried over from earlier datasets. Each row has a certainty and a verification date."],
     ["Record the mark, derive the meaning","Ink, line, shape and position are recorded as seen. Each chart's conventions, stated on the sheet or inferred by the modeller, give them meaning: internal or external, primary or secondary, a source outside modern art, membership, a title. Meaning is derived by query, never entered by hand."],
     ["Reconcile, keep the wording","The same referent gets one identifier on every chart, and each chart keeps its own wording. Merges are noted in the vocabulary, and the formal difference stays visible on Planes I and V."],
-    ["Linked data","The tables become linked data described with <span class='cap'>DINO</span> 🦖, the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology: marks, the conventions that give them meaning on each chart, and readings. One graph per chart, one for the modeller's interpretation. The comparison runs as SPARQL over it."],
+    ["Linked data","The tables become linked data described with <span class='cap'>DINO</span> 🦖, the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology: marks, the conventions that give them meaning on each chart, and readings. Statements are kept in four graphs according to who makes them: each chart's transcription, the modeller's interpretation, readings, and what is derived by query. The comparison runs as SPARQL over it."],
     ["Five planes","Terminological, conceptual, structural, genetic, synchronic. Each can be run on its own; only the genetic plane uses an order."],
     ["Readings","A reading orders some of the charts and states its basis: documented (from the archive), analytical (proposed in an analysis of the charts), or published (an order given in a publication, such as Lowry’s plate numbers, with no claim about chronology). The edit grammar is computed along it."]
   ];
@@ -1916,6 +1925,8 @@ function paneMethod(){
   ${dinoSection()}
 
   ${barrSection()}
+
+  ${graphsSection()}
 
   ${ldEdition()}
 
