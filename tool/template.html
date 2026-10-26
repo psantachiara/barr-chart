@@ -149,7 +149,7 @@ h3.sh span{float:right; font-family:var(--mono); font-size:10px; letter-spacing:
 .strip i.off{opacity:.28}
 .strip.sm i{width:7px; height:11px}
 
-/* ---------- linked data ---------- */
+/* ---------- Linked Data ---------- */
 .ldwrap{overflow-x:auto; border:1px solid var(--rule); background:var(--paper)}
 .ldwrap svg{display:block; min-width:860px; width:100%; height:auto}
 .ldlane{fill:var(--paper-2)}
@@ -1556,7 +1556,7 @@ function netPlot(vs,J,nearest){
 /* ============================================================
    CONVENTIONS (shown on Plane III)
    ============================================================ */
-/* Each chart's conventions as the linked data states them: graphic value (or legend code), meaning, basis. */
+/* Each chart's conventions as the Linked Data states them: graphic value (or legend code), meaning, basis. */
 const VALUE_LABEL={box:"box",semicircle:"semicircle",underline:"underline",oval:"oval",plain:"plain",otherShape:"other shape",
   solid:"solid line",dotted:"dotted line",dashed:"dashed line",otherLine:"other line",verticalPosition:"vertical position",
   black:"black ink",red:"red ink",blue:"blue ink",graphite:"graphite",otherInk:"other ink"};
@@ -1620,7 +1620,7 @@ function dinoSection(){
 function modelSection(){
   return `
 <h3 class="sh">How meaning is modelled <span>from the general to the particular</span></h3>
-<p class="lede" style="font-size:14.5px">The linked data is described with vocabularies at four levels of generality, each building on the one above it: shared standards, the core of DINO for any diagram, a DINO profile for one kind of diagram, and a project vocabulary for one body of diagrams. At the bottom is the data: each chart, described with terms from all four.</p>
+<p class="lede" style="font-size:14.5px">The Linked Data is described with vocabularies at four levels of generality, each building on the one above it: shared standards, the core of DINO for any diagram, a DINO profile for one kind of diagram, and a project vocabulary for one body of diagrams. At the bottom is the data: each chart, described with terms from all four.</p>
 <p class="lede" style="font-size:14.5px">Read down, the figure goes from the general to the particular. Read across, it shows how a mark comes to mean something: the mark as drawn, the convention that gives it a meaning on its own diagram, and the proposition that follows. The last row puts one arrow on 458 through every level.</p>
 <div class="tw"><div class="stk">
   <div class="corner" style="grid-column:1 / span 2"></div>
@@ -1662,7 +1662,7 @@ function modelSection(){
 function graphsSection(){
   return `
 <h3 class="sh">Four graphs: who says what <span>named graphs in one dataset</span></h3>
-<p class="lede" style="font-size:14.5px">The linked data is one dataset divided into four kinds of named graph. A named graph is a labelled set of statements, and every statement belongs to exactly one, according to who is answerable for it: the sheet, the modeller, a named source, or the computation. <strong>The division is the dataset's provenance.</strong> It works like a critical edition, which keeps the transcription of a text apart from the editor's apparatus, from the scholarship on dating, and from an index compiled from both.</p>
+<p class="lede" style="font-size:14.5px">The Linked Data is one dataset divided into four kinds of named graph. A named graph is a labelled set of statements, and every statement belongs to exactly one, according to who is answerable for it: the sheet, the modeller, a named source, or the computation. <strong>The division is the dataset's provenance.</strong> It works like a critical edition, which keeps the transcription of a text apart from the editor's apparatus, from the scholarship on dating, and from an index compiled from both.</p>
 <div class="tw"><table class="dt"><thead><tr><th>Graph</th><th>How many</th><th>Who is answerable</th><th>What it holds</th><th>One arrow on 458</th></tr></thead><tbody>
 <tr><td class="lbl"><b>Chart</b><br><code>graph/{chart}</code></td><td class="lbl">one per chart</td><td class="lbl wrap">The sheet, as transcribed</td><td class="lbl wrap">What the sheet shows: its labels as written, its marks and their ink, line, shape and position, the concepts it names, and any convention the sheet states itself (the legend on 456).</td><td class="lbl wrap">An arrow from the label <i>Cubism</i> to the label <i>Futurism</i>, in blue, solid. Nothing about what blue or solid mean.</td></tr>
 <tr><td class="lbl"><b>Interpretation</b><br><code>graph/interpretation</code></td><td class="lbl">one</td><td class="lbl wrap">The modeller</td><td class="lbl wrap">Every decision made on top of the transcription: inferred conventions, the reconciled index, identity and analogy across charts.</td><td class="lbl wrap">On 458, blue means internal and a solid line primary. <i>Cubism</i> on 458 is the same Cubism as on the Cover.</td></tr>
@@ -1845,8 +1845,8 @@ function ldEdition(){
     ["dcterms:, foaf:","DCMI, FOAF","Identifiers, dates, types, creators; facsimiles."]
   ];
   return `
-  <h3 class="sh">Linked data edition <span>CSV → RDF</span></h3>
-  <p class="lede" style="font-size:14.5px">The transcription is turned into linked data before anything is compared. <strong>Each chart becomes its own graph, the modeller's decisions a separate one, and every meaning is derived by query</strong>, so what a sheet shows, what the modeller says about it and what follows from both stay apart in the data itself.</p>
+  <h3 class="sh">Linked Data edition <span>CSV → RDF</span></h3>
+  <p class="lede" style="font-size:14.5px">The transcription is turned into Linked Data before anything is compared. <strong>Each chart becomes its own graph, the modeller's decisions a separate one, and every meaning is derived by query</strong>, so what a sheet shows, what the modeller says about it and what follows from both stay apart in the data itself.</p>
 
   <h4 class="ss">One arrow, modelled <span>Cubism → Futurism on 458, blue and solid</span></h4>
   <div class="ldwrap">${ldDiagram()}</div>
@@ -1876,7 +1876,7 @@ function paneMethod(){
     ["Typed transcription","Every entity and relation is typed in from the facsimile, chart by chart. Nothing is carried over from earlier datasets. Each row has a certainty and a verification date."],
     ["Record the mark, derive the meaning","Ink, line, shape and position are recorded as seen. Each chart's conventions, stated on the sheet or inferred by the modeller, give them meaning: internal or external, primary or secondary, a source outside modern art, membership, a title. Meaning is derived by query, never entered by hand."],
     ["Reconcile, keep the wording","The same referent gets one identifier on every chart, and each chart keeps its own wording. Merges are noted in the vocabulary, and the formal difference stays visible on Planes I and V."],
-    ["Linked data","The tables become linked data described with <span class='cap'>DINO</span> 🦖, the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology: marks, the conventions that give them meaning on each chart, and readings. Statements are kept in four graphs according to who makes them: each chart's transcription, the modeller's interpretation, readings, and what is derived by query. The comparison runs as SPARQL over it."],
+    ["Linked Data","The tables become Linked Data described with <span class='cap'>DINO</span> 🦖, the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology: marks, the conventions that give them meaning on each chart, and readings. Statements are kept in four graphs according to who makes them: each chart's transcription, the modeller's interpretation, readings, and what is derived by query. The comparison runs as SPARQL over it."],
     ["Five planes","Terminological, conceptual, structural, genetic, synchronic. Each can be run on its own; only the genetic plane uses an order."],
     ["Readings","A reading orders some of the charts and states its basis: documented (from the archive), analytical (proposed in an analysis of the charts), or published (an order given in a publication, such as Lowry’s plate numbers, with no claim about chronology). The edit grammar is computed along it."]
   ];
@@ -1905,11 +1905,11 @@ function paneMethod(){
     <div class="opk" style="font-size:15px">${i+1}</div>
     <div class="opb"><b style="background:none;padding:0;font-family:var(--disp);font-size:13px;letter-spacing:.06em;text-transform:uppercase">${esc(t)}</b><span class="opn" style="font-style:normal">${d}</span></div></div>`).join("")}</div>
 
-  <h3 class="sh">How the pages are built: CSV → RDF → SPARQL → JSON → pages</h3>
+  <h3 class="sh">How the pages are built: charts → CSV → RDF → SPARQL → JSON → pages</h3>
   <div class="oplist">${[
     ["Transcription","Each chart is typed in from its facsimile as tables (CSV): one row per entity written on the sheet and per relation drawn on it, with its wording, ink, line, shape, position on the year scale, certainty and the date it was checked."],
-    ["Linked data","A Python script (rdflib) turns the tables into RDF, serialized as TriG and described with the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology (<span class='cap'>DINO</span> 🦖), reusing SKOS, SKOS-XL, CIDOC-CRM and Dublin Core. A SPARQL query then derives what each mark signifies from its chart's conventions. The tables are read only at this step."],
-    ["Queries","SPARQL queries over the linked data return everything this page shows: wording, positions, inks and shapes, identity across charts, meanings, conventions and readings. The results are flattened into JSON and embedded in the site, so it also works opened from disk."],
+    ["Linked Data","A Python script (rdflib) turns the tables into RDF, serialized as TriG and described with the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology (<span class='cap'>DINO</span> 🦖), reusing SKOS, SKOS-XL, CIDOC-CRM and Dublin Core. A SPARQL query then derives what each mark signifies from its chart's conventions. The tables are read only at this step."],
+    ["Queries","SPARQL queries over the Linked Data return everything this page shows: wording, positions, inks and shapes, identity across charts, meanings, conventions and readings. The results are flattened into JSON and embedded in the site, so it also works opened from disk."],
     ["The pages","Plain JavaScript computes every measure in the browser (overlap, consensus, PageRank, clusters, the edit grammar) and draws every graph as inline SVG, with no charting library. The same algorithms run in Python to produce the written report, and the two agree."]
   ].map(([t,d],i)=>`<div class="oprow" style="grid-template-columns:44px 1fr">
     <div class="opk" style="font-size:15px">${i+1}</div>
