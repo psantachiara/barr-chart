@@ -1591,11 +1591,11 @@ function dinoSection(){
     return `
   ${cl.length?`<h4 class="ss">${name} · classes <span>${cl.length} · ${scope}</span></h4>
   <div class="tw"><table class="dt"><thead><tr><th>Class</th><th>Subclass of</th><th>Definition</th></tr></thead><tbody>
-    ${cl.map(k=>`<tr><td>${c(k.term)}</td><td>${k.sub.map(c).join(" ")||'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}${k.note?`<div class="note" style="margin-top:4px;font-size:12.5px">${esc(k.note)}</div>`:""}</td></tr>`).join("")}
+    ${cl.map(k=>`<tr><td>${c(k.term)}</td><td>${k.sub.map(c).join(" ")||'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}</td></tr>`).join("")}
   </tbody></table></div>`:""}
   ${pr.length?`<h4 class="ss">${name} · properties <span>${pr.length}</span></h4>
   <div class="tw"><table class="dt"><thead><tr><th>Property</th><th>Domain</th><th>Range</th><th>Definition</th></tr></thead><tbody>
-    ${pr.map(k=>`<tr><td>${c(k.term)}${k.kind==="data"?' <span class="kv">literal</span>':""}</td><td>${k.domain?c(k.domain):'<span style="color:var(--ink-3)">any</span>'}</td><td>${k.range?c(k.range):'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}${k.note?`<div class="note" style="margin-top:4px;font-size:12.5px">${esc(k.note)}</div>`:""}</td></tr>`).join("")}
+    ${pr.map(k=>`<tr><td>${c(k.term)}${k.kind==="data"?' <span class="kv">literal</span>':""}</td><td>${k.domain?c(k.domain):'<span style="color:var(--ink-3)">any</span>'}</td><td>${k.range?c(k.range):'<span style="color:var(--ink-3)">—</span>'}</td><td class="lbl wrap">${esc(k.def)}</td></tr>`).join("")}
   </tbody></table></div>`:""}
   ${vals.length?`<h4 class="ss">${name} · controlled values <span>SKOS concepts</span></h4>
   <div class="tw"><table class="dt"><thead><tr><th>Kind</th><th>Values</th><th>Definitions</th></tr></thead><tbody>
@@ -1677,8 +1677,8 @@ function barrSection(){
 
   <h4 class="ss">Relations the charts assert <span>${P.properties.length} minted · ${P.reused.length} reused</span></h4>
   <div class="tw"><table class="dt"><thead><tr><th>Property</th><th>Drawn as</th><th>Domain</th><th>Range</th><th>Definition</th></tr></thead><tbody>
-    ${P.properties.map(k=>`<tr><td>${c(k.term)}</td><td>${k.drawn.map(c).join(" ")||'<span style="color:var(--ink-3)">—</span>'}</td><td>${c(k.domain)}</td><td>${c(k.range)}</td><td class="lbl wrap">${esc(k.def)}${k.note?`<div class="note" style="margin-top:4px;font-size:12.5px">${esc(k.note)}</div>`:""}</td></tr>`).join("")}
-    ${P.reused.map(k=>`<tr><td>${c(k.term)}</td><td>${k.drawn.map(c).join(" ")}</td><td>${c("skos:Concept")}</td><td>${c("skos:Concept")}</td><td class="lbl wrap">${esc(k.def)}${k.used?"":`<div class="note" style="margin-top:4px;font-size:12.5px">Not needed on these four charts.</div>`}</td></tr>`).join("")}
+    ${P.properties.map(k=>`<tr><td>${c(k.term)}</td><td>${k.drawn.map(c).join(" ")||'<span style="color:var(--ink-3)">—</span>'}</td><td>${c(k.domain)}</td><td>${c(k.range)}</td><td class="lbl wrap">${esc(k.def)}</td></tr>`).join("")}
+    ${P.reused.map(k=>`<tr><td>${c(k.term)}</td><td>${k.drawn.map(c).join(" ")}</td><td>${c("skos:Concept")}</td><td>${c("skos:Concept")}</td><td class="lbl wrap">${esc(k.def)}</td></tr>`).join("")}
   </tbody></table></div>
 
   <h4 class="ss">Controlled values <span>SKOS concepts</span></h4>

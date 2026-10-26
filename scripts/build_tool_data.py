@@ -201,13 +201,13 @@ ontology = {
                 {"name": "node-link", "file": "vocab/dino-nodelink.ttl",
                  "label": str(onto.value(URIRef(BASE.replace("barr-chart/", "dino/nodelink")), RDFS.label) or "")}],
     "classes": [{"term": qn(u), "label": txt(u, RDFS.label), "sub": sorted(qn(o) for o in onto.objects(u, RDFS.subClassOf)),
-                 "def": txt(u, RDFS.comment, SK.definition), "note": txt(u, SK.scopeNote), "module": module(u)}
+                 "def": txt(u, RDFS.comment, SK.definition), "module": module(u)}
                 for u in sorted((u for u in dino_terms() if (u, RDF.type, OWL.Class) in onto), key=pos)],
     "properties": [{"term": qn(u), "label": txt(u, RDFS.label),
                     "kind": "data" if (u, RDF.type, OWL.DatatypeProperty) in onto else "object",
                     "domain": qn(onto.value(u, RDFS.domain)) if onto.value(u, RDFS.domain) else "",
                     "range": qn(onto.value(u, RDFS.range)) if onto.value(u, RDFS.range) else "",
-                    "def": txt(u, RDFS.comment), "note": txt(u, SK.scopeNote), "module": module(u)}
+                    "def": txt(u, RDFS.comment), "module": module(u)}
                    for u in sorted((u for u in dino_terms() if (u, RDF.type, OWL.ObjectProperty) in onto
                                     or (u, RDF.type, OWL.DatatypeProperty) in onto), key=pos)],
     "values": [{"term": qn(u), "label": txt(u, SK.prefLabel), "type": qn(onto.value(u, RDF.type)),
@@ -231,7 +231,7 @@ project = {
     "properties": [{"term": qn(u), "label": btxt(u, RDFS.label),
                     "domain": qn(proj.value(u, RDFS.domain)) if proj.value(u, RDFS.domain) else "",
                     "range": qn(proj.value(u, RDFS.range)) if proj.value(u, RDFS.range) else "",
-                    "drawn": sorted(drawn.get(qn(u), [])), "def": btxt(u, RDFS.comment), "note": btxt(u, SK.scopeNote)}
+                    "drawn": sorted(drawn.get(qn(u), [])), "def": btxt(u, RDFS.comment)}
                    for u in sorted((u for u in proj.subjects(RDF.type, OWL.ObjectProperty) if str(u).startswith(BARR)), key=bpos)],
     "reused": [{"term": "skos:related", "drawn": sorted(drawn.get("skos:related", ["dino:Connector"])),
                 "used": "skos:related" in drawn,

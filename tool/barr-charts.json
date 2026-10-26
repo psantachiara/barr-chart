@@ -7496,7 +7496,6 @@
      "crm:E36_Visual_Item"
     ],
     "def": "A graphical element of a diagram, as drawn: a written label, an arrow, an enclosure. A mark records what is on the sheet and carries no meaning of its own; meaning comes from the diagram's conventions. Not crm:E37_Mark, which covers signatures and similar identifying marks.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7506,7 +7505,6 @@
      "skos:Concept"
     ],
     "def": "A value a mark can take on one graphical dimension.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7516,7 +7514,6 @@
      "dino:GraphicValue"
     ],
     "def": "The ink or medium a mark is drawn in.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7526,7 +7523,6 @@
      "dino:GraphicValue"
     ],
     "def": "How a drawn line is drawn: solid, dotted, dashed.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7536,7 +7532,6 @@
      "dino:GraphicValue"
     ],
     "def": "A shape drawn with or around a label.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7546,7 +7541,6 @@
      "dino:GraphicValue"
     ],
     "def": "A positional dimension of the sheet that can carry meaning, such as vertical position against a scale.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7554,7 +7548,6 @@
     "label": "Convention",
     "sub": [],
     "def": "A rule, valid for one diagram, that gives a graphic value (or a legend code) a meaning: 'on this diagram, graphite signifies external influence'. The same graphic value can mean different things on different diagrams, and different values can mean the same thing; conventions make both statements explicit. Every convention has a basis: stated on the sheet, or inferred by a modeller.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7564,7 +7557,6 @@
      "skos:Concept"
     ],
     "def": "Where a convention or a reading comes from.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7572,7 +7564,6 @@
     "label": "Reading",
     "sub": [],
     "def": "An ordering of several diagrams, with its source and basis. Order belongs to the reading, not to the diagrams: the diagrams carry no sequence of their own.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7583,7 +7574,6 @@
      "skosxl:Label"
     ],
     "def": "A written label: at once a lexical label (its skosxl:literalForm is the wording as written) and a visual item (with ink, shape and position). Comparable to crm:E34_Inscription, which is both a linguistic object and a mark.",
-    "note": "",
     "module": "node-link"
    },
    {
@@ -7593,7 +7583,6 @@
      "dino:Mark"
     ],
     "def": "A mark that connects two concepts of the diagram.",
-    "note": "Two of the kinds follow Gestalt principles by which marks are seen to belong together: proximity (dino:Proximity) and connectedness (dino:Connector). dino:Arrow adds what grouping lacks: a direction.",
     "module": "node-link"
    },
    {
@@ -7603,7 +7592,6 @@
      "dino:RelationMark"
     ],
     "def": "A directed line from one label to another.",
-    "note": "The only relation mark with a direction: a line with a head.",
     "module": "node-link"
    },
    {
@@ -7613,7 +7601,6 @@
      "dino:RelationMark"
     ],
     "def": "A label written inside a shape drawn around or under another label, such as a name inside a semicircle.",
-    "note": "",
     "module": "node-link"
    },
    {
@@ -7623,7 +7610,6 @@
      "dino:RelationMark"
     ],
     "def": "A label written near another and related to it by placement alone, with no line or shape joining them, such as a place written beneath a movement.",
-    "note": "Grouping by proximity, the first of the Gestalt grouping principles (Wertheimer 1923). Nearness is a matter of degree, and every label is near something: a proximity is recorded only where the modeller judges one label to be written with the other. It is a judgement made at transcription, not a measured distance.",
     "module": "node-link"
    },
    {
@@ -7633,7 +7619,6 @@
      "dino:RelationMark"
     ],
     "def": "An undirected line, or a drawn connection whose kind cannot be assigned.",
-    "note": "Grouping by connectedness (Palmer and Rock 1994).",
     "module": "node-link"
    }
   ],
@@ -7645,7 +7630,6 @@
     "domain": "",
     "range": "dino:GraphicValue",
     "def": "A graphical property of a mark (its ink, line style, shape, or a positional dimension), or the graphical property a convention gives meaning to.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7655,7 +7639,6 @@
     "domain": "dino:Mark",
     "range": "",
     "def": "The value read off the scale the diagram itself draws, at the label's position (e.g. a year on a ruled time scale). A reading of position, given meaning by the diagram's scale convention.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7665,7 +7648,6 @@
     "domain": "dino:Mark",
     "range": "xsd:decimal",
     "def": "Where the label sits across the sheet, read from the facsimile: 0 at the left edge, 1 at the right. Recorded as observed; no convention gives it a meaning.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7675,7 +7657,6 @@
     "domain": "dino:Mark",
     "range": "",
     "def": "A code from the diagram's own legend written against the label (e.g. 'p').",
-    "note": "",
     "module": "core"
    },
    {
@@ -7685,7 +7666,6 @@
     "domain": "dino:Convention",
     "range": "crm:E36_Visual_Item",
     "def": "The diagram on which the convention is valid.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7695,7 +7675,6 @@
     "domain": "dino:Convention",
     "range": "owl:Class",
     "def": "The kind of mark the convention governs (e.g. dino:LabelMark, dino:RelationMark). Absent: it governs every mark with the graphic value.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7705,7 +7684,6 @@
     "domain": "dino:Convention",
     "range": "",
     "def": "For a legend: the code the convention gives a meaning to (e.g. 'a').",
-    "note": "",
     "module": "core"
    },
    {
@@ -7715,7 +7693,6 @@
     "domain": "",
     "range": "skos:Concept",
     "def": "On a convention: the meaning it gives to its graphic value or code. On a mark: the meaning that follows from the conventions of its diagram (derived by query).",
-    "note": "",
     "module": "core"
    },
    {
@@ -7725,7 +7702,6 @@
     "domain": "",
     "range": "dino:Basis",
     "def": "Where a convention, or a reading, comes from.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7735,7 +7711,6 @@
     "domain": "dino:Reading",
     "range": "rdf:List",
     "def": "The sheets in the order the reading proposes, as an rdf:List.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7745,7 +7720,6 @@
     "domain": "dino:Mark",
     "range": "",
     "def": "How securely the transcriber reads the mark: certain, probable, uncertain.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7755,7 +7729,6 @@
     "domain": "dino:Mark",
     "range": "xsd:date",
     "def": "The date the transcription of the mark was checked against the facsimile.",
-    "note": "",
     "module": "core"
    },
    {
@@ -7765,7 +7738,6 @@
     "domain": "crm:E36_Visual_Item",
     "range": "skos:ConceptScheme",
     "def": "Links a diagram to the concept scheme it expresses: the knowledge organization system the diagram is read as.",
-    "note": "",
     "module": "node-link"
    },
    {
@@ -7775,7 +7747,6 @@
     "domain": "dino:LabelMark",
     "range": "skos:Concept",
     "def": "Links a label mark to the concept of the diagram it writes. Not crm:P138_represents, which is for depiction.",
-    "note": "",
     "module": "node-link"
    },
    {
@@ -7785,7 +7756,6 @@
     "domain": "dino:RelationMark",
     "range": "skos:Concept",
     "def": "The concept a relation mark starts from (the tail of an arrow; the enclosed label; the label written near another).",
-    "note": "",
     "module": "node-link"
    },
    {
@@ -7795,7 +7765,6 @@
     "domain": "dino:RelationMark",
     "range": "skos:Concept",
     "def": "The concept a relation mark leads to (the head of an arrow; the enclosing or anchoring label).",
-    "note": "",
     "module": "node-link"
    },
    {
@@ -7805,7 +7774,6 @@
     "domain": "dino:RelationMark",
     "range": "dino:LabelMark",
     "def": "Where a concept is written more than once on a diagram, the written label a relation mark leaves from. Each occurrence is its own label mark, with its own position; the concept stays one.",
-    "note": "",
     "module": "node-link"
    },
    {
@@ -7815,7 +7783,6 @@
     "domain": "dino:RelationMark",
     "range": "dino:LabelMark",
     "def": "Where a concept is written more than once on a diagram, the written label a relation mark arrives at.",
-    "note": "",
     "module": "node-link"
    },
    {
@@ -7825,7 +7792,6 @@
     "domain": "dino:RelationMark",
     "range": "rdf:Property",
     "def": "The domain relation the transcriber reads a relation mark as recording, e.g. an influence. The corresponding plain triple between the two concepts is asserted alongside.",
-    "note": "In this version the modeller records the relation when transcribing the mark. The intended route, for a later version, is a convention on the relation mark (\"on this diagram an arrow signifies influence\"), with its basis, so that the reading of a relation mark is derived like every other meaning.",
     "module": "node-link"
    }
   ],
@@ -8037,8 +8003,7 @@
     "drawn": [
      "dino:Arrow"
     ],
-    "def": "One concept of a chart influenced another, as an arrow on the chart asserts.",
-    "note": "Corresponds to crm:P15i_influenced (the inverse of crm:P15_was_influenced_by) without its range constraint. In CIDOC-CRM, P15 runs from an activity (crm:E7_Activity) to any entity, so P15i has an activity as its range. Barr's charts assert influence between movements, typed here as crm:E55_Type; using P15i would make every influenced movement an activity, and in CIDOC-CRM an activity (a temporal entity) cannot also be a type (a conceptual object). The relation is therefore minted, and the clash documented: CIDOC-CRM models influence as bearing on activities, the charts as passing between movements."
+    "def": "One concept of a chart influenced another, as an arrow on the chart asserts."
    },
    {
     "term": "barr:associatedWithPlace",
@@ -8048,8 +8013,7 @@
     "drawn": [
      "dino:Proximity"
     ],
-    "def": "A place written with a movement or a person on a chart. The chart sets the two side by side and does not say how they are related (where a movement began, where it was active, where a person worked); the property claims no more than the association.",
-    "note": "Not crm:P7_took_place_at, which is for events; not dcterms:spatial, which describes a resource's coverage."
+    "def": "A place written with a movement or a person on a chart. The chart sets the two side by side and does not say how they are related (where a movement began, where it was active, where a person worked); the property claims no more than the association."
    },
    {
     "term": "barr:memberOf",
@@ -8059,8 +8023,7 @@
     "drawn": [
      "dino:Enclosure"
     ],
-    "def": "A person written inside a movement's semicircle: by the semicircle convention, a member of that movement.",
-    "note": "Not crm:P107i_is_current_or_former_member_of, whose object is a group (crm:E74_Group); movements are typed here as crm:E55_Type."
+    "def": "A person written inside a movement's semicircle: by the semicircle convention, a member of that movement."
    }
   ],
   "reused": [
