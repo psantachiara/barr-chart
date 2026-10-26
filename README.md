@@ -2,7 +2,7 @@
 
 *A study of ontology development*
 
-Alfred H. Barr, Jr.'s chart for *Cubism and Abstract Art* (MoMA, 1936) survives in several hand-drawn versions. This tool compares four of them without treating any of them as the draft of another unless a reading on Plane IV says so. Each chart is transcribed and transformed to Linked Data, and therefore queried to support the analysis offered within each plane. Each chart is read as a self-contained, valid ontology.
+Alfred H. Barr, Jr.'s chart for *Cubism and Abstract Art* (MoMA, 1936) survives in several hand-drawn versions. This tool compares four versions of Barr's chart without treating any of them as the draft of another (unless a reading on Plane IV specifies it). Each chart is read as a self-contained, valid ontology, transcribed and transformed to Linked Data, and then queried to support the analysis offered within each plane.
 
 **Explore the comparison:** https://psantachiara.github.io/barr-chart/
 
