@@ -1613,9 +1613,7 @@ function dinoSection(){
   <div class="tw"><table class="dt"><thead><tr><th>Kind</th><th>Values</th><th>Definitions</th></tr></thead><tbody>
     ${vals.map(g=>`<tr><td class="lbl">${esc(typeName[g.type]||g.type)}</td><td class="wrap">${g.items.map(v=>c(v.term)).join(" ")}</td>
       <td class="lbl wrap">${g.items.filter(v=>v.def).map(v=>`<b>${esc(v.label)}</b>: ${esc(v.def)}`).join("<br>")||'<span style="color:var(--ink-3)">—</span>'}</td></tr>`).join("")}
-  </tbody></table></div>`:""}`; }).join("")}
-
-  <p class="note">Defined in <code>vocab/dino.ttl</code> (core) and <code>vocab/dino-nodelink.ttl</code> (node-link profile), in one namespace, <code>${esc(O.iri||"")}</code>. The tables above are read from those files when this page is built.</p>`;
+  </tbody></table></div>`:""}`; }).join("")}`;
 }
 
 /* How meaning is modelled: the vocabularies from the general to the particular, and how a mark comes to mean */
@@ -1657,8 +1655,7 @@ function modelSection(){
   <div class="ex">An arrow from Cubism to Futurism, in blue, solid.</div>
   <div class="ex">On 458, blue signifies internal; a solid line, primary. Both inferred by the modeller.</div>
   <div class="ex">On 458, Cubism influenced Futurism: internal, primary.</div>
-</div></div>
-<p class="note">Another body of diagrams would keep the first three levels and bring its own project vocabulary; another kind of diagram would bring its own DINO profile.</p>`;
+</div></div>`;
 }
 
 /* The project vocabulary: what is Barr's own, kept out of DINO */
@@ -1680,9 +1677,7 @@ function barrSection(){
   <div class="tw"><table class="dt"><thead><tr><th>Kind</th><th>Values</th><th>Definitions</th></tr></thead><tbody>
     ${schemes.map(g=>`<tr><td class="lbl">${esc(g.name)}</td><td class="wrap">${g.items.map(v=>c(v.term)).join(" ")}</td>
       <td class="lbl wrap">${g.items.map(v=>`<b>${esc(v.label)}</b>: ${esc(v.def)}`).join("<br>")}</td></tr>`).join("")}
-  </tbody></table></div>
-
-  <p class="note">Defined in <code>${esc(P.file||"")}</code>, namespace <code>${esc(P.iri||"")}</code>. The tables above are read from that file when this page is built.</p>`;
+  </tbody></table></div>`;
 }
 
 /* ============================================================
@@ -1841,7 +1836,6 @@ function ldEdition(){
 
   <h4 class="ss">One arrow, modelled <span>Cubism → Futurism on 458, blue and solid</span></h4>
   <div class="ldwrap">${ldDiagram()}</div>
-  <p class="note">Boxes are resources, labelled arrows are properties, bands are named graphs. The arrow on the sheet is a mark with graphic values; it signifies nothing until a convention of its own chart gives those values a meaning. Chart identifiers in the data: <code>insert</code> = 456, <code>p19</code> = 457, <code>p21</code> = 458, <code>cover</code> = Cover.</p>
 
   <h4 class="ss">Graphs <span>who says what</span></h4>
   <div class="tw"><table class="dt"><thead><tr><th>Graph</th><th>How many</th><th>Holds</th><th>Asserted by</th></tr></thead><tbody>
@@ -1862,10 +1856,7 @@ function ldEdition(){
   <h4 class="ss">Vocabularies</h4>
   <div class="tw"><table class="dt"><thead><tr><th>Prefix</th><th>Namespace</th><th>Used for</th></tr></thead><tbody>
     ${vocabs.map(v=>`<tr><td><code>${v[0]}</code></td><td class="lbl">${v[1]}</td><td class="lbl wrap">${v[2]}</td></tr>`).join("")}
-  </tbody></table></div>
-  <div class="callout">
-    <p><b>Two choices worth knowing.</b> Influence is minted as <code>barr:influenced</code> rather than taken from CIDOC-CRM: <code>crm:P15i_influenced</code> has an activity as its range, and a movement typed as <code>crm:E55_Type</code> cannot be one. And the linked data is not open data: it reuses open ontologies and points to open vocabularies, but its identifiers are not published for dereferencing or reuse.</p>
-  </div>`;
+  </tbody></table></div>`;
 }
 
 /* ============================================================
@@ -1905,7 +1896,7 @@ function paneMethod(){
     <div class="opk" style="font-size:15px">${i+1}</div>
     <div class="opb"><b style="background:none;padding:0;font-family:var(--disp);font-size:13px;letter-spacing:.06em;text-transform:uppercase">${esc(t)}</b><span class="opn" style="font-style:normal">${d}</span></div></div>`).join("")}</div>
 
-  <h3 class="sh">How the pages are built</h3>
+  <h3 class="sh">How the pages are built: CSV → RDF → SPARQL → JSON → pages</h3>
   <div class="oplist">${[
     ["Transcription","Each chart is typed in from its facsimile as tables (CSV): one row per entity written on the sheet and per relation drawn on it, with its wording, ink, line, shape, position on the year scale, certainty and the date it was checked."],
     ["Linked data","A Python script (rdflib) turns the tables into RDF, serialized as TriG and described with the <span class='cap'>DI</span>agram <span class='cap'>N</span>otation <span class='cap'>O</span>ntology (<span class='cap'>DINO</span> 🦖), reusing SKOS, SKOS-XL, CIDOC-CRM and Dublin Core. A SPARQL query then derives what each mark signifies from its chart's conventions. The tables are read only at this step."],
@@ -1914,13 +1905,11 @@ function paneMethod(){
   ].map(([t,d],i)=>`<div class="oprow" style="grid-template-columns:44px 1fr">
     <div class="opk" style="font-size:15px">${i+1}</div>
     <div class="opb"><b style="background:none;padding:0;font-family:var(--disp);font-size:13px;letter-spacing:.06em;text-transform:uppercase">${t}</b><span class="opn" style="font-style:normal">${d}</span></div></div>`).join("")}</div>
-  <p class="note">CSV → linked data (RDF) → SPARQL → JSON → the pages. A change to the transcription reaches the pages only when the chain is rebuilt.</p>
 
   <h3 class="sh">Edit grammar</h3>
   <div class="tw"><table class="dt"><thead><tr><th>Operation</th><th>Definition</th></tr></thead><tbody>
     ${grammar.map(([a,b])=>`<tr><td style="color:var(--oxblood)">${esc(a)}</td><td class="lbl">${esc(b)}</td></tr>`).join("")}
   </tbody></table></div>
-  <p class="note">On Plane V the same tests run without a direction: “only on A”, “only on B”, worded differently, rewired, restyled.</p>
 
   ${modelSection()}
 
@@ -1933,7 +1922,6 @@ function paneMethod(){
   <h3 class="sh">Integrity check <span>run on load</span></h3>
   <div class="tw"><table class="dt"><thead><tr><th>Chart</th><th class="num">Entities</th><th class="num">Relations</th><th class="num">Cycles, influence</th>
     <th class="num">Cycles, all</th><th class="num">Read on scale</th><th class="num">Off scale</th><th class="num">Uncertain rows</th></tr></thead><tbody>${integ}</tbody></table></div>
-  <p class="note">A cycle would mean a chart asserts that A precedes B and B precedes A. Zero is the expected value. “Off scale” counts entities with no reading of their own and no dated neighbour.</p>
 
   ${hasSecondary?`<h3 class="sh">Preview other plates (work in progress)</h3>
   <div class="ctl"><button class="mini" id="secondary">${state.secondary?"Hide the preview":"Show the preview"}</button>
