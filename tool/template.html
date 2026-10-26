@@ -99,8 +99,8 @@ h1,h2,h3,h4{margin:0; font-family:var(--disp); font-weight:600; letter-spacing:.
 #versionbar .vchips{display:flex; flex-wrap:wrap; width:max-content; max-width:100%}
 #planenav .ptabs{display:flex; width:max-content; max-width:100%; overflow-x:auto}
 #versionbar .vhint, #planenav .phint{
-  align-self:center; margin-left:auto; padding:6px 0 6px 12px; white-space:nowrap;
-  font-family:var(--mono); font-size:10px; color:var(--ink-3); letter-spacing:.04em;
+  align-self:flex-end; margin-left:auto; padding:6px 0 7px 12px; white-space:nowrap; line-height:11.5px;
+  font-family:var(--mono); font-size:10px; font-weight:600; color:var(--ink-3); letter-spacing:.04em;
 }
 
 /* ---------- plane nav ---------- */
@@ -183,6 +183,10 @@ h4.ss span{float:right; font-family:var(--mono); font-size:10px; letter-spacing:
 .stk .axis i{flex:1; width:1px; background:var(--rule-2); margin:8px 0; position:relative}
 .stk .axis i:after{content:""; position:absolute; bottom:-1px; left:-4px; border:4.5px solid transparent; border-top:7px solid var(--rule-2)}
 .stk .axis span{writing-mode:vertical-rl; transform:rotate(180deg)}
+.stk .corner{border-left:none}
+.stk .haxis{grid-column:3 / span 3; display:flex; align-items:center; padding:9px 14px; font-family:var(--disp); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
+.stk .haxis i{flex:1; height:1px; background:var(--rule-2); margin:0 10px; position:relative}
+.stk .haxis i:after{content:""; position:absolute; right:-1px; top:-4px; border:4.5px solid transparent; border-left:7px solid var(--rule-2)}
 .stk .tier b{display:block; font-family:var(--disp); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink)}
 .stk .tier span{display:block; font-size:12px; color:var(--ink-3); margin-top:2px}
 .stk code{font-family:var(--mono); font-size:11px; background:var(--paper-2); padding:0 3px}
@@ -313,7 +317,7 @@ body.lb-open{overflow:hidden}
 
 @media (max-width:860px){
   #versionbar .vchips{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch}
-  #versionbar .vhint, #planenav .phint{flex-basis:100%; margin-left:0; padding:6px 0}
+  #versionbar .vhint, #planenav .phint{flex-basis:100%; margin-left:0; padding:6px 0 6px}
   #versionbar, #planenav{margin:0 16px}
   .vchip{flex:0 0 auto; min-width:118px; padding:9px 13px 10px}
   .vchip .vn{font-size:15px}
@@ -1621,7 +1625,9 @@ function modelSection(){
 <p class="lede" style="font-size:14.5px">The linked data is described with vocabularies at four levels of generality, each building on the one above it: shared standards, the core of DINO for any diagram, a DINO profile for one kind of diagram, and a project vocabulary for one body of diagrams. At the bottom is the data: each chart, described with terms from all four.</p>
 <p class="lede" style="font-size:14.5px">Read down, the figure goes from the general to the particular. Read across, it shows how a mark comes to mean something: the mark as drawn, the convention that gives it a meaning on its own diagram, and the proposition that follows. The last row puts one arrow on 458 through every level.</p>
 <div class="tw"><div class="stk">
-  <div class="axis" style="grid-row:2 / span 5"><span>general</span><i></i><span>particular</span></div>
+  <div class="corner" style="grid-column:1 / span 2"></div>
+  <div class="haxis"><span>as drawn</span><i></i><span>as asserted</span></div>
+  <div class="axis" style="grid-row:3 / span 5"><span>general</span><i></i><span>particular</span></div>
   <div class="hd" style="grid-column:2">Level</div>
   <div class="hd">Mark<b>→</b></div>
   <div class="hd">Convention<b>→</b></div>
