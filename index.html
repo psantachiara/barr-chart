@@ -1116,8 +1116,7 @@ function paneConc(){
 
   <h3 class="sh">Reconciliation decisions <span>${decisions.length} entities on the selected charts</span></h3>
   ${decisions.length?`<div class="oplist">${decisions.map(x=>`<div class="oprow"><div class="opk" style="color:var(--ink-2)">${dot(C[x].t)}${esc(C[x].l)}</div>
-    <div class="opb">${esc(C[x].note.replace(/ \([a-z0-9_]+\)/g,""))}<span class="opn" style="font-style:normal">${vs.filter(v=>v.set.has(x)).map(v=>`${esc(v.name)}: “${esc(surface(v,x))}”`).join(" · ")}</span></div></div>`).join("")}</div>`:'<p class="note">No recorded decisions for the selected charts.</p>'}
-  <p class="note">Each decision changes every figure above: merge two entities and the counts, the overlap and the consensus all move. Keeping biomorphic apart from non-geometric abstract art is a decision of the same kind, recorded by not merging them. The wording on each chart is kept in every case; see Plane I.</p>`;
+    <div class="opb">${esc(C[x].note.replace(/ \([a-z0-9_]+\)/g,""))}<span class="opn" style="font-style:normal">${vs.filter(v=>v.set.has(x)).map(v=>`${esc(v.name)}: “${esc(surface(v,x))}”`).join(" · ")}</span></div></div>`).join("")}</div>`:'<p class="note">No recorded decisions for the selected charts.</p>'}`;
 }
 
 /* ============================================================
@@ -1385,8 +1384,7 @@ function paneGenetic(){
     ${list("restyled", E.restyled, k=>relText(k)+` <span class="kv">${esc(steps[si][0].style[k].filter(Boolean).join(" ")||"—")} → ${esc(steps[si][1].style[k].filter(Boolean).join(" ")||"—")}</span>`, 12)}
     ${list("promotion", E.promoted, s=>`${esc(cname(s.id))} <span class="kv">${s.from} → ${s.to}</span>`)}
     ${list("demotion", E.demoted, s=>`${esc(cname(s.id))} <span class="kv">${s.from} → ${s.to}</span>`)}
-  </div>`}
-  <p class="note">Insertion and deletion are the same sets as “only on” in Plane V; what this plane adds is a direction. Merge, split and moving an entity into a box cannot be read from the sets alone and are not computed.</p>`;
+  </div>`}`;
 }
 function chronoPlot(rows){
   const W=820,H=262,padL=52,padR=20,padT=44,padB=44;
@@ -1513,8 +1511,7 @@ function paneSyn(){
       <p class="note">Every entity keeps the place it has in Plane III's fixed network, so this is what remains of those drawings once at least ${th} chart${th>1?"s":""} must agree. Faint dots are entities whose relations fall below the threshold. Circles are bands of PageRank rank on all the selected charts together.</p>`
     : `<div class="gwrap"><div class="ghead"><b>Consensus, on ≥ ${th}</b><em>${keep.length} relations · ${cn.size} entities · each entity at the median of where the charts place it · line weight = number of charts</em></div>
     ${svgGraph(L,"cons")}<div class="zhint">scroll to zoom · drag to pan</div></div>`}
-  <div class="tw" style="margin-top:14px;max-height:520px;overflow:auto"><table class="dt"><thead><tr><th>Relation</th><th class="num">n</th><th>Charts</th></tr></thead><tbody>${consRows}</tbody></table></div>
-  <p class="note">The name of this plane is provisional. It is the order-free counterpart of Plane IV: the same differences, without a direction.</p>`;
+  <div class="tw" style="margin-top:14px;max-height:520px;overflow:auto"><table class="dt"><thead><tr><th>Relation</th><th class="num">n</th><th>Charts</th></tr></thead><tbody>${consRows}</tbody></table></div>`;
 }
 function netPlot(vs,J,nearest){
   const W=520,H=360,cx=W/2,cy=H/2+4,R=Math.min(W,H)/2-62;
