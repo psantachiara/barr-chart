@@ -357,7 +357,7 @@ body.lb-open{overflow:hidden}
     <button class="pnav" data-p="struct"><b>III</b>Structural</button>
     <button class="pnav" data-p="genetic"><b>IV</b>Genetic</button>
     <button class="pnav" data-p="syn"><b>V</b>Synchronic</button>
-    <button class="pnav" data-p="method"><b>§</b>Method &amp; edition</button>
+    <button class="pnav" data-p="method"><b>§</b>Method &amp; LD edition</button>
     </div>
     <span class="phint">planes of comparison</span>
   </nav>
@@ -1858,7 +1858,7 @@ function ldEdition(){
 }
 
 /* ============================================================
-   PANE — METHOD & EDITION
+   PANE — METHOD & LD EDITION
    ============================================================ */
 function paneMethod(){
   const steps=[
@@ -1887,7 +1887,7 @@ function paneMethod(){
       <td class="num">${Object.keys(v.certainty).length + v.edges.filter(e=>e.cert).length}</td></tr>`; }).join("");
   const hasSecondary=DATA.versions.some(v=>v.set!=="core");
   return `
-  <h2 class="ph">Method &amp; edition</h2>
+  <h2 class="ph">Method &amp; LD edition</h2>
 
   <h3 class="sh">Protocol</h3>
   <div class="oplist">${steps.map(([t,d],i)=>`<div class="oprow" style="grid-template-columns:44px 1fr">
