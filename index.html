@@ -1043,14 +1043,12 @@ function paneTerm(){
   <div class="tw"><table class="dt"><thead><tr><th>Chart</th><th class="num">Labels</th><th class="num">Barr's brackets</th>
     <th class="num">Illegible [?]</th><th class="num">Uncertain reading</th><th class="num">Differs from reconciled label</th></tr></thead>
     <tbody>${summary}</tbody></table></div>
-  <p class="note">“Barr's brackets” counts qualifiers he writes himself, as in “(Abstract) Dadaism”. “[?]” is the transcriber's mark for a word that cannot be read, and is kept apart from them.</p>
 
   <h3 class="sh">Kinds of difference <span>${variantIds.length} entities worded differently on at least two charts</span></h3>
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
     ${[["case","Same words, different capitals"],["punctuation","Hyphen or spacing only"],["bracketing","A qualifier put in or out of brackets"],["word order","Same words, reordered"],["wording","Words added, dropped or changed"]]
       .map(([k,d])=>`<div class="card"><h4>${esc(k)}</h4><div class="big">${kc[k]||0}</div><p class="note" style="margin-top:4px;font-style:normal">${esc(d)}</p></div>`).join("")}
   </div>
-  <p class="note">An entity can show more than one kind of difference across charts. Each pair of wordings is classed by the first test that explains it, in the order above.</p>
 
   <h3 class="sh">Label ledger <span>${rows.length} of ${MODEL.all.length} entities</span></h3>
   <div class="ctl">
