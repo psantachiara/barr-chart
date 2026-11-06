@@ -577,11 +577,6 @@
     "fauvism"
    ],
    [
-    "neoimpressionism",
-    "influenced",
-    "futurism"
-   ],
-   [
     "orphism",
     "associatedWithPlace",
     "paris"
@@ -628,6 +623,15 @@
     "neoimpressionism",
     "influenced",
     "fauvism",
+    "dotted",
+    "",
+    "solid",
+    ""
+   ],
+   [
+    "neoimpressionism",
+    "influenced",
+    "futurism",
     "dotted",
     "",
     "solid",
@@ -743,11 +747,6 @@
     "negro_sculpture",
     "influenced",
     "fauvism"
-   ],
-   [
-    "neoimpressionism",
-    "influenced",
-    "futurism"
    ],
    [
     "orphism",
@@ -1202,11 +1201,6 @@
     "fauvism"
    ],
    [
-    "neoimpressionism",
-    "influenced",
-    "futurism"
-   ],
-   [
     "orphism",
     "associatedWithPlace",
     "paris"
@@ -1358,6 +1352,15 @@
     "",
     "solid",
     "internal"
+   ],
+   [
+    "neoimpressionism",
+    "influenced",
+    "futurism",
+    "dotted",
+    "",
+    "solid",
+    "internal"
    ]
   ],
   "relations_dropped_with_ends_kept": [
@@ -1480,11 +1483,6 @@
     "negro_sculpture",
     "influenced",
     "fauvism"
-   ],
-   [
-    "neoimpressionism",
-    "influenced",
-    "futurism"
    ],
    [
     "orphism",
@@ -2155,11 +2153,6 @@
     "fauvism"
    ],
    [
-    "neoimpressionism",
-    "influenced",
-    "futurism"
-   ],
-   [
     "orphism",
     "associatedWithPlace",
     "paris"
@@ -2236,6 +2229,15 @@
     "neoimpressionism",
     "influenced",
     "fauvism",
+    "dotted",
+    "",
+    "solid",
+    "internal"
+   ],
+   [
+    "neoimpressionism",
+    "influenced",
+    "futurism",
     "dotted",
     "",
     "solid",
@@ -2361,11 +2363,6 @@
     "negro_sculpture",
     "influenced",
     "fauvism"
-   ],
-   [
-    "neoimpressionism",
-    "influenced",
-    "futurism"
    ],
    [
     "orphism",

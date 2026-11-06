@@ -28,6 +28,7 @@ negro_sculpture influenced cubism,4,insert p19 p21 cover
 neoimpressionism associatedWithPlace paris,4,insert p19 p21 cover
 neoimpressionism influenced cubism,4,insert p19 p21 cover
 neoimpressionism influenced fauvism,4,insert p19 p21 cover
+neoimpressionism influenced futurism,4,insert p19 p21 cover
 purism associatedWithPlace paris,4,insert p19 p21 cover
 rousseau influenced cubism,4,insert p19 p21 cover
 suprematism associatedWithPlace moscow,4,insert p19 p21 cover
@@ -56,7 +57,6 @@ machine_esthetic influenced brancusi,3,insert p21 cover
 machine_esthetic influenced constructivism,3,insert p19 cover
 machine_esthetic influenced de_stijl_and_neoplasticism,3,insert p21 cover
 negro_sculpture influenced fauvism,3,p19 p21 cover
-neoimpressionism influenced futurism,3,p19 p21 cover
 orphism associatedWithPlace paris,3,p19 p21 cover
 seurat memberOf neoimpressionism,3,insert p21 cover
 suprematism influenced geometric_abstract_art,3,insert p21 cover

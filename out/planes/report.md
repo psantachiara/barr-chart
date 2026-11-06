@@ -50,7 +50,7 @@ On every chart: Abstract Dadaism, Abstract Expressionism, Abstract Surrealism, B
 
 | chart | order | size | not in this graph | density | depth | roots | sinks | clusters ≥2 | highest PageRank |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 456 | 24 | 41 | 60 | 0.0743 | 6 | 7 | 6 | 2 | Cubism 0.099, Biomorphic Abstract Art 0.099, Fauvism 0.083 |
+| 456 | 24 | 42 | 60 | 0.0761 | 6 | 7 | 6 | 2 | Biomorphic Abstract Art 0.098, Cubism 0.096, Fauvism 0.080 |
 | 457 | 23 | 43 | 11 | 0.085 | 6 | 7 | 5 | 1 | Non-Geometric Abstract Art 0.126, Abstract Surrealism 0.102, Abstract Expressionism 0.101 |
 | 458 | 28 | 53 | 66 | 0.0701 | 6 | 9 | 5 | 2 | Non-Geometric Abstract Art 0.141, Abstract Surrealism 0.102, Modern Architecture 0.084 |
 | Cover | 26 | 51 | 14 | 0.0785 | 5 | 9 | 4 | 1 | Non-Geometric Abstract Art 0.121, Modern Architecture 0.112, Abstract Expressionism 0.096 |
@@ -59,7 +59,7 @@ On every chart: Abstract Dadaism, Abstract Expressionism, Abstract Surrealism, B
 
 | chart | order | size | not in this graph | density | depth | roots | sinks | clusters ≥2 | highest PageRank |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 456 | 83 | 117 | 1 | 0.0172 | 7 | 51 | 15 | 5 | Paris 0.076, Constructivism 0.058, Germany 0.049 |
+| 456 | 83 | 118 | 1 | 0.0173 | 7 | 51 | 15 | 5 | Paris 0.075, Constructivism 0.060, Germany 0.050 |
 | 457 | 34 | 64 | 0 | 0.057 | 6 | 7 | 13 | 1 | Paris 0.123, Fauvism 0.068, Abstract Expressionism 0.051 |
 | 458 | 94 | 138 | 0 | 0.0158 | 6 | 63 | 15 | 4 | Paris 0.075, Cubism 0.057, Abstract Surrealism 0.044 |
 | Cover | 40 | 78 | 0 | 0.05 | 6 | 10 | 15 | 3 | Paris 0.111, Fauvism 0.059, Abstract Expressionism 0.048 |
@@ -68,7 +68,7 @@ Influence arrows by meaning (per chart ink key) and line:
 
 | chart | by meaning (ink key) | by line | back-edges (cycles) |
 | --- | --- | --- | --- |
-| 456 | {'ink carries no meaning': 41} | {'solid': 31, 'dotted': 10} | 0 |
+| 456 | {'ink carries no meaning': 42} | {'solid': 31, 'dotted': 11} | 0 |
 | 457 | {'ink carries no meaning': 43} | {'solid': 39, 'dotted': 4} | 0 |
 | 458 | {'internal': 34, 'external': 19} | {'solid': 45, 'dotted': 8} | 0 |
 | Cover | {'internal': 34, 'external': 17} | {'solid': 45, 'dotted': 6} | 0 |
@@ -86,7 +86,7 @@ Chronology against each chart's own year scale. An arrow is *backward* when its 
 
 | chart | entities on scale | span | arrows | both ends on scale | same year | backward |
 | --- | --- | --- | --- | --- | --- | --- |
-| 456 | 25 | 1888–1932 | 41 | 41 | 0 | 2 |
+| 456 | 25 | 1888–1932 | 42 | 42 | 0 | 2 |
 | 457 | 23 | 1886–1930 | 43 | 43 | 1 | 3 |
 | 458 | 28 | 1887–1935 | 53 | 53 | 1 | 2 |
 | Cover | 28 | 1889–1934 | 51 | 51 | 1 | 1 |
@@ -103,7 +103,7 @@ Basis: published. Source: Lowry (2012). Order in scope: 456 → 457 → 458 → 
 
 | step | inserted | deleted | relabelled | wired | cut | restyled | persons collapsed | promoted | demoted | brackets gained/lost | J |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 456 → 457 | 6 | 56 | 6 | 14 | 9 | 6 | 46 | 0 | 3 | 2 | 0.311 |
+| 456 → 457 | 6 | 56 | 6 | 13 | 9 | 7 | 46 | 1 | 3 | 2 | 0.311 |
 | 457 → 458 | 62 | 2 | 8 | 5 | 8 | 5 | 0 | 0 | 9 | 0 | 0.333 |
 | 458 → Cover | 2 | 56 | 6 | 12 | 6 | 4 | 53 | 2 | 2 | 1 | 0.396 |
 
@@ -115,18 +115,18 @@ All pairs, no order.
 
 | pair | entity J | relation J | influence J | shared | only A | only B | relabelled | relations only A | relations only B | rewired | restyled |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 456 – 457 | 0.311 | 0.302 | 0.647 | 28 | 56 | 6 | 6 | 75 | 22 | 23 | 6 |
-| 456 – 458 | 0.633 | 0.491 | 0.567 | 69 | 15 | 25 | 6 | 33 | 54 | 34 | 9 |
-| 456 – Cover | 0.305 | 0.283 | 0.559 | 29 | 55 | 11 | 8 | 74 | 35 | 25 | 6 |
+| 456 – 457 | 0.311 | 0.309 | 0.667 | 28 | 56 | 6 | 6 | 75 | 21 | 22 | 7 |
+| 456 – 458 | 0.633 | 0.497 | 0.583 | 69 | 15 | 25 | 6 | 33 | 53 | 33 | 10 |
+| 456 – Cover | 0.305 | 0.289 | 0.576 | 29 | 55 | 11 | 8 | 74 | 34 | 24 | 7 |
 | 457 – 458 | 0.333 | 0.365 | 0.627 | 32 | 2 | 62 | 8 | 10 | 84 | 13 | 5 |
 | 457 – Cover | 0.762 | 0.632 | 0.679 | 32 | 2 | 8 | 7 | 9 | 23 | 15 | 1 |
 | 458 – Cover | 0.396 | 0.421 | 0.733 | 38 | 56 | 2 | 6 | 74 | 14 | 18 | 4 |
 
-Entities by number of charts: {1: 31, 2: 45, 3: 9, 4: 26}. Relations by number of charts: {1: 74, 2: 51, 3: 27, 4: 35}.
+Entities by number of charts: {1: 31, 2: 45, 3: 9, 4: 26}. Relations by number of charts: {1: 74, 2: 51, 3: 26, 4: 36}.
 
 Nearest neighbour (entity Jaccard): 456 → 458, 457 → Cover, 458 → 456, Cover → 457. Mutual pairs: Cover – 457, 456 – 458.
 
-Relations on every chart (35):
+Relations on every chart (36):
 
 - Abstract Dadaism —influence→ Abstract Surrealism
 - Abstract Expressionism —associated with place→ Munich
@@ -156,6 +156,7 @@ Relations on every chart (35):
 - Negro Sculpture —influence→ Cubism
 - Neo-Impressionism —influence→ Cubism
 - Neo-Impressionism —influence→ Fauvism
+- Neo-Impressionism —influence→ Futurism
 - Neo-Impressionism —associated with place→ Paris
 - Purism —associated with place→ Paris
 - Rousseau —influence→ Cubism

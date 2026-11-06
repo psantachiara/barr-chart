@@ -8,7 +8,7 @@ Influence arrows are split by each chart's ink key (internal / external) and by 
 
 | chart | entities | movements | persons | places | external entities | influence | internal | external | secondary | place association | member | acyclic |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 456 | 84 | 20 | 50 | 14 | 0 | 41 | 0 | 0 | 10 | 24 | 52 | yes |
+| 456 | 84 | 20 | 50 | 14 | 0 | 42 | 0 | 0 | 11 | 24 | 52 | yes |
 | 457 | 34 | 20 | 3 | 11 | 0 | 43 | 0 | 0 | 4 | 21 | 0 | yes |
 | 458 | 94 | 21 | 62 | 11 | 6 | 53 | 34 | 19 | 8 | 19 | 66 | yes |
 | Cover | 40 | 21 | 7 | 12 | 4 | 51 | 34 | 17 | 6 | 25 | 2 | yes |
@@ -26,9 +26,9 @@ Influence arrows are split by each chart's ink key (internal / external) and by 
 
 | pair | shared | only A | only B | relabelled | rel. only A | rel. only B | restyled | rewired |
 |---|---|---|---|---|---|---|---|---|
-| 456 – 457 | 28 | 56 | 6 | 6 | 75 | 22 | 6 | 23 |
-| 456 – 458 | 69 | 15 | 25 | 6 | 33 | 54 | 9 | 34 |
-| 456 – Cover | 29 | 55 | 11 | 8 | 74 | 35 | 6 | 25 |
+| 456 – 457 | 28 | 56 | 6 | 6 | 75 | 21 | 7 | 22 |
+| 456 – 458 | 69 | 15 | 25 | 6 | 33 | 53 | 10 | 33 |
+| 456 – Cover | 29 | 55 | 11 | 8 | 74 | 34 | 7 | 24 |
 | 457 – 458 | 32 | 2 | 62 | 8 | 10 | 84 | 5 | 13 |
 | 457 – Cover | 32 | 2 | 8 | 7 | 9 | 23 | 1 | 15 |
 | 458 – Cover | 38 | 56 | 2 | 6 | 74 | 14 | 4 | 18 |
@@ -37,7 +37,7 @@ Influence arrows are split by each chart's ink key (internal / external) and by 
 
 Entities by number of charts they appear on: {1: 31, 2: 45, 3: 9, 4: 26}
 
-Relations by number of charts they appear on: {1: 74, 2: 51, 3: 27, 4: 35}
+Relations by number of charts they appear on: {1: 74, 2: 51, 3: 26, 4: 36}
 
 ## Wording variants
 
@@ -74,6 +74,6 @@ Relations by number of charts they appear on: {1: 74, 2: 51, 3: 27, 4: 35}
 
 | step | +entities | −entities | relabelled | +relations | −relations | restyled | Jaccard |
 |---|---|---|---|---|---|---|---|
-| 456 → 457 | 6 | 56 | 6 | 22 | 75 | 6 | 0.311 |
+| 456 → 457 | 6 | 56 | 6 | 21 | 75 | 7 | 0.311 |
 | 457 → 458 | 62 | 2 | 8 | 84 | 10 | 5 | 0.333 |
 | 458 → Cover | 2 | 56 | 6 | 14 | 74 | 4 | 0.396 |
