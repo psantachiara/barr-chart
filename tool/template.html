@@ -250,6 +250,8 @@ a.mini{border:1px solid var(--rule-2); background:var(--card); font-family:var(-
 .gwrap svg.static{cursor:default; touch-action:auto}
 .gwrap svg.drag{cursor:grabbing}
 .nlabel{font-family:var(--mono); font-size:9.5px; paint-order:stroke; stroke:var(--card); stroke-width:3px; stroke-linejoin:round}
+.grid.fit-h{display:flex; justify-content:center; align-items:flex-start; gap:16px}
+.grid.fit-h .gwrap{flex:0 0 auto}
 .gwrap .zhint{position:absolute; right:8px; bottom:6px; font-family:var(--mono); font-size:9px; color:var(--ink-3)}
 
 /* ---------- matrix ---------- */
@@ -897,7 +899,7 @@ const esc = s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;
 const f3 = n=>n.toFixed(3), f2 = n=>n.toFixed(2);
 
 const state = {plane:"charts", sel:new Set(), secondary:false,
-  termQ:"", termFilter:"all", gfilter:"all", gview:"positional", cview:"positional", gmode:"influence", clusterOf:null,
+  termQ:"", termFilter:"all", gfilter:"all", gview:"positional", gfit:"width", cview:"positional", gmode:"influence", clusterOf:null,
   reading:null, custom:[], step:0, mxMeasure:"entities", mxSel:null, thresh:4};
 
 function strip(id, small, test){
@@ -1193,8 +1195,13 @@ function paneStruct(){
       ${[["positional","Positional"],["central","Network: centrality"],["fixed","Network: fixed"]]
         .map(([k,l])=>`<button data-k="${k}" class="${state.gview===k?"on":""}">${l}</button>`).join("")}
     </div>
+    <label style="margin-left:14px">Fit</label>
+    <div class="seg" id="gfit">
+      ${[["width","Fit to width"],["height","Fit to height"]]
+        .map(([k,l])=>`<button data-k="${k}" class="${state.gfit===k?"on":""}">${l}</button>`).join("")}
+    </div>
   </div>
-  <div class="grid">${graphs}</div>
+  <div class="grid${state.gfit==="height"?" fit-h":""}" id="ggrid">${graphs}</div>
   ${state.gview==="positional"?`  <div class="legend" style="margin:10px 0 0">
     <span>${sw("","var(--ink-3)")} influence (no meaning in the ink key)</span>
     <span>${sw("","var(--ink-2)")} internal</span>
@@ -1958,6 +1965,7 @@ function bindPane(){
   seg("gfilt", b=>state.gfilter=b.dataset.k);
   seg("gmode", b=>state.gmode=b.dataset.k);
   seg("gview", b=>state.gview=b.dataset.k);
+  seg("gfit", b=>state.gfit=b.dataset.k);
   seg("cview", b=>state.cview=b.dataset.k);
   seg("clusterof", b=>state.clusterOf=b.dataset.k);
   seg("reading", b=>{state.reading=b.dataset.k; state.step=0;});
@@ -1972,8 +1980,27 @@ function bindPane(){
   $$("[data-mx]").forEach(td=>td.onclick=()=>{ state.mxSel = state.mxSel===td.dataset.mx ? null : td.dataset.mx; render(); });
   $$("svg[data-g]").forEach(initCamera);
   evenLedger();
+  fitGraphs();
   $$(".facs a").forEach(el=>el.onclick=e=>{ e.preventDefault(); lbOpen(el.dataset.v); });
   const sc=$("#secondary"); if(sc) sc.onclick=()=>{ state.secondary=!state.secondary; reload(DATA); };
+}
+
+/* Fit to height: every selected chart side by side, all at one height, as tall as the window allows
+   below the sticky bar and as wide as the row allows. Fit to width leaves the charts as they were drawn. */
+function fitGraphs(){
+  const g=$("#ggrid"); if(!g || !g.classList.contains("fit-h")) return;
+  const wraps=[...g.children], svgs=wraps.map(w=>w.querySelector("svg")); if(!svgs.length || svgs.some(s=>!s)) return;
+  const asp=svgs.map(s=>{ const vb=s.viewBox.baseVal; return vb.width/vb.height; }), sum=asp.reduce((a,b)=>a+b,0);
+  const gap=parseFloat(getComputedStyle(g).columnGap)||16, edge=2;
+  const availW=g.clientWidth - gap*(wraps.length-1) - edge*wraps.length;
+  const bar=$("#stickybar"), top=bar ? bar.getBoundingClientRect().height : 0;
+  for(let pass=0; pass<2; pass++){
+    const head=Math.max(...wraps.map(w=>{ const h=w.querySelector(".ghead"); return h ? h.offsetHeight : 0; }));
+    const availH=window.innerHeight - top - head - edge - 24;
+    const h=Math.max(160, Math.min(availH, availW/sum));
+    svgs.forEach((s,i)=>{ const w=h*asp[i];
+      s.style.maxWidth="none"; s.style.width=w+"px"; s.style.height=h+"px"; wraps[i].style.width=(w+edge)+"px"; });
+  }
 }
 
 /* ---------- pan / zoom ---------- */
@@ -2083,8 +2110,8 @@ async function boot(){
     render(); window.scrollTo({top:0,behavior:"instant"});
   });
   render();
-  let t; window.addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>{syncChipWidth(); evenLedger();},150);});
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{syncChipWidth(); evenLedger();});
+  let t; window.addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>{syncChipWidth(); evenLedger(); fitGraphs();},150);});
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{syncChipWidth(); evenLedger(); fitGraphs();});
   const bar=$("#stickybar"), mast=$("#masthead");
   const onScroll=()=>bar.classList.toggle("stuck", window.scrollY > mast.offsetHeight - 4);
   window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
